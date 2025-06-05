@@ -124,7 +124,7 @@ const AgentPage = () => {
         trigger: newFlowTrigger,
         steps: [
           { 
-            id: 1, 
+            id: Date.now() + 1, 
             type: 'message', 
             content: 'Mensagem inicial do fluxo',
             hasAudio: false,
@@ -137,14 +137,16 @@ const AgentPage = () => {
       setNewFlowName('');
       setNewFlowTrigger('');
       setShowNewFlowForm(false);
+      console.log('Novo fluxo criado:', newFlow);
     }
   };
 
   const addStepToFlow = (flowId: number, stepType: string) => {
-    setFlows(flows.map(flow => {
+    console.log('Adicionando nova etapa:', { flowId, stepType });
+    setFlows(prevFlows => prevFlows.map(flow => {
       if (flow.id === flowId) {
         const newStep = {
-          id: Date.now(),
+          id: Date.now() + Math.random(),
           type: stepType,
           content: stepType === 'message' ? 'Nova mensagem' : 
                    stepType === 'condition' ? 'Nova condição' : 
@@ -154,6 +156,7 @@ const AgentPage = () => {
           audioFile: null,
           attachments: []
         };
+        console.log('Nova etapa criada:', newStep);
         return { ...flow, steps: [...flow.steps, newStep] };
       }
       return flow;
@@ -161,7 +164,8 @@ const AgentPage = () => {
   };
 
   const updateStepContent = (flowId: number, stepId: number, content: string) => {
-    setFlows(flows.map(flow => {
+    console.log('Atualizando conteúdo da etapa:', { flowId, stepId, content });
+    setFlows(prevFlows => prevFlows.map(flow => {
       if (flow.id === flowId) {
         return {
           ...flow,
@@ -175,7 +179,7 @@ const AgentPage = () => {
   };
 
   const updateStepOption = (flowId: number, stepId: number, optionIndex: number, value: string) => {
-    setFlows(flows.map(flow => {
+    setFlows(prevFlows => prevFlows.map(flow => {
       if (flow.id === flowId) {
         return {
           ...flow,
@@ -194,7 +198,8 @@ const AgentPage = () => {
   };
 
   const toggleStepAudio = (flowId: number, stepId: number) => {
-    setFlows(flows.map(flow => {
+    console.log('Toggling audio para etapa:', { flowId, stepId });
+    setFlows(prevFlows => prevFlows.map(flow => {
       if (flow.id === flowId) {
         return {
           ...flow,
@@ -210,7 +215,8 @@ const AgentPage = () => {
   const handleFileUpload = (flowId: number, stepId: number, event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
-      setFlows(flows.map(flow => {
+      console.log('Fazendo upload de arquivos:', files);
+      setFlows(prevFlows => prevFlows.map(flow => {
         if (flow.id === flowId) {
           return {
             ...flow,
@@ -237,7 +243,7 @@ const AgentPage = () => {
   };
 
   const removeAttachment = (flowId: number, stepId: number, attachmentId: number) => {
-    setFlows(flows.map(flow => {
+    setFlows(prevFlows => prevFlows.map(flow => {
       if (flow.id === flowId) {
         return {
           ...flow,
@@ -257,7 +263,8 @@ const AgentPage = () => {
   };
 
   const deleteStep = (flowId: number, stepId: number) => {
-    setFlows(flows.map(flow => {
+    console.log('Deletando etapa:', { flowId, stepId });
+    setFlows(prevFlows => prevFlows.map(flow => {
       if (flow.id === flowId) {
         return {
           ...flow,
@@ -269,13 +276,24 @@ const AgentPage = () => {
   };
 
   const deleteFlow = (flowId: number) => {
-    setFlows(flows.filter(flow => flow.id !== flowId));
+    console.log('Deletando fluxo:', flowId);
+    setFlows(prevFlows => prevFlows.filter(flow => flow.id !== flowId));
     if (selectedFlow?.id === flowId) {
       setSelectedFlow(null);
     }
   };
 
-  const StepTypeIcon = ({ type }) => {
+  const saveFlow = (flowId: number) => {
+    console.log('Salvando fluxo:', flowId);
+    const flow = flows.find(f => f.id === flowId);
+    if (flow) {
+      console.log('Fluxo salvo com sucesso:', flow);
+      // Aqui você pode adicionar lógica para salvar no backend
+      alert('Fluxo salvo com sucesso!');
+    }
+  };
+
+  const StepTypeIcon = ({ type }: { type: string }) => {
     switch (type) {
       case 'message':
         return <MessageSquare className="h-4 w-4 text-blue-500" />;
@@ -767,7 +785,10 @@ const AgentPage = () => {
                                 <Button 
                                   variant="outline" 
                                   size="sm"
-                                  onClick={() => addStepToFlow(selectedFlow.id, 'message')}
+                                  onClick={() => {
+                                    console.log('Clicou para adicionar mensagem');
+                                    addStepToFlow(selectedFlow.id, 'message');
+                                  }}
                                 >
                                   <MessageSquare className="mr-1 h-3 w-3" />
                                   Mensagem
@@ -775,7 +796,10 @@ const AgentPage = () => {
                                 <Button 
                                   variant="outline" 
                                   size="sm"
-                                  onClick={() => addStepToFlow(selectedFlow.id, 'condition')}
+                                  onClick={() => {
+                                    console.log('Clicou para adicionar condição');
+                                    addStepToFlow(selectedFlow.id, 'condition');
+                                  }}
                                 >
                                   <GitBranch className="mr-1 h-3 w-3" />
                                   Condição
@@ -783,7 +807,10 @@ const AgentPage = () => {
                                 <Button 
                                   variant="outline" 
                                   size="sm"
-                                  onClick={() => addStepToFlow(selectedFlow.id, 'action')}
+                                  onClick={() => {
+                                    console.log('Clicou para adicionar ação');
+                                    addStepToFlow(selectedFlow.id, 'action');
+                                  }}
                                 >
                                   <Zap className="mr-1 h-3 w-3" />
                                   Ação
@@ -792,7 +819,10 @@ const AgentPage = () => {
                             </div>
                           </CardContent>
                           <CardFooter>
-                            <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
+                            <Button 
+                              className="bg-luxfy-purple hover:bg-luxfy-darkPurple"
+                              onClick={() => saveFlow(selectedFlow.id)}
+                            >
                               Salvar Fluxo
                             </Button>
                           </CardFooter>
