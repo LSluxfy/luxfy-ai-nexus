@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import DashboardHeader from '@/components/DashboardHeader';
 import { Button } from '@/components/ui/button';
@@ -26,8 +25,21 @@ import {
   FileText,
   Target,
   Calendar,
-  BarChart3
+  BarChart3,
+  Paperclip,
+  X,
+  File,
+  Image,
+  Video
 } from 'lucide-react';
+
+interface AttachedFile {
+  id: string;
+  name: string;
+  size: number;
+  type: string;
+  file: File;
+}
 
 interface Campaign {
   id: string;
@@ -41,6 +53,7 @@ interface Campaign {
   };
   message: string;
   subject?: string; // Para emails
+  attachments?: AttachedFile[];
   sentCount: number;
   totalCount: number;
   openRate?: number;
@@ -94,10 +107,12 @@ const CampanhasPage = () => {
   const [newCampaign, setNewCampaign] = useState<Partial<Campaign>>({
     type: 'whatsapp',
     audience: { type: 'tags', tags: [] },
-    status: 'draft'
+    status: 'draft',
+    attachments: []
   });
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [attachedFiles, setAttachedFiles] = useState<AttachedFile[]>([]);
 
   const handleCreateCampaign = () => {
     if (!newCampaign.name || !newCampaign.message) return;
@@ -112,6 +127,7 @@ const CampanhasPage = () => {
         : { type: 'tags', tags: selectedTags },
       message: newCampaign.message,
       subject: newCampaign.subject,
+      attachments: attachedFiles,
       sentCount: 0,
       totalCount: selectedTags.length * 50, // Mock calculation
       createdAt: new Date().toISOString().split('T')[0]
@@ -119,9 +135,10 @@ const CampanhasPage = () => {
 
     setCampaigns([...campaigns, campaign]);
     setShowCreateDialog(false);
-    setNewCampaign({ type: 'whatsapp', audience: { type: 'tags', tags: [] }, status: 'draft' });
+    setNewCampaign({ type: 'whatsapp', audience: { type: 'tags', tags: [] }, status: 'draft', attachments: [] });
     setSelectedTags([]);
     setUploadedFile(null);
+    setAttachedFiles([]);
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,6 +150,49 @@ const CampanhasPage = () => {
         audience: { type: 'upload', uploadedList: file.name }
       });
     }
+  };
+
+  const handleAttachmentUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const newAttachments: AttachedFile[] = Array.from(files).map(file => ({
+        id: Date.now().toString() + Math.random(),
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        file: file
+      }));
+      
+      const updatedAttachments = [...attachedFiles, ...newAttachments];
+      setAttachedFiles(updatedAttachments);
+      setNewCampaign({
+        ...newCampaign,
+        attachments: updatedAttachments
+      });
+    }
+  };
+
+  const removeAttachment = (attachmentId: string) => {
+    const updatedAttachments = attachedFiles.filter(file => file.id !== attachmentId);
+    setAttachedFiles(updatedAttachments);
+    setNewCampaign({
+      ...newCampaign,
+      attachments: updatedAttachments
+    });
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  const getFileIcon = (fileType: string) => {
+    if (fileType.startsWith('image/')) return <Image size={16} className="text-blue-500" />;
+    if (fileType.startsWith('video/')) return <Video size={16} className="text-purple-500" />;
+    return <File size={16} className="text-gray-500" />;
   };
 
   const toggleTag = (tag: string) => {
@@ -487,6 +547,65 @@ const CampanhasPage = () => {
                   value={newCampaign.message || ''}
                   onChange={(e) => setNewCampaign({ ...newCampaign, message: e.target.value })}
                 />
+              </div>
+
+              {/* Seção de anexos */}
+              <div>
+                <Label>Anexos</Label>
+                <div className="mt-2 space-y-3">
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                    <Paperclip className="mx-auto h-8 w-8 text-gray-400 mb-2" />
+                    <div className="space-y-2">
+                      <Label htmlFor="attachment-upload" className="cursor-pointer">
+                        <span className="text-sm font-medium text-luxfy-purple hover:text-luxfy-darkPurple">
+                          Clique para anexar arquivos
+                        </span>
+                        <Input
+                          id="attachment-upload"
+                          type="file"
+                          multiple
+                          accept="image/*,video/*,.pdf,.doc,.docx,.txt"
+                          className="hidden"
+                          onChange={handleAttachmentUpload}
+                        />
+                      </Label>
+                      <p className="text-xs text-gray-500">
+                        {newCampaign.type === 'whatsapp' 
+                          ? 'Imagens, vídeos, PDFs até 16MB cada'
+                          : 'Imagens, vídeos, documentos até 25MB cada'
+                        }
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Lista de arquivos anexados */}
+                  {attachedFiles.length > 0 && (
+                    <div className="space-y-2">
+                      <h4 className="text-sm font-medium">Arquivos anexados:</h4>
+                      <div className="max-h-32 overflow-y-auto space-y-2">
+                        {attachedFiles.map((file) => (
+                          <div key={file.id} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                            <div className="flex items-center gap-2 flex-1 min-w-0">
+                              {getFileIcon(file.type)}
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm font-medium truncate">{file.name}</p>
+                                <p className="text-xs text-gray-500">{formatFileSize(file.size)}</p>
+                              </div>
+                            </div>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-6 w-6 text-red-500 hover:text-red-700"
+                              onClick={() => removeAttachment(file.id)}
+                            >
+                              <X size={14} />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="flex justify-end gap-2">
