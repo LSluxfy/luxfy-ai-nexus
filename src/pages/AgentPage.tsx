@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bot, Send, Plus, Settings, MessageSquare, Play, VolumeX, Volume2, Upload, Clock, QrCode, Trash2, FileText, Tag, X, ArrowDown, ArrowRight, GitBranch, Zap } from 'lucide-react';
+import { Bot, Send, Plus, Settings, MessageSquare, Play, VolumeX, Volume2, Upload, Clock, QrCode, Trash2, FileText, Tag, X, ArrowDown, ArrowRight, GitBranch, Zap, File, Mic } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
@@ -32,10 +32,39 @@ const AgentPage = () => {
       name: 'Fluxo de Vendas',
       trigger: 'preço',
       steps: [
-        { id: 1, type: 'message', content: 'Entendi que você tem interesse em nossos preços!' },
-        { id: 2, type: 'condition', content: 'Cliente quer saber sobre planos?', options: ['Sim', 'Não'] },
-        { id: 3, type: 'message', content: 'Temos 3 planos disponíveis: Básico, Pro e Enterprise.' },
-        { id: 4, type: 'action', content: 'Transferir para vendas' }
+        { 
+          id: 1, 
+          type: 'message', 
+          content: 'Entendi que você tem interesse em nossos preços!',
+          hasAudio: false,
+          audioFile: null,
+          attachments: []
+        },
+        { 
+          id: 2, 
+          type: 'condition', 
+          content: 'Cliente quer saber sobre planos?', 
+          options: ['Sim', 'Não'],
+          hasAudio: false,
+          audioFile: null,
+          attachments: []
+        },
+        { 
+          id: 3, 
+          type: 'message', 
+          content: 'Temos 3 planos disponíveis: Básico, Pro e Enterprise.',
+          hasAudio: true,
+          audioFile: null,
+          attachments: []
+        },
+        { 
+          id: 4, 
+          type: 'action', 
+          content: 'Transferir para vendas',
+          hasAudio: false,
+          audioFile: null,
+          attachments: []
+        }
       ]
     }
   ]);
@@ -94,7 +123,14 @@ const AgentPage = () => {
         name: newFlowName,
         trigger: newFlowTrigger,
         steps: [
-          { id: 1, type: 'message', content: 'Mensagem inicial do fluxo' }
+          { 
+            id: 1, 
+            type: 'message', 
+            content: 'Mensagem inicial do fluxo',
+            hasAudio: false,
+            audioFile: null,
+            attachments: []
+          }
         ]
       };
       setFlows([...flows, newFlow]);
@@ -113,12 +149,130 @@ const AgentPage = () => {
           content: stepType === 'message' ? 'Nova mensagem' : 
                    stepType === 'condition' ? 'Nova condição' : 
                    'Nova ação',
-          options: stepType === 'condition' ? ['Sim', 'Não'] : undefined
+          options: stepType === 'condition' ? ['Sim', 'Não'] : undefined,
+          hasAudio: false,
+          audioFile: null,
+          attachments: []
         };
         return { ...flow, steps: [...flow.steps, newStep] };
       }
       return flow;
     }));
+  };
+
+  const updateStepContent = (flowId: number, stepId: number, content: string) => {
+    setFlows(flows.map(flow => {
+      if (flow.id === flowId) {
+        return {
+          ...flow,
+          steps: flow.steps.map(step => 
+            step.id === stepId ? { ...step, content } : step
+          )
+        };
+      }
+      return flow;
+    }));
+  };
+
+  const updateStepOption = (flowId: number, stepId: number, optionIndex: number, value: string) => {
+    setFlows(flows.map(flow => {
+      if (flow.id === flowId) {
+        return {
+          ...flow,
+          steps: flow.steps.map(step => {
+            if (step.id === stepId && step.options) {
+              const newOptions = [...step.options];
+              newOptions[optionIndex] = value;
+              return { ...step, options: newOptions };
+            }
+            return step;
+          })
+        };
+      }
+      return flow;
+    }));
+  };
+
+  const toggleStepAudio = (flowId: number, stepId: number) => {
+    setFlows(flows.map(flow => {
+      if (flow.id === flowId) {
+        return {
+          ...flow,
+          steps: flow.steps.map(step => 
+            step.id === stepId ? { ...step, hasAudio: !step.hasAudio } : step
+          )
+        };
+      }
+      return flow;
+    }));
+  };
+
+  const handleFileUpload = (flowId: number, stepId: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      setFlows(flows.map(flow => {
+        if (flow.id === flowId) {
+          return {
+            ...flow,
+            steps: flow.steps.map(step => {
+              if (step.id === stepId) {
+                const newAttachments = [...(step.attachments || [])];
+                Array.from(files).forEach(file => {
+                  newAttachments.push({
+                    id: Date.now() + Math.random(),
+                    name: file.name,
+                    size: file.size,
+                    type: file.type
+                  });
+                });
+                return { ...step, attachments: newAttachments };
+              }
+              return step;
+            })
+          };
+        }
+        return flow;
+      }));
+    }
+  };
+
+  const removeAttachment = (flowId: number, stepId: number, attachmentId: number) => {
+    setFlows(flows.map(flow => {
+      if (flow.id === flowId) {
+        return {
+          ...flow,
+          steps: flow.steps.map(step => {
+            if (step.id === stepId) {
+              return {
+                ...step,
+                attachments: step.attachments?.filter(att => att.id !== attachmentId) || []
+              };
+            }
+            return step;
+          })
+        };
+      }
+      return flow;
+    }));
+  };
+
+  const deleteStep = (flowId: number, stepId: number) => {
+    setFlows(flows.map(flow => {
+      if (flow.id === flowId) {
+        return {
+          ...flow,
+          steps: flow.steps.filter(step => step.id !== stepId)
+        };
+      }
+      return flow;
+    }));
+  };
+
+  const deleteFlow = (flowId: number) => {
+    setFlows(flows.filter(flow => flow.id !== flowId));
+    if (selectedFlow?.id === flowId) {
+      setSelectedFlow(null);
+    }
   };
 
   const StepTypeIcon = ({ type }) => {
@@ -363,7 +517,7 @@ const AgentPage = () => {
             </Card>
           </TabsContent>
 
-          {/* Nova aba de Fluxo */}
+          {/* Aba de Fluxo Completa */}
           <TabsContent value="flow" className="space-y-6">
             <Card className="border-gray-200">
               <CardHeader>
@@ -439,7 +593,15 @@ const AgentPage = () => {
                             <div className="space-y-2">
                               <div className="flex items-center justify-between">
                                 <h4 className="font-medium">{flow.name}</h4>
-                                <Button variant="ghost" size="sm" className="text-red-500">
+                                <Button 
+                                  variant="ghost" 
+                                  size="sm" 
+                                  className="text-red-500"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    deleteFlow(flow.id);
+                                  }}
+                                >
                                   <Trash2 className="h-4 w-4" />
                                 </Button>
                               </div>
@@ -470,7 +632,7 @@ const AgentPage = () => {
                               Gatilho: "{selectedFlow.trigger}"
                             </CardDescription>
                           </CardHeader>
-                          <CardContent className="space-y-4">
+                          <CardContent className="space-y-4 max-h-[600px] overflow-y-auto">
                             <div className="space-y-3">
                               {selectedFlow.steps.map((step, index) => (
                                 <div key={step.id} className="space-y-2">
@@ -483,19 +645,27 @@ const AgentPage = () => {
                                       {step.type === 'message' ? 'Mensagem' :
                                        step.type === 'condition' ? 'Condição' : 'Ação'}
                                     </span>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="ml-auto text-red-500"
+                                      onClick={() => deleteStep(selectedFlow.id, step.id)}
+                                    >
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
                                   </div>
                                   <Card className="ml-10 border">
-                                    <CardContent className="p-3">
+                                    <CardContent className="p-3 space-y-3">
                                       <Textarea
                                         value={step.content}
-                                        onChange={(e) => {
-                                          // Lógica para atualizar o conteúdo do step
-                                        }}
+                                        onChange={(e) => updateStepContent(selectedFlow.id, step.id, e.target.value)}
                                         className="text-sm"
                                         rows={2}
                                       />
+                                      
+                                      {/* Opções para condições */}
                                       {step.options && (
-                                        <div className="mt-2 space-y-1">
+                                        <div className="space-y-1">
                                           <Label className="text-xs">Opções:</Label>
                                           {step.options.map((option, optIndex) => (
                                             <div key={optIndex} className="flex items-center gap-2">
@@ -503,12 +673,81 @@ const AgentPage = () => {
                                               <Input 
                                                 value={option} 
                                                 className="text-xs h-7"
-                                                onChange={(e) => {
-                                                  // Lógica para atualizar opções
-                                                }}
+                                                onChange={(e) => updateStepOption(selectedFlow.id, step.id, optIndex, e.target.value)}
                                               />
                                             </div>
                                           ))}
+                                        </div>
+                                      )}
+
+                                      {/* Upload de Arquivos */}
+                                      <div className="space-y-2">
+                                        <Label className="text-xs">Anexos:</Label>
+                                        <div className="flex items-center gap-2">
+                                          <input
+                                            type="file"
+                                            multiple
+                                            onChange={(e) => handleFileUpload(selectedFlow.id, step.id, e)}
+                                            className="hidden"
+                                            id={`file-upload-${step.id}`}
+                                          />
+                                          <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => document.getElementById(`file-upload-${step.id}`)?.click()}
+                                          >
+                                            <File className="h-3 w-3 mr-1" />
+                                            Anexar Arquivo
+                                          </Button>
+                                        </div>
+                                        
+                                        {/* Lista de arquivos anexados */}
+                                        {step.attachments && step.attachments.length > 0 && (
+                                          <div className="space-y-1">
+                                            {step.attachments.map((attachment) => (
+                                              <div key={attachment.id} className="flex items-center justify-between p-2 bg-gray-50 rounded text-xs">
+                                                <div className="flex items-center gap-2">
+                                                  <FileText className="h-3 w-3 text-blue-500" />
+                                                  <span>{attachment.name}</span>
+                                                  <span className="text-gray-500">
+                                                    ({Math.round(attachment.size / 1024)} KB)
+                                                  </span>
+                                                </div>
+                                                <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  className="text-red-500 h-5 w-5 p-0"
+                                                  onClick={() => removeAttachment(selectedFlow.id, step.id, attachment.id)}
+                                                >
+                                                  <X className="h-3 w-3" />
+                                                </Button>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        )}
+                                      </div>
+
+                                      {/* Opção de Áudio */}
+                                      <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                        <div className="flex items-center gap-2">
+                                          <Mic className="h-4 w-4 text-blue-500" />
+                                          <Label className="text-xs">Enviar áudio nesta etapa</Label>
+                                        </div>
+                                        <Switch
+                                          checked={step.hasAudio}
+                                          onCheckedChange={() => toggleStepAudio(selectedFlow.id, step.id)}
+                                        />
+                                      </div>
+                                      
+                                      {step.hasAudio && (
+                                        <div className="p-2 bg-blue-50 rounded">
+                                          <p className="text-xs text-blue-600 mb-2">
+                                            Áudio será enviado automaticamente nesta etapa
+                                          </p>
+                                          <Button variant="outline" size="sm">
+                                            <Upload className="h-3 w-3 mr-1" />
+                                            Upload Áudio
+                                          </Button>
                                         </div>
                                       )}
                                     </CardContent>
@@ -616,16 +855,6 @@ const AgentPage = () => {
                             value={newAnswer}
                             onChange={(e) => setNewAnswer(e.target.value)}
                           />
-                        </div>
-                        <div>
-                          <Label>Arquivo de Referência (Opcional)</Label>
-                          <div className="border border-dashed border-gray-300 rounded-lg p-4 text-center">
-                            <div className="flex flex-col items-center">
-                              <Upload className="h-8 w-8 text-gray-400 mb-2" />
-                              <p className="text-sm text-gray-600">Clique para fazer upload</p>
-                              <p className="text-xs text-gray-500">PDF, DOC, TXT até 5MB</p>
-                            </div>
-                          </div>
                         </div>
                         <div className="flex gap-2">
                           <Button onClick={handleAddQA}>Salvar</Button>
