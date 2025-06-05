@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { HomeIcon, BookUserIcon, Users, MessagesSquare, BarChart3, Settings, UserPlus, Calendar, CreditCard, Share } from 'lucide-react';
+import { HomeIcon, BookUserIcon, Users, MessagesSquare, BarChart3, Settings, UserPlus, Calendar, CreditCard, Share, Megaphone } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAgents } from '@/hooks/use-agent';
 
@@ -34,6 +33,11 @@ const DashboardSidebar = () => {
       label: "Chat",
       href: "/dashboard/chat",
       icon: <MessagesSquare className="h-5 w-5" />,
+    },
+    {
+      label: "Campanhas",
+      href: "/dashboard/campanhas",
+      icon: <Megaphone className="h-5 w-5" />,
     },
     {
       label: "Agenda",

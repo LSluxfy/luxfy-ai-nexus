@@ -14,6 +14,7 @@ import AgentPage from "./pages/AgentPage";
 import CRMPage from "./pages/CRMPage";
 import AgentsPage from "./pages/AgentsPage";
 import ChatPage from "./pages/ChatPage";
+import CampanhasPage from "./pages/CampanhasPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import SettingsPage from "./pages/SettingsPage";
 import AgendaPage from "./pages/AgendaPage";
@@ -52,6 +53,7 @@ const App = () => (
                   <Route path="agents" element={<AgentsPage />} />
                   <Route path="crm" element={<CRMPage />} />
                   <Route path="chat" element={<ChatPage />} />
+                  <Route path="campanhas" element={<CampanhasPage />} />
                   <Route path="agenda" element={<AgendaPage />} />
                   <Route path="analytics" element={<AnalyticsPage />} />
                   <Route path="financeiro" element={<FinanceiroPage />} />
