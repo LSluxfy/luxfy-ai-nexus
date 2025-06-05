@@ -177,168 +177,13 @@ const CampanhasPage = () => {
             </p>
           </div>
           
-          <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-            <DialogTrigger asChild>
-              <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
-                <Plus className="mr-2" size={16} />
-                Nova Campanha
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl">
-              <DialogHeader>
-                <DialogTitle>Criar Nova Campanha</DialogTitle>
-                <DialogDescription>
-                  Configure sua campanha de marketing
-                </DialogDescription>
-              </DialogHeader>
-              
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="campaign-name">Nome da Campanha</Label>
-                    <Input
-                      id="campaign-name"
-                      placeholder="Ex: Promoção Black Friday"
-                      value={newCampaign.name || ''}
-                      onChange={(e) => setNewCampaign({ ...newCampaign, name: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="campaign-type">Tipo de Campanha</Label>
-                    <Select 
-                      value={newCampaign.type} 
-                      onValueChange={(value) => setNewCampaign({ ...newCampaign, type: value as 'whatsapp' | 'email' })}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="whatsapp">
-                          <div className="flex items-center gap-2">
-                            <MessageSquare size={16} />
-                            WhatsApp
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="email">
-                          <div className="flex items-center gap-2">
-                            <Mail size={16} />
-                            Email
-                          </div>
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                {newCampaign.type === 'email' && (
-                  <div>
-                    <Label htmlFor="email-subject">Assunto do Email</Label>
-                    <Input
-                      id="email-subject"
-                      placeholder="Ex: Promoção especial só para você!"
-                      value={newCampaign.subject || ''}
-                      onChange={(e) => setNewCampaign({ ...newCampaign, subject: e.target.value })}
-                    />
-                  </div>
-                )}
-
-                <div>
-                  <Label>Público-alvo</Label>
-                  <Tabs 
-                    value={newCampaign.audience?.type || 'tags'} 
-                    onValueChange={(value) => setNewCampaign({ 
-                      ...newCampaign, 
-                      audience: { type: value as 'tags' | 'upload', tags: [], uploadedList: '' } 
-                    })}
-                    className="mt-2"
-                  >
-                    <TabsList>
-                      <TabsTrigger value="tags" className="flex items-center gap-2">
-                        <Target size={16} />
-                        Por Tags
-                      </TabsTrigger>
-                      <TabsTrigger value="upload" className="flex items-center gap-2">
-                        <Upload size={16} />
-                        Upload de Lista
-                      </TabsTrigger>
-                    </TabsList>
-                    
-                    <TabsContent value="tags" className="space-y-3">
-                      <p className="text-sm text-gray-600">Selecione as tags dos usuários do CRM:</p>
-                      <div className="flex flex-wrap gap-2">
-                        {availableTags.map(tag => (
-                          <Badge 
-                            key={tag}
-                            variant={selectedTags.includes(tag) ? "default" : "outline"}
-                            className="cursor-pointer"
-                            onClick={() => toggleTag(tag)}
-                          >
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                      {selectedTags.length > 0 && (
-                        <p className="text-sm text-green-600">
-                          {selectedTags.length} tag(s) selecionada(s) - Aproximadamente {selectedTags.length * 50} contatos
-                        </p>
-                      )}
-                    </TabsContent>
-                    
-                    <TabsContent value="upload" className="space-y-3">
-                      <p className="text-sm text-gray-600">Faça upload de uma lista CSV com os contatos:</p>
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                        <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                        <div className="space-y-2">
-                          <Label htmlFor="file-upload" className="cursor-pointer">
-                            <span className="text-sm font-medium text-luxfy-purple hover:text-luxfy-darkPurple">
-                              Clique para fazer upload
-                            </span>
-                            <Input
-                              id="file-upload"
-                              type="file"
-                              accept=".csv,.xlsx,.xls"
-                              className="hidden"
-                              onChange={handleFileUpload}
-                            />
-                          </Label>
-                          <p className="text-xs text-gray-500">CSV, XLS ou XLSX até 10MB</p>
-                        </div>
-                        {uploadedFile && (
-                          <div className="mt-3 text-sm text-green-600">
-                            ✓ {uploadedFile.name} carregado com sucesso
-                          </div>
-                        )}
-                      </div>
-                    </TabsContent>
-                  </Tabs>
-                </div>
-
-                <div>
-                  <Label htmlFor="campaign-message">
-                    {newCampaign.type === 'email' ? 'Conteúdo do Email' : 'Mensagem do WhatsApp'}
-                  </Label>
-                  <Textarea
-                    id="campaign-message"
-                    placeholder={newCampaign.type === 'email' 
-                      ? "Digite o conteúdo do seu email..." 
-                      : "Digite sua mensagem do WhatsApp..."}
-                    rows={4}
-                    value={newCampaign.message || ''}
-                    onChange={(e) => setNewCampaign({ ...newCampaign, message: e.target.value })}
-                  />
-                </div>
-
-                <div className="flex justify-end gap-2">
-                  <Button variant="outline" onClick={() => setShowCreateDialog(false)}>
-                    Cancelar
-                  </Button>
-                  <Button onClick={handleCreateCampaign} className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
-                    Criar Campanha
-                  </Button>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
+          <Button 
+            className="bg-luxfy-purple hover:bg-luxfy-darkPurple"
+            onClick={() => setShowCreateDialog(true)}
+          >
+            <Plus className="mr-2" size={16} />
+            Nova Campanha
+          </Button>
         </div>
 
         {/* Cards de métricas */}
@@ -497,6 +342,164 @@ const CampanhasPage = () => {
             </Table>
           </CardContent>
         </Card>
+
+        {/* Dialog de criar campanha */}
+        <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Criar Nova Campanha</DialogTitle>
+              <DialogDescription>
+                Configure sua campanha de marketing
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="campaign-name">Nome da Campanha</Label>
+                  <Input
+                    id="campaign-name"
+                    placeholder="Ex: Promoção Black Friday"
+                    value={newCampaign.name || ''}
+                    onChange={(e) => setNewCampaign({ ...newCampaign, name: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="campaign-type">Tipo de Campanha</Label>
+                  <Select 
+                    value={newCampaign.type} 
+                    onValueChange={(value) => setNewCampaign({ ...newCampaign, type: value as 'whatsapp' | 'email' })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="whatsapp">
+                        <div className="flex items-center gap-2">
+                          <MessageSquare size={16} />
+                          WhatsApp
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="email">
+                        <div className="flex items-center gap-2">
+                          <Mail size={16} />
+                          Email
+                        </div>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {newCampaign.type === 'email' && (
+                <div>
+                  <Label htmlFor="email-subject">Assunto do Email</Label>
+                  <Input
+                    id="email-subject"
+                    placeholder="Ex: Promoção especial só para você!"
+                    value={newCampaign.subject || ''}
+                    onChange={(e) => setNewCampaign({ ...newCampaign, subject: e.target.value })}
+                  />
+                </div>
+              )}
+
+              <div>
+                <Label>Público-alvo</Label>
+                <Tabs 
+                  value={newCampaign.audience?.type || 'tags'} 
+                  onValueChange={(value) => setNewCampaign({ 
+                    ...newCampaign, 
+                    audience: { type: value as 'tags' | 'upload', tags: [], uploadedList: '' } 
+                  })}
+                  className="mt-2"
+                >
+                  <TabsList>
+                    <TabsTrigger value="tags" className="flex items-center gap-2">
+                      <Target size={16} />
+                      Por Tags
+                    </TabsTrigger>
+                    <TabsTrigger value="upload" className="flex items-center gap-2">
+                      <Upload size={16} />
+                      Upload de Lista
+                    </TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="tags" className="space-y-3">
+                    <p className="text-sm text-gray-600">Selecione as tags dos usuários do CRM:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {availableTags.map(tag => (
+                        <Badge 
+                          key={tag}
+                          variant={selectedTags.includes(tag) ? "default" : "outline"}
+                          className="cursor-pointer"
+                          onClick={() => toggleTag(tag)}
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                    {selectedTags.length > 0 && (
+                      <p className="text-sm text-green-600">
+                        {selectedTags.length} tag(s) selecionada(s) - Aproximadamente {selectedTags.length * 50} contatos
+                      </p>
+                    )}
+                  </TabsContent>
+                  
+                  <TabsContent value="upload" className="space-y-3">
+                    <p className="text-sm text-gray-600">Faça upload de uma lista CSV com os contatos:</p>
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                      <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                      <div className="space-y-2">
+                        <Label htmlFor="file-upload" className="cursor-pointer">
+                          <span className="text-sm font-medium text-luxfy-purple hover:text-luxfy-darkPurple">
+                            Clique para fazer upload
+                          </span>
+                          <Input
+                            id="file-upload"
+                            type="file"
+                            accept=".csv,.xlsx,.xls"
+                            className="hidden"
+                            onChange={handleFileUpload}
+                          />
+                        </Label>
+                        <p className="text-xs text-gray-500">CSV, XLS ou XLSX até 10MB</p>
+                      </div>
+                      {uploadedFile && (
+                        <div className="mt-3 text-sm text-green-600">
+                          ✓ {uploadedFile.name} carregado com sucesso
+                        </div>
+                      )}
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </div>
+
+              <div>
+                <Label htmlFor="campaign-message">
+                  {newCampaign.type === 'email' ? 'Conteúdo do Email' : 'Mensagem do WhatsApp'}
+                </Label>
+                <Textarea
+                  id="campaign-message"
+                  placeholder={newCampaign.type === 'email' 
+                    ? "Digite o conteúdo do seu email..." 
+                    : "Digite sua mensagem do WhatsApp..."}
+                  rows={4}
+                  value={newCampaign.message || ''}
+                  onChange={(e) => setNewCampaign({ ...newCampaign, message: e.target.value })}
+                />
+              </div>
+
+              <div className="flex justify-end gap-2">
+                <Button variant="outline" onClick={() => setShowCreateDialog(false)}>
+                  Cancelar
+                </Button>
+                <Button onClick={handleCreateCampaign} className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
+                  Criar Campanha
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </main>
     </div>
   );
