@@ -1,7 +1,3 @@
-<think>
-
-</think>
-
 import React, { useState } from 'react';
 import DashboardHeader from '@/components/DashboardHeader';
 import { Button } from '@/components/ui/button';
