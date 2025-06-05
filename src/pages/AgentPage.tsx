@@ -1,3 +1,7 @@
+<think>
+
+</think>
+
 import React, { useState } from 'react';
 import DashboardHeader from '@/components/DashboardHeader';
 import { Button } from '@/components/ui/button';
@@ -5,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bot, Send, Plus, Settings, MessageSquare, Play, VolumeX, Volume2, Upload, Clock, QrCode, Trash2, FileText, Tag, X } from 'lucide-react';
+import { Bot, Send, Plus, Settings, MessageSquare, Play, VolumeX, Volume2, Upload, Clock, QrCode, Trash2, FileText, Tag, X, ArrowDown, ArrowRight, GitBranch, Zap } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
@@ -20,6 +24,25 @@ const AgentPage = () => {
   const [newQuestion, setNewQuestion] = useState('');
   const [newAnswer, setNewAnswer] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
+
+  // Estados para o Fluxo
+  const [flows, setFlows] = useState([
+    {
+      id: 1,
+      name: 'Fluxo de Vendas',
+      trigger: 'preço',
+      steps: [
+        { id: 1, type: 'message', content: 'Entendi que você tem interesse em nossos preços!' },
+        { id: 2, type: 'condition', content: 'Cliente quer saber sobre planos?', options: ['Sim', 'Não'] },
+        { id: 3, type: 'message', content: 'Temos 3 planos disponíveis: Básico, Pro e Enterprise.' },
+        { id: 4, type: 'action', content: 'Transferir para vendas' }
+      ]
+    }
+  ]);
+  const [selectedFlow, setSelectedFlow] = useState(null);
+  const [showNewFlowForm, setShowNewFlowForm] = useState(false);
+  const [newFlowName, setNewFlowName] = useState('');
+  const [newFlowTrigger, setNewFlowTrigger] = useState('');
 
   const handleSendMessage = () => {
     if (message.trim()) {
@@ -64,6 +87,53 @@ const AgentPage = () => {
     console.log('Deletando agente...');
   };
 
+  const addNewFlow = () => {
+    if (newFlowName.trim() && newFlowTrigger.trim()) {
+      const newFlow = {
+        id: Date.now(),
+        name: newFlowName,
+        trigger: newFlowTrigger,
+        steps: [
+          { id: 1, type: 'message', content: 'Mensagem inicial do fluxo' }
+        ]
+      };
+      setFlows([...flows, newFlow]);
+      setNewFlowName('');
+      setNewFlowTrigger('');
+      setShowNewFlowForm(false);
+    }
+  };
+
+  const addStepToFlow = (flowId: number, stepType: string) => {
+    setFlows(flows.map(flow => {
+      if (flow.id === flowId) {
+        const newStep = {
+          id: Date.now(),
+          type: stepType,
+          content: stepType === 'message' ? 'Nova mensagem' : 
+                   stepType === 'condition' ? 'Nova condição' : 
+                   'Nova ação',
+          options: stepType === 'condition' ? ['Sim', 'Não'] : undefined
+        };
+        return { ...flow, steps: [...flow.steps, newStep] };
+      }
+      return flow;
+    }));
+  };
+
+  const StepTypeIcon = ({ type }) => {
+    switch (type) {
+      case 'message':
+        return <MessageSquare className="h-4 w-4 text-blue-500" />;
+      case 'condition':
+        return <GitBranch className="h-4 w-4 text-orange-500" />;
+      case 'action':
+        return <Zap className="h-4 w-4 text-green-500" />;
+      default:
+        return <MessageSquare className="h-4 w-4" />;
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <DashboardHeader title="Agente de IA" />
@@ -75,9 +145,10 @@ const AgentPage = () => {
         </div>
 
         <Tabs defaultValue="simulator" className="w-full">
-          <TabsList className="grid grid-cols-4 mb-8">
+          <TabsList className="grid grid-cols-5 mb-8">
             <TabsTrigger value="simulator">Simulador</TabsTrigger>
             <TabsTrigger value="training">Treinamento</TabsTrigger>
+            <TabsTrigger value="flow">Fluxo</TabsTrigger>
             <TabsTrigger value="learning">Aprendizagem</TabsTrigger>
             <TabsTrigger value="settings">Configurações</TabsTrigger>
           </TabsList>
@@ -291,8 +362,219 @@ const AgentPage = () => {
               </CardFooter>
             </Card>
           </TabsContent>
+
+          {/* Nova aba de Fluxo */}
+          <TabsContent value="flow" className="space-y-6">
+            <Card className="border-gray-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <GitBranch className="h-5 w-5 text-luxfy-purple" />
+                  Fluxos de Atendimento
+                </CardTitle>
+                <CardDescription>
+                  Crie fluxos automáticos baseados em palavras-chave para guiar o atendimento
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-medium">Fluxos Criados</h3>
+                    <Button 
+                      className="bg-luxfy-purple hover:bg-luxfy-darkPurple"
+                      onClick={() => setShowNewFlowForm(true)}
+                    >
+                      <Plus className="mr-2" size={16} /> Criar Novo Fluxo
+                    </Button>
+                  </div>
+
+                  {showNewFlowForm && (
+                    <Card className="border-2 border-luxfy-purple/20">
+                      <CardHeader>
+                        <CardTitle className="text-lg">Novo Fluxo de Atendimento</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div>
+                          <Label htmlFor="flowName">Nome do Fluxo</Label>
+                          <Input
+                            id="flowName"
+                            placeholder="Ex: Fluxo de Vendas"
+                            value={newFlowName}
+                            onChange={(e) => setNewFlowName(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="trigger">Palavra-chave de Gatilho</Label>
+                          <Input
+                            id="trigger"
+                            placeholder="Ex: preço, comprar, orçamento"
+                            value={newFlowTrigger}
+                            onChange={(e) => setNewFlowTrigger(e.target.value)}
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            Quando o cliente mencionar esta palavra, o fluxo será ativado
+                          </p>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button onClick={addNewFlow}>Criar Fluxo</Button>
+                          <Button variant="outline" onClick={() => setShowNewFlowForm(false)}>Cancelar</Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Lista de Fluxos */}
+                    <div className="space-y-4">
+                      {flows.map((flow) => (
+                        <Card 
+                          key={flow.id} 
+                          className={`border cursor-pointer transition-colors ${
+                            selectedFlow?.id === flow.id 
+                              ? 'border-luxfy-purple bg-luxfy-purple/5' 
+                              : 'border-gray-200 hover:border-luxfy-purple/50'
+                          }`}
+                          onClick={() => setSelectedFlow(flow)}
+                        >
+                          <CardContent className="p-4">
+                            <div className="space-y-2">
+                              <div className="flex items-center justify-between">
+                                <h4 className="font-medium">{flow.name}</h4>
+                                <Button variant="ghost" size="sm" className="text-red-500">
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Zap className="h-4 w-4 text-yellow-500" />
+                                <span className="text-sm text-gray-600">
+                                  Gatilho: "{flow.trigger}"
+                                </span>
+                              </div>
+                              <p className="text-xs text-gray-500">
+                                {flow.steps.length} etapas configuradas
+                              </p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+
+                    {/* Editor de Fluxo */}
+                    <div>
+                      {selectedFlow ? (
+                        <Card className="border-gray-200">
+                          <CardHeader>
+                            <CardTitle className="text-lg">
+                              Editando: {selectedFlow.name}
+                            </CardTitle>
+                            <CardDescription>
+                              Gatilho: "{selectedFlow.trigger}"
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent className="space-y-4">
+                            <div className="space-y-3">
+                              {selectedFlow.steps.map((step, index) => (
+                                <div key={step.id} className="space-y-2">
+                                  <div className="flex items-center gap-2">
+                                    <div className="w-8 h-8 bg-luxfy-purple/10 rounded-full flex items-center justify-center text-sm font-medium">
+                                      {index + 1}
+                                    </div>
+                                    <StepTypeIcon type={step.type} />
+                                    <span className="text-sm font-medium capitalize">
+                                      {step.type === 'message' ? 'Mensagem' :
+                                       step.type === 'condition' ? 'Condição' : 'Ação'}
+                                    </span>
+                                  </div>
+                                  <Card className="ml-10 border">
+                                    <CardContent className="p-3">
+                                      <Textarea
+                                        value={step.content}
+                                        onChange={(e) => {
+                                          // Lógica para atualizar o conteúdo do step
+                                        }}
+                                        className="text-sm"
+                                        rows={2}
+                                      />
+                                      {step.options && (
+                                        <div className="mt-2 space-y-1">
+                                          <Label className="text-xs">Opções:</Label>
+                                          {step.options.map((option, optIndex) => (
+                                            <div key={optIndex} className="flex items-center gap-2">
+                                              <ArrowRight className="h-3 w-3 text-gray-400" />
+                                              <Input 
+                                                value={option} 
+                                                className="text-xs h-7"
+                                                onChange={(e) => {
+                                                  // Lógica para atualizar opções
+                                                }}
+                                              />
+                                            </div>
+                                          ))}
+                                        </div>
+                                      )}
+                                    </CardContent>
+                                  </Card>
+                                  {index < selectedFlow.steps.length - 1 && (
+                                    <div className="flex justify-center">
+                                      <ArrowDown className="h-4 w-4 text-gray-400" />
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+
+                            <div className="border-t pt-4">
+                              <Label className="text-sm font-medium">Adicionar Nova Etapa:</Label>
+                              <div className="flex gap-2 mt-2">
+                                <Button 
+                                  variant="outline" 
+                                  size="sm"
+                                  onClick={() => addStepToFlow(selectedFlow.id, 'message')}
+                                >
+                                  <MessageSquare className="mr-1 h-3 w-3" />
+                                  Mensagem
+                                </Button>
+                                <Button 
+                                  variant="outline" 
+                                  size="sm"
+                                  onClick={() => addStepToFlow(selectedFlow.id, 'condition')}
+                                >
+                                  <GitBranch className="mr-1 h-3 w-3" />
+                                  Condição
+                                </Button>
+                                <Button 
+                                  variant="outline" 
+                                  size="sm"
+                                  onClick={() => addStepToFlow(selectedFlow.id, 'action')}
+                                >
+                                  <Zap className="mr-1 h-3 w-3" />
+                                  Ação
+                                </Button>
+                              </div>
+                            </div>
+                          </CardContent>
+                          <CardFooter>
+                            <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
+                              Salvar Fluxo
+                            </Button>
+                          </CardFooter>
+                        </Card>
+                      ) : (
+                        <Card className="border-gray-200 h-96 flex items-center justify-center">
+                          <div className="text-center text-gray-500">
+                            <GitBranch size={48} className="mx-auto mb-4 text-gray-300" />
+                            <h3 className="text-lg font-medium mb-2">Selecione um fluxo</h3>
+                            <p>Escolha um fluxo da lista para editar suas etapas</p>
+                          </div>
+                        </Card>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
           
-          {/* Nova aba Aprendizagem - Enhanced with file upload */}
+          {/* Aprendizagem */}
           <TabsContent value="learning" className="space-y-6">
             <Card className="border-gray-200">
               <CardHeader>
@@ -402,7 +684,7 @@ const AgentPage = () => {
             </Card>
           </TabsContent>
           
-          {/* Configurações - Enhanced with agent deletion and response delay */}
+          {/* Configurações */}
           <TabsContent value="settings" className="space-y-6">
             <Card className="border-gray-200 dark:border-gray-700">
               <CardHeader>
