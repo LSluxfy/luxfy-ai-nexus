@@ -8,8 +8,10 @@ import ChatHeader from '@/components/chat/ChatHeader';
 import ChatMessages from '@/components/chat/ChatMessages';
 import ChatInput from '@/components/chat/ChatInput';
 import { MessageSquare } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const ChatPage = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const {
     chats,
@@ -32,7 +34,7 @@ const ChatPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <DashboardHeader title="Chat - WhatsApp Web" />
+      <DashboardHeader title={t('chat.title')} />
       
       <main className="flex-1 flex bg-gray-50">
         <ChatList
@@ -67,8 +69,8 @@ const ChatPage = () => {
           <div className="flex-1 flex items-center justify-center bg-white">
             <div className="text-center text-gray-500">
               <MessageSquare size={64} className="mx-auto mb-4 text-gray-300" />
-              <h3 className="text-lg font-medium mb-2">Selecione uma conversa</h3>
-              <p>Escolha uma conversa da lista para começar a chatear</p>
+              <h3 className="text-lg font-medium mb-2">{t('chat.selectConversation')}</h3>
+              <p>{t('chat.selectConversationDesc')}</p>
             </div>
           </div>
         )}

@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { useTranslation } from 'react-i18next';
 
 interface Lead {
   id: string;
@@ -122,15 +123,6 @@ const mockLeads: Lead[] = [
   }
 ];
 
-const statusLabels = {
-  new: 'Novos',
-  contacted: 'Contatados',
-  qualified: 'Qualificados',
-  negotiation: 'Em Negociação',
-  closed: 'Fechados',
-  lost: 'Perdidos'
-};
-
 const statusColors = {
   new: 'bg-blue-100 text-blue-800',
   contacted: 'bg-purple-100 text-purple-800',
@@ -141,16 +133,27 @@ const statusColors = {
 };
 
 const CRMPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [leads, setLeads] = useState<Lead[]>(mockLeads);
   const [searchTerm, setSearchTerm] = useState('');
-  const [columns, setColumns] = useState(Object.keys(statusLabels));
   const [newColumnName, setNewColumnName] = useState('');
   const [showAddColumn, setShowAddColumn] = useState(false);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [newTag, setNewTag] = useState('');
   const [editingColumn, setEditingColumn] = useState<string | null>(null);
   const [editColumnName, setEditColumnName] = useState('');
+  
+  const statusLabels = {
+    new: t('crm.new'),
+    contacted: t('crm.contacted'),
+    qualified: t('crm.qualified'),
+    negotiation: t('crm.negotiation'),
+    closed: t('crm.closed'),
+    lost: t('crm.lost')
+  };
+
+  const [columns, setColumns] = useState(Object.keys(statusLabels));
   
   // Filtra os leads baseado no termo de busca
   const filteredLeads = leads.filter(lead => 
@@ -194,7 +197,7 @@ const CRMPage = () => {
 
   const removeColumn = (columnKey: string) => {
     if (Object.keys(statusLabels).includes(columnKey)) {
-      alert('Não é possível excluir colunas padrão do sistema');
+      alert(t('crm.cannotDeleteSystem'));
       return;
     }
     setColumns(columns.filter(col => col !== columnKey));
@@ -202,7 +205,7 @@ const CRMPage = () => {
 
   const startEditingColumn = (columnKey: string) => {
     if (Object.keys(statusLabels).includes(columnKey)) {
-      alert('Não é possível renomear colunas padrão do sistema');
+      alert(t('crm.cannotRenameSystem'));
       return;
     }
     setEditingColumn(columnKey);
@@ -252,20 +255,20 @@ const CRMPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <DashboardHeader title="CRM Visual" />
+      <DashboardHeader title={t('crm.title')} />
       
       <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white">CRM Visual</h2>
-            <p className="text-gray-600 dark:text-gray-300">Gerencie seus leads e oportunidades no formato Kanban</p>
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{t('crm.title')}</h2>
+            <p className="text-gray-600 dark:text-gray-300">{t('crm.subtitle')}</p>
           </div>
           
           <div className="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
             <div className="relative flex-1 lg:w-64">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               <Input
-                placeholder="Buscar leads..."
+                placeholder={t('crm.searchPlaceholder')}
                 className="pl-10"
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
@@ -276,10 +279,10 @@ const CRMPage = () => {
               onClick={() => setShowAddColumn(true)}
               className="whitespace-nowrap"
             >
-              <Plus className="mr-2" size={16} /> Nova Coluna
+              <Plus className="mr-2" size={16} /> {t('crm.newColumn')}
             </Button>
             <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple whitespace-nowrap">
-              <Plus className="mr-2" size={16} /> Novo Lead
+              <Plus className="mr-2" size={16} /> {t('crm.newLead')}
             </Button>
           </div>
         </div>
@@ -287,16 +290,16 @@ const CRMPage = () => {
         {showAddColumn && (
           <Card className="mb-6 border-luxfy-purple/20">
             <CardHeader>
-              <CardTitle>Adicionar Nova Coluna</CardTitle>
+              <CardTitle>{t('crm.addNewColumn')}</CardTitle>
             </CardHeader>
             <CardContent className="flex gap-2">
               <Input
-                placeholder="Nome da coluna..."
+                placeholder={t('crm.columnNamePlaceholder')}
                 value={newColumnName}
                 onChange={(e) => setNewColumnName(e.target.value)}
               />
-              <Button onClick={addNewColumn}>Adicionar</Button>
-              <Button variant="outline" onClick={() => setShowAddColumn(false)}>Cancelar</Button>
+              <Button onClick={addNewColumn}>{t('crm.add')}</Button>
+              <Button variant="outline" onClick={() => setShowAddColumn(false)}>{t('crm.cancel')}</Button>
             </CardContent>
           </Card>
         )}
@@ -356,14 +359,14 @@ const CRMPage = () => {
                           <DropdownMenuContent className="bg-white dark:bg-gray-800">
                             <DropdownMenuItem onClick={() => startEditingColumn(columnKey)}>
                               <Edit size={14} className="mr-2" />
-                              Renomear
+                              {t('crm.rename')}
                             </DropdownMenuItem>
                             <DropdownMenuItem 
                               onClick={() => removeColumn(columnKey)}
                               className="text-red-600 hover:text-red-700"
                             >
                               <Trash2 size={14} className="mr-2" />
-                              Excluir
+                              {t('crm.delete')}
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -399,14 +402,14 @@ const CRMPage = () => {
                                   <Badge variant="outline">{lead.interest}</Badge>
                                 </DialogTitle>
                                 <DialogDescription>
-                                  Informações completas do lead
+                                  {t('crm.completeInfo')}
                                 </DialogDescription>
                               </DialogHeader>
                               
                               <div className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                   <div>
-                                    <h4 className="font-medium mb-2">Contato</h4>
+                                    <h4 className="font-medium mb-2">{t('crm.contact')}</h4>
                                     <div className="space-y-2">
                                       <div className="flex items-center gap-2">
                                         <Mail size={16} className="text-gray-400" />
@@ -420,7 +423,7 @@ const CRMPage = () => {
                                   </div>
                                   
                                   <div>
-                                    <h4 className="font-medium mb-2">Interesse</h4>
+                                    <h4 className="font-medium mb-2">{t('crm.interest')}</h4>
                                     <p className="text-sm text-gray-600">{lead.interest}</p>
                                     {lead.value && (
                                       <p className="text-sm font-medium text-green-600 mt-1">{lead.value}</p>
@@ -429,7 +432,7 @@ const CRMPage = () => {
                                 </div>
                                 
                                 <div>
-                                  <h4 className="font-medium mb-2">Tags</h4>
+                                  <h4 className="font-medium mb-2">{t('crm.tags')}</h4>
                                   <div className="flex flex-wrap gap-2 mb-2">
                                     {lead.tags.map(tag => (
                                       <Badge key={tag} variant="secondary" className="flex items-center gap-1">
@@ -444,7 +447,7 @@ const CRMPage = () => {
                                   </div>
                                   <div className="flex gap-2">
                                     <Input
-                                      placeholder="Nova tag..."
+                                      placeholder={t('crm.newTagPlaceholder')}
                                       value={newTag}
                                       onChange={(e) => setNewTag(e.target.value)}
                                       className="flex-1"
@@ -462,7 +465,7 @@ const CRMPage = () => {
                                 </div>
                                 
                                 <div>
-                                  <h4 className="font-medium mb-2">Observações</h4>
+                                  <h4 className="font-medium mb-2">{t('crm.notes')}</h4>
                                   <Textarea
                                     defaultValue={lead.notes}
                                     placeholder="Adicione observações sobre este lead..."
@@ -476,7 +479,7 @@ const CRMPage = () => {
                                     onClick={() => openChatWithLead(lead)}
                                   >
                                     <MessageSquare className="mr-2" size={16} />
-                                    Abrir Chat
+                                    {t('crm.openChat')}
                                   </Button>
                                   <Button variant="outline">
                                     <Edit className="mr-2" size={16} />
