@@ -12,8 +12,9 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentLanguage, setCurrentLanguage] = useState(() => {
-    // Initialize with a safe default
-    return i18n.language || 'pt';
+    // Let i18n handle the detection from localStorage
+    const savedLanguage = localStorage.getItem('luxfy-language');
+    return savedLanguage || i18n.language || 'pt';
   });
 
   const availableLanguages = [
@@ -29,28 +30,37 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   useEffect(() => {
-    // Ensure i18n is properly initialized
-    const initializeLanguage = async () => {
-      try {
-        await i18n.loadNamespaces('translation');
-        setCurrentLanguage(i18n.language || 'pt');
-      } catch (error) {
-        console.warn('Error initializing i18n:', error);
-        setCurrentLanguage('pt');
+    // Sync with i18n when it's ready
+    const syncLanguage = () => {
+      const savedLanguage = localStorage.getItem('luxfy-language');
+      const detectedLanguage = savedLanguage || i18n.language || 'pt';
+      
+      if (detectedLanguage !== currentLanguage) {
+        setCurrentLanguage(detectedLanguage);
+        if (i18n.language !== detectedLanguage) {
+          i18n.changeLanguage(detectedLanguage);
+        }
       }
     };
 
-    initializeLanguage();
+    // Initial sync
+    syncLanguage();
 
+    // Listen to i18n language changes
     const handleLanguageChange = (lng: string) => {
       setCurrentLanguage(lng);
     };
 
     i18n.on('languageChanged', handleLanguageChange);
+    
+    // Also listen to i18n initialization
+    i18n.on('initialized', syncLanguage);
+
     return () => {
       i18n.off('languageChanged', handleLanguageChange);
+      i18n.off('initialized', syncLanguage);
     };
-  }, []);
+  }, [currentLanguage]);
 
   const contextValue: LanguageContextType = {
     currentLanguage,

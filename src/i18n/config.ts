@@ -26,6 +26,7 @@ i18n
     resources,
     fallbackLng: 'pt',
     debug: false,
+    lng: undefined, // Let the detector determine the language
     
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],
