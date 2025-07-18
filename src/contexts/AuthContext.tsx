@@ -60,15 +60,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Configurar listener para mudanças no estado de autenticação
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, currentSession) => {
+        console.log('Auth state change:', event);
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
         if (event === 'SIGNED_IN' && currentSession?.user) {
+          // Preserve language setting during login
+          const savedLanguage = localStorage.getItem('luxfy-language');
+          console.log('Login detected, preserving language:', savedLanguage);
+          
           // Usar setTimeout para evitar bloqueio de callback
           setTimeout(() => {
             fetchUserProfile(currentSession.user.id);
           }, 0);
-          navigate('/dashboard');
+          
+          // Navigate after a small delay to ensure language context is stable
+          setTimeout(() => {
+            navigate('/dashboard');
+          }, 50);
         } else if (event === 'SIGNED_OUT') {
           setProfile(null);
           navigate('/login');
