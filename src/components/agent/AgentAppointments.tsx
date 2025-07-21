@@ -1,27 +1,50 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Calendar, Clock, MapPin, User, Plus, Edit, Trash2 } from 'lucide-react';
-import { ApiAgent, Appointment } from '@/types/agent-api';
+import { ApiAgent } from '@/types/agent-api';
+import { ApiAppointment } from '@/types/appointment';
 import { AppointmentForm } from './AppointmentForm';
+import { DeleteAppointmentDialog } from './DeleteAppointmentDialog';
+import { useAppointments } from '@/hooks/use-appointments';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 interface AgentAppointmentsProps {
   agent: ApiAgent;
+  onUpdate?: (updatedAgent: ApiAgent) => void;
 }
 
-export function AgentAppointments({ agent }: AgentAppointmentsProps) {
-  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+export function AgentAppointments({ agent, onUpdate }: AgentAppointmentsProps) {
+  const [selectedAppointment, setSelectedAppointment] = useState<ApiAppointment | null>(null);
+  const [appointmentToDelete, setAppointmentToDelete] = useState<ApiAppointment | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  
+  const { deleting, deleteAppointment } = useAppointments();
 
-  const appointments = agent.appointments || [];
+  // Convert legacy appointments to new format
+  const appointments: ApiAppointment[] = (agent.appointments || []).map(apt => ({
+    id: apt.id,
+    title: apt.title,
+    clientName: apt.clientName,
+    dateTime: apt.dateTime,
+    local: apt.local,
+    observations: apt.observations,
+    type: apt.type,
+    duration: apt.duration,
+    agentId: agent.id,
+    createdAt: apt.createAt,
+    updatedAt: apt.updateAt
+  }));
+
   const upcomingAppointments = appointments.filter(apt => new Date(apt.dateTime) >= new Date());
   const pastAppointments = appointments.filter(apt => new Date(apt.dateTime) < new Date());
 
-  const handleEdit = (appointment: Appointment) => {
+  const handleEdit = (appointment: ApiAppointment) => {
     setSelectedAppointment(appointment);
     setIsDialogOpen(true);
   };
@@ -34,6 +57,34 @@ export function AgentAppointments({ agent }: AgentAppointmentsProps) {
   const handleClose = () => {
     setIsDialogOpen(false);
     setSelectedAppointment(null);
+    // Refresh agent data if onUpdate is provided
+    if (onUpdate) {
+      // This would typically refetch the agent data
+      // For now, we'll trigger a page refresh
+      window.location.reload();
+    }
+  };
+
+  const handleDeleteClick = (appointment: ApiAppointment) => {
+    setAppointmentToDelete(appointment);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!appointmentToDelete) return;
+
+    try {
+      await deleteAppointment(appointmentToDelete.id.toString(), () => {
+        setIsDeleteDialogOpen(false);
+        setAppointmentToDelete(null);
+        // Refresh the page to show updated data
+        if (onUpdate) {
+          window.location.reload();
+        }
+      });
+    } catch (error) {
+      // Error handled by the hook
+    }
   };
 
   const getAppointmentTypeColor = (type: string): "default" | "destructive" | "outline" | "secondary" => {
@@ -56,7 +107,7 @@ export function AgentAppointments({ agent }: AgentAppointmentsProps) {
     return `${minutes}min`;
   };
 
-  const AppointmentCard = ({ appointment, isPast = false }: { appointment: Appointment, isPast?: boolean }) => (
+  const AppointmentCard = ({ appointment, isPast = false }: { appointment: ApiAppointment, isPast?: boolean }) => (
     <Card key={appointment.id} className={`${isPast ? 'opacity-75' : ''}`}>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
@@ -78,7 +129,12 @@ export function AgentAppointments({ agent }: AgentAppointmentsProps) {
               <Button variant="ghost" size="sm" onClick={() => handleEdit(appointment)}>
                 <Edit className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => handleDeleteClick(appointment)}
+                disabled={deleting === appointment.id.toString()}
+              >
                 <Trash2 className="h-4 w-4" />
               </Button>
             </div>
@@ -118,7 +174,7 @@ export function AgentAppointments({ agent }: AgentAppointmentsProps) {
         )}
         
         <div className="text-xs text-muted-foreground">
-          Agendado em: {format(new Date(appointment.createAt), 'dd/MM/yyyy HH:mm', { locale: ptBR })}
+          Agendado em: {format(new Date(appointment.createdAt), 'dd/MM/yyyy HH:mm', { locale: ptBR })}
         </div>
       </CardContent>
     </Card>
@@ -150,6 +206,7 @@ export function AgentAppointments({ agent }: AgentAppointmentsProps) {
             <AppointmentForm
               agentId={agent.id.toString()}
               appointment={selectedAppointment}
+              existingAppointments={appointments}
               onSuccess={handleClose}
             />
           </DialogContent>
@@ -266,6 +323,17 @@ export function AgentAppointments({ agent }: AgentAppointmentsProps) {
           </Card>
         )}
       </div>
+
+      <DeleteAppointmentDialog
+        appointment={appointmentToDelete}
+        isOpen={isDeleteDialogOpen}
+        onClose={() => {
+          setIsDeleteDialogOpen(false);
+          setAppointmentToDelete(null);
+        }}
+        onConfirm={handleDeleteConfirm}
+        isDeleting={deleting === appointmentToDelete?.id.toString()}
+      />
     </div>
   );
 }
