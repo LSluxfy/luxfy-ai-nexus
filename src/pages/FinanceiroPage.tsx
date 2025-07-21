@@ -4,8 +4,11 @@ import DashboardHeader from '@/components/DashboardHeader';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CreditCard, ArrowUpRight, Download, CheckCircle, Clock, XCircle } from 'lucide-react';
+import { CreditCard, ArrowUpRight, Calendar, Clock, CheckCircle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { InvoiceList } from '@/components/financial/InvoiceList';
+import { useInvoices } from '@/hooks/use-invoices';
+import { InvoiceService } from '@/services/invoiceService';
 
 const FinanceiroPage = () => {
   const [currentPlan] = useState({
@@ -14,13 +17,6 @@ const FinanceiroPage = () => {
     period: 'mensal',
     features: ['1 Agente', 'Suporte por Email', 'Dashboard Básico']
   });
-
-  const [invoices] = useState([
-    { id: 1, date: '2024-01-15', amount: 'R$ 97,00', status: 'Pago', plan: 'Básico' },
-    { id: 2, date: '2023-12-15', amount: 'R$ 97,00', status: 'Pago', plan: 'Básico' },
-    { id: 3, date: '2023-11-15', amount: 'R$ 97,00', status: 'Pago', plan: 'Básico' },
-    { id: 4, date: '2024-02-15', amount: 'R$ 197,00', status: 'Pendente', plan: 'Pro' },
-  ]);
 
   const [availablePlans] = useState([
     {
@@ -47,30 +43,26 @@ const FinanceiroPage = () => {
     }
   ]);
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'Pago':
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
-      case 'Pendente':
-        return <Clock className="h-4 w-4 text-yellow-500" />;
-      case 'Vencido':
-        return <XCircle className="h-4 w-4 text-red-500" />;
-      default:
-        return <Clock className="h-4 w-4 text-gray-500" />;
-    }
+  // Use real invoice data for next payment
+  const { nextPayment, stats } = useInvoices();
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(value);
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Pago':
-        return 'bg-green-100 text-green-800';
-      case 'Pendente':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'Vencido':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('pt-BR');
+  };
+
+  const calculateDaysUntilDue = (dueDate: string) => {
+    const due = new Date(dueDate);
+    const now = new Date();
+    const diffTime = due.getTime() - now.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
   };
 
   return (
@@ -124,6 +116,27 @@ const FinanceiroPage = () => {
                       </ul>
                     </div>
 
+                    {/* Estatísticas de Faturas */}
+                    {stats && (
+                      <div className="border-t pt-4">
+                        <h4 className="font-medium mb-2">Resumo Financeiro:</h4>
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div>
+                            <span className="text-gray-500">Total Pago:</span>
+                            <div className="font-medium text-green-600">
+                              {formatCurrency(stats.totalPaid)}
+                            </div>
+                          </div>
+                          <div>
+                            <span className="text-gray-500">Pendente:</span>
+                            <div className="font-medium text-yellow-600">
+                              {formatCurrency(stats.totalPending)}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
                     <div className="flex gap-2 pt-4">
                       <Button variant="outline">Cancelar Plano</Button>
                       <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
@@ -137,28 +150,50 @@ const FinanceiroPage = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Próxima Cobrança</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <Calendar className="h-5 w-5" />
+                    Próxima Cobrança
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold">15 dias</div>
-                      <div className="text-sm text-gray-500">para renovação</div>
-                    </div>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span>Data:</span>
-                        <span>15/02/2024</span>
+                    {nextPayment ? (
+                      <>
+                        <div className="text-center">
+                          <div className="text-2xl font-bold">
+                            {calculateDaysUntilDue(nextPayment.dueDate!)} dias
+                          </div>
+                          <div className="text-sm text-gray-500">para vencimento</div>
+                        </div>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span>Data:</span>
+                            <span>{formatDate(nextPayment.dueDate!)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Valor:</span>
+                            <span className="font-medium">{formatCurrency(nextPayment.amount)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Descrição:</span>
+                            <span className="text-xs">{nextPayment.description}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Status:</span>
+                            <Badge className={InvoiceService.getStatusColor(nextPayment.status)}>
+                              {InvoiceService.getStatusText(nextPayment.status)}
+                            </Badge>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-center py-4">
+                        <Clock className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                        <div className="text-sm text-gray-500">
+                          Nenhuma cobrança pendente
+                        </div>
                       </div>
-                      <div className="flex justify-between">
-                        <span>Valor:</span>
-                        <span className="font-medium">R$ 97,00</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Método:</span>
-                        <span>Cartão •••• 1234</span>
-                      </div>
-                    </div>
+                    )}
                     <Button variant="outline" size="sm" className="w-full">
                       Alterar Método
                     </Button>
@@ -211,38 +246,7 @@ const FinanceiroPage = () => {
           </TabsContent>
 
           <TabsContent value="invoices" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Histórico de Faturas</CardTitle>
-                <CardDescription>Visualize e baixe suas faturas</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {invoices.map((invoice) => (
-                    <div key={invoice.id} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex items-center gap-4">
-                        {getStatusIcon(invoice.status)}
-                        <div>
-                          <div className="font-medium">Fatura #{invoice.id}</div>
-                          <div className="text-sm text-gray-500">
-                            {new Date(invoice.date).toLocaleDateString('pt-BR')} • {invoice.plan}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <Badge className={getStatusColor(invoice.status)}>
-                          {invoice.status}
-                        </Badge>
-                        <div className="font-medium">{invoice.amount}</div>
-                        <Button variant="ghost" size="sm">
-                          <Download className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <InvoiceList />
           </TabsContent>
         </Tabs>
       </main>
