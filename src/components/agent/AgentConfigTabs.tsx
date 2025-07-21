@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,7 +13,10 @@ import { AgentCampaigns } from './AgentCampaigns';
 import { AgentMetrics } from './AgentMetrics';
 import { AgentChats } from './AgentChats';
 import { AgentAppointments } from './AgentAppointments';
+import { CRMKanban } from '@/components/crm/CRMKanban';
+import { useCRM } from '@/hooks/use-crm';
 import { ApiAgent } from '@/types/agent-api';
+import { useNavigate } from 'react-router-dom';
 
 interface AgentConfigTabsProps {
   agent: ApiAgent;
@@ -20,6 +24,36 @@ interface AgentConfigTabsProps {
 }
 
 export function AgentConfigTabs({ agent, onUpdate }: AgentConfigTabsProps) {
+  const navigate = useNavigate();
+  
+  const {
+    crmData,
+    groupedLeads,
+    isLoading: crmLoading,
+    error: crmError,
+    isUpdating,
+    moveLead,
+    updateLead,
+    removeLead,
+    addColumn,
+    removeColumn,
+    renameColumn,
+  } = useCRM({
+    agentId: agent.id.toString(),
+    enabled: true
+  });
+
+  const handleOpenChat = (lead: any) => {
+    if (lead.chatId) {
+      navigate('/dashboard/chat', {
+        state: {
+          selectedUserId: lead.chatId.toString(),
+          userName: lead.name
+        }
+      });
+    }
+  };
+
   return (
     <div className="container mx-auto py-6">
       <div className="mb-6">
@@ -28,7 +62,7 @@ export function AgentConfigTabs({ agent, onUpdate }: AgentConfigTabsProps) {
       </div>
 
       <Tabs defaultValue="basic" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-11">
+        <TabsList className="grid w-full grid-cols-12">
           <TabsTrigger value="basic">Básico</TabsTrigger>
           <TabsTrigger value="whatsapp">WhatsApp</TabsTrigger>
           <TabsTrigger value="ai">IA</TabsTrigger>
@@ -37,6 +71,7 @@ export function AgentConfigTabs({ agent, onUpdate }: AgentConfigTabsProps) {
           <TabsTrigger value="simulator">Simulador</TabsTrigger>
           <TabsTrigger value="connection">Conexão</TabsTrigger>
           <TabsTrigger value="campaigns">Campanhas</TabsTrigger>
+          <TabsTrigger value="crm">CRM</TabsTrigger>
           <TabsTrigger value="metrics">Métricas</TabsTrigger>
           <TabsTrigger value="chats">Chats</TabsTrigger>
           <TabsTrigger value="appointments">Agenda</TabsTrigger>
@@ -134,6 +169,50 @@ export function AgentConfigTabs({ agent, onUpdate }: AgentConfigTabsProps) {
             </CardHeader>
             <CardContent>
               <AgentCampaigns agentId={agent.id.toString()} />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="crm">
+          <Card>
+            <CardHeader>
+              <CardTitle>CRM - Gestão de Leads</CardTitle>
+              <CardDescription>Gerencie e acompanhe seus leads e oportunidades</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {crmLoading && (
+                <div className="flex items-center justify-center h-64">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-800"></div>
+                </div>
+              )}
+              
+              {crmError && (
+                <div className="flex items-center justify-center h-64">
+                  <div className="text-center">
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                      Erro ao carregar CRM
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      {crmError instanceof Error ? crmError.message : 'Erro desconhecido'}
+                    </p>
+                  </div>
+                </div>
+              )}
+              
+              {crmData && (
+                <CRMKanban
+                  tables={crmData.tables}
+                  groupedLeads={groupedLeads}
+                  onMoveLead={moveLead}
+                  onUpdateLead={updateLead}
+                  onRemoveLead={removeLead}
+                  onAddColumn={addColumn}
+                  onRemoveColumn={removeColumn}
+                  onRenameColumn={renameColumn}
+                  onOpenChat={handleOpenChat}
+                  isUpdating={isUpdating}
+                />
+              )}
             </CardContent>
           </Card>
         </TabsContent>

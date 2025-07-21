@@ -49,9 +49,10 @@ const App = () => (
                   </ApiProtectedRoute>
                 }>
                   <Route index element={<Dashboard />} />
-                  <Route path="agent" element={<AgentPage />} />
+                  <Route path="agent/:id" element={<AgentPage />} />
                   <Route path="agents" element={<AgentsPage />} />
                   <Route path="crm" element={<CRMPage />} />
+                  <Route path="crm/:agentId" element={<CRMPage />} />
                   <Route path="chat" element={<ChatPage />} />
                   <Route path="campanhas" element={<CampanhasPage />} />
                   <Route path="agenda" element={<AgendaPage />} />
