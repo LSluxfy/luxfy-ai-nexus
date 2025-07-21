@@ -11,6 +11,7 @@ import { ptBR } from 'date-fns/locale';
 interface ChatHeaderProps {
   user: ChatUser;
   aiEnabled: boolean;
+  isUpdating?: boolean;
 }
 
 const ChatHeader = ({ user, aiEnabled }: ChatHeaderProps) => {

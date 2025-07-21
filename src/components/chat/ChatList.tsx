@@ -11,6 +11,7 @@ interface ChatListProps {
   chats: Chat[];
   selectedChatId: string | null;
   onSelectChat: (chatId: string) => void;
+  isLoading?: boolean;
 }
 
 const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
