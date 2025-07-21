@@ -24,9 +24,9 @@ const conversionFunnelData = [
 const clientSourceData = [
   { source: 'Website', clients: 45 },
   { source: 'WhatsApp', clients: 67 },
-  { source: 'Facebook', clients: 23 },
   { source: 'Instagram', clients: 31 },
   { source: 'Referência', clients: 19 },
+  { source: 'Outros', clients: 23 },
 ];
 
 const chartConfig = {

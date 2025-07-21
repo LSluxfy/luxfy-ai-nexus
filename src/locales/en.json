@@ -181,9 +181,6 @@
       "rememberMe": "Remember me",
       "loginButton": "Sign In",
       "loginButtonLoading": "Signing in...",
-      "orContinueWith": "Or continue with",
-      "google": "Google",
-      "facebook": "Facebook",
       "noAccount": "Don't have an account?",
       "registerLink": "Sign up"
     },
@@ -210,9 +207,6 @@
       "privacyPolicy": "privacy policy",
       "createAccountButton": "Create Account",
       "createAccountButtonLoading": "Creating account...",
-      "orContinueWith": "Or continue with",
-      "google": "Google",
-      "facebook": "Facebook",
       "hasAccount": "Already have an account?",
       "loginLink": "Sign in"
     },
