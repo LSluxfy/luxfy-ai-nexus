@@ -1,158 +1,197 @@
 
-import { useState, useEffect } from 'react';
-import { Chat, ChatMessage, ChatUser } from '@/types/chat';
-import { useAuth } from '@/contexts/AuthContext';
+import { useState, useEffect, useCallback } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Chat, ChatMessage, ChatSettingsRequest } from '@/types/chat';
+import { ChatService } from '@/services/chatService';
+import { useToast } from '@/hooks/use-toast';
 
-// Mock data para demonstração
-const mockUsers: ChatUser[] = [
-  {
-    id: '1',
-    name: 'João Silva',
-    phone: '+55 11 99999-1111',
-    tags: ['cliente', 'premium'],
-    lastSeen: new Date(),
-    isOnline: true,
-  },
-  {
-    id: '2',
-    name: 'Maria Santos',
-    phone: '+55 11 99999-2222',
-    tags: ['prospect', 'interessado'],
-    lastSeen: new Date(Date.now() - 300000), // 5 min ago
-    isOnline: false,
-  },
-  {
-    id: '3',
-    name: 'Pedro Costa',
-    phone: '+55 11 99999-3333',
-    tags: ['suporte'],
-    lastSeen: new Date(Date.now() - 3600000), // 1 hour ago
-    isOnline: false,
-  },
-];
+interface UseChatOptions {
+  agentId?: string;
+  enabled?: boolean;
+}
 
-const mockMessages: ChatMessage[] = [
-  {
-    id: '1',
-    chatId: '1',
-    senderId: '1',
-    content: 'Olá! Gostaria de saber mais sobre seus serviços.',
-    type: 'text',
-    timestamp: new Date(Date.now() - 600000),
-    isFromUser: true,
-  },
-  {
-    id: '2',
-    chatId: '1',
-    senderId: 'ai',
-    content: 'Olá João! Fico feliz em ajudar. Oferecemos soluções de IA para automatizar seu atendimento. Que tipo de negócio você tem?',
-    type: 'text',
-    timestamp: new Date(Date.now() - 580000),
-    isFromUser: false,
-  },
-];
-
-export const useChat = () => {
-  const { user } = useAuth();
-  const [chats, setChats] = useState<Chat[]>([]);
+export const useChat = (options: UseChatOptions = {}) => {
+  const { agentId, enabled = true } = options;
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
-  const [messages, setMessages] = useState<ChatMessage[]>(mockMessages);
 
-  useEffect(() => {
-    // Inicializar chats mock
-    const mockChats: Chat[] = mockUsers.map(chatUser => ({
-      id: chatUser.id,
-      userId: user?.id || '',
-      user: chatUser,
-      messages: messages.filter(msg => msg.chatId === chatUser.id),
-      lastMessage: messages.filter(msg => msg.chatId === chatUser.id).pop(),
-      unreadCount: chatUser.id === '1' ? 0 : Math.floor(Math.random() * 3),
-      aiEnabled: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }));
-    
-    setChats(mockChats);
-  }, [user, messages]);
+  // Query para buscar chats
+  const {
+    data: chats = [],
+    isLoading,
+    error,
+    refetch
+  } = useQuery({
+    queryKey: ['chats', agentId],
+    queryFn: () => agentId ? ChatService.getChats(agentId) : Promise.resolve([]),
+    enabled: enabled && !!agentId,
+    staleTime: 30 * 1000, // 30 seconds
+    refetchInterval: 60 * 1000, // Refetch every minute for real-time updates
+  });
 
-  const sendMessage = (chatId: string, content: string, type: 'text' | 'audio' | 'file' = 'text') => {
-    const newMessage: ChatMessage = {
-      id: Date.now().toString(),
-      chatId,
-      senderId: 'me',
-      content,
-      type,
-      timestamp: new Date(),
-      isFromUser: false,
+  // Mutation para enviar mensagem
+  const sendMessageMutation = useMutation({
+    mutationFn: async ({ 
+      chatId, 
+      content, 
+      type, 
+      attachmentUrl 
+    }: { 
+      chatId: string; 
+      content: string; 
+      type: ChatMessage['type'];
+      attachmentUrl?: string;
+    }) => {
+      if (!agentId) throw new Error('Agent ID is required');
+      
+      const messageData = ChatService.convertMessageToApiFormat(content, type, attachmentUrl);
+      return ChatService.sendMessage(agentId, chatId, messageData);
+    },
+    onSuccess: (newMessage) => {
+      // Update the cache with the new message
+      queryClient.setQueryData(['chats', agentId], (oldChats: Chat[] = []) => {
+        return oldChats.map(chat => {
+          if (chat.id === newMessage.chatId) {
+            return {
+              ...chat,
+              messages: [...chat.messages, newMessage],
+              lastMessage: newMessage,
+              updatedAt: new Date(),
+            };
+          }
+          return chat;
+        });
+      });
+
+      toast({
+        title: "Mensagem enviada",
+        description: "Sua mensagem foi enviada com sucesso.",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Erro ao enviar mensagem",
+        description: error.message || "Tente novamente em alguns instantes.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Mutation para atualizar configurações do chat
+  const updateSettingsMutation = useMutation({
+    mutationFn: async ({ 
+      chatId, 
+      settings 
+    }: { 
+      chatId: string; 
+      settings: ChatSettingsRequest;
+    }) => {
+      if (!agentId) throw new Error('Agent ID is required');
+      return ChatService.updateChatSettings(agentId, chatId, settings);
+    },
+    onSuccess: (_, { chatId, settings }) => {
+      // Update the cache with new settings
+      queryClient.setQueryData(['chats', agentId], (oldChats: Chat[] = []) => {
+        return oldChats.map(chat => {
+          if (chat.id === chatId) {
+            return {
+              ...chat,
+              user: {
+                ...chat.user,
+                tags: settings.tags,
+              },
+              aiEnabled: settings.activeIa,
+              updatedAt: new Date(),
+            };
+          }
+          return chat;
+        });
+      });
+
+      toast({
+        title: "Configurações atualizadas",
+        description: "As configurações do chat foram salvas.",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Erro ao atualizar configurações",
+        description: error.message || "Tente novamente em alguns instantes.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Get selected chat
+  const selectedChat = chats.find(chat => chat.id === selectedChatId);
+  const messages = selectedChat?.messages || [];
+
+  // Functions
+  const sendMessage = useCallback((
+    chatId: string, 
+    content: string, 
+    type: ChatMessage['type'] = 'text',
+    attachmentUrl?: string
+  ) => {
+    sendMessageMutation.mutate({ chatId, content, type, attachmentUrl });
+  }, [sendMessageMutation]);
+
+  const toggleAI = useCallback((chatId: string) => {
+    const chat = chats.find(c => c.id === chatId);
+    if (!chat) return;
+
+    const settings: ChatSettingsRequest = {
+      tags: chat.user.tags,
+      activeIa: !chat.aiEnabled,
     };
 
-    setMessages(prev => [...prev, newMessage]);
+    updateSettingsMutation.mutate({ chatId, settings });
+  }, [chats, updateSettingsMutation]);
 
-    // Simular resposta da IA após 1-2 segundos
-    if (chats.find(chat => chat.id === chatId)?.aiEnabled) {
-      setTimeout(() => {
-        const aiResponse: ChatMessage = {
-          id: (Date.now() + 1).toString(),
-          chatId,
-          senderId: 'ai',
-          content: 'Esta é uma resposta automática da IA. Em um sistema real, isso seria processado pelo modelo de linguagem configurado.',
-          type: 'text',
-          timestamp: new Date(),
-          isFromUser: false,
-        };
-        setMessages(prev => [...prev, aiResponse]);
-      }, 1000 + Math.random() * 1000);
-    }
-  };
+  const addTag = useCallback((chatId: string, tag: string) => {
+    const chat = chats.find(c => c.id === chatId);
+    if (!chat || chat.user.tags.includes(tag)) return;
 
-  const toggleAI = (chatId: string) => {
-    setChats(prev => prev.map(chat => 
-      chat.id === chatId 
-        ? { ...chat, aiEnabled: !chat.aiEnabled }
-        : chat
-    ));
-  };
+    const settings: ChatSettingsRequest = {
+      tags: [...chat.user.tags, tag],
+      activeIa: chat.aiEnabled,
+    };
 
-  const addTag = (chatId: string, tag: string) => {
-    setChats(prev => prev.map(chat => 
-      chat.id === chatId 
-        ? { 
-            ...chat, 
-            user: { 
-              ...chat.user, 
-              tags: [...chat.user.tags, tag] 
-            }
-          }
-        : chat
-    ));
-  };
+    updateSettingsMutation.mutate({ chatId, settings });
+  }, [chats, updateSettingsMutation]);
 
-  const removeTag = (chatId: string, tag: string) => {
-    setChats(prev => prev.map(chat => 
-      chat.id === chatId 
-        ? { 
-            ...chat, 
-            user: { 
-              ...chat.user, 
-              tags: chat.user.tags.filter(t => t !== tag) 
-            }
-          }
-        : chat
-    ));
-  };
+  const removeTag = useCallback((chatId: string, tag: string) => {
+    const chat = chats.find(c => c.id === chatId);
+    if (!chat) return;
 
-  const selectedChat = chats.find(chat => chat.id === selectedChatId);
-  const chatMessages = messages.filter(msg => msg.chatId === selectedChatId);
+    const settings: ChatSettingsRequest = {
+      tags: chat.user.tags.filter(t => t !== tag),
+      activeIa: chat.aiEnabled,
+    };
+
+    updateSettingsMutation.mutate({ chatId, settings });
+  }, [chats, updateSettingsMutation]);
 
   return {
+    // Data
     chats,
     selectedChat,
     selectedChatId,
+    messages,
+    
+    // States
+    isLoading,
+    error,
+    isSendingMessage: sendMessageMutation.isPending,
+    isUpdatingSettings: updateSettingsMutation.isPending,
+    
+    // Actions
     setSelectedChatId,
-    messages: chatMessages,
     sendMessage,
     toggleAI,
     addTag,
     removeTag,
+    refetch,
   };
 };

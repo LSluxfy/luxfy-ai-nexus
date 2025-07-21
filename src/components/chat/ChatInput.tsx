@@ -6,14 +6,16 @@ import { Send, Paperclip, Mic, Square, Tag } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useToast } from '@/hooks/use-toast';
 
 interface ChatInputProps {
-  onSendMessage: (content: string, type?: 'text' | 'audio' | 'file') => void;
+  onSendMessage: (content: string, type?: 'text' | 'audio' | 'file' | 'image', attachmentUrl?: string) => void;
   onToggleAI: () => void;
   onAddTag: (tag: string) => void;
   onRemoveTag: (tag: string) => void;
   aiEnabled: boolean;
   userTags: string[];
+  disabled?: boolean;
 }
 
 const ChatInput = ({ 
@@ -22,16 +24,19 @@ const ChatInput = ({
   onAddTag, 
   onRemoveTag,
   aiEnabled, 
-  userTags 
+  userTags,
+  disabled = false
 }: ChatInputProps) => {
   const [message, setMessage] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [newTag, setNewTag] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
   const handleSend = () => {
-    if (message.trim()) {
-      onSendMessage(message);
+    if (message.trim() && !disabled) {
+      onSendMessage(message.trim());
       setMessage('');
     }
   };
@@ -43,26 +48,67 @@ const ChatInput = ({
     }
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      onSendMessage(`Arquivo enviado: ${file.name}`, 'file');
+    if (!file || disabled) return;
+
+    setIsUploading(true);
+    
+    try {
+      // In a real implementation, you would upload the file to a service
+      // For now, we'll simulate it and use a placeholder URL
+      const fileUrl = `https://example.com/uploads/${file.name}`;
+      
+      const isImage = file.type.startsWith('image/');
+      const type = isImage ? 'image' : 'file';
+      
+      onSendMessage(
+        isImage ? 'Imagem enviada' : `Arquivo enviado: ${file.name}`, 
+        type,
+        fileUrl
+      );
+
+      toast({
+        title: "Arquivo enviado",
+        description: `${file.name} foi enviado com sucesso.`,
+      });
+    } catch (error) {
+      toast({
+        title: "Erro ao enviar arquivo",
+        description: "Não foi possível enviar o arquivo. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
   const toggleRecording = () => {
+    if (disabled) return;
+    
     if (isRecording) {
-      // Parar gravação
+      // Stop recording
       setIsRecording(false);
       onSendMessage('Áudio gravado', 'audio');
+      toast({
+        title: "Áudio gravado",
+        description: "Sua mensagem de áudio foi enviada.",
+      });
     } else {
-      // Iniciar gravação
+      // Start recording
       setIsRecording(true);
+      toast({
+        title: "Gravando áudio",
+        description: "Clique novamente para parar a gravação.",
+      });
     }
   };
 
   const handleAddTag = () => {
-    if (newTag.trim() && !userTags.includes(newTag.trim())) {
+    if (newTag.trim() && !userTags.includes(newTag.trim()) && !disabled) {
       onAddTag(newTag.trim());
       setNewTag('');
     }
@@ -78,7 +124,7 @@ const ChatInput = ({
             key={tag} 
             variant="secondary" 
             className="bg-luxfy-purple/10 text-luxfy-purple cursor-pointer hover:bg-red-100 hover:text-red-600 transition-colors"
-            onClick={() => onRemoveTag(tag)}
+            onClick={() => !disabled && onRemoveTag(tag)}
           >
             {tag} ×
           </Badge>
@@ -86,7 +132,12 @@ const ChatInput = ({
         
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="ghost" size="sm" className="h-6 px-2 text-xs">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-6 px-2 text-xs"
+              disabled={disabled}
+            >
               + Tag
             </Button>
           </PopoverTrigger>
@@ -97,11 +148,13 @@ const ChatInput = ({
                 value={newTag}
                 onChange={(e) => setNewTag(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleAddTag()}
+                disabled={disabled}
               />
               <Button 
                 onClick={handleAddTag} 
                 size="sm" 
                 className="w-full bg-luxfy-purple hover:bg-luxfy-darkPurple"
+                disabled={disabled}
               >
                 Adicionar Tag
               </Button>
@@ -117,6 +170,7 @@ const ChatInput = ({
           variant={aiEnabled ? "default" : "outline"}
           size="sm"
           className={aiEnabled ? "bg-luxfy-purple hover:bg-luxfy-darkPurple" : ""}
+          disabled={disabled}
         >
           IA {aiEnabled ? 'Ativada' : 'Desativada'}
         </Button>
@@ -134,6 +188,7 @@ const ChatInput = ({
           size="icon"
           onClick={() => fileInputRef.current?.click()}
           className="text-gray-500 hover:text-luxfy-purple"
+          disabled={disabled || isUploading}
         >
           <Paperclip size={20} />
         </Button>
@@ -143,17 +198,19 @@ const ChatInput = ({
           type="file"
           hidden
           onChange={handleFileUpload}
-          accept="*/*"
+          accept="image/*,application/pdf,.doc,.docx,.txt"
+          disabled={disabled}
         />
         
         <div className="flex-1 relative">
           <Textarea
-            placeholder="Digite sua mensagem..."
+            placeholder={disabled ? "Carregando..." : "Digite sua mensagem..."}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
             className="resize-none pr-12 min-h-[40px] max-h-32"
             rows={1}
+            disabled={disabled}
           />
         </div>
         
@@ -162,19 +219,26 @@ const ChatInput = ({
           variant={isRecording ? "destructive" : "ghost"}
           size="icon"
           className={isRecording ? "" : "text-gray-500 hover:text-luxfy-purple"}
+          disabled={disabled}
         >
           {isRecording ? <Square size={20} /> : <Mic size={20} />}
         </Button>
         
         <Button
           onClick={handleSend}
-          disabled={!message.trim()}
+          disabled={!message.trim() || disabled}
           size="icon"
           className="bg-luxfy-purple hover:bg-luxfy-darkPurple disabled:bg-gray-300"
         >
           <Send size={20} />
         </Button>
       </div>
+
+      {isUploading && (
+        <div className="text-xs text-gray-500 text-center">
+          Enviando arquivo...
+        </div>
+      )}
     </div>
   );
 };
