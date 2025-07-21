@@ -17,7 +17,11 @@ export const useInvoices = (filters?: InvoiceFilters) => {
   } = useQuery({
     queryKey: ['invoices', filters],
     queryFn: () => InvoiceService.getInvoices(filters),
-    onError: (error: any) => {
+  });
+
+  // Handle errors with useEffect instead of onError callback
+  useEffect(() => {
+    if (error) {
       console.error('Error loading invoices:', error);
       toast({
         title: 'Erro ao carregar faturas',
@@ -25,7 +29,7 @@ export const useInvoices = (filters?: InvoiceFilters) => {
         variant: 'destructive',
       });
     }
-  });
+  }, [error, toast]);
 
   const downloadInvoice = async (invoiceId: number, fileName?: string) => {
     try {
