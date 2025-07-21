@@ -148,6 +148,8 @@ export const FileViewer = ({
                       size="sm"
                       onClick={() => handleDownload(file)}
                       className="text-gray-600 hover:text-luxfy-purple"
+                    >
+                      <Download size={16} />
                     </Button>
                   )}
                 </div>
