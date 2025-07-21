@@ -131,7 +131,7 @@ export function AgentTraining({ agent, onUpdate }: AgentTrainingProps) {
 
           <div className="space-y-2">
             <Label>Arquivos de Apoio</Label>
-            <SimpleFileUpload onUpload={handleFileUpload} />
+            <SimpleFileUpload onUploadComplete={handleFileUpload} />
             {newItem.files.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {newItem.files.map((file) => (

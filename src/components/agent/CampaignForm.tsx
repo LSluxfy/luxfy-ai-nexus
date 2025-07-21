@@ -232,7 +232,7 @@ export function CampaignForm({ agentId, campaign, onSuccess }: CampaignFormProps
 
       <div className="space-y-2">
         <Label>Anexos</Label>
-        <SimpleFileUpload onUpload={handleFileUpload} />
+        <SimpleFileUpload onUploadComplete={handleFileUpload} />
         {formData.attachments.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {formData.attachments.map((attachment, index) => (
