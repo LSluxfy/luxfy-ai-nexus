@@ -1,4 +1,3 @@
-
 // Tipos de planos
 export type PlanType = 'BASICO' | 'PRO' | 'PREMIUM';
 
@@ -196,4 +195,36 @@ export interface DefaultResponse {
 
 export interface ErrorResponse {
   error: string;
+}
+
+// Tipos para upload de arquivos
+export interface UploadRequest {
+  files: File[];
+  expireAt: string;
+  identificator?: string;
+}
+
+export interface UploadResponse {
+  message: string;
+  urls: string[];
+}
+
+export interface UploadProgress {
+  fileIndex: number;
+  fileName: string;
+  progress: number;
+  status: 'pending' | 'uploading' | 'completed' | 'error';
+  url?: string;
+  error?: string;
+}
+
+export interface FileValidation {
+  isValid: boolean;
+  errors: string[];
+}
+
+export interface UploadConfig {
+  maxFiles: number;
+  maxSizePerFile: number; // em bytes
+  allowedTypes?: string[];
 }
