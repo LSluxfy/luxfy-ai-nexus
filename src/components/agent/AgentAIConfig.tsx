@@ -1,0 +1,198 @@
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
+import { AgentApiService } from '@/services/agentApiService';
+import { ApiAgent } from '@/types/agent-api';
+
+interface AgentAIConfigProps {
+  agent: ApiAgent;
+  onUpdate: (agent: ApiAgent) => void;
+}
+
+export function AgentAIConfig({ agent, onUpdate }: AgentAIConfigProps) {
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    model: agent.model,
+    delayResponse: agent.delayResponse,
+    styleResponse: agent.styleResponse,
+    transferInDistrust: agent.transferInDistrust,
+    ElevenLabsApiKey: agent.ElevenLabsApiKey || '',
+    ElevenLabsVoice: agent.ElevenLabsVoice || '',
+    appointmentsRules: agent.appointmentsRules,
+    appointmentsDefaultDuration: agent.appointmentsDefaultDuration,
+    appointmentsStartTime: agent.appointmentsStartTime,
+    appointmentsEndTime: agent.appointmentsEndTime
+  });
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await AgentApiService.updateAgent(agent.id.toString(), formData);
+      onUpdate(response.agent);
+      toast({
+        title: "Sucesso",
+        description: "Configurações de IA atualizadas com sucesso!",
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao atualizar configurações de IA",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium">Configurações do Modelo IA</h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="model">Modelo de IA</Label>
+            <Select value={formData.model} onValueChange={(value) => setFormData(prev => ({ ...prev, model: value }))}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="gpt-4-turbo">GPT-4 Turbo</SelectItem>
+                <SelectItem value="gpt-4">GPT-4</SelectItem>
+                <SelectItem value="gpt-3.5-turbo">GPT-3.5 Turbo</SelectItem>
+                <SelectItem value="claude-3-opus">Claude 3 Opus</SelectItem>
+                <SelectItem value="claude-3-sonnet">Claude 3 Sonnet</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="style">Estilo de Resposta</Label>
+            <Select value={formData.styleResponse} onValueChange={(value) => setFormData(prev => ({ ...prev, styleResponse: value as any }))}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="CONCISE">Conciso</SelectItem>
+                <SelectItem value="BALANCED">Equilibrado</SelectItem>
+                <SelectItem value="DETAILED">Detalhado</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="delay">Delay de Resposta (ms)</Label>
+          <Input
+            id="delay"
+            type="number"
+            value={formData.delayResponse}
+            onChange={(e) => setFormData(prev => ({ ...prev, delayResponse: parseInt(e.target.value) }))}
+            min="0"
+            max="10000"
+          />
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <Switch
+            checked={formData.transferInDistrust}
+            onCheckedChange={(checked) => setFormData(prev => ({ ...prev, transferInDistrust: checked }))}
+          />
+          <Label>Transferir quando não confiante</Label>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium">Configurações de Voz (ElevenLabs)</h3>
+        
+        <div className="space-y-2">
+          <Label htmlFor="elevenlabs-key">Chave API ElevenLabs</Label>
+          <Input
+            id="elevenlabs-key"
+            type="password"
+            value={formData.ElevenLabsApiKey}
+            onChange={(e) => setFormData(prev => ({ ...prev, ElevenLabsApiKey: e.target.value }))}
+            placeholder="sk_..."
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="elevenlabs-voice">ID da Voz ElevenLabs</Label>
+          <Select value={formData.ElevenLabsVoice} onValueChange={(value) => setFormData(prev => ({ ...prev, ElevenLabsVoice: value }))}>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecionar voz" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="9BWtsMINqrJLrRacOk9x">Aria</SelectItem>
+              <SelectItem value="CwhRBWXzGAHq8TQ4Fs17">Roger</SelectItem>
+              <SelectItem value="EXAVITQu4vr4xnSDxMaL">Sarah</SelectItem>
+              <SelectItem value="FGY2WhTYpPnrIDTdsKH5">Laura</SelectItem>
+              <SelectItem value="IKne3meq5aSn9XLyUdCD">Charlie</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium">Configurações de Agendamento</h3>
+        
+        <div className="space-y-2">
+          <Label htmlFor="appointment-rules">Regras de Agendamento</Label>
+          <Textarea
+            id="appointment-rules"
+            value={formData.appointmentsRules}
+            onChange={(e) => setFormData(prev => ({ ...prev, appointmentsRules: e.target.value }))}
+            rows={3}
+            placeholder="Ex: Não agendar aos domingos e sempre no horário comercial"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="default-duration">Duração Padrão (min)</Label>
+            <Input
+              id="default-duration"
+              type="number"
+              value={formData.appointmentsDefaultDuration}
+              onChange={(e) => setFormData(prev => ({ ...prev, appointmentsDefaultDuration: parseInt(e.target.value) }))}
+              min="15"
+              max="480"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="start-time">Hora Início</Label>
+            <Input
+              id="start-time"
+              type="time"
+              value={formData.appointmentsStartTime}
+              onChange={(e) => setFormData(prev => ({ ...prev, appointmentsStartTime: e.target.value }))}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="end-time">Hora Fim</Label>
+            <Input
+              id="end-time"
+              type="time"
+              value={formData.appointmentsEndTime}
+              onChange={(e) => setFormData(prev => ({ ...prev, appointmentsEndTime: e.target.value }))}
+            />
+          </div>
+        </div>
+      </div>
+
+      <Button type="submit" disabled={loading} className="w-full">
+        {loading ? 'Salvando...' : 'Salvar Configurações'}
+      </Button>
+    </form>
+  );
+}

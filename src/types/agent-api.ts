@@ -19,6 +19,33 @@ export interface Apprenticeship {
   id: string;
 }
 
+export type ApprenticeshipItem = Apprenticeship;
+
+export interface Flow {
+  name: string;
+  keywords: string[];
+  steps: FlowStep[];
+}
+
+export interface ChatData {
+  id: number;
+  agentId: number;
+  number: string;
+  tags: string[];
+  messages: ChatMessage[];
+  messagesCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AgentMetrics {
+  initChats: number;
+  clients: number;
+  finishChats: number;
+  timeResponse: number;
+  satisfaction: number;
+}
+
 // Interface de etapa de fluxo
 export interface FlowStep {
   objective: string;
