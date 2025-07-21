@@ -2,13 +2,13 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import DashboardSidebar from './DashboardSidebar';
-import { useAuth } from '@/contexts/AuthContext';
+import { useApiAuth } from '@/contexts/ApiAuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from './ui/button';
 import { LogOut, User, Moon, Sun } from 'lucide-react';
 
 const DashboardLayout = () => {
-  const { user, signOut } = useAuth();
+  const { user, signOut } = useApiAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
 
   return (
@@ -27,10 +27,13 @@ const DashboardLayout = () => {
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-full bg-luxfy-blue/20 flex items-center justify-center">
-                <User className="h-4 w-4 text-luxfy-blue" />
+              <div className="h-8 w-8 rounded-full bg-blue-800/20 flex items-center justify-center">
+                <User className="h-4 w-4 text-blue-800" />
               </div>
-              <span className="text-sm font-medium dark:text-white">{user?.email}</span>
+              <div className="text-sm">
+                <div className="font-medium dark:text-white">{user?.name} {user?.lastName}</div>
+                <div className="text-xs text-gray-600 dark:text-gray-300">{user?.email}</div>
+              </div>
             </div>
             <Button variant="outline" size="sm" onClick={signOut} className="flex items-center gap-1 dark:text-white dark:border-gray-600">
               <LogOut className="h-4 w-4" />

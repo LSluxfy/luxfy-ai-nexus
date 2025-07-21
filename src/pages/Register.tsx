@@ -1,17 +1,19 @@
 
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useAuth } from '@/contexts/AuthContext';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useApiAuth } from '@/contexts/ApiAuthContext';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from '@/components/LanguageSelector';
 import { Cpu } from 'lucide-react';
+import { PlanType } from '@/types/api';
 import {
   Form,
   FormControl,
@@ -25,24 +27,23 @@ const Register = () => {
   const { t } = useTranslation();
   
   const registerSchema = z.object({
-    firstName: z.string().min(1, t('auth.validation.firstNameRequired')),
-    lastName: z.string().min(1, t('auth.validation.lastNameRequired')),
-    email: z.string().email(t('auth.validation.emailInvalid')),
-    company: z.string().optional(),
-    password: z.string().min(6, t('auth.validation.passwordMinLength')),
-    confirmPassword: z.string().min(6, t('auth.validation.confirmPasswordRequired')),
+    firstName: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres').max(100, 'Nome deve ter no máximo 100 caracteres'),
+    lastName: z.string().min(2, 'Sobrenome deve ter pelo menos 2 caracteres').max(100, 'Sobrenome deve ter no máximo 100 caracteres'),
+    email: z.string().email('Email inválido'),
+    password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres').max(100, 'Senha deve ter no máximo 100 caracteres'),
+    confirmPassword: z.string().min(6, 'Confirmação de senha obrigatória'),
+    plan: z.enum(['BASICO', 'PRO', 'PREMIUM'] as const, { required_error: 'Selecione um plano' }),
     terms: z.boolean().refine(value => value === true, {
-      message: t('auth.validation.termsRequired'),
+      message: 'Você deve aceitar os termos e condições',
     }),
   }).refine(data => data.password === data.confirmPassword, {
-    message: t('auth.validation.passwordsDoNotMatch'),
+    message: 'As senhas não coincidem',
     path: ["confirmPassword"],
   });
 
   type RegisterFormValues = z.infer<typeof registerSchema>;
 
-  const { signUp } = useAuth();
-  const navigate = useNavigate();
+  const { signUp } = useApiAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<RegisterFormValues>({
@@ -51,9 +52,9 @@ const Register = () => {
       firstName: '',
       lastName: '',
       email: '',
-      company: '',
       password: '',
       confirmPassword: '',
+      plan: 'BASICO',
       terms: false,
     },
   });
@@ -61,8 +62,7 @@ const Register = () => {
   const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
     try {
-      await signUp(data.email, data.password, data.firstName, data.lastName);
-      // Auth context will handle navigation after signup
+      await signUp(data.email, data.password, data.firstName, data.lastName, data.plan as PlanType);
     } catch (error) {
       console.error('Registration error:', error);
     } finally {
@@ -159,13 +159,22 @@ const Register = () => {
                 
                 <FormField
                   control={form.control}
-                  name="company"
+                  name="plan"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-700">{t('auth.register.company')}</FormLabel>
-                      <FormControl>
-                        <Input placeholder={t('auth.register.companyPlaceholder')} {...field} className="border-slate-300 focus:border-blue-800" />
-                      </FormControl>
+                      <FormLabel className="text-slate-700">Plano</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="border-slate-300 focus:border-blue-800">
+                            <SelectValue placeholder="Selecione um plano" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="BASICO">Básico</SelectItem>
+                          <SelectItem value="PRO">Pro</SelectItem>
+                          <SelectItem value="PREMIUM">Premium</SelectItem>
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}

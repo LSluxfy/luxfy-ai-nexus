@@ -5,9 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
+import { useApiAuth } from '@/contexts/ApiAuthContext';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -34,9 +32,7 @@ const Login = () => {
 
   type LoginFormValues = z.infer<typeof loginSchema>;
 
-  const { signIn } = useAuth();
-  const { toast } = useToast();
-  const navigate = useNavigate();
+  const { signIn } = useApiAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<LoginFormValues>({
@@ -52,7 +48,6 @@ const Login = () => {
     setIsLoading(true);
     try {
       await signIn(data.email, data.password);
-      // Auth context will handle navigation on successful login
     } catch (error) {
       console.error('Login error:', error);
     } finally {
