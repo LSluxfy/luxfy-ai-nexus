@@ -5,15 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useApiAuth } from '@/contexts/ApiAuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from '@/components/LanguageSelector';
 import { Cpu } from 'lucide-react';
-import { PlanType } from '@/types/api';
+
 import {
   Form,
   FormControl,
@@ -32,7 +31,6 @@ const Register = () => {
     email: z.string().email('Email inválido'),
     password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres').max(100, 'Senha deve ter no máximo 100 caracteres'),
     confirmPassword: z.string().min(6, 'Confirmação de senha obrigatória'),
-    plan: z.enum(['BASICO', 'PRO', 'PREMIUM'] as const, { required_error: 'Selecione um plano' }),
     terms: z.boolean().refine(value => value === true, {
       message: 'Você deve aceitar os termos e condições',
     }),
@@ -43,7 +41,7 @@ const Register = () => {
 
   type RegisterFormValues = z.infer<typeof registerSchema>;
 
-  const { signUp } = useApiAuth();
+  const { signUp } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<RegisterFormValues>({
@@ -54,7 +52,6 @@ const Register = () => {
       email: '',
       password: '',
       confirmPassword: '',
-      plan: 'BASICO',
       terms: false,
     },
   });
@@ -62,7 +59,7 @@ const Register = () => {
   const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
     try {
-      await signUp(data.email, data.password, data.firstName, data.lastName, data.plan as PlanType);
+      await signUp(data.email, data.password, data.firstName, data.lastName);
     } catch (error) {
       console.error('Registration error:', error);
     } finally {
@@ -152,29 +149,6 @@ const Register = () => {
                       <FormControl>
                         <Input placeholder={t('auth.register.emailPlaceholder')} type="email" {...field} className="border-slate-300 focus:border-blue-800" />
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="plan"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-slate-700">Plano</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="border-slate-300 focus:border-blue-800">
-                            <SelectValue placeholder="Selecione um plano" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="BASICO">Básico</SelectItem>
-                          <SelectItem value="PRO">Pro</SelectItem>
-                          <SelectItem value="PREMIUM">Premium</SelectItem>
-                        </SelectContent>
-                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}

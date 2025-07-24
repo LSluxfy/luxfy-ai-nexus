@@ -19,10 +19,10 @@ import AnalyticsPage from "./pages/AnalyticsPage";
 import SettingsPage from "./pages/SettingsPage";
 import AgendaPage from "./pages/AgendaPage";
 import FinanceiroPage from "./pages/FinanceiroPage";
-import { ApiAuthProvider } from "./contexts/ApiAuthContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
-import ApiProtectedRoute from "./components/ApiProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 import './i18n/config';
 
 const queryClient = new QueryClient();
@@ -30,7 +30,7 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-      <ApiAuthProvider>
+      <AuthProvider>
         <ThemeProvider>
           <LanguageProvider>
             <TooltipProvider>
@@ -44,9 +44,9 @@ const App = () => (
                 
                 {/* Área do Dashboard - Protegida */}
                 <Route path="/dashboard" element={
-                  <ApiProtectedRoute>
+                  <ProtectedRoute>
                     <DashboardLayout />
-                  </ApiProtectedRoute>
+                  </ProtectedRoute>
                 }>
                   <Route index element={<Dashboard />} />
                   <Route path="agent/:id" element={<AgentPage />} />
@@ -67,7 +67,7 @@ const App = () => (
             </TooltipProvider>
           </LanguageProvider>
         </ThemeProvider>
-      </ApiAuthProvider>
+      </AuthProvider>
     </BrowserRouter>
   </QueryClientProvider>
 );
