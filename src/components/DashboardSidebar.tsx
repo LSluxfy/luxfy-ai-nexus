@@ -20,11 +20,6 @@ const DashboardSidebar = () => {
       badge: userPlan ? `${agents.length}/${userPlan.max_agents}` : '0/1'
     },
     {
-      label: "Agente",
-      href: "/dashboard/agent",
-      icon: <BookUserIcon className="h-5 w-5" />,
-    },
-    {
       label: "CRM",
       href: "/dashboard/crm",
       icon: <Users className="h-5 w-5" />,

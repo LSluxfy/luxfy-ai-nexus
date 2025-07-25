@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAgents } from '@/hooks/use-agent';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,12 +8,13 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, UserPlus, Trash2 } from 'lucide-react';
+import { Plus, UserPlus, Trash2, Settings } from 'lucide-react';
 import { Agent } from '@/types/agent';
 import { useTranslation } from 'react-i18next';
 
 const AgentsPage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { agents, userPlan, loading, createAgent, deleteAgent, canCreateAgent } = useAgents();
   const [newAgentName, setNewAgentName] = useState('');
   const [newAgentDescription, setNewAgentDescription] = useState('');
@@ -37,6 +39,10 @@ const AgentsPage = () => {
     if (window.confirm(`${t('agents.deleteConfirm')} ${agent.name}?`)) {
       await deleteAgent(agent.id);
     }
+  };
+
+  const handleConfigureAgent = (agent: Agent) => {
+    navigate(`/dashboard/agent/${agent.id}`);
   };
 
   if (loading) {
@@ -159,7 +165,13 @@ const AgentsPage = () => {
                 </p>
               </CardContent>
               <CardFooter className="flex justify-between">
-                <Button variant="outline" size="sm" className="w-full">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full flex items-center gap-2"
+                  onClick={() => handleConfigureAgent(agent)}
+                >
+                  <Settings size={16} />
                   {t('agents.configureAgent')}
                 </Button>
               </CardFooter>

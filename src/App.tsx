@@ -52,10 +52,12 @@ const App = () => (
                 }>
                   <Route index element={<Dashboard />} />
                   <Route path="agent/:id" element={<AgentPage />} />
+                  <Route path="agent" element={<Navigate to="/dashboard/agents" replace />} />
                   <Route path="agents" element={<AgentsPage />} />
                   <Route path="crm" element={<CRMPage />} />
                   <Route path="crm/:agentId" element={<CRMPage />} />
                   <Route path="chat" element={<ChatPage />} />
+                  <Route path="chat/:chatId" element={<ChatPage />} />
                   <Route path="campanhas" element={<CampanhasPage />} />
                   <Route path="agenda" element={<AgendaPage />} />
                   <Route path="analytics" element={<AnalyticsPage />} />

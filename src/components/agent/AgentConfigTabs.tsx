@@ -45,8 +45,8 @@ export function AgentConfigTabs({ agent, onUpdate }: AgentConfigTabsProps) {
 
   const handleOpenChat = (lead: any) => {
     if (lead.chatId) {
-      navigate('/dashboard/chat', {
-        state: {
+      navigate(`/dashboard/chat/${lead.chatId}`, { 
+        state: { 
           selectedUserId: lead.chatId.toString(),
           userName: lead.name
         }

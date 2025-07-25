@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useAgents } from '@/hooks/use-agent';
@@ -8,6 +9,7 @@ import { Trash2, Settings, Bot } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const AgentSettings = () => {
+  const navigate = useNavigate();
   const { agents, loading, deleteAgent, userPlan } = useAgents();
   const { toast } = useToast();
   const [deletingAgent, setDeletingAgent] = useState<string | null>(null);
@@ -82,7 +84,7 @@ const AgentSettings = () => {
                 <Bot className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhum agente criado</h3>
                 <p className="text-gray-600 mb-4">Você ainda não criou nenhum agente de IA.</p>
-                <Button>Criar Primeiro Agente</Button>
+                <Button onClick={() => navigate('/dashboard/agents')}>Criar Primeiro Agente</Button>
               </div>
             ) : (
               <div className="space-y-4">
@@ -99,7 +101,11 @@ const AgentSettings = () => {
                     </div>
                     
                     <div className="flex items-center gap-2">
-                      <Button variant="outline" size="sm">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => navigate(`/dashboard/agent/${agent.id}`)}
+                      >
                         <Settings className="h-4 w-4 mr-1" />
                         Configurar
                       </Button>
