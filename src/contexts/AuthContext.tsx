@@ -64,9 +64,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       (event, currentSession) => {
         console.log('Auth state change:', event);
         setSession(currentSession);
-        setUser(currentSession?.user ?? null);
         
         if (event === 'SIGNED_IN' && currentSession?.user) {
+          // Check if email is confirmed
+          if (!currentSession.user.email_confirmed_at) {
+            const email = currentSession.user.email;
+            setUser(null);
+            setProfile(null);
+            navigate(`/confirm-email?email=${encodeURIComponent(email || '')}`);
+            return;
+          }
+          
+          setUser(currentSession.user);
+          
           // Preserve language setting during login
           const savedLanguage = localStorage.getItem('luxfy-language');
           console.log('Login detected, preserving language:', savedLanguage);
@@ -81,8 +91,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             navigate('/dashboard');
           }, 50);
         } else if (event === 'SIGNED_OUT') {
+          setUser(null);
           setProfile(null);
           navigate('/login');
+        } else {
+          setUser(currentSession?.user ?? null);
         }
       }
     );
@@ -90,10 +103,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Verificar sessão atual
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
       setSession(currentSession);
-      setUser(currentSession?.user ?? null);
       
       if (currentSession?.user) {
+        // Check if email is confirmed
+        if (!currentSession.user.email_confirmed_at) {
+          const email = currentSession.user.email;
+          setUser(null);
+          setProfile(null);
+          navigate(`/confirm-email?email=${encodeURIComponent(email || '')}`);
+          setLoading(false);
+          return;
+        }
+        
+        setUser(currentSession.user);
         fetchUserProfile(currentSession.user.id);
+      } else {
+        setUser(null);
+        setProfile(null);
       }
       
       setLoading(false);
