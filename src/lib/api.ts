@@ -1,6 +1,5 @@
 
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { supabase } from '@/integrations/supabase/client';
 
 const API_BASE_URL = 'https://api.luxfy.app';
 
@@ -12,12 +11,12 @@ export const api: AxiosInstance = axios.create({
   },
 });
 
-// Interceptor para adicionar Supabase JWT token nas requisições
+// Interceptor para adicionar JWT token nas requisições
 api.interceptors.request.use(
-  async (config) => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session?.access_token) {
-      config.headers.Authorization = `Bearer ${session.access_token}`;
+  (config) => {
+    const token = localStorage.getItem('jwt-token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -31,10 +30,10 @@ api.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },
-  async (error) => {
+  (error) => {
     if (error.response?.status === 401) {
-      // Token expirado ou inválido - usar Supabase para logout
-      await supabase.auth.signOut();
+      // Token expirado ou inválido
+      localStorage.removeItem('jwt-token');
       window.location.href = '/login';
     }
     return Promise.reject(error);

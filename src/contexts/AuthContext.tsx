@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast'; // Use the correct import
 import { useNavigate } from 'react-router-dom';
 
@@ -64,19 +64,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       (event, currentSession) => {
         console.log('Auth state change:', event);
         setSession(currentSession);
+        setUser(currentSession?.user ?? null);
         
         if (event === 'SIGNED_IN' && currentSession?.user) {
-          // Check if email is confirmed
-          if (!currentSession.user.email_confirmed_at) {
-            const email = currentSession.user.email;
-            setUser(null);
-            setProfile(null);
-            navigate(`/confirm-email?email=${encodeURIComponent(email || '')}`);
-            return;
-          }
-          
-          setUser(currentSession.user);
-          
           // Preserve language setting during login
           const savedLanguage = localStorage.getItem('luxfy-language');
           console.log('Login detected, preserving language:', savedLanguage);
@@ -91,11 +81,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             navigate('/dashboard');
           }, 50);
         } else if (event === 'SIGNED_OUT') {
-          setUser(null);
           setProfile(null);
           navigate('/login');
-        } else {
-          setUser(currentSession?.user ?? null);
         }
       }
     );
@@ -103,23 +90,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Verificar sessão atual
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
       setSession(currentSession);
+      setUser(currentSession?.user ?? null);
       
       if (currentSession?.user) {
-        // Check if email is confirmed
-        if (!currentSession.user.email_confirmed_at) {
-          const email = currentSession.user.email;
-          setUser(null);
-          setProfile(null);
-          navigate(`/confirm-email?email=${encodeURIComponent(email || '')}`);
-          setLoading(false);
-          return;
-        }
-        
-        setUser(currentSession.user);
         fetchUserProfile(currentSession.user.id);
-      } else {
-        setUser(null);
-        setProfile(null);
       }
       
       setLoading(false);
@@ -136,7 +110,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`,
           data: {
             first_name: firstName,
             last_name: lastName,
@@ -150,11 +123,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       toast({
         title: "Cadastro realizado!",
-        description: "Enviamos um código de verificação para seu email.",
+        description: "Verifique seu email para confirmar sua conta.",
       });
       
-      // Navegar para confirmação de email com o email como parâmetro
-      navigate(`/confirm-email?email=${encodeURIComponent(email)}`);
+      // Navegar para login após registro
+      navigate('/login');
     } catch (error: any) {
       toast({
         title: "Erro no cadastro",

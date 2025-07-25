@@ -7,7 +7,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import EmailConfirmation from "./pages/EmailConfirmation";
 import NotFound from "./pages/NotFound";
 import DashboardLayout from "./components/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
@@ -42,7 +41,6 @@ const App = () => (
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/confirm-email" element={<EmailConfirmation />} />
                 
                 {/* Área do Dashboard - Protegida */}
                 <Route path="/dashboard" element={
@@ -52,12 +50,10 @@ const App = () => (
                 }>
                   <Route index element={<Dashboard />} />
                   <Route path="agent/:id" element={<AgentPage />} />
-                  <Route path="agent" element={<Navigate to="/dashboard/agents" replace />} />
                   <Route path="agents" element={<AgentsPage />} />
                   <Route path="crm" element={<CRMPage />} />
                   <Route path="crm/:agentId" element={<CRMPage />} />
                   <Route path="chat" element={<ChatPage />} />
-                  <Route path="chat/:chatId" element={<ChatPage />} />
                   <Route path="campanhas" element={<CampanhasPage />} />
                   <Route path="agenda" element={<AgendaPage />} />
                   <Route path="analytics" element={<AnalyticsPage />} />

@@ -15,11 +15,10 @@ import { Button } from '@/components/ui/button';
 const ChatPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { chatId } = useParams<{ chatId?: string }>();
+  const { agentId } = useParams<{ agentId?: string }>();
   
-  // Get chatId from URL params or location state
-  const selectedUserId = chatId || location.state?.selectedUserId;
-  const userName = location.state?.userName;
+  // Get agentId from URL params or location state
+  const currentAgentId = agentId || location.state?.agentId || '1';
 
   const {
     chats,
@@ -37,16 +36,16 @@ const ChatPage = () => {
     isUpdatingSettings,
     refetch,
   } = useChat({
-    agentId: '1', // Default agent ID for chat functionality
-    enabled: true
+    agentId: currentAgentId,
+    enabled: !!currentAgentId
   });
 
-  // Check if coming from CRM with a specific lead or URL params
+  // Check if coming from CRM with a specific lead
   useEffect(() => {
-    if (selectedUserId) {
-      setSelectedChatId(selectedUserId);
+    if (location.state?.selectedUserId) {
+      setSelectedChatId(location.state.selectedUserId);
     }
-  }, [selectedUserId, setSelectedChatId]);
+  }, [location.state, setSelectedChatId]);
 
   if (error) {
     return (
@@ -83,7 +82,7 @@ const ChatPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <DashboardHeader 
-        title={`${t('chat.title')} ${userName ? `- ${userName}` : ''}`} 
+        title={`${t('chat.title')} ${currentAgentId ? `- Agente ${currentAgentId}` : ''}`} 
       />
       
       <main className="flex-1 flex bg-gray-50">
