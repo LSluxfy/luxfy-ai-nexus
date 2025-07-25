@@ -110,6 +110,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email,
         password,
         options: {
+          emailRedirectTo: `${window.location.origin}/dashboard`,
           data: {
             first_name: firstName,
             last_name: lastName,
@@ -123,11 +124,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       toast({
         title: "Cadastro realizado!",
-        description: "Verifique seu email para confirmar sua conta.",
+        description: "Enviamos um código de verificação para seu email.",
       });
       
-      // Navegar para login após registro
-      navigate('/login');
+      // Navegar para confirmação de email com o email como parâmetro
+      navigate(`/confirm-email?email=${encodeURIComponent(email)}`);
     } catch (error: any) {
       toast({
         title: "Erro no cadastro",
