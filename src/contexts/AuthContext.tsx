@@ -61,10 +61,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         };
         setSession(sessionData);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching user data:', error);
+      
+      // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
+      if (error.response?.status === 402) {
+        const errorData = error.response?.data;
+        if (errorData?.invoice) {
+          navigate(`/pending-invoice?invoice=${errorData.invoice}`);
+          return;
+        }
+      }
+      
       localStorage.removeItem('jwt-token');
       localStorage.removeItem('user-data');
+      throw error;
     }
   };
 
@@ -72,10 +83,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const token = localStorage.getItem('jwt-token');
     
     if (token) {
-      fetchUserData();
+      fetchUserData().catch(() => {
+        // Se der erro na verificação inicial, apenas define loading como false
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
     }
-    
-    setLoading(false);
   }, []);
 
   const signUp = async (email: string, password: string, firstName: string, lastName: string, plan: string = 'BASICO') => {
