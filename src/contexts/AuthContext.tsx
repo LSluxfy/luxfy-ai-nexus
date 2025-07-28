@@ -122,33 +122,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         try {
           await fetchUserData();
         } catch (fetchError: any) {
-          // Se for erro 402 (fatura pendente), ainda permite login mas com aviso
+          // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
           if (fetchError.response?.status === 402) {
-            console.log('Login com fatura pendente - redirecionando para dashboard');
-            // Cria um user básico para permitir navegação
-            const basicUser = {
-              id: 0,
-              email,
-              userName: email.split('@')[0],
-              name: '',
-              lastName: '',
-              loginMethod: 'EMAIL',
-              verificationCode: '',
-              numberAgentes: 0,
-              plan: 'BASICO',
-              profileExpire: null,
-              appointments: [],
-              createAt: '',
-              lastLogin: null,
-              updateAt: null,
-              agents: [],
-              invoices: []
-            };
-            setUser(basicUser);
-            setSession({
-              user: basicUser,
-              jwt: response.data.jwt
-            });
+            const errorData = fetchError.response?.data;
+            if (errorData?.invoice) {
+              navigate(`/pending-invoice?invoice=${errorData.invoice}`);
+              return;
+            }
           } else {
             throw fetchError;
           }
