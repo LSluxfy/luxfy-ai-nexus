@@ -11,13 +11,10 @@ import {
 } from '@/types/appointment';
 
 export class AppointmentService {
-  // Create new appointment for an agent
-  static async createAppointment(
-    agentId: string, 
-    data: CreateAppointmentRequest
-  ): Promise<CreateAppointmentResponse> {
+  // Create new appointment
+  static async createAppointment(data: CreateAppointmentRequest): Promise<CreateAppointmentResponse> {
     try {
-      const response = await api.post(`/v1/appointments/create/${agentId}`, data);
+      const response = await api.post('/v1/appointments/create', data);
       return response.data;
     } catch (error: any) {
       console.error('Error creating appointment:', error);
@@ -31,7 +28,7 @@ export class AppointmentService {
     data: UpdateAppointmentRequest
   ): Promise<UpdateAppointmentResponse> {
     try {
-      const response = await api.put(`/v1/appointments/edit/${appointmentId}`, data);
+      const response = await api.put(`/v1/appointments/${appointmentId}`, data);
       return response.data;
     } catch (error: any) {
       console.error('Error updating appointment:', error);
@@ -42,7 +39,7 @@ export class AppointmentService {
   // Delete appointment
   static async deleteAppointment(appointmentId: string): Promise<DeleteAppointmentResponse> {
     try {
-      const response = await api.delete(`/v1/appointments/delete/${appointmentId}`);
+      const response = await api.delete(`/v1/appointments/${appointmentId}`);
       return response.data;
     } catch (error: any) {
       console.error('Error deleting appointment:', error);
@@ -50,8 +47,22 @@ export class AppointmentService {
     }
   }
 
-  // Format appointment data for API
-  static formatAppointmentData(formData: any): CreateAppointmentRequest | UpdateAppointmentRequest {
+  // Format appointment data for create
+  static formatCreateAppointmentData(formData: any): CreateAppointmentRequest {
+    return {
+      agentId: formData.agentId,
+      title: formData.title,
+      clientName: formData.clientName,
+      dateTime: formData.dateTime,
+      local: formData.local,
+      observations: formData.observations || undefined,
+      type: formData.type,
+      duration: parseInt(formData.duration.toString())
+    };
+  }
+
+  // Format appointment data for update
+  static formatUpdateAppointmentData(formData: any): UpdateAppointmentRequest {
     return {
       title: formData.title,
       clientName: formData.clientName,

@@ -80,8 +80,8 @@ export interface ChatMessage {
   by: MessageSender;
 }
 
-// Interface de chat
-export interface Chat {
+// Interface de chat conforme nova API
+export interface AgentChat {
   id: number;
   agentId: number;
   number: string;
@@ -153,7 +153,7 @@ export interface ApiAgent {
   apprenticeship: Apprenticeship[];
   flow: ConversationFlow[];
   metrics: Record<string, Record<string, MonthlyMetrics>>;
-  chats: Chat[];
+  chats: AgentChat[];
   tags: string[];
   Faq: string;
   appointments: Appointment[];

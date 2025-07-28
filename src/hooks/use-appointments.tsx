@@ -20,8 +20,8 @@ export function useAppointments() {
   ) => {
     setLoading(true);
     try {
-      const appointmentData = AppointmentService.formatAppointmentData(formData);
-      const response = await AppointmentService.createAppointment(agentId, appointmentData);
+      const appointmentData = AppointmentService.formatCreateAppointmentData({ ...formData, agentId });
+      const response = await AppointmentService.createAppointment(appointmentData);
       
       toast({
         title: "Sucesso",
@@ -52,7 +52,7 @@ export function useAppointments() {
   ) => {
     setLoading(true);
     try {
-      const appointmentData = AppointmentService.formatAppointmentData(formData);
+      const appointmentData = AppointmentService.formatUpdateAppointmentData(formData);
       const response = await AppointmentService.updateAppointment(appointmentId, appointmentData);
       
       toast({

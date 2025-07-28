@@ -25,7 +25,7 @@ interface User {
 
 interface Session {
   user: User;
-  jwt: string;
+  token: string;
 }
 
 interface AuthContextType {
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(userData);
         const sessionData = {
           user: userData,
-          jwt: localStorage.getItem('jwt-token') || ''
+          token: localStorage.getItem('jwt-token') || ''
         };
         setSession(sessionData);
       }
@@ -130,8 +130,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         password
       });
 
-      if (response.data.jwt) {
-        localStorage.setItem('jwt-token', response.data.jwt);
+      if (response.data.token) {
+        localStorage.setItem('jwt-token', response.data.token);
         
         try {
           await fetchUserData();
@@ -210,9 +210,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const verifyUser = async (email: string, verificationCode: string) => {
     try {
       setLoading(true);
-      const response = await api.put('/v1/user/verify', {
+      const response = await api.post('/v1/user/verify-email', {
         email,
-        verificationCode
+        code: verificationCode
       });
 
       toast({
@@ -246,7 +246,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const requestPasswordReset = async (email: string) => {
     try {
       setLoading(true);
-      const response = await api.post('/v1/user/redeem-password', {
+      const response = await api.post('/v1/user/forgot-password', {
         email
       });
 

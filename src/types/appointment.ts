@@ -16,6 +16,7 @@ export interface ApiAppointment {
 }
 
 export interface CreateAppointmentRequest {
+  agentId: number;
   title: string;
   clientName: string;
   dateTime: string;
@@ -26,13 +27,13 @@ export interface CreateAppointmentRequest {
 }
 
 export interface UpdateAppointmentRequest {
-  title: string;
-  clientName: string;
-  dateTime: string;
-  local: string;
+  title?: string;
+  clientName?: string;
+  dateTime?: string;
+  local?: string;
   observations?: string;
-  type: string;
-  duration: number;
+  type?: string;
+  duration?: number;
 }
 
 export interface CreateAppointmentResponse {
