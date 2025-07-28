@@ -1,7 +1,7 @@
 
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
-const API_BASE_URL = 'https://api.luxfy.app';
+const API_BASE_URL = 'http://localhost:3000';
 
 // Criar instância do axios
 export const api: AxiosInstance = axios.create({

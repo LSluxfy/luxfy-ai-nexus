@@ -31,6 +31,7 @@ const Register = () => {
     email: z.string().email('Email inválido'),
     password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres').max(100, 'Senha deve ter no máximo 100 caracteres'),
     confirmPassword: z.string().min(6, 'Confirmação de senha obrigatória'),
+    plan: z.enum(['BASICO', 'PRO', 'PREMIUM']).default('BASICO'),
     terms: z.boolean().refine(value => value === true, {
       message: 'Você deve aceitar os termos e condições',
     }),
@@ -52,6 +53,7 @@ const Register = () => {
       email: '',
       password: '',
       confirmPassword: '',
+      plan: 'BASICO' as const,
       terms: false,
     },
   });
@@ -59,7 +61,7 @@ const Register = () => {
   const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
     try {
-      await signUp(data.email, data.password, data.firstName, data.lastName);
+      await signUp(data.email, data.password, data.firstName, data.lastName, data.plan);
     } catch (error) {
       console.error('Registration error:', error);
     } finally {

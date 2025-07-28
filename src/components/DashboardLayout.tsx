@@ -8,7 +8,7 @@ import { Button } from './ui/button';
 import { LogOut, User, Moon, Sun } from 'lucide-react';
 
 const DashboardLayout = () => {
-  const { user, profile, signOut } = useAuth();
+  const { user, signOut } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
 
   return (
@@ -31,7 +31,7 @@ const DashboardLayout = () => {
                 <User className="h-4 w-4 text-blue-800" />
               </div>
               <div className="text-sm">
-                <div className="font-medium dark:text-white">{profile?.first_name} {profile?.last_name}</div>
+                <div className="font-medium dark:text-white">{user?.name} {user?.lastName}</div>
                 <div className="text-xs text-gray-600 dark:text-gray-300">{user?.email}</div>
               </div>
             </div>

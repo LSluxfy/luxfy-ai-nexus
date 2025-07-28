@@ -9,33 +9,19 @@ import { User, Mail, Calendar } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const AccountSettings = () => {
-  const { user, profile, updateProfile } = useAuth();
+  const { user } = useAuth();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    first_name: profile?.first_name || '',
-    last_name: profile?.last_name || '',
+    name: user?.name || '',
+    lastName: user?.lastName || '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      await updateProfile(formData);
-      toast({
-        title: "Perfil atualizado",
-        description: "Suas informações foram atualizadas com sucesso.",
-      });
-    } catch (error) {
-      toast({
-        title: "Erro ao atualizar",
-        description: "Não foi possível atualizar suas informações.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    toast({
+      title: "Informação",
+      description: "A edição de perfil não está disponível nesta versão.",
+    });
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -58,21 +44,21 @@ const AccountSettings = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="first_name">Nome</Label>
+                <Label htmlFor="name">Nome</Label>
                 <Input
-                  id="first_name"
-                  value={formData.first_name}
-                  onChange={(e) => handleInputChange('first_name', e.target.value)}
-                  placeholder="Seu nome"
+                  id="name"
+                  value={user?.name || ''}
+                  disabled
+                  className="bg-gray-100"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="last_name">Sobrenome</Label>
+                <Label htmlFor="lastName">Sobrenome</Label>
                 <Input
-                  id="last_name"
-                  value={formData.last_name}
-                  onChange={(e) => handleInputChange('last_name', e.target.value)}
-                  placeholder="Seu sobrenome"
+                  id="lastName"
+                  value={user?.lastName || ''}
+                  disabled
+                  className="bg-gray-100"
                 />
               </div>
             </div>
@@ -93,9 +79,9 @@ const AccountSettings = () => {
               </p>
             </div>
 
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? 'Salvando...' : 'Salvar Alterações'}
-            </Button>
+            <p className="text-sm text-gray-500">
+              As informações pessoais não podem ser editadas nesta versão da aplicação.
+            </p>
           </form>
         </CardContent>
       </Card>
@@ -121,9 +107,19 @@ const AccountSettings = () => {
                 {user?.id || 'N/A'}
               </span>
             </div>
+            <div className="flex justify-between items-center py-2 border-b">
+              <span className="font-medium">Plano</span>
+              <span className="text-blue-600 font-medium">{user?.plan || 'BASICO'}</span>
+            </div>
+            <div className="flex justify-between items-center py-2 border-b">
+              <span className="font-medium">Número de Agentes</span>
+              <span className="text-gray-600">{user?.numberAgentes || 0}</span>
+            </div>
             <div className="flex justify-between items-center py-2">
-              <span className="font-medium">Status da Conta</span>
-              <span className="text-green-600 font-medium">Ativa</span>
+              <span className="font-medium">Data de Criação</span>
+              <span className="text-gray-600">
+                {user?.createAt ? new Date(user.createAt).toLocaleDateString('pt-BR') : 'N/A'}
+              </span>
             </div>
           </div>
         </CardContent>

@@ -1,17 +1,14 @@
-
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
 import { useAuth } from '@/contexts/AuthContext';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useTranslation } from 'react-i18next';
-import LanguageSelector from '@/components/LanguageSelector';
-import { Cpu } from 'lucide-react';
+import { Cpu, Mail } from 'lucide-react';
+
 import {
   Form,
   FormControl,
@@ -21,35 +18,34 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-const Login = () => {
-  const { t } = useTranslation();
+const VerifyEmail = () => {
+  const location = useLocation();
+  const email = location.state?.email || '';
   
-  const loginSchema = z.object({
-    email: z.string().email(t('auth.validation.emailInvalid')),
-    password: z.string().min(6, t('auth.validation.passwordMinLength')),
-    remember: z.boolean().optional(),
+  const verifySchema = z.object({
+    email: z.string().email('Email inválido'),
+    verificationCode: z.string().min(1, 'Código de verificação é obrigatório'),
   });
 
-  type LoginFormValues = z.infer<typeof loginSchema>;
+  type VerifyFormValues = z.infer<typeof verifySchema>;
 
-  const { signIn } = useAuth();
+  const { verifyUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<VerifyFormValues>({
+    resolver: zodResolver(verifySchema),
     defaultValues: {
-      email: '',
-      password: '',
-      remember: false,
+      email: email,
+      verificationCode: '',
     },
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
+  const onSubmit = async (data: VerifyFormValues) => {
     setIsLoading(true);
     try {
-      await signIn(data.email, data.password);
+      await verifyUser(data.email, data.verificationCode);
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Verification error:', error);
     } finally {
       setIsLoading(false);
     }
@@ -80,20 +76,22 @@ const Login = () => {
             </div>
             <span className="text-3xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">Luxfy</span>
           </Link>
-          <h2 className="text-3xl font-bold text-slate-900">{t('auth.login.title')}</h2>
-          <p className="mt-2 text-slate-600">
-            {t('auth.login.subtitle')}
-          </p>
-          <div className="mt-4 flex justify-center">
-            <LanguageSelector />
+          <div className="flex justify-center mb-4">
+            <div className="h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center">
+              <Mail className="w-8 h-8 text-blue-800" />
+            </div>
           </div>
+          <h2 className="text-3xl font-bold text-slate-900">Verificar Email</h2>
+          <p className="mt-2 text-slate-600">
+            Enviamos um código de verificação para seu email
+          </p>
         </div>
         
         <Card className="border-slate-200 bg-white/80 backdrop-blur-sm shadow-lg shadow-blue-800/5">
           <CardHeader>
-            <CardTitle className="text-slate-900">{t('auth.login.cardTitle')}</CardTitle>
+            <CardTitle className="text-slate-900">Confirmar Conta</CardTitle>
             <CardDescription className="text-slate-600">
-              {t('auth.login.cardDescription')}
+              Digite o código que enviamos para {email || 'seu email'}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -104,82 +102,44 @@ const Login = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-700">{t('auth.login.email')}</FormLabel>
+                      <FormLabel className="text-slate-700">Email</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder={t('auth.login.emailPlaceholder')} 
-                          type="email" 
-                          {...field} 
-                          className="border-slate-300 focus:border-blue-800"
-                        />
+                        <Input placeholder="seu@email.com" type="email" {...field} className="border-slate-300 focus:border-blue-800" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-
+                
                 <FormField
                   control={form.control}
-                  name="password"
+                  name="verificationCode"
                   render={({ field }) => (
                     <FormItem>
-                      <div className="flex items-center justify-between">
-                        <FormLabel className="text-slate-700">{t('auth.login.password')}</FormLabel>
-                        <Link to="/forgot-password" className="text-sm text-blue-800 hover:underline">
-                          {t('auth.login.forgotPassword')}
-                        </Link>
-                      </div>
+                      <FormLabel className="text-slate-700">Código de Verificação</FormLabel>
                       <FormControl>
-                        <Input
-                          type="password"
-                          placeholder={t('auth.login.passwordPlaceholder')}
-                          {...field}
-                          className="border-slate-300 focus:border-blue-800"
-                        />
+                        <Input placeholder="Digite o código" {...field} className="border-slate-300 focus:border-blue-800" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-
-                <FormField
-                  control={form.control}
-                  name="remember"
-                  render={({ field }) => (
-                    <FormItem className="flex items-center space-x-2">
-                      <FormControl>
-                        <Checkbox 
-                          checked={field.value} 
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormLabel className="text-sm font-medium leading-none cursor-pointer text-slate-700">
-                        {t('auth.login.rememberMe')}
-                      </FormLabel>
-                    </FormItem>
-                  )}
-                />
-
+                
                 <Button 
                   type="submit" 
                   className="w-full bg-gradient-to-r from-blue-800 to-blue-700 hover:from-blue-900 hover:to-blue-800"
                   disabled={isLoading}
                 >
-                  {isLoading ? t('auth.login.loginButtonLoading') : t('auth.login.loginButton')}
+                  {isLoading ? 'Verificando...' : 'Verificar Conta'}
                 </Button>
               </form>
             </Form>
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
-            <p className="text-center text-sm text-slate-600">
-              <Link to="/forgot-password" className="text-blue-800 hover:underline">
-                Esqueci minha senha
-              </Link>
-            </p>
             <p className="text-center text-sm text-slate-600 mt-4">
-              {t('auth.login.noAccount')}{' '}
-              <Link to="/register" className="text-blue-800 hover:underline font-medium">
-                {t('auth.login.registerLink')}
+              Já verificou sua conta?{' '}
+              <Link to="/login" className="text-blue-800 hover:underline font-medium">
+                Fazer Login
               </Link>
             </p>
           </CardFooter>
@@ -189,4 +149,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default VerifyEmail;
