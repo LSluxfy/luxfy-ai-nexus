@@ -135,25 +135,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         
         try {
           await fetchUserData();
+          
+          // Se chegou aqui, não há fatura pendente - pode continuar
+          toast({
+            title: "Login realizado com sucesso!",
+            description: "Bem-vindo de volta.",
+          });
+
+          navigate('/dashboard');
         } catch (fetchError: any) {
+          console.log('Erro ao buscar dados do usuário:', fetchError);
           // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
           if (fetchError.response?.status === 402) {
             const errorData = fetchError.response?.data;
+            console.log('Fatura pendente detectada:', errorData);
             if (errorData?.invoice) {
+              console.log('Redirecionando para:', `/pending-invoice?invoice=${errorData.invoice}`);
               navigate(`/pending-invoice?invoice=${errorData.invoice}`);
-              return;
+              return; // Para aqui - não executa o resto
             }
-          } else {
-            throw fetchError;
           }
+          
+          // Se não for erro 402, relança o erro
+          throw fetchError;
         }
 
-        toast({
-          title: "Login realizado com sucesso!",
-          description: "Bem-vindo de volta.",
-        });
-
-        navigate('/dashboard');
       }
     } catch (error: any) {
       let errorMessage = 'Erro ao fazer login';
