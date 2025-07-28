@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus, UserPlus, Trash2 } from 'lucide-react';
-import { Agent } from '@/types/agent';
+import { Agent } from '@/hooks/use-agent';
 import { useTranslation } from 'react-i18next';
 
 const AgentsPage = () => {

@@ -1,18 +1,24 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Session, User } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
-import { useToast } from '@/hooks/use-toast'; // Use the correct import
+import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
+import { api } from '@/lib/api';
 
-// Interface para o perfil do usuário
+interface User {
+  id: string;
+  email: string;
+}
+
+interface Session {
+  user: User;
+  access_token: string;
+}
+
 interface UserProfile {
   id: string;
-  first_name: string | null;
-  last_name: string | null;
-  avatar_url: string | null;
-  created_at?: string;
-  updated_at?: string;
+  first_name?: string;
+  last_name?: string;
+  avatar_url?: string;
 }
 
 interface AuthContextType {
@@ -23,7 +29,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
-  updateProfile: (data: Partial<UserProfile>) => Promise<void>;
+  updateProfile: (updates: Partial<UserProfile>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -36,182 +42,184 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Função para buscar perfil do usuário
-  const fetchUserProfile = async (userId: string) => {
+  const fetchProfile = async (userId: string) => {
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
-
-      if (error) {
-        console.error('Erro ao buscar perfil:', error);
-        return;
+      const response = await api.get(`/v1/user/profile/${userId}`);
+      if (response.data.profile) {
+        setProfile(response.data.profile);
       }
-
-      if (data) {
-        setProfile(data as UserProfile);
-      }
-    } catch (error: any) {
-      console.error('Erro ao buscar perfil:', error.message);
+    } catch (error) {
+      console.error('Error fetching profile:', error);
     }
   };
 
   useEffect(() => {
-    // Configurar listener para mudanças no estado de autenticação
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, currentSession) => {
-        console.log('Auth state change:', event);
-        setSession(currentSession);
-        setUser(currentSession?.user ?? null);
-        
-        if (event === 'SIGNED_IN' && currentSession?.user) {
-          // Preserve language setting during login
-          const savedLanguage = localStorage.getItem('luxfy-language');
-          console.log('Login detected, preserving language:', savedLanguage);
-          
-          // Usar setTimeout para evitar bloqueio de callback
-          setTimeout(() => {
-            fetchUserProfile(currentSession.user.id);
-          }, 0);
-          
-          // Navigate after a small delay to ensure language context is stable
-          setTimeout(() => {
-            navigate('/dashboard');
-          }, 50);
-        } else if (event === 'SIGNED_OUT') {
-          setProfile(null);
-          navigate('/login');
-        }
+    // Verificar se há token armazenado
+    const token = localStorage.getItem('jwt-token');
+    const userData = localStorage.getItem('user-data');
+    
+    if (token && userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        const sessionData = {
+          user: parsedUser,
+          access_token: token
+        };
+        setSession(sessionData);
+        setUser(parsedUser);
+        fetchProfile(parsedUser.id);
+      } catch (error) {
+        console.error('Error parsing stored user data:', error);
+        localStorage.removeItem('jwt-token');
+        localStorage.removeItem('user-data');
       }
-    );
-
-    // Verificar sessão atual
-    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
-      setSession(currentSession);
-      setUser(currentSession?.user ?? null);
-      
-      if (currentSession?.user) {
-        fetchUserProfile(currentSession.user.id);
-      }
-      
-      setLoading(false);
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [navigate]);
+    }
+    
+    setLoading(false);
+  }, []);
 
   const signUp = async (email: string, password: string, firstName: string, lastName: string) => {
     try {
-      const { error } = await supabase.auth.signUp({
+      setLoading(true);
+      const response = await api.post('/v1/auth/register', {
         email,
         password,
-        options: {
-          data: {
-            first_name: firstName,
-            last_name: lastName,
-          }
+        first_name: firstName,
+        last_name: lastName
+      });
+
+      if (response.data.user && response.data.token) {
+        const sessionData = {
+          user: response.data.user,
+          access_token: response.data.token
+        };
+        
+        localStorage.setItem('jwt-token', response.data.token);
+        localStorage.setItem('user-data', JSON.stringify(response.data.user));
+        
+        setSession(sessionData);
+        setUser(response.data.user);
+        
+        if (response.data.profile) {
+          setProfile(response.data.profile);
         }
-      });
 
-      if (error) {
-        throw error;
+        toast({
+          title: "Conta criada com sucesso!",
+          description: "Bem-vindo ao sistema.",
+        });
+
+        navigate('/dashboard');
       }
-
-      toast({
-        title: "Cadastro realizado!",
-        description: "Verifique seu email para confirmar sua conta.",
-      });
-      
-      // Navegar para login após registro
-      navigate('/login');
     } catch (error: any) {
+      const errorMessage = error.response?.data?.message || error.message || 'Erro ao criar conta';
       toast({
-        title: "Erro no cadastro",
-        description: error.message,
+        title: "Erro ao criar conta",
+        description: errorMessage,
         variant: "destructive",
       });
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
   const signIn = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      setLoading(true);
+      const response = await api.post('/v1/auth/login', {
         email,
-        password,
+        password
       });
 
-      if (error) {
-        throw error;
+      if (response.data.user && response.data.token) {
+        const sessionData = {
+          user: response.data.user,
+          access_token: response.data.token
+        };
+        
+        localStorage.setItem('jwt-token', response.data.token);
+        localStorage.setItem('user-data', JSON.stringify(response.data.user));
+        
+        setSession(sessionData);
+        setUser(response.data.user);
+        
+        if (response.data.profile) {
+          setProfile(response.data.profile);
+        } else {
+          await fetchProfile(response.data.user.id);
+        }
+
+        toast({
+          title: "Login realizado com sucesso!",
+          description: "Bem-vindo de volta.",
+        });
+
+        navigate('/dashboard');
       }
-
-      toast({
-        title: "Login realizado!",
-        description: "Bem-vindo ao seu painel Luxfy.",
-      });
     } catch (error: any) {
+      const errorMessage = error.response?.data?.message || error.message || 'Erro ao fazer login';
       toast({
-        title: "Erro no login",
-        description: error.message,
+        title: "Erro ao fazer login",
+        description: errorMessage,
         variant: "destructive",
       });
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
   const signOut = async () => {
     try {
-      await supabase.auth.signOut();
+      // Fazer logout na API se necessário
+      try {
+        await api.post('/v1/auth/logout');
+      } catch (error) {
+        console.error('Error during API logout:', error);
+      }
+
+      localStorage.removeItem('jwt-token');
+      localStorage.removeItem('user-data');
+      setSession(null);
+      setUser(null);
+      setProfile(null);
+      
       toast({
-        title: "Logout realizado",
-        description: "Você foi desconectado com sucesso.",
+        title: "Logout realizado com sucesso",
+        description: "Até logo!",
       });
+
+      navigate('/login');
     } catch (error: any) {
+      console.error('Error during sign out:', error);
       toast({
-        title: "Erro ao sair",
-        description: error.message,
+        title: "Erro ao fazer logout",
+        description: "Ocorreu um erro, mas você foi desconectado.",
         variant: "destructive",
       });
     }
   };
 
-  const updateProfile = async (data: Partial<UserProfile>) => {
-    if (!user) {
-      toast({
-        title: "Erro",
-        description: "Usuário não autenticado",
-        variant: "destructive",
-      });
-      return;
-    }
-
+  const updateProfile = async (updates: Partial<UserProfile>) => {
     try {
-      const { error } = await supabase
-        .from('profiles')
-        .update(data)
-        .eq('id', user.id);
-
-      if (error) {
-        throw error;
+      const response = await api.put('/v1/user/profile', updates);
+      
+      if (response.data.profile) {
+        setProfile(response.data.profile);
+        toast({
+          title: "Perfil atualizado",
+          description: "Suas informações foram atualizadas com sucesso.",
+        });
       }
-
-      // Atualizar perfil local
-      if (profile) {
-        setProfile({ ...profile, ...data });
-      }
-
-      toast({
-        title: "Perfil atualizado",
-        description: "Suas informações foram atualizadas com sucesso.",
-      });
     } catch (error: any) {
+      const errorMessage = error.response?.data?.message || error.message || 'Erro ao atualizar perfil';
       toast({
         title: "Erro ao atualizar perfil",
-        description: error.message,
+        description: errorMessage,
         variant: "destructive",
       });
+      throw new Error(errorMessage);
     }
   };
 
@@ -225,7 +233,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         signUp,
         signIn,
         signOut,
-        updateProfile
+        updateProfile,
       }}
     >
       {children}

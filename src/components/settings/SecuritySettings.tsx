@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Lock, Shield, AlertTriangle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 const SecuritySettings = () => {
@@ -42,11 +42,10 @@ const SecuritySettings = () => {
     setIsChangingPassword(true);
 
     try {
-      const { error } = await supabase.auth.updateUser({
-        password: passwordForm.newPassword
+      await api.put('/v1/auth/password', {
+        currentPassword: passwordForm.currentPassword,
+        newPassword: passwordForm.newPassword
       });
-
-      if (error) throw error;
 
       toast({
         title: "Senha alterada",

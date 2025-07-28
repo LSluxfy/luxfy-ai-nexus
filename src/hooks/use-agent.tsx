@@ -1,9 +1,29 @@
 
 import { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
-import { Agent, UserPlan } from '@/types/agent';
+import { api } from '@/lib/api';
+
+export interface Agent {
+  id: string;
+  name: string;
+  description?: string;
+  personality?: string;
+  training_data?: string;
+  voice_enabled?: boolean;
+  user_id: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UserPlan {
+  id: string;
+  user_id: string;
+  plan_type: string;
+  max_agents: number;
+  created_at: string;
+  updated_at: string;
+}
 
 export function useAgents() {
   const [agents, setAgents] = useState<Agent[]>([]);
@@ -12,181 +32,173 @@ export function useAgents() {
   const { toast } = useToast();
   const { user } = useAuth();
 
-  // Fetch user's agents
   const fetchAgents = async () => {
     if (!user) return;
     
     try {
-      setLoading(true);
-      
-      const { data: agents, error } = await supabase
-        .from('ai_agents')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      
-      setAgents(agents as Agent[]);
+      const response = await api.get('/v1/agents');
+      if (response.data.agents) {
+        setAgents(response.data.agents);
+      }
     } catch (error: any) {
+      console.error('Error fetching agents:', error);
       toast({
         title: "Erro ao carregar agentes",
-        description: error.message,
+        description: error.response?.data?.message || error.message,
         variant: "destructive",
       });
-    } finally {
-      setLoading(false);
     }
   };
 
-  // Fetch user's plan
   const fetchUserPlan = async () => {
     if (!user) return;
     
     try {
-      const { data, error } = await supabase
-        .from('user_plans')
-        .select('*')
-        .single();
-
-      if (error) {
-        // If no plan exists, create a default one
-        if (error.code === 'PGRST116') {
-          const { data: newPlan, error: createError } = await supabase
-            .from('user_plans')
-            .insert({ 
-              user_id: user.id,
-              plan_type: 'básico',
-              max_agents: 1
-            })
-            .select()
-            .single();
-
-          if (createError) throw createError;
-          setUserPlan(newPlan as UserPlan);
-          return;
+      const response = await api.get('/v1/user/plan');
+      if (response.data.plan) {
+        setUserPlan(response.data.plan);
+      } else {
+        // Se não há plano, criar um padrão
+        const createResponse = await api.post('/v1/user/plan', {
+          plan_type: 'básico',
+          max_agents: 1
+        });
+        if (createResponse.data.plan) {
+          setUserPlan(createResponse.data.plan);
         }
-        throw error;
+      }
+    } catch (error: any) {
+      console.error('Error fetching user plan:', error);
+      // Criar plano padrão se não existe
+      try {
+        const createResponse = await api.post('/v1/user/plan', {
+          plan_type: 'básico',
+          max_agents: 1
+        });
+        if (createResponse.data.plan) {
+          setUserPlan(createResponse.data.plan);
+        }
+      } catch (createError) {
+        console.error('Error creating default plan:', createError);
+      }
+    }
+  };
+
+  const createAgent = async (name: string, description?: string): Promise<Agent | null> => {
+    if (!user) {
+      toast({
+        title: "Erro",
+        description: "Usuário não autenticado",
+        variant: "destructive",
+      });
+      return null;
+    }
+
+    if (userPlan && agents.length >= userPlan.max_agents) {
+      toast({
+        title: "Limite atingido",
+        description: `Você atingiu o limite de ${userPlan.max_agents} agente(s) para seu plano atual.`,
+        variant: "destructive",
+      });
+      return null;
+    }
+
+    try {
+      const response = await api.post('/v1/agents', {
+        name,
+        description: description || '',
+        personality: '',
+        training_data: '',
+        voice_enabled: false
+      });
+
+      if (response.data.agent) {
+        const newAgent = response.data.agent;
+        setAgents(prev => [...prev, newAgent]);
+        
+        toast({
+          title: "Agente criado",
+          description: `O agente "${name}" foi criado com sucesso.`,
+        });
+        
+        return newAgent;
       }
       
-      setUserPlan(data as UserPlan);
-    } catch (error: any) {
-      toast({
-        title: "Erro ao carregar plano",
-        description: error.message,
-        variant: "destructive",
-      });
-    }
-  };
-
-  // Create a new agent
-  const createAgent = async (name: string, description: string = '') => {
-    if (!user || !userPlan) return null;
-    
-    // Check if user has reached their agent limit
-    if (agents.length >= userPlan.max_agents) {
-      toast({
-        title: "Limite de agentes atingido",
-        description: `Seu plano ${userPlan.plan_type} permite apenas ${userPlan.max_agents} agente(s). Faça upgrade para adicionar mais.`,
-        variant: "destructive",
-      });
       return null;
-    }
-    
-    try {
-      const { data, error } = await supabase
-        .from('ai_agents')
-        .insert({
-          name,
-          description,
-          user_id: user.id
-        })
-        .select()
-        .single();
-
-      if (error) throw error;
-      
-      toast({
-        title: "Agente criado",
-        description: `Seu agente ${name} foi criado com sucesso!`,
-      });
-      
-      // Refresh the agents list
-      await fetchAgents();
-      return data as Agent;
     } catch (error: any) {
+      console.error('Error creating agent:', error);
       toast({
         title: "Erro ao criar agente",
-        description: error.message,
+        description: error.response?.data?.message || error.message,
         variant: "destructive",
       });
       return null;
     }
   };
 
-  // Delete an agent
-  const deleteAgent = async (agentId: string) => {
+  const deleteAgent = async (agentId: string): Promise<boolean> => {
     try {
-      const { error } = await supabase
-        .from('ai_agents')
-        .delete()
-        .eq('id', agentId);
-
-      if (error) throw error;
+      await api.delete(`/v1/agents/${agentId}`);
+      
+      setAgents(prev => prev.filter(agent => agent.id !== agentId));
       
       toast({
-        title: "Agente removido",
-        description: "O agente foi removido com sucesso.",
+        title: "Agente excluído",
+        description: "O agente foi excluído com sucesso.",
       });
       
-      // Refresh the agents list
-      await fetchAgents();
       return true;
     } catch (error: any) {
+      console.error('Error deleting agent:', error);
       toast({
-        title: "Erro ao remover agente",
-        description: error.message,
+        title: "Erro ao excluir agente",
+        description: error.response?.data?.message || error.message,
         variant: "destructive",
       });
       return false;
     }
   };
 
-  // Update an agent
-  const updateAgent = async (agentId: string, updates: Partial<Agent>) => {
+  const updateAgent = async (agentId: string, updates: Partial<Agent>): Promise<Agent | null> => {
     try {
-      const { data, error } = await supabase
-        .from('ai_agents')
-        .update(updates)
-        .eq('id', agentId)
-        .select()
-        .single();
-
-      if (error) throw error;
+      const response = await api.put(`/v1/agents/${agentId}`, updates);
       
-      toast({
-        title: "Agente atualizado",
-        description: "As informações do agente foram atualizadas com sucesso.",
-      });
+      if (response.data.agent) {
+        const updatedAgent = response.data.agent;
+        setAgents(prev => prev.map(agent => 
+          agent.id === agentId ? updatedAgent : agent
+        ));
+        
+        toast({
+          title: "Agente atualizado",
+          description: "As informações do agente foram atualizadas com sucesso.",
+        });
+        
+        return updatedAgent;
+      }
       
-      // Refresh the agents list
-      await fetchAgents();
-      return data as Agent;
+      return null;
     } catch (error: any) {
+      console.error('Error updating agent:', error);
       toast({
         title: "Erro ao atualizar agente",
-        description: error.message,
+        description: error.response?.data?.message || error.message,
         variant: "destructive",
       });
       return null;
     }
   };
 
-  // Load data when component mounts
   useEffect(() => {
     if (user) {
-      fetchUserPlan().then(() => fetchAgents());
+      setLoading(true);
+      Promise.all([fetchUserPlan(), fetchAgents()]).finally(() => {
+        setLoading(false);
+      });
     }
   }, [user]);
+
+  const canCreateAgent = userPlan ? agents.length < userPlan.max_agents : false;
 
   return {
     agents,
@@ -196,6 +208,6 @@ export function useAgents() {
     deleteAgent,
     updateAgent,
     fetchAgents,
-    canCreateAgent: userPlan ? agents.length < userPlan.max_agents : false
+    canCreateAgent,
   };
 }

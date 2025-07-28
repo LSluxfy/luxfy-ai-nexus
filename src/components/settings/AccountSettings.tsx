@@ -110,15 +110,15 @@ const AccountSettings = () => {
         <CardContent>
           <div className="space-y-4">
             <div className="flex justify-between items-center py-2 border-b">
-              <span className="font-medium">Data de Criação</span>
+              <span className="font-medium">Email</span>
               <span className="text-gray-600">
-                {user?.created_at ? new Date(user.created_at).toLocaleDateString('pt-BR') : 'N/A'}
+                {user?.email || 'N/A'}
               </span>
             </div>
             <div className="flex justify-between items-center py-2 border-b">
-              <span className="font-medium">Último Login</span>
-              <span className="text-gray-600">
-                {user?.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString('pt-BR') : 'N/A'}
+              <span className="font-medium">ID do Usuário</span>
+              <span className="text-gray-600 font-mono text-sm">
+                {user?.id || 'N/A'}
               </span>
             </div>
             <div className="flex justify-between items-center py-2">
