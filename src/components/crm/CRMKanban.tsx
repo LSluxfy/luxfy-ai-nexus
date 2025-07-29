@@ -235,116 +235,142 @@ export function CRMKanban({
                     >
                       <div className="flex justify-between items-start mb-2">
                         <h4 className="font-medium">{lead.name}</h4>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-6 w-6"
-                              onClick={() => setSelectedLead(lead)}
-                            >
-                              <Eye size={14} />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-2xl">
-                            <DialogHeader>
-                              <DialogTitle className="flex items-center gap-2">
-                                {lead.name}
-                                <Badge variant="outline">{lead.interests.join(', ')}</Badge>
-                              </DialogTitle>
-                              <DialogDescription>
-                                Informações completas do lead
-                              </DialogDescription>
-                            </DialogHeader>
+                        <div className="flex gap-1">
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-6 w-6"
+                                onClick={() => setSelectedLead(lead)}
+                              >
+                                <Eye size={14} />
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-2xl">
+                              <DialogHeader>
+                                <DialogTitle className="flex items-center gap-2">
+                                  {lead.name}
+                                  <Badge variant="outline">{lead.interests.join(', ')}</Badge>
+                                </DialogTitle>
+                                <DialogDescription>
+                                  Informações completas do lead
+                                </DialogDescription>
+                              </DialogHeader>
 
-                            <div className="space-y-6">
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                  <h4 className="font-medium mb-2">Contato</h4>
-                                  <div className="space-y-2">
-                                    <div className="flex items-center gap-2">
-                                      <Mail size={16} className="text-gray-400" />
-                                      <span className="text-sm">{lead.email}</span>
+                              <div className="space-y-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <div>
+                                    <h4 className="font-medium mb-2">Contato</h4>
+                                    <div className="space-y-2">
+                                      <div className="flex items-center gap-2">
+                                        <Mail size={16} className="text-gray-400" />
+                                        <span className="text-sm">{lead.email}</span>
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        <Phone size={16} className="text-gray-400" />
+                                        <span className="text-sm">{lead.phone}</span>
+                                      </div>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                      <Phone size={16} className="text-gray-400" />
-                                      <span className="text-sm">{lead.phone}</span>
-                                    </div>
+                                  </div>
+
+                                  <div>
+                                    <h4 className="font-medium mb-2">Interesses</h4>
+                                    <p className="text-sm text-gray-600">{lead.interests.join(', ')}</p>
+                                    {lead.price > 0 && (
+                                      <p className="text-sm font-medium text-green-600 mt-1">
+                                        R$ {lead.price.toLocaleString('pt-BR')}
+                                      </p>
+                                    )}
                                   </div>
                                 </div>
 
                                 <div>
-                                  <h4 className="font-medium mb-2">Interesses</h4>
-                                  <p className="text-sm text-gray-600">{lead.interests.join(', ')}</p>
-                                  {lead.price > 0 && (
-                                    <p className="text-sm font-medium text-green-600 mt-1">
-                                      R$ {lead.price.toLocaleString('pt-BR')}
-                                    </p>
-                                  )}
+                                  <h4 className="font-medium mb-2">Tags</h4>
+                                  <div className="flex flex-wrap gap-2 mb-2">
+                                    {lead.tags.map((tag) => (
+                                      <Badge key={tag} variant="secondary" className="flex items-center gap-1">
+                                        {tag}
+                                        <X
+                                          size={12}
+                                          className="cursor-pointer hover:text-red-500"
+                                          onClick={() => removeTagFromLead(lead.id, tag)}
+                                        />
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                  <div className="flex gap-2">
+                                    <Input
+                                      placeholder="Nova tag"
+                                      value={newTag}
+                                      onChange={(e) => setNewTag(e.target.value)}
+                                      className="flex-1"
+                                    />
+                                    <Button
+                                      size="sm"
+                                      onClick={() => {
+                                        addTagToLead(lead.id, newTag);
+                                        setNewTag('');
+                                      }}
+                                    >
+                                      Adicionar
+                                    </Button>
+                                  </div>
                                 </div>
-                              </div>
 
-                              <div>
-                                <h4 className="font-medium mb-2">Tags</h4>
-                                <div className="flex flex-wrap gap-2 mb-2">
-                                  {lead.tags.map((tag) => (
-                                    <Badge key={tag} variant="secondary" className="flex items-center gap-1">
-                                      {tag}
-                                      <X
-                                        size={12}
-                                        className="cursor-pointer hover:text-red-500"
-                                        onClick={() => removeTagFromLead(lead.id, tag)}
-                                      />
-                                    </Badge>
-                                  ))}
-                                </div>
-                                <div className="flex gap-2">
-                                  <Input
-                                    placeholder="Nova tag"
-                                    value={newTag}
-                                    onChange={(e) => setNewTag(e.target.value)}
-                                    className="flex-1"
+                                <div>
+                                  <h4 className="font-medium mb-2">Observações</h4>
+                                  <Textarea
+                                    defaultValue={lead.notes}
+                                    placeholder="Adicione observações sobre este lead..."
+                                    className="min-h-[100px]"
+                                    onBlur={(e) => onUpdateLead(lead.id, { notes: e.target.value })}
                                   />
-                                  <Button
-                                    size="sm"
+                                </div>
+
+                                <div className="flex gap-2">
+                                  {onOpenChat && (
+                                    <Button
+                                      className="bg-luxfy-purple hover:bg-luxfy-darkPurple"
+                                      onClick={() => onOpenChat(lead)}
+                                    >
+                                      <MessageSquare className="mr-2" size={16} />
+                                      Abrir Chat
+                                    </Button>
+                                  )}
+                                  <Button variant="outline">
+                                    <Edit className="mr-2" size={16} />
+                                    Editar Lead
+                                  </Button>
+                                  <Button 
+                                    variant="destructive"
                                     onClick={() => {
-                                      addTagToLead(lead.id, newTag);
-                                      setNewTag('');
+                                      if (confirm(`Tem certeza que deseja deletar o lead "${lead.name}"?`)) {
+                                        onRemoveLead(lead.id);
+                                      }
                                     }}
                                   >
-                                    Adicionar
+                                    <Trash2 className="mr-2" size={16} />
+                                    Deletar Lead
                                   </Button>
                                 </div>
                               </div>
-
-                              <div>
-                                <h4 className="font-medium mb-2">Observações</h4>
-                                <Textarea
-                                  defaultValue={lead.notes}
-                                  placeholder="Adicione observações sobre este lead..."
-                                  className="min-h-[100px]"
-                                  onBlur={(e) => onUpdateLead(lead.id, { notes: e.target.value })}
-                                />
-                              </div>
-
-                              <div className="flex gap-2">
-                                {onOpenChat && (
-                                  <Button
-                                    className="bg-luxfy-purple hover:bg-luxfy-darkPurple"
-                                    onClick={() => onOpenChat(lead)}
-                                  >
-                                    <MessageSquare className="mr-2" size={16} />
-                                    Abrir Chat
-                                  </Button>
-                                )}
-                                <Button variant="outline">
-                                  <Edit className="mr-2" size={16} />
-                                  Editar Lead
-                                </Button>
-                              </div>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
+                            </DialogContent>
+                          </Dialog>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 text-red-500 hover:text-red-700"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (confirm(`Tem certeza que deseja deletar o lead "${lead.name}"?`)) {
+                                onRemoveLead(lead.id);
+                              }
+                            }}
+                          >
+                            <Trash2 size={14} />
+                          </Button>
+                        </div>
                       </div>
 
                       <p className="text-sm text-gray-600 mb-1">{lead.email}</p>
