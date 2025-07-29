@@ -43,12 +43,12 @@ const App = () => (
               <Routes>
                 {/* Área pública */}
                 <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/verify-email" element={<VerifyEmail />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/pending-invoice" element={<PendingInvoice />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/verify-email" element={<VerifyEmail />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/pending-invoice" element={<PendingInvoice />} />
                 
                 {/* Área do Dashboard - Protegida */}
                 <Route path="/dashboard" element={

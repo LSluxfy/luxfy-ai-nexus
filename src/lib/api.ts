@@ -14,18 +14,9 @@ export const api: AxiosInstance = axios.create({
 // Interceptor para adicionar JWT token nas requisições
 api.interceptors.request.use(
   (config) => {
-    let token = localStorage.getItem('jwt-token');
-    
-    // Token de teste temporário se não houver token no localStorage
-    if (!token) {
-      token = 'TOKEN_DE_TESTE_TEMPORARIO';
-      console.log('Usando token de teste temporário');
-    }
-    
-    console.log('Token JWT encontrado:', token ? 'SIM' : 'NÃO');
+    const token = localStorage.getItem('jwt-token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log('Enviando requisição para:', config.url, 'com token');
     }
     return config;
   },
