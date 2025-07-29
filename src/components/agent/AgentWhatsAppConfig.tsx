@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -21,6 +21,17 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
     userEmail: agent.userEmail || ''
   });
   const { toast } = useToast();
+
+  // Sincronizar formData com os dados atuais do agente
+  useEffect(() => {
+    setFormData({
+      oficialMetaWhatsappPhoneNumber: agent.oficialMetaWhatsappPhoneNumber || '',
+      hostEmail: agent.hostEmail || '',
+      portEmail: agent.portEmail || '',
+      secureEmail: agent.secureEmail ?? true,
+      userEmail: agent.userEmail || ''
+    });
+  }, [agent]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
