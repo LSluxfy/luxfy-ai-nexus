@@ -65,11 +65,9 @@ export function AgentAIConfig({ agent, onUpdate }: AgentAIConfigProps) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="gpt-4-turbo">GPT-4 Turbo</SelectItem>
-                <SelectItem value="gpt-4">GPT-4</SelectItem>
-                <SelectItem value="gpt-3.5-turbo">GPT-3.5 Turbo</SelectItem>
-                <SelectItem value="claude-3-opus">Claude 3 Opus</SelectItem>
-                <SelectItem value="claude-3-sonnet">Claude 3 Sonnet</SelectItem>
+                <SelectItem value="lxf-1.0">LXF-1.0</SelectItem>
+                <SelectItem value="gpt-4.0-turbo">GPT-4.0 Turbo</SelectItem>
+                <SelectItem value="gpt-4o">GPT-4o</SelectItem>
               </SelectContent>
             </Select>
           </div>
