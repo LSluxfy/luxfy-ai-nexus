@@ -6,18 +6,26 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, Plus } from 'lucide-react';
 import { CRMKanban } from '@/components/crm/CRMKanban';
+import { AgentSelector } from '@/components/crm/AgentSelector';
 import { useCRM } from '@/hooks/use-crm';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/contexts/AuthContext';
 import type { CRMRow } from '@/types/crm';
 
 const CRMPage = () => {
   const { t } = useTranslation();
   const { agentId } = useParams<{ agentId: string }>();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // Estado para o agente selecionado
+  const [selectedAgentId, setSelectedAgentId] = useState<string | null>(
+    agentId || (user?.agents && user.agents.length > 0 ? user.agents[0].id.toString() : null)
+  );
 
-  // Get current agent ID from URL params or default to first agent
-  const currentAgentId = agentId || '1'; // Default to agent 1 if no agentId in URL
+  // Get current agent ID from URL params or selected agent
+  const currentAgentId = agentId || selectedAgentId;
 
   const {
     crmData,
@@ -32,9 +40,16 @@ const CRMPage = () => {
     removeColumn,
     renameColumn,
   } = useCRM({
-    agentId: currentAgentId,
+    agentId: currentAgentId || '',
     enabled: !!currentAgentId
   });
+
+  // Handler para mudança de agente
+  const handleAgentChange = (agentId: string) => {
+    setSelectedAgentId(agentId);
+    // Atualiza a URL para refletir o agente selecionado
+    navigate(`/dashboard/crm/${agentId}`, { replace: true });
+  };
 
   // Filter leads based on search term
   const filteredGroupedLeads = React.useMemo(() => {
@@ -152,20 +167,27 @@ const CRMPage = () => {
             )}
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
-            <div className="relative flex-1 lg:w-64">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-              <Input
-                placeholder={t('crm.searchPlaceholder')}
-                className="pl-10"
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-              />
+          <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+            <AgentSelector 
+              selectedAgentId={selectedAgentId}
+              onAgentChange={handleAgentChange}
+            />
+            
+            <div className="flex flex-col sm:flex-row gap-2">
+              <div className="relative flex-1 lg:w-64">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <Input
+                  placeholder={t('crm.searchPlaceholder')}
+                  className="pl-10"
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple whitespace-nowrap">
+                <Plus className="mr-2" size={16} />
+                {t('crm.newLead')}
+              </Button>
             </div>
-            <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple whitespace-nowrap">
-              <Plus className="mr-2" size={16} />
-              {t('crm.newLead')}
-            </Button>
           </div>
         </div>
 
