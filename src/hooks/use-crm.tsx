@@ -178,7 +178,7 @@ export function useCRM({ agentId, enabled = true }: UseCRMOptions) {
 
   // Função para agrupar leads por status
   const getGroupedLeads = useCallback(() => {
-    if (!finalData?.rows || !finalData?.tables) return {};
+    if (!finalData?.rows || !finalData?.tables || !Array.isArray(finalData.rows)) return {};
     
     return finalData.rows.reduce((acc, lead) => {
       const status = lead.status;
