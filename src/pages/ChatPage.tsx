@@ -103,12 +103,16 @@ const ChatPage = () => {
                     {error instanceof Error ? error.message : 'Erro desconhecido'}
                   </p>
                   <Button 
-                    onClick={() => refetch()} 
+                    onClick={() => {
+                      console.log('Tentando novamente carregar chats para agente:', currentAgentId);
+                      refetch();
+                    }} 
                     variant="outline" 
                     size="sm"
                     className="mt-2"
+                    disabled={isLoading}
                   >
-                    Tentar novamente
+                    {isLoading ? 'Carregando...' : 'Tentar novamente'}
                   </Button>
                 </div>
               </AlertDescription>
@@ -178,10 +182,14 @@ const ChatPage = () => {
               {chats.length === 0 && !isLoading && (
                 <div className="mt-4">
                   <Button 
-                    onClick={() => refetch()} 
+                    onClick={() => {
+                      console.log('Atualizando chats para agente:', currentAgentId);
+                      refetch();
+                    }} 
                     variant="outline"
+                    disabled={isLoading}
                   >
-                    Atualizar
+                    {isLoading ? 'Atualizando...' : 'Atualizar'}
                   </Button>
                 </div>
               )}
