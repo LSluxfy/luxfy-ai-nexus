@@ -19,7 +19,9 @@ interface AgentTrainingProps {
 
 export function AgentTraining({ agent, onUpdate }: AgentTrainingProps) {
   const [loading, setLoading] = useState(false);
-  const [apprenticeship, setApprenticeship] = useState<ApprenticeshipItem[]>(agent.apprenticeship || []);
+  const [apprenticeship, setApprenticeship] = useState<ApprenticeshipItem[]>(
+    Array.isArray(agent.apprenticeship) ? agent.apprenticeship : []
+  );
   const [newItem, setNewItem] = useState({
     question: '',
     response: '',
