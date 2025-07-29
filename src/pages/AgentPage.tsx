@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useAgentApi } from '@/hooks/use-agent-api';
+import { useAuth } from '@/contexts/AuthContext';
 import { AgentConfigTabs } from '@/components/agent/AgentConfigTabs';
 import { ApiAgent } from '@/types/agent-api';
 
@@ -8,24 +8,19 @@ export function AgentPage() {
   const { id } = useParams<{ id: string }>();
   const [agent, setAgent] = useState<ApiAgent | null>(null);
   const [loading, setLoading] = useState(true);
-  const { getAgent } = useAgentApi();
+  const { user } = useAuth();
 
   useEffect(() => {
-    const fetchAgent = async () => {
-      if (!id) return;
-      
-      try {
-        const agentData = await getAgent(id);
-        setAgent(agentData);
-      } catch (error) {
-        console.error('Erro ao buscar agente:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (!id || !user?.agents) {
+      setLoading(false);
+      return;
+    }
 
-    fetchAgent();
-  }, [id]);
+    // Buscar o agente nos dados que já temos do contexto
+    const foundAgent = user.agents.find(agent => agent.id.toString() === id);
+    setAgent(foundAgent || null);
+    setLoading(false);
+  }, [id, user]);
 
   if (loading) {
     return (
