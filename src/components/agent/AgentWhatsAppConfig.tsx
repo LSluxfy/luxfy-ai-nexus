@@ -30,15 +30,18 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
       // Apenas enviar campos que foram realmente alterados
       const changedFields: any = {};
       
-      if (formData.oficialMetaWhatsappPhoneNumber !== (agent.oficialMetaWhatsappPhoneNumber || '')) {
+      // Função para normalizar valores (null/undefined vira string vazia)
+      const normalize = (value: any) => value || '';
+      
+      if (normalize(formData.oficialMetaWhatsappPhoneNumber) !== normalize(agent.oficialMetaWhatsappPhoneNumber)) {
         changedFields.oficialMetaWhatsappPhoneNumber = formData.oficialMetaWhatsappPhoneNumber;
       }
       
-      if (formData.hostEmail !== (agent.hostEmail || '')) {
+      if (normalize(formData.hostEmail) !== normalize(agent.hostEmail)) {
         changedFields.hostEmail = formData.hostEmail;
       }
       
-      if (formData.portEmail !== (agent.portEmail || '')) {
+      if (normalize(formData.portEmail) !== normalize(agent.portEmail)) {
         changedFields.portEmail = formData.portEmail;
       }
       
@@ -46,7 +49,7 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
         changedFields.secureEmail = formData.secureEmail;
       }
       
-      if (formData.userEmail !== (agent.userEmail || '')) {
+      if (normalize(formData.userEmail) !== normalize(agent.userEmail)) {
         changedFields.userEmail = formData.userEmail;
       }
 
