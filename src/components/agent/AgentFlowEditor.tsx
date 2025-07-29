@@ -18,7 +18,9 @@ interface AgentFlowEditorProps {
 
 export function AgentFlowEditor({ agent, onUpdate }: AgentFlowEditorProps) {
   const [loading, setLoading] = useState(false);
-  const [flows, setFlows] = useState<Flow[]>(agent.flow || []);
+  const [flows, setFlows] = useState<Flow[]>(
+    Array.isArray(agent.flow) ? agent.flow : []
+  );
   const [newFlow, setNewFlow] = useState({
     name: '',
     keywords: [] as string[],
