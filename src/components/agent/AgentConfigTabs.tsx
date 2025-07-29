@@ -32,7 +32,7 @@ export function AgentConfigTabs({ agent, onUpdate }: AgentConfigTabsProps) {
       </div>
 
       <Tabs defaultValue="basic" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-11">
+        <TabsList className="flex flex-wrap gap-1 h-auto p-2 bg-muted rounded-lg overflow-x-auto">
           <TabsTrigger value="basic">Básico</TabsTrigger>
           <TabsTrigger value="whatsapp">WhatsApp</TabsTrigger>
           <TabsTrigger value="ai">IA</TabsTrigger>
