@@ -20,6 +20,7 @@ import CRMSelectionPage from "./pages/CRMSelectionPage";
 import AgentsPage from "./pages/AgentsPage";
 import ChatPage from "./pages/ChatPage";
 import CampanhasPage from "./pages/CampanhasPage";
+import CampanhasSelectionPage from "./pages/CampanhasSelectionPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import SettingsPage from "./pages/SettingsPage";
 import AgendaPage from "./pages/AgendaPage";
@@ -64,7 +65,8 @@ const App = () => (
                   <Route path="crm" element={<CRMSelectionPage />} />
                   <Route path="crm/:agentId" element={<CRMPage />} />
                   <Route path="chat" element={<ChatPage />} />
-                  <Route path="campanhas" element={<CampanhasPage />} />
+                  <Route path="campanhas" element={<CampanhasSelectionPage />} />
+                  <Route path="campanhas/:agentId" element={<CampanhasPage />} />
                   <Route path="agenda" element={<AgendaPage />} />
                   <Route path="analytics" element={<AnalyticsPage />} />
                   <Route path="financeiro" element={<FinanceiroPage />} />
