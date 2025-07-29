@@ -17,9 +17,12 @@ export function useAgentCampaigns(agentId?: string) {
     
     try {
       setLoading(true);
+      console.log('Buscando campanhas para agente:', agentId);
       const campaignsData = await AgentApiService.getAgentCampaigns(agentId);
+      console.log('Campanhas recebidas:', campaignsData);
       setCampaigns(campaignsData);
     } catch (error: any) {
+      console.error('Erro ao carregar campanhas:', error);
       toast({
         title: "Erro ao carregar campanhas",
         description: error.response?.data?.error || error.message,
@@ -36,6 +39,7 @@ export function useAgentCampaigns(agentId?: string) {
     
     try {
       setCreating(true);
+      console.log('Criando campanha para agente:', agentId, data);
       const response = await AgentApiService.createCampaign(agentId, data);
       
       toast({
@@ -43,9 +47,12 @@ export function useAgentCampaigns(agentId?: string) {
         description: response.message,
       });
 
+      // Força a busca das campanhas atualizadas
+      console.log('Buscando campanhas atualizadas após criação...');
       await fetchCampaigns();
       return response.campaign;
     } catch (error: any) {
+      console.error('Erro ao criar campanha:', error);
       toast({
         title: "Erro ao criar campanha",
         description: error.response?.data?.error || error.message,
