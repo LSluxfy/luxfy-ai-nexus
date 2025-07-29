@@ -151,7 +151,7 @@ export interface ApiAgent {
   ElevenLabsVoice?: string;
   transferInDistrust: boolean;
   apprenticeship: Apprenticeship[];
-  flow: ConversationFlow[];
+  flow: Flow[];
   metrics: Record<string, Record<string, MonthlyMetrics>>;
   chats: AgentChat[];
   tags: string[];
@@ -186,7 +186,7 @@ export interface UpdateAgentRequest {
   ElevenLabsVoice?: string;
   transferInDistrust?: boolean;
   apprenticeship?: Apprenticeship[];
-  flow?: ConversationFlow[];
+  flow?: Flow[];
   tags?: string[];
   Faq?: string;
   ProductsServices?: string;

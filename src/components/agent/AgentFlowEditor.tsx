@@ -34,6 +34,7 @@ export function AgentFlowEditor({ agent, onUpdate }: AgentFlowEditorProps) {
     setLoading(true);
 
     try {
+      console.log('Enviando dados de fluxos:', { flow: flows });
       const response = await AgentApiService.updateAgent(agent.id.toString(), {
         flow: flows
       });
@@ -57,7 +58,8 @@ export function AgentFlowEditor({ agent, onUpdate }: AgentFlowEditorProps) {
     if (newFlow.name.trim()) {
       const flow: Flow = {
         ...newFlow,
-        keywords: [...newFlow.keywords]
+        keywords: [...newFlow.keywords],
+        steps: [...newFlow.steps]
       };
       setFlows(prev => [...prev, flow]);
       setNewFlow({

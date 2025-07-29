@@ -35,6 +35,7 @@ export function AgentTraining({ agent, onUpdate }: AgentTrainingProps) {
     setLoading(true);
 
     try {
+      console.log('Enviando dados de treinamento:', { apprenticeship });
       const response = await AgentApiService.updateAgent(agent.id.toString(), {
         apprenticeship
       });
