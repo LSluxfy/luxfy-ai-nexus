@@ -51,8 +51,13 @@ export class UploadService {
     const formData = new FormData();
     
     // Adicionar arquivos ao FormData
-    request.files.forEach((file) => {
-      formData.append('files', file);
+    request.files.forEach((file, index) => {
+      console.log(`File ${index}:`, {
+        name: file.name,
+        type: file.type,
+        size: file.size
+      });
+      formData.append('files', file, file.name);
     });
     
     formData.append('expireAt', request.expireAt);
@@ -76,9 +81,15 @@ export class UploadService {
       progressArray.forEach(p => p.status = 'uploading');
       onProgress?.(progressArray);
 
+      console.log('FormData contents:');
+      for (const [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+
       const response = await api.post('/v1/upload', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          // Remove Content-Type para deixar o browser definir automaticamente
+          // incluindo o boundary do multipart/form-data
         },
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {
