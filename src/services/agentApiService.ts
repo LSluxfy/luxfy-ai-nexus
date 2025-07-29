@@ -17,11 +17,6 @@ import {
 } from '@/types/agent-api';
 
 export class AgentApiService {
-  // Listar agentes do usuário
-  static async getUserAgents(): Promise<ApiAgent[]> {
-    const response = await api.get('/v1/agente/user');
-    return response.data.agents;
-  }
 
   // Buscar agente por ID
   static async getAgentById(id: string): Promise<ApiAgent> {

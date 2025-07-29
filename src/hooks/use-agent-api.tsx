@@ -6,28 +6,16 @@ import { AgentApiService } from '@/services/agentApiService';
 import { ApiAgent, CreateAgentRequest, UpdateAgentRequest } from '@/types/agent-api';
 
 export function useAgentApi() {
-  const [agents, setAgents] = useState<ApiAgent[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
 
-  // Buscar agentes do usuário
-  const fetchAgents = async () => {
-    if (!user) return;
-    
-    try {
-      setLoading(true);
-      const agentsData = await AgentApiService.getUserAgents();
-      setAgents(agentsData);
-    } catch (error: any) {
-      toast({
-        title: "Erro ao carregar agentes",
-        description: error.response?.data?.error || error.message,
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
+  // Os agentes já estão disponíveis no contexto de auth
+  const agents = user?.agents || [];
+
+  const refreshAgents = async () => {
+    // Como os agentes vêm no contexto de auth, não precisamos buscar separadamente
+    // Mas podemos implementar uma lógica de refresh se necessário
   };
 
   // Criar agente
@@ -38,7 +26,7 @@ export function useAgentApi() {
         title: "Agente criado",
         description: response.message,
       });
-      await fetchAgents();
+      // Os agentes serão atualizados automaticamente no próximo login ou refresh
       return response.agent;
     } catch (error: any) {
       toast({
@@ -58,7 +46,7 @@ export function useAgentApi() {
         title: "Agente atualizado",
         description: response.message,
       });
-      await fetchAgents();
+      // Os agentes serão atualizados automaticamente no próximo login ou refresh
       return response.agent;
     } catch (error: any) {
       toast({
@@ -78,7 +66,7 @@ export function useAgentApi() {
         title: "Agente removido",
         description: response.message,
       });
-      await fetchAgents();
+      // Os agentes serão atualizados automaticamente no próximo login ou refresh
       return true;
     } catch (error: any) {
       toast({
@@ -104,12 +92,6 @@ export function useAgentApi() {
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      fetchAgents();
-    }
-  }, [user]);
-
   return {
     agents,
     loading,
@@ -117,6 +99,6 @@ export function useAgentApi() {
     updateAgent,
     deleteAgent,
     getAgent,
-    fetchAgents,
+    refreshAgents,
   };
 }
