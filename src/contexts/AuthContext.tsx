@@ -83,10 +83,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const token = localStorage.getItem('jwt-token');
     
     if (token) {
-      fetchUserData().catch(() => {
-        // Se der erro na verificação inicial, apenas define loading como false
-        setLoading(false);
-      });
+      // Como não existe mais endpoint para verificar auth, apenas marca como não carregando
+      // O usuário terá que fazer login novamente se o token expirar
+      setLoading(false);
     } else {
       setLoading(false);
     }
@@ -130,36 +129,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         password
       });
 
-      if (response.data.token) {
+      if (response.data.token && response.data.user) {
         localStorage.setItem('jwt-token', response.data.token);
         
-        try {
-          await fetchUserData();
-          
-          // Se chegou aqui, não há fatura pendente - pode continuar
-          toast({
-            title: "Login realizado com sucesso!",
-            description: "Bem-vindo de volta.",
-          });
+        // O login já retorna os dados do usuário
+        const userData = response.data.user;
+        setUser(userData);
+        const sessionData = {
+          user: userData,
+          token: response.data.token
+        };
+        setSession(sessionData);
+        
+        toast({
+          title: "Login realizado com sucesso!",
+          description: "Bem-vindo de volta.",
+        });
 
-          navigate('/dashboard');
-        } catch (fetchError: any) {
-          console.log('Erro ao buscar dados do usuário:', fetchError);
-          // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
-          if (fetchError.response?.status === 402) {
-            const errorData = fetchError.response?.data;
-            console.log('Fatura pendente detectada:', errorData);
-            if (errorData?.invoice) {
-              console.log('Redirecionando para:', `/pending-invoice?invoice=${errorData.invoice}`);
-              navigate(`/pending-invoice?invoice=${errorData.invoice}`);
-              return; // Para aqui - não executa o resto
-            }
-          }
-          
-          // Se não for erro 402, relança o erro
-          throw fetchError;
-        }
-
+        navigate('/dashboard');
       }
     } catch (error: any) {
       let errorMessage = 'Erro ao fazer login';
