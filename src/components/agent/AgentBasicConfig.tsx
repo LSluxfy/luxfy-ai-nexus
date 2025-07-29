@@ -4,8 +4,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { AgentApiService } from '@/services/agentApiService';
 import { ApiAgent } from '@/types/agent-api';
@@ -21,12 +19,9 @@ export function AgentBasicConfig({ agent, onUpdate }: AgentBasicConfigProps) {
     name: agent.name,
     description: agent.description,
     language: agent.language,
-    tags: agent.tags,
-    Faq: agent.Faq || '',
     ProductsServices: agent.ProductsServices || '',
     AboutCompany: agent.AboutCompany || ''
   });
-  const [newTag, setNewTag] = useState('');
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,23 +44,6 @@ export function AgentBasicConfig({ agent, onUpdate }: AgentBasicConfigProps) {
     } finally {
       setLoading(false);
     }
-  };
-
-  const addTag = () => {
-    if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
-      setFormData(prev => ({
-        ...prev,
-        tags: [...prev.tags, newTag.trim()]
-      }));
-      setNewTag('');
-    }
-  };
-
-  const removeTag = (tagToRemove: string) => {
-    setFormData(prev => ({
-      ...prev,
-      tags: prev.tags.filter(tag => tag !== tagToRemove)
-    }));
   };
 
   return (
@@ -98,46 +76,12 @@ export function AgentBasicConfig({ agent, onUpdate }: AgentBasicConfigProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="description">Descrição</Label>
+        <Label htmlFor="description">Descrição do agente</Label>
         <Textarea
           id="description"
           value={formData.description}
           onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
           rows={3}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label>Tags</Label>
-        <div className="flex gap-2 mb-2">
-          <Input
-            value={newTag}
-            onChange={(e) => setNewTag(e.target.value)}
-            placeholder="Adicionar tag"
-            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-          />
-          <Button type="button" onClick={addTag} variant="outline">
-            Adicionar
-          </Button>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {formData.tags.map((tag) => (
-            <Badge key={tag} variant="secondary" className="gap-1">
-              {tag}
-              <X className="h-3 w-3 cursor-pointer" onClick={() => removeTag(tag)} />
-            </Badge>
-          ))}
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="faq">FAQ (Perguntas Frequentes)</Label>
-        <Textarea
-          id="faq"
-          value={formData.Faq}
-          onChange={(e) => setFormData(prev => ({ ...prev, Faq: e.target.value }))}
-          rows={4}
-          placeholder="P: Como funciona o serviço?&#10;R: Nosso serviço funciona de forma automatizada..."
         />
       </div>
 
