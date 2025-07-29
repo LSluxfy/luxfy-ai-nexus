@@ -4,9 +4,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import DashboardHeader from '@/components/DashboardHeader';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, Plus } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { CRMKanban } from '@/components/crm/CRMKanban';
 import { AgentSelector } from '@/components/crm/AgentSelector';
+import { NewLeadDialog } from '@/components/crm/NewLeadDialog';
 import { useCRM } from '@/hooks/use-crm';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
@@ -34,6 +35,7 @@ const CRMPage = () => {
     error,
     isUpdating,
     moveLead,
+    addLead,
     updateLead,
     removeLead,
     addColumn,
@@ -183,10 +185,11 @@ const CRMPage = () => {
                   onChange={e => setSearchTerm(e.target.value)}
                 />
               </div>
-              <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple whitespace-nowrap">
-                <Plus className="mr-2" size={16} />
-                {t('crm.newLead')}
-              </Button>
+              <NewLeadDialog
+                onAddLead={addLead}
+                tables={crmData?.tables || {}}
+                isUpdating={isUpdating}
+              />
             </div>
           </div>
         </div>

@@ -102,7 +102,7 @@ export class CRMService {
       price: data.price || 0,
       responsibleId: data.responsibleId || 0,
       chatId: data.chatId || 0,
-      status: data.status || 'new',
+      status: data.status || '1', // Default to first status (Novos)
       interests: data.interests || [],
       logs: data.logs || [],
       activities: data.activities || [],
