@@ -6,6 +6,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { QrCode, Smartphone, Wifi, WifiOff, RefreshCw } from 'lucide-react';
 import { useAgentWhatsApp } from '@/hooks/use-agent-whatsapp';
 import { ApiAgent } from '@/types/agent-api';
+import QRCodeGenerator from 'qrcode';
 
 interface AgentWhatsAppProps {
   agent: ApiAgent;
@@ -14,6 +15,7 @@ interface AgentWhatsAppProps {
 export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
   const [isOnline, setIsOnline] = useState<boolean | null>(null);
   const [qrCode, setQrCode] = useState<string | null>(null);
+  const [qrCodeImage, setQrCodeImage] = useState<string | null>(null);
   const [generated, setGenerated] = useState(false);
   
   const { connecting, disconnecting, checkingStatus, connectAgent, checkStatus, disconnectAgent } = useAgentWhatsApp();
@@ -38,6 +40,23 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
       setQrCode(response.qr_string);
       setGenerated(response.generated);
       
+      // Gerar imagem do QR code a partir da string
+      if (response.qr_string) {
+        try {
+          const qrImageUrl = await QRCodeGenerator.toDataURL(response.qr_string, {
+            width: 300,
+            margin: 1,
+            color: {
+              dark: '#000000',
+              light: '#FFFFFF'
+            }
+          });
+          setQrCodeImage(qrImageUrl);
+        } catch (qrError) {
+          console.error('Erro ao gerar QR code:', qrError);
+        }
+      }
+      
       // Verificar status periodicamente após conexão
       const interval = setInterval(async () => {
         const status = await checkStatus(agent.id.toString());
@@ -45,6 +64,7 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
         
         if (status) {
           setQrCode(null);
+          setQrCodeImage(null);
           clearInterval(interval);
         }
       }, 5000);
@@ -61,6 +81,7 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
       await disconnectAgent(agent.id.toString());
       setIsOnline(false);
       setQrCode(null);
+      setQrCodeImage(null);
     } catch (error) {
       console.error('Erro ao desconectar:', error);
     }
@@ -159,7 +180,7 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
           </CardContent>
         </Card>
 
-        {qrCode && (
+        {qrCodeImage && (
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -179,15 +200,23 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
               </Alert>
               
               <div className="flex justify-center">
-                <div className="bg-white p-4 rounded-lg">
+                <div className="bg-white p-4 rounded-lg border">
                   <img 
-                    src={qrCode} 
+                    src={qrCodeImage} 
                     alt="QR Code WhatsApp"
                     className="max-w-full h-auto"
                     style={{ maxWidth: '300px' }}
                   />
                 </div>
               </div>
+              
+              {qrCode && (
+                <div className="text-center">
+                  <p className="text-xs text-muted-foreground break-all p-2 bg-muted rounded">
+                    Código: {qrCode}
+                  </p>
+                </div>
+              )}
               
               <div className="text-center space-y-2">
                 <p className="text-sm text-muted-foreground">
