@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DashboardHeader from '@/components/DashboardHeader';
 import { Button } from '@/components/ui/button';
@@ -21,12 +21,22 @@ const CRMPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   
   // Estado para o agente selecionado
-  const [selectedAgentId, setSelectedAgentId] = useState<string | null>(
-    agentId || (user?.agents && user.agents.length > 0 ? user.agents[0].id.toString() : null)
-  );
+  const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null);
 
   // Get current agent ID from URL params or selected agent
   const currentAgentId = agentId || selectedAgentId;
+
+  // Inicializar o agente selecionado quando o usuário estiver disponível
+  useEffect(() => {
+    if (agentId) {
+      setSelectedAgentId(agentId);
+    } else if (user?.agents && user.agents.length > 0 && !selectedAgentId) {
+      // Auto-selecionar o primeiro agente apenas se não há um já selecionado
+      const firstAgentId = user.agents[0].id.toString();
+      setSelectedAgentId(firstAgentId);
+      navigate(`/dashboard/crm/${firstAgentId}`, { replace: true });
+    }
+  }, [user?.agents, agentId, selectedAgentId, navigate]);
 
   const {
     crmData,
@@ -129,19 +139,82 @@ const CRMPage = () => {
     );
   }
 
+  // Se não há agente selecionado, mostrar o seletor
+  if (!currentAgentId) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <DashboardHeader title={t('crm.title')} />
+        <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+                {t('crm.title')}
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300">
+                {t('crm.subtitle')}
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+              <AgentSelector 
+                selectedAgentId={selectedAgentId}
+                onAgentChange={handleAgentChange}
+              />
+            </div>
+          </div>
+          
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                Selecione um agente
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Escolha um agente acima para visualizar os dados do CRM.
+              </p>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   if (!crmData) {
     return (
       <div className="flex flex-col min-h-screen">
         <DashboardHeader title={t('crm.title')} />
         <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+                {t('crm.title')}
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300">
+                {t('crm.subtitle')}
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+              <AgentSelector 
+                selectedAgentId={selectedAgentId}
+                onAgentChange={handleAgentChange}
+              />
+            </div>
+          </div>
+          
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
                 CRM não encontrado
               </h3>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
                 Nenhum dado de CRM disponível para este agente.
               </p>
+              <Button
+                onClick={() => window.location.reload()}
+                variant="outline"
+              >
+                Tentar novamente
+              </Button>
             </div>
           </div>
         </main>
