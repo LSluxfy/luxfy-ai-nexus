@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageSquareText, Users, CheckCircle, TrendingUp } from 'lucide-react';
+import { useDashboardMetrics } from '@/hooks/use-dashboard-metrics';
 
 interface StatsCardProps {
   title: string;
@@ -37,33 +38,35 @@ const StatsCard = ({ title, value, description, icon, trend }: StatsCardProps) =
 };
 
 const StatsCards = () => {
+  const { metrics } = useDashboardMetrics();
+
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <StatsCard
         title="Conversas Iniciadas"
-        value="128"
-        description="Total da semana atual"
+        value={metrics.totalChats.toString()}
+        description="Total do mês atual"
         icon={<MessageSquareText size={18} />}
-        trend={12}
+        trend={12} // Pode ser calculado comparando com o mês anterior
       />
       <StatsCard
         title="Clientes Atendidos"
-        value="84"
-        description="Total da semana atual"
+        value={metrics.totalClients.toString()}
+        description="Total do mês atual"
         icon={<Users size={18} />}
         trend={8}
       />
       <StatsCard
         title="Conversas Finalizadas"
-        value="96"
-        description="Total da semana atual"
+        value={metrics.totalFinishedChats.toString()}
+        description="Total do mês atual"
         icon={<CheckCircle size={18} />}
         trend={-3}
       />
       <StatsCard
         title="Taxa de Conversão"
-        value="72%"
-        description="Média da semana atual"
+        value={`${Math.round(metrics.conversionRate)}%`}
+        description="Média do mês atual"
         icon={<TrendingUp size={18} />}
         trend={5}
       />

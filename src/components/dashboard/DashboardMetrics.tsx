@@ -15,24 +15,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
-// Dados de exemplo para os gráficos
-const weeklyData = [
-  { name: 'Seg', conversas: 4, clientes: 2, finalizadas: 3 },
-  { name: 'Ter', conversas: 6, clientes: 3, finalizadas: 4 },
-  { name: 'Qua', conversas: 8, clientes: 4, finalizadas: 7 },
-  { name: 'Qui', conversas: 10, clientes: 7, finalizadas: 8 },
-  { name: 'Sex', conversas: 12, clientes: 8, finalizadas: 10 },
-  { name: 'Sab', conversas: 6, clientes: 5, finalizadas: 4 },
-  { name: 'Dom', conversas: 4, clientes: 3, finalizadas: 2 },
-];
-
-const monthlyData = [
-  { name: 'Semana 1', conversas: 22, clientes: 12, finalizadas: 18 },
-  { name: 'Semana 2', conversas: 30, clientes: 20, finalizadas: 25 },
-  { name: 'Semana 3', conversas: 42, clientes: 28, finalizadas: 36 },
-  { name: 'Semana 4', conversas: 35, clientes: 25, finalizadas: 30 },
-];
+import { useDashboardMetrics } from '@/hooks/use-dashboard-metrics';
 
 const chartConfig = {
   conversas: {
@@ -50,6 +33,8 @@ const chartConfig = {
 };
 
 const DashboardMetrics = () => {
+  const { weeklyChartData, monthlyChartData } = useDashboardMetrics();
+
   return (
     <Card className="shadow-sm">
       <CardHeader>
@@ -67,7 +52,7 @@ const DashboardMetrics = () => {
             <div className="h-[300px]">
               <ChartContainer config={chartConfig}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={weeklyData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <AreaChart data={weeklyChartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <defs>
                       <linearGradient id="colorConversas" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#1e3a8a" stopOpacity={0.8}/>
@@ -99,7 +84,7 @@ const DashboardMetrics = () => {
             <div className="h-[300px]">
               <ChartContainer config={chartConfig}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={monthlyData}>
+                  <BarChart data={monthlyChartData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
