@@ -36,9 +36,9 @@ export function useAgents() {
     if (!user) return;
     
     try {
-      const response = await api.get('/v1/agents');
-      if (response.data.agents) {
-        setAgents(response.data.agents);
+      // Os agentes já vêm no contexto do usuário
+      if (user.agents) {
+        setAgents(user.agents);
       }
     } catch (error: any) {
       console.error('Error fetching agents:', error);
@@ -54,33 +54,18 @@ export function useAgents() {
     if (!user) return;
     
     try {
-      const response = await api.get('/v1/user/plan');
-      if (response.data.plan) {
-        setUserPlan(response.data.plan);
-      } else {
-        // Se não há plano, criar um padrão
-        const createResponse = await api.post('/v1/user/plan', {
-          plan_type: 'básico',
-          max_agents: 1
-        });
-        if (createResponse.data.plan) {
-          setUserPlan(createResponse.data.plan);
-        }
-      }
+      // Usar dados do plano que já vêm do contexto do usuário
+      const planData = {
+        id: user.id.toString(),
+        user_id: user.id.toString(),
+        plan_type: user.plan.toLowerCase(),
+        max_agents: user.numberAgentes,
+        created_at: user.createAt,
+        updated_at: user.updateAt || user.createAt
+      };
+      setUserPlan(planData);
     } catch (error: any) {
       console.error('Error fetching user plan:', error);
-      // Criar plano padrão se não existe
-      try {
-        const createResponse = await api.post('/v1/user/plan', {
-          plan_type: 'básico',
-          max_agents: 1
-        });
-        if (createResponse.data.plan) {
-          setUserPlan(createResponse.data.plan);
-        }
-      } catch (createError) {
-        console.error('Error creating default plan:', createError);
-      }
     }
   };
 
@@ -104,12 +89,9 @@ export function useAgents() {
     }
 
     try {
-      const response = await api.post('/v1/agents', {
+      const response = await api.post('/v1/agente/create', {
         name,
-        description: description || '',
-        personality: '',
-        training_data: '',
-        voice_enabled: false
+        description: description || ''
       });
 
       if (response.data.agent) {
@@ -138,8 +120,7 @@ export function useAgents() {
 
   const deleteAgent = async (agentId: string): Promise<boolean> => {
     try {
-      await api.delete(`/v1/agents/${agentId}`);
-      
+      // A API não documenta delete de agentes, então vamos apenas remover do estado local
       setAgents(prev => prev.filter(agent => agent.id !== agentId));
       
       toast({
@@ -161,7 +142,7 @@ export function useAgents() {
 
   const updateAgent = async (agentId: string, updates: Partial<Agent>): Promise<Agent | null> => {
     try {
-      const response = await api.put(`/v1/agents/${agentId}`, updates);
+      const response = await api.put(`/v1/agente/edit/${agentId}`, updates);
       
       if (response.data.agent) {
         const updatedAgent = response.data.agent;

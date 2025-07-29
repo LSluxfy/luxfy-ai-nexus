@@ -83,9 +83,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const token = localStorage.getItem('jwt-token');
     
     if (token) {
-      // Como não existe mais endpoint para verificar auth, apenas marca como não carregando
-      // O usuário terá que fazer login novamente se o token expirar
-      setLoading(false);
+      fetchUserData().catch(() => {
+        // Se der erro na verificação inicial, apenas define loading como false
+        setLoading(false);
+      }).finally(() => {
+        setLoading(false);
+      });
     } else {
       setLoading(false);
     }
@@ -132,39 +135,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (response.data.jwt) {
         localStorage.setItem('jwt-token', response.data.jwt);
         
-        // Cria um usuário temporário com dados básicos do JWT
-        const userData = {
-          id: 0,
-          email,
-          userName: '',
-          name: '',
-          lastName: '',
-          loginMethod: 'EMAIL',
-          verificationCode: '',
-          numberAgentes: 0,
-          plan: '',
-          profileExpire: null,
-          appointments: [],
-          createAt: '',
-          lastLogin: null,
-          updateAt: null,
-          agents: [],
-          invoices: []
-        };
-        
-        setUser(userData);
-        const sessionData = {
-          user: userData,
-          token: response.data.jwt
-        };
-        setSession(sessionData);
-        
-        toast({
-          title: "Login realizado com sucesso!",
-          description: "Bem-vindo de volta.",
-        });
+        try {
+          await fetchUserData();
+          
+          toast({
+            title: "Login realizado com sucesso!",
+            description: "Bem-vindo de volta.",
+          });
 
-        navigate('/dashboard');
+          navigate('/dashboard');
+        } catch (fetchError: any) {
+          console.log('Erro ao buscar dados do usuário:', fetchError);
+          // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
+          if (fetchError.response?.status === 402) {
+            const errorData = fetchError.response?.data;
+            console.log('Fatura pendente detectada:', errorData);
+            if (errorData?.invoice) {
+              console.log('Redirecionando para:', `/pending-invoice?invoice=${errorData.invoice}`);
+              navigate(`/pending-invoice?invoice=${errorData.invoice}`);
+              return;
+            }
+          }
+          
+          throw fetchError;
+        }
       }
     } catch (error: any) {
       let errorMessage = 'Erro ao fazer login';
