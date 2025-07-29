@@ -57,9 +57,9 @@ const App = () => (
                   </ProtectedRoute>
                 }>
                   <Route index element={<Dashboard />} />
+                  <Route path="agents" element={<AgentsPage />} />
                   <Route path="agent" element={<Navigate to="agents" replace />} />
                   <Route path="agent/:id" element={<AgentPage />} />
-                  <Route path="agents" element={<AgentsPage />} />
                   <Route path="crm" element={<CRMPage />} />
                   <Route path="crm/:agentId" element={<CRMPage />} />
                   <Route path="chat" element={<ChatPage />} />
