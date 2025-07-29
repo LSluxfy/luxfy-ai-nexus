@@ -11,13 +11,18 @@ export function AgentPage() {
   const { user } = useAuth();
 
   useEffect(() => {
+    console.log('AgentPage - ID:', id);
+    console.log('AgentPage - User agents:', user?.agents);
+    
     if (!id || !user?.agents) {
+      console.log('AgentPage - Missing ID or user agents');
       setLoading(false);
       return;
     }
 
     // Buscar o agente nos dados que já temos do contexto
     const foundAgent = user.agents.find(agent => agent.id.toString() === id);
+    console.log('AgentPage - Found agent:', foundAgent);
     setAgent(foundAgent || null);
     setLoading(false);
   }, [id, user]);

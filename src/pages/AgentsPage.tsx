@@ -1,19 +1,22 @@
 
 import React, { useState } from 'react';
-import { useAgents } from '@/hooks/use-agent';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, UserPlus, Trash2 } from 'lucide-react';
-import { Agent } from '@/hooks/use-agent';
+import { Plus, UserPlus, Trash2, Settings } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useAgentApi } from '@/hooks/use-agent-api';
 
 const AgentsPage = () => {
   const { t } = useTranslation();
-  const { agents, userPlan, loading, createAgent, deleteAgent, canCreateAgent } = useAgents();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { createAgent, deleteAgent } = useAgentApi();
   const [newAgentName, setNewAgentName] = useState('');
   const [newAgentDescription, setNewAgentDescription] = useState('');
   const [isCreating, setIsCreating] = useState(false);
@@ -24,7 +27,10 @@ const AgentsPage = () => {
     setIsCreating(true);
     
     if (newAgentName.trim()) {
-      await createAgent(newAgentName.trim(), newAgentDescription.trim());
+      await createAgent({
+        name: newAgentName.trim(),
+        description: newAgentDescription.trim()
+      });
       setNewAgentName('');
       setNewAgentDescription('');
       setOpenDialog(false);
@@ -33,13 +39,22 @@ const AgentsPage = () => {
     setIsCreating(false);
   };
 
-  const handleDeleteAgent = async (agent: Agent) => {
-    if (window.confirm(`${t('agents.deleteConfirm')} ${agent.name}?`)) {
-      await deleteAgent(agent.id);
+  const handleDeleteAgent = async (agentId: number) => {
+    const agent = user?.agents?.find(a => a.id === agentId);
+    if (agent && window.confirm(`${t('agents.deleteConfirm')} ${agent.name}?`)) {
+      await deleteAgent(agentId.toString());
     }
   };
 
-  if (loading) {
+  const handleConfigureAgent = (agentId: number) => {
+    navigate(`/dashboard/agent/${agentId}`);
+  };
+
+  const agents = user?.agents || [];
+  const loading = false;
+  const canCreateAgent = true; // Por enquanto, sempre permitir criar agente
+
+  if (!user) {
     return <div className="py-10 text-center">{t('agents.loading')}</div>;
   }
 
@@ -49,10 +64,10 @@ const AgentsPage = () => {
         <div>
           <h1 className="text-3xl font-bold">{t('agents.title')}</h1>
           <p className="text-muted-foreground">
-            {userPlan && (
+            {user && (
               <>
-                {t('agents.currentPlan')}: <span className="font-semibold capitalize">{userPlan.plan_type}</span> •
-                {" "}Agentes: <span className="font-semibold">{agents.length}/{userPlan.max_agents}</span>
+                {t('agents.currentPlan')}: <span className="font-semibold capitalize">{user.plan}</span> •
+                {" "}Agentes: <span className="font-semibold">{agents.length}/{user.numberAgentes || 'Ilimitado'}</span>
               </>
             )}
           </p>
@@ -147,7 +162,7 @@ const AgentsPage = () => {
                     variant="ghost"
                     size="sm"
                     className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
-                    onClick={() => handleDeleteAgent(agent)}
+                    onClick={() => handleDeleteAgent(agent.id)}
                   >
                     <Trash2 size={16} />
                   </Button>
@@ -159,7 +174,13 @@ const AgentsPage = () => {
                 </p>
               </CardContent>
               <CardFooter className="flex justify-between">
-                <Button variant="outline" size="sm" className="w-full">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full"
+                  onClick={() => handleConfigureAgent(agent.id)}
+                >
+                  <Settings className="h-4 w-4 mr-1" />
                   {t('agents.configureAgent')}
                 </Button>
               </CardFooter>
