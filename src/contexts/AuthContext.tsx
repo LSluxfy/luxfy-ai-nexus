@@ -129,15 +129,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         password
       });
 
-      if (response.data.token && response.data.user) {
-        localStorage.setItem('jwt-token', response.data.token);
+      if (response.data.jwt) {
+        localStorage.setItem('jwt-token', response.data.jwt);
         
-        // O login já retorna os dados do usuário
-        const userData = response.data.user;
+        // Cria um usuário temporário com dados básicos do JWT
+        const userData = {
+          id: 0,
+          email,
+          userName: '',
+          name: '',
+          lastName: '',
+          loginMethod: 'EMAIL',
+          verificationCode: '',
+          numberAgentes: 0,
+          plan: '',
+          profileExpire: null,
+          appointments: [],
+          createAt: '',
+          lastLogin: null,
+          updateAt: null,
+          agents: [],
+          invoices: []
+        };
+        
         setUser(userData);
         const sessionData = {
           user: userData,
-          token: response.data.token
+          token: response.data.jwt
         };
         setSession(sessionData);
         
