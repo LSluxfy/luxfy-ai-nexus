@@ -31,7 +31,22 @@ export function AgentPage() {
     // Buscar o agente nos dados que já temos do contexto
     const foundAgent = user.agents.find(agent => agent.id.toString() === id);
     console.log('AgentPage - Found agent:', foundAgent);
-    setAgent(foundAgent || null);
+    
+    // Converter strings JSON para objetos JavaScript
+    if (foundAgent) {
+      const processedAgent = {
+        ...foundAgent,
+        apprenticeship: typeof foundAgent.apprenticeship === 'string' 
+          ? JSON.parse(foundAgent.apprenticeship || '[]') 
+          : foundAgent.apprenticeship || [],
+        flow: typeof foundAgent.flow === 'string' 
+          ? JSON.parse(foundAgent.flow || '[]') 
+          : foundAgent.flow || []
+      };
+      setAgent(processedAgent);
+    } else {
+      setAgent(null);
+    }
     setLoading(false);
   }, [id, user]);
 
