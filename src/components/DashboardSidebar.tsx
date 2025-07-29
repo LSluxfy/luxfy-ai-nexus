@@ -19,11 +19,12 @@ const DashboardSidebar = () => {
       icon: <UserPlus className="h-5 w-5" />,
       badge: userPlan ? `${agents.length}/${userPlan.max_agents}` : '0/1'
     },
-    {
+    // Só mostrar "Agente" se há agentes criados
+    ...(agents.length > 0 ? [{
       label: "Agente",
       href: "/dashboard/agent",
       icon: <BookUserIcon className="h-5 w-5" />,
-    },
+    }] : []),
     {
       label: "CRM",
       href: "/dashboard/crm",
