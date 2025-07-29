@@ -139,7 +139,10 @@ export function useCRM({ agentId, enabled = true }: UseCRMOptions) {
     if (!finalData?.tables) return;
     
     const tableKeys = Object.keys(finalData.tables);
-    const nextKey = (Math.max(...tableKeys.map(k => parseInt(k))) + 1).toString();
+    const maxKey = tableKeys.length > 0 
+      ? Math.max(...tableKeys.map(k => parseInt(k) || 0))
+      : 0;
+    const nextKey = (maxKey + 1).toString();
     
     const updatedTables = {
       ...finalData.tables,
