@@ -28,11 +28,11 @@ export function CampaignForm({ agentId, campaign, onSuccess }: CampaignFormProps
     dispatchesPer: campaign?.dispatchesPer || 'DAY',
     attachments: campaign?.attachments || [],
     startDate: campaign?.startDate || new Date().toISOString(),
-    endDate: campaign?.endDate || null,
+    endDate: campaign?.endDate || undefined,
     sendBy: campaign?.sendBy || 'EMAIL_AND_WHATSAPP',
-    message: campaign?.message || null,
-    subject: campaign?.subject || null,
-    body: campaign?.body || null,
+    message: campaign?.message || undefined,
+    subject: campaign?.subject || undefined,
+    body: campaign?.body || undefined,
     active: campaign?.active ?? true
   });
   
@@ -143,7 +143,7 @@ export function CampaignForm({ agentId, campaign, onSuccess }: CampaignFormProps
             value={formData.endDate ? formatDateForInput(formData.endDate) : ''}
             onChange={(e) => setFormData(prev => ({ 
               ...prev, 
-              endDate: e.target.value ? new Date(e.target.value).toISOString() : null 
+              endDate: e.target.value ? new Date(e.target.value).toISOString() : undefined 
             }))}
           />
         </div>
