@@ -20,35 +20,14 @@ const CRMPage = () => {
   const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   
-  // Estado para o agente selecionado
-  const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null);
-
-  // Get current agent ID from URL params or selected agent
-  const currentAgentId = agentId || selectedAgentId;
-
-  // Debug logs
-  console.log('CRMPage Debug:', {
-    user: user,
-    agents: user?.agents,
-    agentId: agentId,
-    selectedAgentId: selectedAgentId,
-    currentAgentId: currentAgentId
-  });
-
-  // Inicializar o agente selecionado quando o usuário estiver disponível
-  useEffect(() => {
-    console.log('CRMPage useEffect:', { agentId, user, selectedAgentId });
-    
-    if (agentId) {
-      setSelectedAgentId(agentId);
-    } else if (user?.agents && user.agents.length > 0 && !selectedAgentId) {
-      // Auto-selecionar o primeiro agente apenas se não há um já selecionado
-      const firstAgentId = user.agents[0].id.toString();
-      console.log('Auto-selecting first agent:', firstAgentId);
-      setSelectedAgentId(firstAgentId);
-      navigate(`/dashboard/crm/${firstAgentId}`, { replace: true });
-    }
-  }, [user?.agents, agentId, selectedAgentId, navigate]);
+  // Se não há agentId na URL, redireciona para a página de seleção
+  if (!agentId) {
+    navigate('/dashboard/crm', { replace: true });
+    return null;
+  }
+  
+  // Estado para o agente selecionado (sempre será o agentId da URL)
+  const [selectedAgentId, setSelectedAgentId] = useState<string | null>(agentId);
 
   const {
     crmData,
@@ -64,15 +43,13 @@ const CRMPage = () => {
     removeColumn,
     renameColumn,
   } = useCRM({
-    agentId: currentAgentId || '',
-    enabled: !!currentAgentId
+    agentId: agentId,
+    enabled: !!agentId
   });
 
-  // Handler para mudança de agente
+  // Handler para mudança de agente (redireciona para página de seleção)
   const handleAgentChange = (agentId: string) => {
-    setSelectedAgentId(agentId);
-    // Atualiza a URL para refletir o agente selecionado
-    navigate(`/dashboard/crm/${agentId}`, { replace: true });
+    navigate(`/dashboard/crm/${agentId}`);
   };
 
   // Filter leads based on search term
@@ -144,45 +121,6 @@ const CRMPage = () => {
               >
                 Tentar novamente
               </Button>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  // Se não há agente selecionado, mostrar o seletor
-  if (!currentAgentId) {
-    return (
-      <div className="flex flex-col min-h-screen">
-        <DashboardHeader title={t('crm.title')} />
-        <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-                {t('crm.title')}
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300">
-                {t('crm.subtitle')}
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-              <AgentSelector 
-                selectedAgentId={selectedAgentId}
-                onAgentChange={handleAgentChange}
-              />
-            </div>
-          </div>
-          
-          <div className="flex items-center justify-center h-64">
-            <div className="text-center">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Selecione um agente
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Escolha um agente acima para visualizar os dados do CRM.
-              </p>
             </div>
           </div>
         </main>

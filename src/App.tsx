@@ -16,6 +16,7 @@ import DashboardLayout from "./components/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import AgentPage from "./pages/AgentPage";
 import CRMPage from "./pages/CRMPage";
+import CRMSelectionPage from "./pages/CRMSelectionPage";
 import AgentsPage from "./pages/AgentsPage";
 import ChatPage from "./pages/ChatPage";
 import CampanhasPage from "./pages/CampanhasPage";
@@ -60,7 +61,7 @@ const App = () => (
                   <Route path="agents" element={<AgentsPage />} />
                   <Route path="agent" element={<Navigate to="agents" replace />} />
                   <Route path="agent/:id" element={<AgentPage />} />
-                  <Route path="crm" element={<CRMPage />} />
+                  <Route path="crm" element={<CRMSelectionPage />} />
                   <Route path="crm/:agentId" element={<CRMPage />} />
                   <Route path="chat" element={<ChatPage />} />
                   <Route path="campanhas" element={<CampanhasPage />} />
