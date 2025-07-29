@@ -30,28 +30,61 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
       // Apenas enviar campos que foram realmente alterados
       const changedFields: any = {};
       
+      // Debug: ver os valores originais e atuais
+      console.log('Valores originais do agent:', {
+        oficialMetaWhatsappPhoneNumber: agent.oficialMetaWhatsappPhoneNumber,
+        hostEmail: agent.hostEmail,
+        portEmail: agent.portEmail,
+        secureEmail: agent.secureEmail,
+        userEmail: agent.userEmail
+      });
+      
+      console.log('Valores do formData:', formData);
+      
       // Função para normalizar valores (null/undefined vira string vazia)
       const normalize = (value: any) => value || '';
       
       if (normalize(formData.oficialMetaWhatsappPhoneNumber) !== normalize(agent.oficialMetaWhatsappPhoneNumber)) {
+        console.log('Mudança detectada em oficialMetaWhatsappPhoneNumber:', {
+          original: agent.oficialMetaWhatsappPhoneNumber,
+          novo: formData.oficialMetaWhatsappPhoneNumber
+        });
         changedFields.oficialMetaWhatsappPhoneNumber = formData.oficialMetaWhatsappPhoneNumber;
       }
       
       if (normalize(formData.hostEmail) !== normalize(agent.hostEmail)) {
+        console.log('Mudança detectada em hostEmail:', {
+          original: agent.hostEmail,
+          novo: formData.hostEmail
+        });
         changedFields.hostEmail = formData.hostEmail;
       }
       
       if (normalize(formData.portEmail) !== normalize(agent.portEmail)) {
+        console.log('Mudança detectada em portEmail:', {
+          original: agent.portEmail,
+          novo: formData.portEmail
+        });
         changedFields.portEmail = formData.portEmail;
       }
       
       if (formData.secureEmail !== (agent.secureEmail ?? true)) {
+        console.log('Mudança detectada em secureEmail:', {
+          original: agent.secureEmail,
+          novo: formData.secureEmail
+        });
         changedFields.secureEmail = formData.secureEmail;
       }
       
       if (normalize(formData.userEmail) !== normalize(agent.userEmail)) {
+        console.log('Mudança detectada em userEmail:', {
+          original: agent.userEmail,
+          novo: formData.userEmail
+        });
         changedFields.userEmail = formData.userEmail;
       }
+      
+      console.log('Campos alterados que serão enviados:', changedFields);
 
       // Se não há campos alterados, não fazer a requisição
       if (Object.keys(changedFields).length === 0) {
