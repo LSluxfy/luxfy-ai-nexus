@@ -19,7 +19,7 @@ export function AgentCampaigns({ agentId }: AgentCampaignsProps) {
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   
-  const { campaigns, loading, creating, updateCampaign, fetchCampaigns } = useAgentCampaigns(agentId);
+  const { campaigns, loading, creating, updateCampaign, deleteCampaign, fetchCampaigns } = useAgentCampaigns(agentId);
 
   const handleEdit = (campaign: Campaign) => {
     setSelectedCampaign(campaign);
@@ -34,6 +34,12 @@ export function AgentCampaigns({ agentId }: AgentCampaignsProps) {
   const handleClose = () => {
     setIsDialogOpen(false);
     setSelectedCampaign(null);
+  };
+
+  const handleDelete = async (campaign: Campaign) => {
+    if (confirm(`Tem certeza que deseja excluir a campanha "${campaign.name}"?`)) {
+      await deleteCampaign(campaign.id.toString());
+    }
   };
 
   const getChannelIcon = (sendBy: string) => {
@@ -159,7 +165,10 @@ export function AgentCampaigns({ agentId }: AgentCampaignsProps) {
                         <Edit className="h-4 w-4 mr-2" />
                         Editar
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive">
+                      <DropdownMenuItem 
+                        className="text-destructive"
+                        onClick={() => handleDelete(campaign)}
+                      >
                         <Trash2 className="h-4 w-4 mr-2" />
                         Excluir
                       </DropdownMenuItem>

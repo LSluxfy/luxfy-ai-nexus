@@ -84,6 +84,32 @@ export function useAgentCampaigns(agentId?: string) {
     }
   };
 
+  // Deletar campanha
+  const deleteCampaign = async (campaignId: string) => {
+    if (!agentId) throw new Error('Agent ID is required');
+    
+    try {
+      setUpdating(true);
+      const response = await AgentApiService.deleteCampaign(agentId, campaignId);
+      
+      toast({
+        title: "Campanha excluída",
+        description: response.message,
+      });
+
+      await fetchCampaigns();
+    } catch (error: any) {
+      toast({
+        title: "Erro ao excluir campanha",
+        description: error.response?.data?.error || error.message,
+        variant: "destructive",
+      });
+      throw error;
+    } finally {
+      setUpdating(false);
+    }
+  };
+
   useEffect(() => {
     if (agentId) {
       fetchCampaigns();
@@ -97,6 +123,7 @@ export function useAgentCampaigns(agentId?: string) {
     updating,
     createCampaign,
     updateCampaign,
+    deleteCampaign,
     fetchCampaigns,
   };
 }

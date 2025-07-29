@@ -81,4 +81,9 @@ export class AgentApiService {
     const response = await api.put(`/v1/agente/id/${agentId}/campaign/edit/${campaignId}`, data);
     return response.data;
   }
+
+  static async deleteCampaign(agentId: string, campaignId: string): Promise<{ message: string }> {
+    const response = await api.delete(`/v1/agente/id/${agentId}/campaign/delete/${campaignId}`);
+    return response.data;
+  }
 }
