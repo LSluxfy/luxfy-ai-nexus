@@ -1,24 +1,40 @@
 
-import React, { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import DashboardHeader from '@/components/DashboardHeader';
 import { useChat } from '@/hooks/use-chat';
 import ChatList from '@/components/chat/ChatList';
 import ChatHeader from '@/components/chat/ChatHeader';
 import ChatMessages from '@/components/chat/ChatMessages';
 import ChatInput from '@/components/chat/ChatInput';
+import { AgentSelector } from '@/components/crm/AgentSelector';
 import { MessageSquare, AlertCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/AuthContext';
 
 const ChatPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
   const { agentId } = useParams<{ agentId?: string }>();
+  const { user } = useAuth();
   
-  // Get agentId from URL params or location state
-  const currentAgentId = agentId || location.state?.agentId || '1';
+  // Estado para o agente selecionado
+  const [selectedAgentId, setSelectedAgentId] = useState<string | null>(
+    agentId || location.state?.agentId || 
+    (user?.agents && user.agents.length > 0 ? user.agents[0].id.toString() : null)
+  );
+
+  // Get current agent ID from URL params or selected agent
+  const currentAgentId = agentId || selectedAgentId;
+
+  // Handler para mudança de agente
+  const handleAgentChange = (newAgentId: string) => {
+    setSelectedAgentId(newAgentId);
+    navigate(`/dashboard/chat`, { replace: true });
+  };
 
   const {
     chats,
@@ -36,7 +52,7 @@ const ChatPage = () => {
     isUpdatingSettings,
     refetch,
   } = useChat({
-    agentId: currentAgentId,
+    agentId: currentAgentId || '',
     enabled: !!currentAgentId
   });
 
@@ -46,6 +62,30 @@ const ChatPage = () => {
       setSelectedChatId(location.state.selectedUserId);
     }
   }, [location.state, setSelectedChatId]);
+
+  // Mostrar erro se não há agente selecionado
+  if (!currentAgentId && user?.agents && user.agents.length > 0) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <DashboardHeader title={t('chat.title')}>
+          <AgentSelector
+            selectedAgentId={currentAgentId}
+            onAgentChange={handleAgentChange}
+          />
+        </DashboardHeader>
+        
+        <main className="flex-1 flex items-center justify-center bg-gray-50 p-6">
+          <div className="max-w-md w-full text-center">
+            <MessageSquare size={64} className="mx-auto mb-4 text-gray-300" />
+            <h3 className="text-lg font-medium mb-2">Selecione um agente</h3>
+            <p className="text-gray-600">
+              Escolha um agente acima para visualizar as conversas
+            </p>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   if (error) {
     return (
@@ -81,9 +121,12 @@ const ChatPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <DashboardHeader 
-        title={`${t('chat.title')} ${currentAgentId ? `- Agente ${currentAgentId}` : ''}`} 
-      />
+      <DashboardHeader title={t('chat.title')}>
+        <AgentSelector
+          selectedAgentId={currentAgentId}
+          onAgentChange={handleAgentChange}
+        />
+      </DashboardHeader>
       
       <main className="flex-1 flex bg-gray-50">
         <ChatList

@@ -14,13 +14,15 @@ import {
 
 interface DashboardHeaderProps {
   title: string;
+  children?: React.ReactNode;
 }
 
-const DashboardHeader: React.FC<DashboardHeaderProps> = ({ title }) => {
+const DashboardHeader: React.FC<DashboardHeaderProps> = ({ title, children }) => {
   return (
     <header className="bg-white border-b border-gray-200 h-16 flex items-center px-6">
-      <div className="flex-1">
+      <div className="flex-1 flex items-center gap-4">
         <h1 className="text-xl font-semibold text-gray-800">{title}</h1>
+        {children}
       </div>
       
       <div className="flex items-center gap-3">
