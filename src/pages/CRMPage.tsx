@@ -26,13 +26,25 @@ const CRMPage = () => {
   // Get current agent ID from URL params or selected agent
   const currentAgentId = agentId || selectedAgentId;
 
+  // Debug logs
+  console.log('CRMPage Debug:', {
+    user: user,
+    agents: user?.agents,
+    agentId: agentId,
+    selectedAgentId: selectedAgentId,
+    currentAgentId: currentAgentId
+  });
+
   // Inicializar o agente selecionado quando o usuário estiver disponível
   useEffect(() => {
+    console.log('CRMPage useEffect:', { agentId, user, selectedAgentId });
+    
     if (agentId) {
       setSelectedAgentId(agentId);
     } else if (user?.agents && user.agents.length > 0 && !selectedAgentId) {
       // Auto-selecionar o primeiro agente apenas se não há um já selecionado
       const firstAgentId = user.agents[0].id.toString();
+      console.log('Auto-selecting first agent:', firstAgentId);
       setSelectedAgentId(firstAgentId);
       navigate(`/dashboard/crm/${firstAgentId}`, { replace: true });
     }
