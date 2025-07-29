@@ -27,7 +27,40 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
     setLoading(true);
 
     try {
-      const response = await AgentApiService.updateAgent(agent.id.toString(), formData);
+      // Apenas enviar campos que foram realmente alterados
+      const changedFields: any = {};
+      
+      if (formData.oficialMetaWhatsappPhoneNumber !== (agent.oficialMetaWhatsappPhoneNumber || '')) {
+        changedFields.oficialMetaWhatsappPhoneNumber = formData.oficialMetaWhatsappPhoneNumber;
+      }
+      
+      if (formData.hostEmail !== (agent.hostEmail || '')) {
+        changedFields.hostEmail = formData.hostEmail;
+      }
+      
+      if (formData.portEmail !== (agent.portEmail || '')) {
+        changedFields.portEmail = formData.portEmail;
+      }
+      
+      if (formData.secureEmail !== (agent.secureEmail ?? true)) {
+        changedFields.secureEmail = formData.secureEmail;
+      }
+      
+      if (formData.userEmail !== (agent.userEmail || '')) {
+        changedFields.userEmail = formData.userEmail;
+      }
+
+      // Se não há campos alterados, não fazer a requisição
+      if (Object.keys(changedFields).length === 0) {
+        toast({
+          title: "Nenhuma alteração",
+          description: "Nenhum campo foi modificado.",
+        });
+        setLoading(false);
+        return;
+      }
+
+      const response = await AgentApiService.updateAgent(agent.id.toString(), changedFields);
       onUpdate(response.agent);
       toast({
         title: "Sucesso",
