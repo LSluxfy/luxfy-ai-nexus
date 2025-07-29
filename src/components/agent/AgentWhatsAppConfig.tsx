@@ -60,7 +60,7 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
           original: agent.oficialMetaWhatsappPhoneNumber,
           novo: formData.oficialMetaWhatsappPhoneNumber
         });
-        changedFields.oficialMetaWhatsappPhoneNumber = formData.oficialMetaWhatsappPhoneNumber;
+        changedFields.oficialMetaWhatsappPhoneNumber = formData.oficialMetaWhatsappPhoneNumber || undefined;
       }
       
       if (normalize(formData.hostEmail) !== normalize(agent.hostEmail)) {
@@ -68,7 +68,7 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
           original: agent.hostEmail,
           novo: formData.hostEmail
         });
-        changedFields.hostEmail = formData.hostEmail;
+        changedFields.hostEmail = formData.hostEmail || undefined;
       }
       
       if (normalize(formData.portEmail) !== normalize(agent.portEmail)) {
@@ -76,7 +76,7 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
           original: agent.portEmail,
           novo: formData.portEmail
         });
-        changedFields.portEmail = formData.portEmail;
+        changedFields.portEmail = formData.portEmail || undefined;
       }
       
       if (formData.secureEmail !== (agent.secureEmail ?? true)) {
@@ -92,7 +92,7 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
           original: agent.userEmail,
           novo: formData.userEmail
         });
-        changedFields.userEmail = formData.userEmail;
+        changedFields.userEmail = formData.userEmail || undefined;
       }
       
       console.log('Campos alterados que serão enviados:', changedFields);
