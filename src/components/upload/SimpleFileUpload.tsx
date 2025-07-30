@@ -47,7 +47,7 @@ export const SimpleFileUpload = ({
   };
 
   const handleUpload = () => {
-    const expireAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+    const expireAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
     upload(expireAt);
   };
 
