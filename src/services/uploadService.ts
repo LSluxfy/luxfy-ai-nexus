@@ -82,9 +82,9 @@ export class UploadService {
       onProgress?.(progressArray);
 
       console.log('FormData contents:');
-      for (const [key, value] of formData.entries()) {
-        console.log(key, value);
-      }
+      console.log('files', formData.getAll('files'));
+      console.log('expireAt', formData.get('expireAt'));
+      console.log('identificator', formData.get('identificator'));
 
       const response = await api.post('/v1/upload', formData, {
         headers: {
