@@ -37,13 +37,16 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
   const handleConnect = async () => {
     try {
       const response = await connectAgent(agent.id.toString());
-      setQrCode(response.qr_string);
-      setGenerated(response.generated);
+      console.log('Resposta da conexão:', response);
       
-      // Gerar imagem do QR code a partir da string
-      if (response.qr_string) {
+      // Verificar se existe QR code na resposta
+      if (response.agent?.qr_string) {
+        setQrCode(response.agent.qr_string);
+        setGenerated(response.agent.generated || false);
+        
+        // Gerar imagem do QR code a partir da string
         try {
-          const qrImageUrl = await QRCodeGenerator.toDataURL(response.qr_string, {
+          const qrImageUrl = await QRCodeGenerator.toDataURL(response.agent.qr_string, {
             width: 300,
             margin: 1,
             color: {
@@ -55,22 +58,32 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
         } catch (qrError) {
           console.error('Erro ao gerar QR code:', qrError);
         }
-      }
-      
-      // Verificar status periodicamente após conexão
-      const interval = setInterval(async () => {
-        const status = await checkStatus(agent.id.toString());
-        setIsOnline(status);
-        
-        if (status) {
-          setQrCode(null);
-          setQrCodeImage(null);
-          clearInterval(interval);
-        }
-      }, 5000);
 
-      // Limpar intervalo após 5 minutos
-      setTimeout(() => clearInterval(interval), 300000);
+        // Verificar status periodicamente após mostrar QR code
+        const interval = setInterval(async () => {
+          console.log('Verificando status do agente...');
+          const status = await checkStatus(agent.id.toString());
+          console.log('Status atual:', status);
+          setIsOnline(status);
+          
+          if (status) {
+            console.log('Agente conectado! Removendo QR code...');
+            setQrCode(null);
+            setQrCodeImage(null);
+            clearInterval(interval);
+          }
+        }, 5000);
+
+        // Limpar intervalo após 5 minutos para evitar polling infinito
+        setTimeout(() => {
+          console.log('Timeout de 5 minutos atingido, parando verificação de status');
+          clearInterval(interval);
+        }, 300000);
+      } else {
+        console.log('Nenhum QR code retornado na resposta');
+        // Se não há QR code, pode ser que já esteja conectado
+        checkAgentStatus();
+      }
     } catch (error) {
       console.error('Erro ao conectar:', error);
     }

@@ -20,7 +20,7 @@ export function useAgentWhatsApp() {
         description: response.message,
       });
 
-      return response.agent;
+      return response; // Retornar toda a resposta, não apenas o agent
     } catch (error: any) {
       toast({
         title: "Erro ao conectar",
