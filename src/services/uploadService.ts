@@ -88,8 +88,7 @@ export class UploadService {
 
       const response = await api.post('/v1/upload', formData, {
         headers: {
-          // Remove Content-Type para deixar o browser definir automaticamente
-          // incluindo o boundary do multipart/form-data
+          'Content-Type': 'multipart/form-data',
         },
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {
