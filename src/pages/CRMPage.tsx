@@ -9,6 +9,7 @@ import { CRMKanban } from '@/components/crm/CRMKanban';
 import { AgentSelector } from '@/components/crm/AgentSelector';
 import { NewLeadDialog } from '@/components/crm/NewLeadDialog';
 import { useCRM } from '@/hooks/use-crm';
+import { useAgentTags } from '@/hooks/use-agent-tags';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import type { CRMRow } from '@/types/crm';
@@ -28,6 +29,9 @@ const CRMPage = () => {
   
   // Estado para o agente selecionado (sempre será o agentId da URL)
   const [selectedAgentId, setSelectedAgentId] = useState<string | null>(agentId);
+
+  // Buscar tags do agente
+  const { data: agentTags = [], isLoading: tagsLoading } = useAgentTags(agentId);
 
   const {
     crmData,
@@ -212,6 +216,8 @@ const CRMPage = () => {
                 onAddLead={addLead}
                 tables={crmData?.tables || {}}
                 isUpdating={isUpdating}
+                agentTags={agentTags}
+                tagsLoading={tagsLoading}
               />
             </div>
           </div>

@@ -8,24 +8,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { TagAutocomplete } from '@/components/ui/tag-autocomplete';
 import { Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { useAgentTags } from '@/hooks/use-agent-tags';
 import type { CRMRow, CRMTables, LeadStatus } from '@/types/crm';
 
 interface NewLeadDialogProps {
   onAddLead: (leadData: Partial<CRMRow>) => void;
   tables: CRMTables;
   isUpdating?: boolean;
+  agentTags?: string[];
+  tagsLoading?: boolean;
 }
 
-export function NewLeadDialog({ onAddLead, tables, isUpdating = false }: NewLeadDialogProps) {
+export function NewLeadDialog({ onAddLead, tables, isUpdating = false, agentTags = [], tagsLoading = false }: NewLeadDialogProps) {
   const { t } = useTranslation();
-  const { agentId } = useParams<{ agentId: string }>();
-  const { data: agentTags = [], isLoading: tagsLoading } = useAgentTags(agentId);
-  
-  console.log('NewLeadDialog - Agent ID:', agentId);
-  console.log('NewLeadDialog - Agent Tags:', agentTags);
-  console.log('NewLeadDialog - Tags Loading:', tagsLoading);
   const [open, setOpen] = useState(false);
   const [tagInput, setTagInput] = useState('');
   const [formData, setFormData] = useState({
