@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useToast } from '@/hooks/use-toast';
 import { UploadService } from '@/services/uploadService';
+import { TagAutocomplete } from '@/components/ui/tag-autocomplete';
+import { useAgentTags } from '@/hooks/use-agent-tags';
 
 interface ChatInputProps {
   onSendMessage: (content: string, type?: 'text' | 'audio' | 'file' | 'image', attachmentUrl?: string) => void;
@@ -17,6 +19,7 @@ interface ChatInputProps {
   aiEnabled: boolean;
   userTags: string[];
   disabled?: boolean;
+  agentId?: string;
 }
 
 const ChatInput = ({ 
@@ -26,7 +29,8 @@ const ChatInput = ({
   onRemoveTag,
   aiEnabled, 
   userTags,
-  disabled = false
+  disabled = false,
+  agentId
 }: ChatInputProps) => {
   const [message, setMessage] = useState('');
   const [isRecording, setIsRecording] = useState(false);
@@ -39,6 +43,9 @@ const ChatInput = ({
   } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  // Buscar tags do agente para autocomplete
+  const { data: agentTags = [], isLoading: isLoadingTags } = useAgentTags(agentId);
 
   const handleSend = () => {
     if ((message.trim() || pendingAttachment) && !disabled) {
@@ -173,37 +180,17 @@ const ChatInput = ({
           </Badge>
         ))}
         
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="h-6 px-2 text-xs"
-              disabled={disabled}
-            >
-              + Tag
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-60">
-            <div className="space-y-2">
-              <Input
-                placeholder="Nova tag..."
-                value={newTag}
-                onChange={(e) => setNewTag(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleAddTag()}
-                disabled={disabled}
-              />
-              <Button 
-                onClick={handleAddTag} 
-                size="sm" 
-                className="w-full bg-luxfy-purple hover:bg-luxfy-darkPurple"
-                disabled={disabled}
-              >
-                Adicionar Tag
-              </Button>
-            </div>
-          </PopoverContent>
-        </Popover>
+        <TagAutocomplete
+          value={newTag}
+          onChange={setNewTag}
+          onAddTag={handleAddTag}
+          selectedTags={userTags}
+          onRemoveTag={onRemoveTag}
+          suggestions={agentTags}
+          isLoading={isLoadingTags}
+          placeholder="Adicionar tag..."
+          className="w-60"
+        />
       </div>
 
       {/* Controles da IA */}

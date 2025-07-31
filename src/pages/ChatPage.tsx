@@ -164,6 +164,7 @@ const ChatPage = () => {
               aiEnabled={selectedChat.aiEnabled}
               userTags={selectedChat.user.tags}
               disabled={isSendingMessage || isUpdatingSettings}
+              agentId={currentAgentId}
             />
           </div>
         ) : (

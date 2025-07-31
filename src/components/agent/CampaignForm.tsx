@@ -12,6 +12,8 @@ import { useToast } from '@/hooks/use-toast';
 import { useAgentCampaigns } from '@/hooks/use-agent-campaigns';
 import { Campaign, CreateCampaignRequest } from '@/types/agent-api';
 import { SimpleFileUpload } from '@/components/upload/SimpleFileUpload';
+import { TagAutocomplete } from '@/components/ui/tag-autocomplete';
+import { useAgentTags } from '@/hooks/use-agent-tags';
 
 interface CampaignFormProps {
   agentId: string;
@@ -38,6 +40,9 @@ export function CampaignForm({ agentId, campaign, onSuccess }: CampaignFormProps
   
   const { createCampaign, updateCampaign } = useAgentCampaigns(agentId);
   const { toast } = useToast();
+
+  // Buscar tags do agente para autocomplete
+  const { data: agentTags = [], isLoading: isLoadingTags } = useAgentTags(agentId);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -166,25 +171,16 @@ export function CampaignForm({ agentId, campaign, onSuccess }: CampaignFormProps
 
       <div className="space-y-2">
         <Label>Tags</Label>
-        <div className="flex gap-2 mb-2">
-          <Input
-            value={newTag}
-            onChange={(e) => setNewTag(e.target.value)}
-            placeholder="Adicionar tag"
-            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-          />
-          <Button type="button" onClick={addTag} variant="outline">
-            Adicionar
-          </Button>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {formData.tags.map((tag) => (
-            <Badge key={tag} variant="secondary" className="gap-1">
-              {tag}
-              <X className="h-3 w-3 cursor-pointer" onClick={() => removeTag(tag)} />
-            </Badge>
-          ))}
-        </div>
+        <TagAutocomplete
+          value={newTag}
+          onChange={setNewTag}
+          onAddTag={addTag}
+          selectedTags={formData.tags}
+          onRemoveTag={removeTag}
+          suggestions={agentTags}
+          isLoading={isLoadingTags}
+          placeholder="Adicionar tag..."
+        />
       </div>
 
       <Tabs defaultValue="whatsapp" className="w-full">
