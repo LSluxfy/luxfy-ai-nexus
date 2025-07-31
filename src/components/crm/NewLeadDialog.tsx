@@ -20,8 +20,12 @@ interface NewLeadDialogProps {
 
 export function NewLeadDialog({ onAddLead, tables, isUpdating = false }: NewLeadDialogProps) {
   const { t } = useTranslation();
-  const { id: agentId } = useParams<{ id: string }>();
+  const { agentId } = useParams<{ agentId: string }>();
   const { data: agentTags = [], isLoading: tagsLoading } = useAgentTags(agentId);
+  
+  console.log('NewLeadDialog - Agent ID:', agentId);
+  console.log('NewLeadDialog - Agent Tags:', agentTags);
+  console.log('NewLeadDialog - Tags Loading:', tagsLoading);
   const [open, setOpen] = useState(false);
   const [tagInput, setTagInput] = useState('');
   const [formData, setFormData] = useState({

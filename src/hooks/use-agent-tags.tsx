@@ -14,8 +14,16 @@ export const useAgentTags = (agentId: string | undefined) => {
         throw new Error('Agent ID is required');
       }
 
-      const response = await api.get<UseAgentTagsResponse>(`/v1/agente/tags/${agentId}`);
-      return response.data.tags;
+      console.log('Fetching tags for agent:', agentId);
+      
+      try {
+        const response = await api.get<UseAgentTagsResponse>(`/v1/agente/tags/${agentId}`);
+        console.log('Tags response:', response.data);
+        return response.data.tags;
+      } catch (error) {
+        console.error('Error fetching tags:', error);
+        throw error;
+      }
     },
     enabled: !!agentId,
     staleTime: 1000 * 60 * 5, // 5 minutes
