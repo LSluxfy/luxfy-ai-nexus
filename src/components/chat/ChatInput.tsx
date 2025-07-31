@@ -32,12 +32,26 @@ const ChatInput = ({
   const [isRecording, setIsRecording] = useState(false);
   const [newTag, setNewTag] = useState('');
   const [isUploading, setIsUploading] = useState(false);
+  const [pendingAttachment, setPendingAttachment] = useState<{
+    url: string;
+    name: string;
+    type: 'image' | 'file';
+  } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const handleSend = () => {
-    if (message.trim() && !disabled) {
-      onSendMessage(message.trim());
+    if ((message.trim() || pendingAttachment) && !disabled) {
+      if (pendingAttachment) {
+        onSendMessage(
+          message.trim() || (pendingAttachment.type === 'image' ? 'Imagem enviada' : `Arquivo enviado: ${pendingAttachment.name}`),
+          pendingAttachment.type,
+          pendingAttachment.url
+        );
+        setPendingAttachment(null);
+      } else {
+        onSendMessage(message.trim());
+      }
       setMessage('');
     }
   };
@@ -87,15 +101,16 @@ const ChatInput = ({
       const isImage = UploadService.isImageFile(file);
       const type = isImage ? 'image' : 'file';
       
-      onSendMessage(
-        isImage ? 'Imagem enviada' : `Arquivo enviado: ${file.name}`, 
-        type,
-        fileUrl
-      );
+      // Definir anexo pendente em vez de enviar automaticamente
+      setPendingAttachment({
+        url: fileUrl,
+        name: file.name,
+        type
+      });
 
       toast({
-        title: "Arquivo enviado",
-        description: `${file.name} foi enviado com sucesso.`,
+        title: "Upload concluído",
+        description: `${file.name} anexado. Escreva sua mensagem e envie.`,
       });
     } catch (error: any) {
       console.error('Erro no upload:', error);
@@ -254,13 +269,31 @@ const ChatInput = ({
         
         <Button
           onClick={handleSend}
-          disabled={!message.trim() || disabled}
+          disabled={(!message.trim() && !pendingAttachment) || disabled}
           size="icon"
           className="bg-luxfy-purple hover:bg-luxfy-darkPurple disabled:bg-gray-300"
         >
           <Send size={20} />
         </Button>
       </div>
+
+      {/* Anexo pendente */}
+      {pendingAttachment && (
+        <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg border">
+          <Paperclip size={16} className="text-luxfy-purple" />
+          <span className="flex-1 text-sm text-gray-700">
+            {pendingAttachment.name}
+          </span>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setPendingAttachment(null)}
+            className="h-6 w-6 p-0 text-gray-500 hover:text-red-500"
+          >
+            ×
+          </Button>
+        </div>
+      )}
 
       {isUploading && (
         <div className="text-xs text-gray-500 text-center">
