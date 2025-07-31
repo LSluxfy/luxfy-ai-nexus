@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { AgentBasicConfig } from './AgentBasicConfig';
 import { AgentWhatsAppConfig } from './AgentWhatsAppConfig';
 import { AgentAIConfig } from './AgentAIConfig';
+import { AgentVoiceManager } from './AgentVoiceManager';
 import { AgentTraining } from './AgentTraining';
 import { AgentFlowEditor } from './AgentFlowEditor';
 import { AgentSimulator } from './AgentSimulator';
@@ -32,6 +33,7 @@ export function AgentConfigTabs({ agent, onUpdate }: AgentConfigTabsProps) {
           <TabsTrigger value="basic">Básico</TabsTrigger>
           <TabsTrigger value="whatsapp">WhatsApp</TabsTrigger>
           <TabsTrigger value="ai">IA</TabsTrigger>
+          <TabsTrigger value="voices">Vozes</TabsTrigger>
           <TabsTrigger value="training">Treinamento</TabsTrigger>
           <TabsTrigger value="flows">Fluxos</TabsTrigger>
           <TabsTrigger value="simulator">Simulador</TabsTrigger>
@@ -72,6 +74,10 @@ export function AgentConfigTabs({ agent, onUpdate }: AgentConfigTabsProps) {
               <AgentAIConfig agent={agent} onUpdate={onUpdate} />
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="voices">
+          <AgentVoiceManager agent={agent} onUpdate={onUpdate} />
         </TabsContent>
 
         <TabsContent value="training">

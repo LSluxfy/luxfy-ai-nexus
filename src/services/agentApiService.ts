@@ -13,7 +13,11 @@ import {
   GetCampaignsResponse,
   SimulatorRequest,
   SimulatorApiResponse,
-  Campaign
+  Campaign,
+  ClonedVoice,
+  CloneVoiceRequest,
+  CloneVoiceResponse,
+  DeleteVoiceResponse
 } from '@/types/agent-api';
 
 export class AgentApiService {
@@ -84,6 +88,35 @@ export class AgentApiService {
 
   static async deleteCampaign(agentId: string, campaignId: string): Promise<{ message: string }> {
     const response = await api.delete(`/v1/agente/id/${agentId}/campaign/delete/${campaignId}`);
+    return response.data;
+  }
+
+  // Voice management methods
+  static async getAgentVoices(agentId: string): Promise<ClonedVoice[]> {
+    const response = await api.get<ClonedVoice[]>(`/v1/voices/agent/${agentId}/all`);
+    return response.data;
+  }
+
+  static async cloneVoice(agentId: string, data: CloneVoiceRequest): Promise<CloneVoiceResponse> {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('description', data.description);
+    formData.append('labels', data.labels);
+    
+    data.files.forEach((file) => {
+      formData.append('files', file);
+    });
+
+    const response = await api.post<CloneVoiceResponse>(`/v1/voices/agent/${agentId}/clone`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  }
+
+  static async deleteVoice(voiceId: string): Promise<DeleteVoiceResponse> {
+    const response = await api.delete<DeleteVoiceResponse>(`/v1/voices/${voiceId}/delete`);
     return response.data;
   }
 }

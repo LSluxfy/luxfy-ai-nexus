@@ -285,3 +285,34 @@ export interface GetCampaignsResponse extends ApiResponse<Campaign[]> {
 export interface SimulatorApiResponse extends ApiResponse<SimulatorResponse> {
   response: SimulatorResponse;
 }
+
+// Interface de voz clonada
+export interface ClonedVoice {
+  id: number;
+  voiceName: string;
+  voiceId: string;
+  agentId: number;
+  createAt: string;
+  updateAt: string;
+}
+
+// Requests para vozes
+export interface CloneVoiceRequest {
+  name: string;
+  description: string;
+  labels: string;
+  files: File[];
+}
+
+// Responses para vozes
+export interface GetVoicesResponse extends ApiResponse<ClonedVoice[]> {
+  voices: ClonedVoice[];
+}
+
+export interface CloneVoiceResponse extends ApiResponse<any> {
+  message: string;
+}
+
+export interface DeleteVoiceResponse extends ApiResponse<any> {
+  message: string;
+}
