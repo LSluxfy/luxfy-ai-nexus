@@ -122,21 +122,6 @@ export function AgentAIConfig({ agent, onUpdate }: AgentAIConfigProps) {
           />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="elevenlabs-voice">ID da Voz ElevenLabs</Label>
-          <Select value={formData.selectVoiceId} onValueChange={(value) => setFormData(prev => ({ ...prev, selectVoiceId: value }))}>
-            <SelectTrigger>
-              <SelectValue placeholder="Selecionar voz" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="9BWtsMINqrJLrRacOk9x">Aria</SelectItem>
-              <SelectItem value="CwhRBWXzGAHq8TQ4Fs17">Roger</SelectItem>
-              <SelectItem value="EXAVITQu4vr4xnSDxMaL">Sarah</SelectItem>
-              <SelectItem value="FGY2WhTYpPnrIDTdsKH5">Laura</SelectItem>
-              <SelectItem value="IKne3meq5aSn9XLyUdCD">Charlie</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
       </div>
 
       <div className="space-y-4">
