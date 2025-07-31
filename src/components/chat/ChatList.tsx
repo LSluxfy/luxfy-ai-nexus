@@ -15,6 +15,13 @@ interface ChatListProps {
 }
 
 const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
+  // Ordenar chats por mensagem mais recente primeiro
+  const sortedChats = [...chats].sort((a, b) => {
+    const aTime = a.lastMessage?.timestamp || a.updatedAt;
+    const bTime = b.lastMessage?.timestamp || b.updatedAt;
+    return new Date(bTime).getTime() - new Date(aTime).getTime();
+  });
+
   return (
     <div className="w-80 border-r bg-white flex flex-col">
       <div className="p-4 border-b bg-gray-50">
@@ -29,7 +36,7 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
       </div>
       
       <div className="flex-1 overflow-y-auto">
-        {chats.map(chat => (
+        {sortedChats.map(chat => (
           <div
             key={chat.id}
             onClick={() => onSelectChat(chat.id)}
