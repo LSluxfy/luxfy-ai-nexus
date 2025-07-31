@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { TagAutocomplete } from '@/components/ui/tag-autocomplete';
 import { Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { CRMRow, CRMTables, LeadStatus } from '@/types/crm';
@@ -18,6 +19,7 @@ interface NewLeadDialogProps {
 export function NewLeadDialog({ onAddLead, tables, isUpdating = false }: NewLeadDialogProps) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [tagInput, setTagInput] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -67,12 +69,34 @@ export function NewLeadDialog({ onAddLead, tables, isUpdating = false }: NewLead
       tags: []
     });
     
+    setTagInput('');
+    
     setOpen(false);
   };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
+
+  const handleAddTag = () => {
+    if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        tags: [...prev.tags, tagInput.trim()]
+      }));
+      setTagInput('');
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setFormData(prev => ({
+      ...prev,
+      tags: prev.tags.filter(tag => tag !== tagToRemove)
+    }));
+  };
+
+  // Tags sugeridas (pode ser melhorado para vir de uma API)
+  const suggestedTags = ['cliente-potencial', 'interessado', 'quente', 'frio', 'follow-up', 'demo', 'proposta'];
 
   // Get available statuses from tables
   const availableStatuses = Object.entries(tables).map(([key, name]) => ({
@@ -168,6 +192,19 @@ export function NewLeadDialog({ onAddLead, tables, isUpdating = false }: NewLead
                 placeholder="Tipo de entrega"
               />
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="tags">Tags</Label>
+            <TagAutocomplete
+              value={tagInput}
+              onChange={setTagInput}
+              onAddTag={handleAddTag}
+              selectedTags={formData.tags}
+              onRemoveTag={handleRemoveTag}
+              suggestions={suggestedTags}
+              placeholder="Adicionar tag..."
+            />
           </div>
 
           <div className="space-y-2">
