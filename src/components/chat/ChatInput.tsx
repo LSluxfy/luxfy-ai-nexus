@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useToast } from '@/hooks/use-toast';
+import { UploadService } from '@/services/uploadService';
 
 interface ChatInputProps {
   onSendMessage: (content: string, type?: 'text' | 'audio' | 'file' | 'image', attachmentUrl?: string) => void;
@@ -55,11 +56,35 @@ const ChatInput = ({
     setIsUploading(true);
     
     try {
-      // In a real implementation, you would upload the file to a service
-      // For now, we'll simulate it and use a placeholder URL
-      const fileUrl = `https://example.com/uploads/${file.name}`;
-      
-      const isImage = file.type.startsWith('image/');
+      // Validar arquivo antes do upload
+      const validation = UploadService.validateFiles([file]);
+      if (!validation.isValid) {
+        toast({
+          title: "Erro na validação",
+          description: validation.errors[0],
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Definir data de expiração para 30 dias
+      const expireAt = new Date();
+      expireAt.setDate(expireAt.getDate() + 30);
+
+      // Fazer upload do arquivo
+      const response = await UploadService.uploadFiles({
+        files: [file],
+        expireAt: expireAt.toISOString(),
+        identificator: `chat-upload-${Date.now()}`
+      });
+
+      // Verificar se o upload retornou URLs
+      if (!response.urls || response.urls.length === 0) {
+        throw new Error('Nenhuma URL retornada do upload');
+      }
+
+      const fileUrl = response.urls[0];
+      const isImage = UploadService.isImageFile(file);
       const type = isImage ? 'image' : 'file';
       
       onSendMessage(
@@ -72,10 +97,13 @@ const ChatInput = ({
         title: "Arquivo enviado",
         description: `${file.name} foi enviado com sucesso.`,
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Erro no upload:', error);
+      const errorMessage = error.response?.data?.error || error.message || 'Erro ao enviar arquivo';
+      
       toast({
         title: "Erro ao enviar arquivo",
-        description: "Não foi possível enviar o arquivo. Tente novamente.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
