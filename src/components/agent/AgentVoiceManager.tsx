@@ -292,21 +292,17 @@ export function AgentVoiceManager({ agent, onUpdate }: AgentVoiceManagerProps) {
                   <SelectValue placeholder="Selecionar voz principal" />
                 </SelectTrigger>
                 <SelectContent>
-                  {/* Vozes padrão do ElevenLabs */}
-                  <SelectItem value="9BWtsMINqrJLrRacOk9x">Aria (Padrão)</SelectItem>
-                  <SelectItem value="CwhRBWXzGAHq8TQ4Fs17">Roger (Padrão)</SelectItem>
-                  <SelectItem value="EXAVITQu4vr4xnSDxMaL">Sarah (Padrão)</SelectItem>
-                  <SelectItem value="FGY2WhTYpPnrIDTdsKH5">Laura (Padrão)</SelectItem>
-                  <SelectItem value="IKne3meq5aSn9XLyUdCD">Charlie (Padrão)</SelectItem>
-                  
-                  {voices.length > 0 && <Separator />}
-                  
-                  {/* Vozes clonadas */}
-                  {voices.map((voice) => (
-                    <SelectItem key={voice.id} value={voice.voiceId}>
-                      {voice.voiceName} (Clonada)
-                    </SelectItem>
-                  ))}
+                  {voices.length === 0 ? (
+                    <div className="p-2 text-center text-sm text-muted-foreground">
+                      Nenhuma voz clonada disponível
+                    </div>
+                  ) : (
+                    voices.map((voice) => (
+                      <SelectItem key={voice.id} value={voice.voiceId}>
+                        {voice.voiceName}
+                      </SelectItem>
+                    ))
+                  )}
                 </SelectContent>
               </Select>
             </div>
