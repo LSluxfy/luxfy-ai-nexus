@@ -43,6 +43,10 @@ export function CampaignForm({ agentId, campaign, onSuccess }: CampaignFormProps
 
   // Buscar tags do agente para autocomplete
   const { data: agentTags = [], isLoading: isLoadingTags } = useAgentTags(agentId);
+  
+  console.log('AgentId para buscar tags:', agentId);
+  console.log('Tags encontradas:', agentTags);
+  console.log('Loading tags:', isLoadingTags);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

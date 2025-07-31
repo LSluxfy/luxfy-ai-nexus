@@ -81,9 +81,7 @@ export const TagAutocomplete = ({
   };
 
   const handleInputFocus = () => {
-    if (filteredSuggestions.length > 0) {
-      setShowSuggestions(true);
-    }
+    setShowSuggestions(true);
   };
 
   const handleInputBlur = () => {
