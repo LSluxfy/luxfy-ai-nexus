@@ -133,7 +133,7 @@ export interface Agent {
   delayResponse: number;
   styleResponse: StyleResponse;
   ElevenLabsApiKey?: string;
-  ElevenLabsVoice?: string;
+  selectVoiceId?: string;
   transferInDistrust: boolean;
   apprenticeship: Apprenticeship[];
   flow: Flow[];

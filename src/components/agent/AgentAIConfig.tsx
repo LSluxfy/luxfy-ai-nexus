@@ -22,7 +22,7 @@ export function AgentAIConfig({ agent, onUpdate }: AgentAIConfigProps) {
     styleResponse: agent.styleResponse,
     transferInDistrust: agent.transferInDistrust,
     ElevenLabsApiKey: agent.ElevenLabsApiKey || '',
-    ElevenLabsVoice: agent.ElevenLabsVoice || '',
+    selectVoiceId: agent.selectVoiceId || '',
     appointmentsRules: agent.appointmentsRules,
     appointmentsDefaultDuration: agent.appointmentsDefaultDuration,
     appointmentsStartTime: agent.appointmentsStartTime,
@@ -124,7 +124,7 @@ export function AgentAIConfig({ agent, onUpdate }: AgentAIConfigProps) {
 
         <div className="space-y-2">
           <Label htmlFor="elevenlabs-voice">ID da Voz ElevenLabs</Label>
-          <Select value={formData.ElevenLabsVoice} onValueChange={(value) => setFormData(prev => ({ ...prev, ElevenLabsVoice: value }))}>
+          <Select value={formData.selectVoiceId} onValueChange={(value) => setFormData(prev => ({ ...prev, selectVoiceId: value }))}>
             <SelectTrigger>
               <SelectValue placeholder="Selecionar voz" />
             </SelectTrigger>
