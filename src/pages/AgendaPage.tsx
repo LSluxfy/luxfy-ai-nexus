@@ -78,6 +78,28 @@ const AgendaPage = () => {
     );
   };
 
+  const getWeekAppointments = () => {
+    const today = new Date();
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    
+    return appointments.filter(apt => 
+      apt.date >= startOfWeek && apt.date <= endOfWeek
+    ).length;
+  };
+
+  const getMonthAppointments = () => {
+    const today = new Date();
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    
+    return appointments.filter(apt => 
+      apt.date >= startOfMonth && apt.date <= endOfMonth
+    ).length;
+  };
+
   const getStatusColor = (status: Appointment['status']) => {
     switch (status) {
       case 'confirmado': return 'bg-green-100 text-green-800';
@@ -427,11 +449,11 @@ const AgendaPage = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Esta semana</span>
-                  <span className="font-medium">12 compromissos</span>
+                  <span className="font-medium">{getWeekAppointments()} compromissos</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Este mês</span>
-                  <span className="font-medium">45 compromissos</span>
+                  <span className="font-medium">{getMonthAppointments()} compromissos</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Datas bloqueadas</span>
