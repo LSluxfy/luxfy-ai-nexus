@@ -31,7 +31,15 @@ const CRMPage = () => {
   const [selectedAgentId, setSelectedAgentId] = useState<string | null>(agentId);
 
   // Buscar tags do agente
-  const { data: agentTags = [], isLoading: tagsLoading } = useAgentTags(agentId);
+  console.log('CRMPage - agentId antes do hook:', agentId);
+  console.log('CRMPage - typeof agentId:', typeof agentId);
+  console.log('CRMPage - !!agentId:', !!agentId);
+  
+  const { data: agentTags = [], isLoading: tagsLoading, error: tagsError } = useAgentTags(agentId);
+  
+  console.log('CRMPage - agentTags:', agentTags);
+  console.log('CRMPage - tagsLoading:', tagsLoading);
+  console.log('CRMPage - tagsError:', tagsError);
 
   const {
     crmData,
