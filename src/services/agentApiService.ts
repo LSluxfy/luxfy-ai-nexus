@@ -119,4 +119,10 @@ export class AgentApiService {
     const response = await api.delete<DeleteVoiceResponse>(`/v1/voices/${voiceId}/delete`);
     return response.data;
   }
+
+  // Get agent tags
+  static async getAgentTags(agentId: string): Promise<{ message: string; tags: string[] }> {
+    const response = await api.get(`/v1/agente/tags/${agentId}`);
+    return response.data;
+  }
 }

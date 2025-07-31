@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { TagAutocomplete } from '@/components/ui/tag-autocomplete';
 import { Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { useAgentTags } from '@/hooks/use-agent-tags';
 import type { CRMRow, CRMTables, LeadStatus } from '@/types/crm';
 
 interface NewLeadDialogProps {
@@ -18,6 +20,8 @@ interface NewLeadDialogProps {
 
 export function NewLeadDialog({ onAddLead, tables, isUpdating = false }: NewLeadDialogProps) {
   const { t } = useTranslation();
+  const { id: agentId } = useParams<{ id: string }>();
+  const { data: agentTags = [], isLoading: tagsLoading } = useAgentTags(agentId);
   const [open, setOpen] = useState(false);
   const [tagInput, setTagInput] = useState('');
   const [formData, setFormData] = useState({
@@ -94,9 +98,6 @@ export function NewLeadDialog({ onAddLead, tables, isUpdating = false }: NewLead
       tags: prev.tags.filter(tag => tag !== tagToRemove)
     }));
   };
-
-  // Tags sugeridas (pode ser melhorado para vir de uma API)
-  const suggestedTags = ['cliente-potencial', 'interessado', 'quente', 'frio', 'follow-up', 'demo', 'proposta'];
 
   // Get available statuses from tables
   const availableStatuses = Object.entries(tables).map(([key, name]) => ({
@@ -202,7 +203,8 @@ export function NewLeadDialog({ onAddLead, tables, isUpdating = false }: NewLead
               onAddTag={handleAddTag}
               selectedTags={formData.tags}
               onRemoveTag={handleRemoveTag}
-              suggestions={suggestedTags}
+              suggestions={agentTags}
+              isLoading={tagsLoading}
               placeholder="Adicionar tag..."
             />
           </div>
