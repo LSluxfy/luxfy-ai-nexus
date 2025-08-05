@@ -14,7 +14,7 @@ export class AppointmentService {
   // Get appointments for an agent
   static async getAppointments(agentId: string): Promise<ApiAppointment[]> {
     try {
-      const response = await api.get(`/v1/appointments/agent/${agentId}`);
+      const response = await api.get(`/v1/appointments/get/${agentId}`);
       return response.data.appointments || [];
     } catch (error: any) {
       console.error('Error fetching appointments:', error);

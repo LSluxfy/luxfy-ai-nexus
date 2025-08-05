@@ -12,14 +12,30 @@ import {
 export function useAppointments() {
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [appointments, setAppointments] = useState<ApiAppointment[]>([]);
+  const [fetchingAppointments, setFetchingAppointments] = useState(false);
   const { toast } = useToast();
-  const { user } = useAuth();
 
-  // Get appointments from user context for specific agent
-  const getAppointmentsForAgent = useCallback((agentId: string): ApiAppointment[] => {
-    if (!user?.appointments) return [];
-    return user.appointments.filter((apt: ApiAppointment) => apt.agentId.toString() === agentId);
-  }, [user?.appointments]);
+  // Fetch appointments for a specific agent
+  const fetchAppointments = useCallback(async (agentId: string) => {
+    setFetchingAppointments(true);
+    try {
+      const data = await AppointmentService.getAppointments(agentId);
+      setAppointments(data);
+      return data;
+    } catch (error: any) {
+      console.error('Error fetching appointments:', error);
+      toast({
+        title: "Erro",
+        description: error.message,
+        variant: "destructive",
+      });
+      setAppointments([]);
+      return [];
+    } finally {
+      setFetchingAppointments(false);
+    }
+  }, [toast]);
 
   const createAppointment = useCallback(async (
     agentId: string,
@@ -126,10 +142,12 @@ export function useAppointments() {
   return {
     loading,
     deleting,
+    appointments,
+    fetchingAppointments,
+    fetchAppointments,
     createAppointment,
     updateAppointment,
     deleteAppointment,
-    validateAppointmentTime,
-    getAppointmentsForAgent
+    validateAppointmentTime
   };
 }

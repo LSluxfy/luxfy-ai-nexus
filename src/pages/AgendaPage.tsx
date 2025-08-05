@@ -24,10 +24,20 @@ const AgendaPage = () => {
   const [appointmentToDelete, setAppointmentToDelete] = useState<ApiAppointment | null>(null);
   const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null);
 
-  const { deleting, deleteAppointment, getAppointmentsForAgent } = useAppointments();
+  const { 
+    deleting, 
+    deleteAppointment, 
+    appointments, 
+    fetchingAppointments, 
+    fetchAppointments 
+  } = useAppointments();
 
-  // Get appointments from user context for selected agent
-  const appointments = selectedAgentId ? getAppointmentsForAgent(selectedAgentId) : [];
+  // Fetch appointments when agent is selected
+  useEffect(() => {
+    if (selectedAgentId) {
+      fetchAppointments(selectedAgentId);
+    }
+  }, [selectedAgentId, fetchAppointments]);
 
   const getAppointmentsForDate = (date: Date) => {
     return appointments.filter(apt => {
@@ -77,7 +87,10 @@ const AgendaPage = () => {
   const handleClose = () => {
     setShowAddForm(false);
     setSelectedAppointment(null);
-    // Appointments are automatically updated via user context
+    // Refresh appointments after create/update
+    if (selectedAgentId) {
+      fetchAppointments(selectedAgentId);
+    }
   };
 
   const handleDeleteClick = (appointment: ApiAppointment) => {
@@ -89,6 +102,10 @@ const AgendaPage = () => {
       try {
         await deleteAppointment(appointmentToDelete.id.toString(), () => {
           setAppointmentToDelete(null);
+          // Refresh appointments after deletion
+          if (selectedAgentId) {
+            fetchAppointments(selectedAgentId);
+          }
         });
       } catch (error) {
         console.error('Error deleting appointment:', error);
@@ -167,6 +184,10 @@ const AgendaPage = () => {
                 Escolha um agente no menu acima para visualizar sua agenda.
               </p>
             </div>
+          </div>
+        ) : fetchingAppointments ? (
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
         ) : (
           <>
