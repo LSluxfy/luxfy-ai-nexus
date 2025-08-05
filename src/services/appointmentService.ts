@@ -72,7 +72,7 @@ export class AppointmentService {
       agentId: parseInt(formData.agentId.toString()),
       title: formData.title,
       clientName: formData.clientName,
-      dateTime: formData.dateTime,
+      dateTime: new Date(formData.dateTime).toISOString(),
       local: formData.local,
       observations: formData.observations || undefined,
       type: formData.type,
@@ -85,7 +85,7 @@ export class AppointmentService {
     return {
       title: formData.title,
       clientName: formData.clientName,
-      dateTime: formData.dateTime,
+      dateTime: new Date(formData.dateTime).toISOString(),
       local: formData.local,
       observations: formData.observations || undefined,
       type: formData.type,

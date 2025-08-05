@@ -124,8 +124,6 @@ export function AppointmentForm({
             value={formData.duration}
             onChange={(e) => setFormData(prev => ({ ...prev, duration: parseInt(e.target.value) }))}
             min="1"
-            max="480"
-            step="15"
             required
           />
         </div>
