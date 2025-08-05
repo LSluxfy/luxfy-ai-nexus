@@ -14,7 +14,15 @@ export class AppointmentService {
   // Create new appointment
   static async createAppointment(data: CreateAppointmentRequest): Promise<CreateAppointmentResponse> {
     try {
-      const response = await api.post('/v1/appointments/create', data);
+      const response = await api.post(`/v1/appointments/create/${data.agentId}`, {
+        title: data.title,
+        clientName: data.clientName,
+        dateTime: data.dateTime,
+        local: data.local,
+        observations: data.observations,
+        type: data.type,
+        duration: data.duration
+      });
       return response.data;
     } catch (error: any) {
       console.error('Error creating appointment:', error);
@@ -28,7 +36,7 @@ export class AppointmentService {
     data: UpdateAppointmentRequest
   ): Promise<UpdateAppointmentResponse> {
     try {
-      const response = await api.put(`/v1/appointments/${appointmentId}`, data);
+      const response = await api.put(`/v1/appointments/edit/${appointmentId}`, data);
       return response.data;
     } catch (error: any) {
       console.error('Error updating appointment:', error);
@@ -39,7 +47,7 @@ export class AppointmentService {
   // Delete appointment
   static async deleteAppointment(appointmentId: string): Promise<DeleteAppointmentResponse> {
     try {
-      const response = await api.delete(`/v1/appointments/${appointmentId}`);
+      const response = await api.delete(`/v1/appointments/delete/${appointmentId}`);
       return response.data;
     } catch (error: any) {
       console.error('Error deleting appointment:', error);
@@ -50,7 +58,7 @@ export class AppointmentService {
   // Format appointment data for create
   static formatCreateAppointmentData(formData: any): CreateAppointmentRequest {
     return {
-      agentId: formData.agentId,
+      agentId: parseInt(formData.agentId.toString()),
       title: formData.title,
       clientName: formData.clientName,
       dateTime: formData.dateTime,
