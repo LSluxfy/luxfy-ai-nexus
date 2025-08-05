@@ -22,34 +22,12 @@ const AgendaPage = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState<ApiAppointment | null>(null);
   const [appointmentToDelete, setAppointmentToDelete] = useState<ApiAppointment | null>(null);
-  const [appointments, setAppointments] = useState<ApiAppointment[]>([]);
   const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
-  const { deleting, deleteAppointment } = useAppointments();
+  const { deleting, deleteAppointment, getAppointmentsForAgent } = useAppointments();
 
-  // Fetch appointments when agent is selected
-  useEffect(() => {
-    const fetchAppointments = async () => {
-      if (!selectedAgentId) {
-        setAppointments([]);
-        return;
-      }
-      
-      setLoading(true);
-      try {
-        const data = await AppointmentService.getAppointments(selectedAgentId);
-        setAppointments(data);
-      } catch (error) {
-        console.error('Error fetching appointments:', error);
-        setAppointments([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAppointments();
-  }, [selectedAgentId]);
+  // Get appointments from user context for selected agent
+  const appointments = selectedAgentId ? getAppointmentsForAgent(selectedAgentId) : [];
 
   const getAppointmentsForDate = (date: Date) => {
     return appointments.filter(apt => {
@@ -99,12 +77,7 @@ const AgendaPage = () => {
   const handleClose = () => {
     setShowAddForm(false);
     setSelectedAppointment(null);
-    // Refresh appointments after create/update
-    if (selectedAgentId) {
-      AppointmentService.getAppointments(selectedAgentId)
-        .then(setAppointments)
-        .catch(console.error);
-    }
+    // Appointments are automatically updated via user context
   };
 
   const handleDeleteClick = (appointment: ApiAppointment) => {
@@ -115,7 +88,6 @@ const AgendaPage = () => {
     if (appointmentToDelete) {
       try {
         await deleteAppointment(appointmentToDelete.id.toString(), () => {
-          setAppointments(prev => prev.filter(apt => apt.id !== appointmentToDelete.id));
           setAppointmentToDelete(null);
         });
       } catch (error) {
@@ -195,10 +167,6 @@ const AgendaPage = () => {
                 Escolha um agente no menu acima para visualizar sua agenda.
               </p>
             </div>
-          </div>
-        ) : loading ? (
-          <div className="flex items-center justify-center h-64">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
         ) : (
           <>

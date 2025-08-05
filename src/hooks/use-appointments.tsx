@@ -1,6 +1,7 @@
 
 import { useState, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 import { AppointmentService } from '@/services/appointmentService';
 import {
   ApiAppointment,
@@ -12,6 +13,13 @@ export function useAppointments() {
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
   const { toast } = useToast();
+  const { user } = useAuth();
+
+  // Get appointments from user context for specific agent
+  const getAppointmentsForAgent = useCallback((agentId: string): ApiAppointment[] => {
+    if (!user?.appointments) return [];
+    return user.appointments.filter((apt: ApiAppointment) => apt.agentId.toString() === agentId);
+  }, [user?.appointments]);
 
   const createAppointment = useCallback(async (
     agentId: string,
@@ -121,6 +129,7 @@ export function useAppointments() {
     createAppointment,
     updateAppointment,
     deleteAppointment,
-    validateAppointmentTime
+    validateAppointmentTime,
+    getAppointmentsForAgent
   };
 }
