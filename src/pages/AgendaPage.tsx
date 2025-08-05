@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import DashboardHeader from '@/components/DashboardHeader';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,29 +8,48 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar as CalendarIcon, Clock, Plus, MapPin, User, Trash2, Edit } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { useAgents } from '@/hooks/use-agent';
 import { useAppointments } from '@/hooks/use-appointments';
 import { AppointmentForm } from '@/components/agent/AppointmentForm';
 import { DeleteAppointmentDialog } from '@/components/agent/DeleteAppointmentDialog';
+import { AgentSelector } from '@/components/crm/AgentSelector';
+import { AppointmentService } from '@/services/appointmentService';
 import { ApiAppointment } from '@/types/appointment';
+import { useAuth } from '@/contexts/AuthContext';
 
 const AgendaPage = () => {
-  const { agentId } = useParams<{ agentId: string }>();
+  const { user } = useAuth();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState<ApiAppointment | null>(null);
   const [appointmentToDelete, setAppointmentToDelete] = useState<ApiAppointment | null>(null);
   const [appointments, setAppointments] = useState<ApiAppointment[]>([]);
+  const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const { agents, loading: agentLoading } = useAgents();
-  const agent = agents.find(a => a.id === agentId);
   const { deleting, deleteAppointment } = useAppointments();
 
-  // Mock appointments data - will be replaced with real API call later
+  // Fetch appointments when agent is selected
   useEffect(() => {
-    // TODO: Replace with real API call to fetch appointments
-    setAppointments([]);
-  }, [agentId]);
+    const fetchAppointments = async () => {
+      if (!selectedAgentId) {
+        setAppointments([]);
+        return;
+      }
+      
+      setLoading(true);
+      try {
+        const data = await AppointmentService.getAppointments(selectedAgentId);
+        setAppointments(data);
+      } catch (error) {
+        console.error('Error fetching appointments:', error);
+        setAppointments([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAppointments();
+  }, [selectedAgentId]);
 
   const getAppointmentsForDate = (date: Date) => {
     return appointments.filter(apt => {
@@ -81,7 +99,12 @@ const AgendaPage = () => {
   const handleClose = () => {
     setShowAddForm(false);
     setSelectedAppointment(null);
-    // TODO: Refresh appointments after create/update
+    // Refresh appointments after create/update
+    if (selectedAgentId) {
+      AppointmentService.getAppointments(selectedAgentId)
+        .then(setAppointments)
+        .catch(console.error);
+    }
   };
 
   const handleDeleteClick = (appointment: ApiAppointment) => {
@@ -101,12 +124,31 @@ const AgendaPage = () => {
     }
   };
 
-  if (agentLoading) {
-    return <div>Carregando...</div>;
-  }
+  // Handle agent selection
+  const handleAgentChange = (agentId: string) => {
+    setSelectedAgentId(agentId);
+  };
 
-  if (!agent) {
-    return <div>Agente não encontrado</div>;
+  const selectedAgent = user?.agents?.find(a => a.id.toString() === selectedAgentId);
+
+  if (!user?.agents || user.agents.length === 0) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <DashboardHeader title="Agenda" />
+        <main className="flex-1 p-6 bg-background">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <h3 className="text-lg font-medium mb-2">
+                Nenhum agente disponível
+              </h3>
+              <p className="text-muted-foreground">
+                Você precisa ter pelo menos um agente para acessar a agenda.
+              </p>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
   }
 
   const upcomingAppointments = getUpcomingAppointments();
@@ -115,25 +157,53 @@ const AgendaPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <DashboardHeader title={`Agenda - ${agent.name}`} />
+      <DashboardHeader title="Agenda" />
       
       <main className="flex-1 p-6 bg-background">
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <h2 className="text-2xl font-bold text-foreground">Agenda do Agente</h2>
-              <p className="text-muted-foreground">Gerencie os agendamentos do agente {agent.name}</p>
+              <h2 className="text-2xl font-bold text-foreground">Agenda</h2>
+              <p className="text-muted-foreground">
+                {selectedAgent ? `Gerencie os agendamentos do agente ${selectedAgent.name}` : 'Selecione um agente para visualizar a agenda'}
+              </p>
             </div>
             
-            <Button onClick={handleCreate} className="bg-primary hover:bg-primary/90">
-              <Plus className="mr-2 h-4 w-4" />
-              Novo Agendamento
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <AgentSelector 
+                selectedAgentId={selectedAgentId}
+                onAgentChange={handleAgentChange}
+              />
+              
+              {selectedAgentId && (
+                <Button onClick={handleCreate} className="bg-primary hover:bg-primary/90">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Novo Agendamento
+                </Button>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {!selectedAgentId ? (
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <h3 className="text-lg font-medium mb-2">
+                Selecione um agente
+              </h3>
+              <p className="text-muted-foreground">
+                Escolha um agente no menu acima para visualizar sua agenda.
+              </p>
+            </div>
+          </div>
+        ) : loading ? (
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          </div>
+        ) : (
+          <>
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">Hoje</CardTitle>
@@ -285,7 +355,7 @@ const AgendaPage = () => {
             </DialogHeader>
             
             <AppointmentForm
-              agentId={agentId || ''}
+              agentId={selectedAgentId || ''}
               appointment={selectedAppointment}
               onSuccess={handleClose}
               existingAppointments={appointments}
@@ -301,6 +371,8 @@ const AgendaPage = () => {
           onConfirm={handleDeleteConfirm}
           isDeleting={deleting === appointmentToDelete?.id.toString()}
         />
+          </>
+        )}
       </main>
     </div>
   );
