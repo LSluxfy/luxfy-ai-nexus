@@ -22,7 +22,6 @@ export interface ApiUser {
   lastLogin: string | null;
   updateAt: string | null;
   agents: Agent[];
-  appointments: Appointment[];
   invoices: Invoice[];
 }
 
