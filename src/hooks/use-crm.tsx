@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { CRMService } from '@/services/crmService';
 import { useToast } from '@/hooks/use-toast';
-import type { ParsedCRMData, CRMTables, CRMRow, LeadStatus } from '@/types/crm';
+import type { ParsedCRMData, CRMTables, CRMRow } from '@/types/crm';
 
 interface UseCRMOptions {
   agentId: string;
@@ -57,11 +57,19 @@ export function useCRM({ agentId, enabled = true }: UseCRMOptions) {
     },
   });
 
+  // Process rows to ensure tableId is present
+  const processRowsWithTableId = useCallback((rows: CRMRow[]): CRMRow[] => {
+    return rows.map(row => ({
+      ...row,
+      tableId: row.tableId || 1 // Default to 1 if not present
+    }));
+  }, []);
+
   // Dados combinando server data com optimistic updates
   const finalData: ParsedCRMData | undefined = crmData ? {
     ...crmData,
     tables: optimisticUpdates.tables || crmData.tables,
-    rows: optimisticUpdates.rows || crmData.rows,
+    rows: processRowsWithTableId(optimisticUpdates.rows || crmData.rows),
   } : undefined;
 
   // Função para atualizar tabelas
@@ -91,12 +99,17 @@ export function useCRM({ agentId, enabled = true }: UseCRMOptions) {
   }, [finalData, updateMutation]);
 
   // Função para mover lead entre colunas
-  const moveLead = useCallback((leadId: number, newStatus: LeadStatus) => {
+  const moveLead = useCallback((leadId: number, newTableId: string) => {
     if (!finalData?.rows) return;
     
     const updatedRows = finalData.rows.map(row => 
       row.id === leadId 
-        ? { ...row, status: newStatus, updatedAt: new Date().toISOString() }
+        ? { 
+            ...row, 
+            tableId: parseInt(newTableId),
+            status: newTableId, // Keep status in sync for backwards compatibility
+            updatedAt: new Date().toISOString() 
+          }
         : row
     );
     
@@ -161,7 +174,8 @@ export function useCRM({ agentId, enabled = true }: UseCRMOptions) {
     delete updatedTables[columnKey];
     
     // Remove leads in this column or move them to a default column
-    const updatedRows = finalData.rows.filter(row => row.status !== columnKey);
+    const tableIdToRemove = parseInt(columnKey);
+    const updatedRows = finalData.rows.filter(row => row.tableId !== tableIdToRemove);
     
     updateTables(updatedTables);
     updateRows(updatedRows);
@@ -179,16 +193,16 @@ export function useCRM({ agentId, enabled = true }: UseCRMOptions) {
     updateTables(updatedTables);
   }, [finalData?.tables, updateTables]);
 
-  // Função para agrupar leads por status
+  // Função para agrupar leads por tableId
   const getGroupedLeads = useCallback(() => {
     if (!finalData?.rows || !finalData?.tables || !Array.isArray(finalData.rows)) return {};
     
     return finalData.rows.reduce((acc, lead) => {
-      const status = lead.status;
-      if (!acc[status]) {
-        acc[status] = [];
+      const tableId = lead.tableId?.toString() || '1';
+      if (!acc[tableId]) {
+        acc[tableId] = [];
       }
-      acc[status].push(lead);
+      acc[tableId].push(lead);
       return acc;
     }, {} as Record<string, CRMRow[]>);
   }, [finalData?.rows, finalData?.tables]);

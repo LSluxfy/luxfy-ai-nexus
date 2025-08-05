@@ -94,6 +94,7 @@ export class CRMService {
     
     return {
       id: Date.now(), // Temporary ID, server should assign real ID
+      tableId: data.tableId || 1, // Default to table 1
       name: data.name || '',
       email: data.email || '',
       phone: data.phone || '',

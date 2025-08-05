@@ -3,6 +3,7 @@
 
 export interface CRMRow {
   id: number;
+  tableId?: number; // ID da tabela/coluna onde está o lead
   name: string;
   email: string;
   phone: string;
