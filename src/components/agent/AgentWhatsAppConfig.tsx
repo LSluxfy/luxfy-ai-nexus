@@ -14,6 +14,7 @@ interface AgentWhatsAppConfigProps {
 
 export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProps) {
   const [loading, setLoading] = useState(false);
+  const [whatsappEnabled, setWhatsappEnabled] = useState(!!agent.oficialMetaWhatsappAccessToken);
   const [formData, setFormData] = useState({
     oficialMetaWhatsappAccessToken: agent.oficialMetaWhatsappAccessToken || '',
     oficialMetaWhatsappPhoneNumber: agent.oficialMetaWhatsappPhoneNumber || '',
@@ -26,6 +27,7 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
 
   // Sincronizar formData com os dados atuais do agente
   useEffect(() => {
+    setWhatsappEnabled(!!agent.oficialMetaWhatsappAccessToken);
     setFormData({
       oficialMetaWhatsappAccessToken: agent.oficialMetaWhatsappAccessToken || '',
       oficialMetaWhatsappPhoneNumber: agent.oficialMetaWhatsappPhoneNumber || '',
@@ -59,21 +61,32 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
       // Função para normalizar valores (null/undefined vira string vazia)
       const normalize = (value: any) => value || '';
       
-      if (normalize(formData.oficialMetaWhatsappAccessToken) !== normalize(agent.oficialMetaWhatsappAccessToken)) {
-        console.log('Mudança detectada em oficialMetaWhatsappAccessToken:', {
-          original: agent.oficialMetaWhatsappAccessToken,
-          novo: formData.oficialMetaWhatsappAccessToken
-        });
-        // Se o token estiver vazio, enviar undefined para remover do backend
-        changedFields.oficialMetaWhatsappAccessToken = formData.oficialMetaWhatsappAccessToken || undefined;
-      }
-      
-      if (normalize(formData.oficialMetaWhatsappPhoneNumber) !== normalize(agent.oficialMetaWhatsappPhoneNumber)) {
-        console.log('Mudança detectada em oficialMetaWhatsappPhoneNumber:', {
-          original: agent.oficialMetaWhatsappPhoneNumber,
-          novo: formData.oficialMetaWhatsappPhoneNumber
-        });
-        changedFields.oficialMetaWhatsappPhoneNumber = formData.oficialMetaWhatsappPhoneNumber || undefined;
+      // Se WhatsApp estiver desabilitado, enviar null para token e telefone
+      if (!whatsappEnabled) {
+        if (agent.oficialMetaWhatsappAccessToken) {
+          changedFields.oficialMetaWhatsappAccessToken = null;
+        }
+        if (agent.oficialMetaWhatsappPhoneNumber) {
+          changedFields.oficialMetaWhatsappPhoneNumber = null;
+        }
+      } else {
+        // Verificar mudanças apenas se WhatsApp estiver habilitado
+        if (normalize(formData.oficialMetaWhatsappAccessToken) !== normalize(agent.oficialMetaWhatsappAccessToken)) {
+          console.log('Mudança detectada em oficialMetaWhatsappAccessToken:', {
+            original: agent.oficialMetaWhatsappAccessToken,
+            novo: formData.oficialMetaWhatsappAccessToken
+          });
+          // Se o token estiver vazio, enviar undefined para remover do backend
+          changedFields.oficialMetaWhatsappAccessToken = formData.oficialMetaWhatsappAccessToken || undefined;
+        }
+        
+        if (normalize(formData.oficialMetaWhatsappPhoneNumber) !== normalize(agent.oficialMetaWhatsappPhoneNumber)) {
+          console.log('Mudança detectada em oficialMetaWhatsappPhoneNumber:', {
+            original: agent.oficialMetaWhatsappPhoneNumber,
+            novo: formData.oficialMetaWhatsappPhoneNumber
+          });
+          changedFields.oficialMetaWhatsappPhoneNumber = formData.oficialMetaWhatsappPhoneNumber || undefined;
+        }
       }
       
       if (normalize(formData.hostEmail) !== normalize(agent.hostEmail)) {
@@ -159,40 +172,55 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
       <div className="space-y-4">
         <h3 className="text-lg font-medium">WhatsApp Business</h3>
         
-        <div className="space-y-2">
-          <Label htmlFor="whatsapp-token">Token do WhatsApp Business</Label>
-          <div className="flex gap-2">
-            <Input
-              id="whatsapp-token"
-              type="password"
-              value={formData.oficialMetaWhatsappAccessToken}
-              readOnly
-              placeholder="••••••••••••••••••••••••••••••••"
-              className="flex-1"
-            />
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              onClick={handlePasteToken}
-              title="Colar token do clipboard"
-            >
-              <Clipboard className="h-4 w-4" />
-            </Button>
-          </div>
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="whatsapp-enabled"
+            checked={whatsappEnabled}
+            onChange={(e) => setWhatsappEnabled(e.target.checked)}
+            className="rounded"
+          />
+          <Label htmlFor="whatsapp-enabled">Ativar WhatsApp Business</Label>
         </div>
 
-        {formData.oficialMetaWhatsappAccessToken && (
-          <div className="space-y-2">
-            <Label htmlFor="whatsapp-phone">Número do WhatsApp Business</Label>
-            <Input
-              id="whatsapp-phone"
-              type="tel"
-              value={formData.oficialMetaWhatsappPhoneNumber}
-              onChange={(e) => setFormData(prev => ({ ...prev, oficialMetaWhatsappPhoneNumber: e.target.value }))}
-              placeholder="+5511999999999"
-            />
-          </div>
+        {whatsappEnabled && (
+          <>
+            <div className="space-y-2">
+              <Label htmlFor="whatsapp-token">Token do WhatsApp Business</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="whatsapp-token"
+                  type="password"
+                  value={formData.oficialMetaWhatsappAccessToken}
+                  readOnly
+                  placeholder="••••••••••••••••••••••••••••••••"
+                  className="flex-1"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={handlePasteToken}
+                  title="Colar token do clipboard"
+                >
+                  <Clipboard className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            {formData.oficialMetaWhatsappAccessToken && (
+              <div className="space-y-2">
+                <Label htmlFor="whatsapp-phone">Número do WhatsApp Business</Label>
+                <Input
+                  id="whatsapp-phone"
+                  type="tel"
+                  value={formData.oficialMetaWhatsappPhoneNumber}
+                  onChange={(e) => setFormData(prev => ({ ...prev, oficialMetaWhatsappPhoneNumber: e.target.value }))}
+                  placeholder="+5511999999999"
+                />
+              </div>
+            )}
+          </>
         )}
       </div>
 
