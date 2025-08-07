@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { AgentApiService } from '@/services/agentApiService';
 import { ApiAgent } from '@/types/agent-api';
+import { Clipboard } from 'lucide-react';
 
 interface AgentWhatsAppConfigProps {
   agent: ApiAgent;
@@ -63,6 +64,7 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
           original: agent.oficialMetaWhatsappAccessToken,
           novo: formData.oficialMetaWhatsappAccessToken
         });
+        // Se o token estiver vazio, enviar undefined para remover do backend
         changedFields.oficialMetaWhatsappAccessToken = formData.oficialMetaWhatsappAccessToken || undefined;
       }
       
@@ -135,6 +137,23 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
     }
   };
 
+  const handlePasteToken = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      setFormData(prev => ({ ...prev, oficialMetaWhatsappAccessToken: clipboardText }));
+      toast({
+        title: "Token colado",
+        description: "Token do WhatsApp Business foi colado com sucesso!",
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível colar do clipboard. Verifique as permissões do navegador.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
@@ -142,13 +161,25 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
         
         <div className="space-y-2">
           <Label htmlFor="whatsapp-token">Token do WhatsApp Business</Label>
-          <Input
-            id="whatsapp-token"
-            type="text"
-            value={formData.oficialMetaWhatsappAccessToken}
-            onChange={(e) => setFormData(prev => ({ ...prev, oficialMetaWhatsappAccessToken: e.target.value }))}
-            placeholder="Token de acesso do Meta WhatsApp Business"
-          />
+          <div className="flex gap-2">
+            <Input
+              id="whatsapp-token"
+              type="password"
+              value={formData.oficialMetaWhatsappAccessToken}
+              readOnly
+              placeholder="••••••••••••••••••••••••••••••••"
+              className="flex-1"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={handlePasteToken}
+              title="Colar token do clipboard"
+            >
+              <Clipboard className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
 
         {formData.oficialMetaWhatsappAccessToken && (
