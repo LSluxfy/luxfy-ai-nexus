@@ -61,14 +61,10 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
       // Função para normalizar valores (null/undefined vira string vazia)
       const normalize = (value: any) => value || '';
       
-      // Se WhatsApp estiver desabilitado, enviar null para token e telefone
+      // Se WhatsApp estiver desabilitado, sempre enviar null para token e telefone
       if (!whatsappEnabled) {
-        if (agent.oficialMetaWhatsappAccessToken) {
-          changedFields.oficialMetaWhatsappAccessToken = null;
-        }
-        if (agent.oficialMetaWhatsappPhoneNumber) {
-          changedFields.oficialMetaWhatsappPhoneNumber = null;
-        }
+        changedFields.oficialMetaWhatsappAccessToken = null;
+        changedFields.oficialMetaWhatsappPhoneNumber = null;
       } else {
         // Verificar mudanças apenas se WhatsApp estiver habilitado
         if (normalize(formData.oficialMetaWhatsappAccessToken) !== normalize(agent.oficialMetaWhatsappAccessToken)) {
