@@ -14,6 +14,7 @@ interface AgentWhatsAppConfigProps {
 export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProps) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
+    oficialMetaWhatsappAccessToken: agent.oficialMetaWhatsappAccessToken || '',
     oficialMetaWhatsappPhoneNumber: agent.oficialMetaWhatsappPhoneNumber || '',
     hostEmail: agent.hostEmail || '',
     portEmail: agent.portEmail || '',
@@ -25,6 +26,7 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
   // Sincronizar formData com os dados atuais do agente
   useEffect(() => {
     setFormData({
+      oficialMetaWhatsappAccessToken: agent.oficialMetaWhatsappAccessToken || '',
       oficialMetaWhatsappPhoneNumber: agent.oficialMetaWhatsappPhoneNumber || '',
       hostEmail: agent.hostEmail || '',
       portEmail: agent.portEmail || '',
@@ -43,6 +45,7 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
       
       // Debug: ver os valores originais e atuais
       console.log('Valores originais do agent:', {
+        oficialMetaWhatsappAccessToken: agent.oficialMetaWhatsappAccessToken,
         oficialMetaWhatsappPhoneNumber: agent.oficialMetaWhatsappPhoneNumber,
         hostEmail: agent.hostEmail,
         portEmail: agent.portEmail,
@@ -54,6 +57,14 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
       
       // Função para normalizar valores (null/undefined vira string vazia)
       const normalize = (value: any) => value || '';
+      
+      if (normalize(formData.oficialMetaWhatsappAccessToken) !== normalize(agent.oficialMetaWhatsappAccessToken)) {
+        console.log('Mudança detectada em oficialMetaWhatsappAccessToken:', {
+          original: agent.oficialMetaWhatsappAccessToken,
+          novo: formData.oficialMetaWhatsappAccessToken
+        });
+        changedFields.oficialMetaWhatsappAccessToken = formData.oficialMetaWhatsappAccessToken || undefined;
+      }
       
       if (normalize(formData.oficialMetaWhatsappPhoneNumber) !== normalize(agent.oficialMetaWhatsappPhoneNumber)) {
         console.log('Mudança detectada em oficialMetaWhatsappPhoneNumber:', {
@@ -130,15 +141,28 @@ export function AgentWhatsAppConfig({ agent, onUpdate }: AgentWhatsAppConfigProp
         <h3 className="text-lg font-medium">WhatsApp Business</h3>
         
         <div className="space-y-2">
-          <Label htmlFor="whatsapp-phone">Número do WhatsApp Business</Label>
+          <Label htmlFor="whatsapp-token">Token do WhatsApp Business</Label>
           <Input
-            id="whatsapp-phone"
-            type="tel"
-            value={formData.oficialMetaWhatsappPhoneNumber}
-            onChange={(e) => setFormData(prev => ({ ...prev, oficialMetaWhatsappPhoneNumber: e.target.value }))}
-            placeholder="+5511999999999"
+            id="whatsapp-token"
+            type="text"
+            value={formData.oficialMetaWhatsappAccessToken}
+            onChange={(e) => setFormData(prev => ({ ...prev, oficialMetaWhatsappAccessToken: e.target.value }))}
+            placeholder="Token de acesso do Meta WhatsApp Business"
           />
         </div>
+
+        {formData.oficialMetaWhatsappAccessToken && (
+          <div className="space-y-2">
+            <Label htmlFor="whatsapp-phone">Número do WhatsApp Business</Label>
+            <Input
+              id="whatsapp-phone"
+              type="tel"
+              value={formData.oficialMetaWhatsappPhoneNumber}
+              onChange={(e) => setFormData(prev => ({ ...prev, oficialMetaWhatsappPhoneNumber: e.target.value }))}
+              placeholder="+5511999999999"
+            />
+          </div>
+        )}
       </div>
 
       <div className="space-y-4">

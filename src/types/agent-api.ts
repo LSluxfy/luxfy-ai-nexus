@@ -131,6 +131,7 @@ export interface Campaign {
 export interface ApiAgent {
   id: number;
   userId: number;
+  oficialMetaWhatsappAccessToken?: string;
   oficialMetaWhatsappPhoneNumber?: string;
   hostEmail?: string;
   portEmail?: string;
@@ -192,6 +193,7 @@ export interface UpdateAgentRequest {
   ProductsServices?: string;
   AboutCompany?: string;
   active?: boolean;
+  oficialMetaWhatsappAccessToken?: string;
   oficialMetaWhatsappPhoneNumber?: string;
   hostEmail?: string;
   portEmail?: string;

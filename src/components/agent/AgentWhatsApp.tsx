@@ -259,10 +259,13 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
         )}
       </div>
 
-      {!agent.oficialMetaWhatsappPhoneNumber && (
+      {(!agent.oficialMetaWhatsappAccessToken || !agent.oficialMetaWhatsappPhoneNumber) && (
         <Alert>
           <AlertDescription>
-            Configure um número do WhatsApp Business nas configurações do agente antes de conectar.
+            {!agent.oficialMetaWhatsappAccessToken 
+              ? "Configure o token do WhatsApp Business nas configurações do agente antes de conectar."
+              : "Configure um número do WhatsApp Business nas configurações do agente antes de conectar."
+            }
           </AlertDescription>
         </Alert>
       )}
