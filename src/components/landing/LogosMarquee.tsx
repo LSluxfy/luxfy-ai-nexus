@@ -4,7 +4,7 @@ import { useInView } from "@/hooks/useInView";
 const placeholders = ["FintechX", "EduPro", "HealthCare+", "RetailHub", "AutoMax", "RealtyOne"];
 
 export default function LogosMarquee() {
-  const { ref, inView } = useInView({ rootMargin: "-10% 0px", once: true });
+  const { ref, inView } = useInView<HTMLDivElement>({ rootMargin: "-10% 0px", once: true });
   return (
     <section className="py-10 px-4" aria-label="Client logos">
       <div ref={ref} className={`container mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 items-center animate-${inView ? "fade-in" : "none"}`}>
