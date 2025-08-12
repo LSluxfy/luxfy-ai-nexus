@@ -10,9 +10,16 @@ import LandingNavbar from '@/components/LandingNavbar';
 import LandingFooter from '@/components/LandingFooter';
 import LanguageSelector from '@/components/LanguageSelector';
 import { useTranslation } from 'react-i18next';
+import LogosMarquee from '@/components/landing/LogosMarquee';
+import ExamplesShowcase from '@/components/landing/ExamplesShowcase';
+import PricingV2 from '@/components/landing/PricingV2';
+import Testimonials from '@/components/landing/Testimonials';
+import FAQ from '@/components/landing/FAQ';
+import StickyCTA from '@/components/landing/StickyCTA';
 
 const LandingPage = () => {
   const { t } = useTranslation();
+  const canonical = typeof window !== 'undefined' ? window.location.origin + window.location.pathname : '';
 
   const features = [
     {
@@ -95,6 +102,12 @@ const LandingPage = () => {
         </div>
       </div>
 
+      <Helmet>
+        <title>{t('seo.landing.title')}</title>
+        <meta name="description" content={t('seo.landing.description')} />
+        <link rel="canonical" href={canonical} />
+      </Helmet>
+
       <LandingNavbar />
       
       {/* Hero Section */}
@@ -157,6 +170,8 @@ const LandingPage = () => {
         </div>
       </section>
 
+      <LogosMarquee />
+
       {/* Features Section */}
       <section id="features" className="relative py-20 px-4 bg-slate-50/50">
         <div className="container mx-auto relative z-10">
@@ -206,91 +221,9 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="relative py-20 px-4">
-        <div className="container mx-auto relative z-10">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-2 bg-blue-800/10 backdrop-blur-sm border border-blue-800/20 rounded-full px-6 py-2 mb-6">
-              <Zap className="w-5 h-5 text-blue-800" />
-              <span className="text-blue-800 font-medium">Planos Inteligentes</span>
-            </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              {t('pricing.title')}
-            </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              {t('pricing.subtitle')}
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Starter Plan */}
-            <Card className="bg-white/80 border-slate-200 backdrop-blur-sm hover:bg-white transition-all duration-300 hover:scale-105">
-              <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-bold text-slate-900">
-                  {t('pricing.starter.name')}
-                </CardTitle>
-                <div className="text-4xl font-bold text-blue-800 mt-4">
-                  {t('pricing.starter.price')}
-                </div>
-                <CardDescription className="text-slate-600 mt-2">
-                  {t('pricing.starter.description')}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full bg-gradient-to-r from-blue-800 to-blue-700 hover:from-blue-900 hover:to-blue-800 border border-blue-700/50">
-                  {t('pricing.starter.button')}
-                </Button>
-              </CardContent>
-            </Card>
+      <ExamplesShowcase />
 
-            {/* Pro Plan */}
-            <Card className="bg-gradient-to-b from-blue-50 to-white border-blue-800 backdrop-blur-sm relative hover:scale-110 transition-all duration-300 shadow-lg shadow-blue-800/20">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-gradient-to-r from-blue-800 to-blue-700 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
-                  {t('pricing.pro.popular')}
-                </span>
-              </div>
-              <CardHeader className="text-center pt-8">
-                <CardTitle className="text-2xl font-bold text-slate-900">
-                  {t('pricing.pro.name')}
-                </CardTitle>
-                <div className="text-4xl font-bold text-blue-800 mt-4">
-                  {t('pricing.pro.price')}
-                </div>
-                <CardDescription className="text-slate-600 mt-2">
-                  {t('pricing.pro.description')}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full bg-gradient-to-r from-blue-800 to-blue-700 hover:from-blue-900 hover:to-blue-800 text-white font-semibold shadow-lg">
-                  {t('pricing.pro.button')}
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Premium Plan */}
-            <Card className="bg-white/80 border-slate-200 backdrop-blur-sm hover:bg-white transition-all duration-300 hover:scale-105">
-              <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-bold text-slate-900">
-                  {t('pricing.premium.name')}
-                </CardTitle>
-                <div className="text-4xl font-bold text-blue-800 mt-4">
-                  {t('pricing.premium.price')}
-                </div>
-                <CardDescription className="text-slate-600 mt-2">
-                  {t('pricing.premium.description')}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button variant="outline" className="w-full border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-white bg-white">
-                  {t('pricing.premium.button')}
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+      <PricingV2 />
 
       {/* Contact Section */}
       <section id="contact" className="relative py-20 px-4 bg-slate-50/50">
@@ -391,7 +324,11 @@ const LandingPage = () => {
         </div>
       </section>
 
+      <Testimonials />
+      <FAQ />
+
       <LandingFooter />
+      <StickyCTA />
     </div>
   );
 };

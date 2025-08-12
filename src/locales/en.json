@@ -221,5 +221,69 @@
       "passwordsDoNotMatch": "Passwords do not match",
       "termsRequired": "You must accept the terms and conditions"
     }
+  },
+  "seo": {
+    "landing": {
+      "title": "Luxfy AI CRM and WhatsApp Automation",
+      "description": "AI agent, visual CRM, and campaigns to scale your business. Start free."
+    }
+  },
+  "pricingV2": {
+    "badgeDiscount": "Save up to 30%",
+    "title": "Transparent pricing",
+    "subtitle": "Flexible plans that scale with you. Pay monthly or annually.",
+    "toggle": { "monthly": "Monthly", "annual": "Annual (save)" },
+    "perYear": "/year",
+    "perMonth": "/month",
+    "savings": "Save {{amount}} yearly",
+    "equivalentPerMonth": "≈ {{amount}}/mo",
+    "features": {
+      "agents": "agents",
+      "crm": "Visual CRM with Kanban",
+      "ai": "Trainable AI agent",
+      "unlimited": "Unlimited conversations",
+      "calendar": "Calendar integration",
+      "campaigns": "Campaign manager",
+      "support": "Priority support"
+    },
+    "bestSeller": "Best seller",
+    "plans": {
+      "start": { "name": "Start", "desc": "1 agent, essential automations" },
+      "pro": { "name": "Pro", "desc": "3 agents, advanced features" },
+      "teams": { "name": "Teams", "desc": "6 agents, collaboration tools" }
+    },
+    "cta": "Start free 24h",
+    "ctaAria": "Create your Luxfy account"
+  },
+  "stickyCta": {
+    "title": "Ready to automate?",
+    "subtitle": "Create your account in 2 minutes."
+  },
+  "testimonials": {
+    "title": "What our customers say",
+    "subtitle": "Results that speak for themselves.",
+    "items": {
+      "0": { "text": "Luxfy boosted our response time and sales.", "author": "Ana Silva", "role": "E-commerce Manager" },
+      "1": { "text": "The AI agent handles most FAQs flawlessly.", "author": "Carlos Gomez", "role": "Support Lead" },
+      "2": { "text": "Easy CRM and WhatsApp automation in one place.", "author": "Emily Carter", "role": "Operations" }
+    }
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "subtitle": "Everything you need to know about Luxfy.",
+    "q1": { "q": "What is Luxfy?", "a": "An AI-powered platform with CRM and campaigns." },
+    "q2": { "q": "Does it work with WhatsApp?", "a": "Yes, you can connect and automate WhatsApp." },
+    "q3": { "q": "Can I train the AI?", "a": "Yes, train it with your data and flows." },
+    "q4": { "q": "Is there a free trial?", "a": "Yes, you can start free and upgrade anytime." },
+    "q5": { "q": "Can I cancel anytime?", "a": "Yes, cancel or change plans whenever you want." }
+  },
+  "examples": {
+    "title": "See it in action",
+    "subtitle": "Explore how teams use Luxfy every day.",
+    "tabs": { "chat": "Chat", "campaigns": "Campaigns", "crm": "CRM" },
+    "chat": { "desc": "Simulated WhatsApp chat showcasing the AI agent." },
+    "campaigns": { "desc": "Create, schedule and track marketing campaigns." },
+    "crm": { "desc": "Visual Kanban to manage and move leads quickly." }
   }
 }
+

@@ -221,5 +221,69 @@
       "passwordsDoNotMatch": "Las contraseñas no coinciden",
       "termsRequired": "Debes aceptar los términos y condiciones"
     }
+  },
+  "seo": {
+    "landing": {
+      "title": "Luxfy: IA, CRM y Automatización WhatsApp",
+      "description": "Agente de IA, CRM visual y campañas para escalar tu negocio. Empieza gratis."
+    }
+  },
+  "pricingV2": {
+    "badgeDiscount": "Ahorra hasta 30%",
+    "title": "Precios transparentes",
+    "subtitle": "Planes flexibles que escalan contigo. Mensual o anual.",
+    "toggle": { "monthly": "Mensual", "annual": "Anual (ahorra)" },
+    "perYear": "/año",
+    "perMonth": "/mes",
+    "savings": "Ahorra {{amount}} al año",
+    "equivalentPerMonth": "≈ {{amount}}/mes",
+    "features": {
+      "agents": "agentes",
+      "crm": "CRM Visual con Kanban",
+      "ai": "Agente de IA entrenable",
+      "unlimited": "Conversaciones ilimitadas",
+      "calendar": "Integración con calendario",
+      "campaigns": "Gestor de campañas",
+      "support": "Soporte prioritario"
+    },
+    "bestSeller": "Más vendido",
+    "plans": {
+      "start": { "name": "Start", "desc": "1 agente, automatizaciones esenciales" },
+      "pro": { "name": "Pro", "desc": "3 agentes, funciones avanzadas" },
+      "teams": { "name": "Teams", "desc": "6 agentes, colaboración de equipo" }
+    },
+    "cta": "Probar gratis 24h",
+    "ctaAria": "Crea tu cuenta Luxfy"
+  },
+  "stickyCta": {
+    "title": "¿Listo para automatizar?",
+    "subtitle": "Crea tu cuenta en 2 minutos."
+  },
+  "testimonials": {
+    "title": "Lo que dicen nuestros clientes",
+    "subtitle": "Resultados que hablan por sí solos.",
+    "items": {
+      "0": { "text": "Luxfy mejoró nuestro tiempo de respuesta y las ventas.", "author": "Ana López", "role": "Gerente de E-commerce" },
+      "1": { "text": "El agente de IA resuelve la mayoría de las preguntas con precisión.", "author": "Carlos Gómez", "role": "Líder de Soporte" },
+      "2": { "text": "CRM sencillo y automatización de WhatsApp en un solo lugar.", "author": "María Ruiz", "role": "Operaciones" }
+    }
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "subtitle": "Todo lo que necesitas saber sobre Luxfy.",
+    "q1": { "q": "¿Qué es Luxfy?", "a": "Una plataforma con IA, CRM y campañas." },
+    "q2": { "q": "¿Funciona con WhatsApp?", "a": "Sí, puedes conectar y automatizar WhatsApp." },
+    "q3": { "q": "¿Puedo entrenar la IA?", "a": "Sí, entrénala con tus datos y flujos." },
+    "q4": { "q": "¿Hay prueba gratis?", "a": "Sí, puedes empezar gratis y mejorar cuando quieras." },
+    "q5": { "q": "¿Puedo cancelar cuando quiera?", "a": "Sí, cancela o cambia de plan cuando quieras." }
+  },
+  "examples": {
+    "title": "Míralo en acción",
+    "subtitle": "Explora cómo los equipos usan Luxfy cada día.",
+    "tabs": { "chat": "Chat", "campaigns": "Campañas", "crm": "CRM" },
+    "chat": { "desc": "Chat de WhatsApp simulado mostrando el agente de IA." },
+    "campaigns": { "desc": "Crea, programa y sigue campañas de marketing." },
+    "crm": { "desc": "Kanban visual para gestionar y mover leads rápidamente." }
   }
 }
+
