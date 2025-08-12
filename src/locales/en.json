@@ -279,11 +279,15 @@
   },
   "examples": {
     "title": "See it in action",
-    "subtitle": "Explore how teams use Luxfy every day.",
-    "tabs": { "chat": "Chat", "campaigns": "Campaigns", "crm": "CRM" },
-    "chat": { "desc": "Simulated WhatsApp chat showcasing the AI agent." },
-    "campaigns": { "desc": "Create, schedule and track marketing campaigns." },
-    "crm": { "desc": "Visual Kanban to manage and move leads quickly." }
+    "subtitle": "Watch how our AI naturally converses with your customers.",
+    "conversation": {
+      "0": { "text": "Hi! I'd like to know about Luxfy's plans", "isUser": "true" },
+      "1": { "text": "Hello! Sure, I can help you with that. We have three main plans: Starter ($97/month), Professional ($197/month) and Enterprise ($397/month). What type of business do you have?", "isUser": "false" },
+      "2": { "text": "I have an online clothing store with about 200 orders per month", "isUser": "true" },
+      "3": { "text": "Perfect! For your volume, I recommend the Professional plan. It includes up to 5 AI agents, complete CRM and automated campaigns. Would you like to try it for free?", "isUser": "false" },
+      "4": { "text": "Yes, how do I get started?", "isUser": "true" },
+      "5": { "text": "Great! I'll send you the link to create your free account. In 2 minutes you'll be testing our AI! 🚀", "isUser": "false" }
+    }
   }
 }
 

@@ -15,16 +15,17 @@ export default function ExamplesShowcase() {
   const [isTyping, setIsTyping] = useState(false);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
 
-  const conversation = [
-    { text: "Olá! Gostaria de saber sobre os planos da Luxfy", isUser: true },
-    { text: "Olá! Claro, posso te ajudar com isso. Temos três planos principais: Starter (R$ 97/mês), Professional (R$ 197/mês) e Enterprise (R$ 397/mês). Qual tipo de negócio você tem?", isUser: false },
-    { text: "Tenho uma loja de roupas online com cerca de 200 pedidos por mês", isUser: true },
-    { text: "Perfeito! Para seu volume, recomendo o plano Professional. Ele inclui até 5 agentes de IA, CRM completo e campanhas automatizadas. Gostaria de fazer um teste gratuito?", isUser: false },
-    { text: "Sim, como faço para começar?", isUser: true },
-    { text: "Ótimo! Vou te enviar o link para criar sua conta gratuita. Em 2 minutos você já estará testando nossa IA! 🚀", isUser: false }
+  const getConversation = () => [
+    { text: t("examples.conversation.0.text"), isUser: t("examples.conversation.0.isUser") === "true" },
+    { text: t("examples.conversation.1.text"), isUser: t("examples.conversation.1.isUser") === "true" },
+    { text: t("examples.conversation.2.text"), isUser: t("examples.conversation.2.isUser") === "true" },
+    { text: t("examples.conversation.3.text"), isUser: t("examples.conversation.3.isUser") === "true" },
+    { text: t("examples.conversation.4.text"), isUser: t("examples.conversation.4.isUser") === "true" },
+    { text: t("examples.conversation.5.text"), isUser: t("examples.conversation.5.isUser") === "true" }
   ];
 
   useEffect(() => {
+    const conversation = getConversation();
     const timer = setTimeout(() => {
       if (currentMessageIndex < conversation.length) {
         const currentMsg = conversation[currentMessageIndex];

@@ -278,12 +278,16 @@
     "q5": { "q": "¿Puedo cancelar cuando quiera?", "a": "Sí, cancela o cambia de plan cuando quieras." }
   },
   "examples": {
-    "title": "Míralo en acción",
-    "subtitle": "Explora cómo los equipos usan Luxfy cada día.",
-    "tabs": { "chat": "Chat", "campaigns": "Campañas", "crm": "CRM" },
-    "chat": { "desc": "Chat de WhatsApp simulado mostrando el agente de IA." },
-    "campaigns": { "desc": "Crea, programa y sigue campañas de marketing." },
-    "crm": { "desc": "Kanban visual para gestionar y mover leads rápidamente." }
+    "title": "Véelo en acción",
+    "subtitle": "Mira cómo nuestra IA conversa naturalmente con tus clientes.",
+    "conversation": {
+      "0": { "text": "¡Hola! Me gustaría saber sobre los planes de Luxfy", "isUser": "true" },
+      "1": { "text": "¡Hola! Claro, puedo ayudarte con eso. Tenemos tres planes principales: Starter ($97/mes), Professional ($197/mes) y Enterprise ($397/mes). ¿Qué tipo de negocio tienes?", "isUser": "false" },
+      "2": { "text": "Tengo una tienda de ropa online con unos 200 pedidos por mes", "isUser": "true" },
+      "3": { "text": "¡Perfecto! Para tu volumen, recomiendo el plan Professional. Incluye hasta 5 agentes de IA, CRM completo y campañas automatizadas. ¿Te gustaría hacer una prueba gratuita?", "isUser": "false" },
+      "4": { "text": "Sí, ¿cómo empiezo?", "isUser": "true" },
+      "5": { "text": "¡Excelente! Te enviaré el enlace para crear tu cuenta gratuita. ¡En 2 minutos ya estarás probando nuestra IA! 🚀", "isUser": "false" }
+    }
   }
 }
 
