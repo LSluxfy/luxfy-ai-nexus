@@ -10,7 +10,7 @@ import LandingNavbar from '@/components/LandingNavbar';
 import LandingFooter from '@/components/LandingFooter';
 import LanguageSelector from '@/components/LanguageSelector';
 import { useTranslation, Trans } from 'react-i18next';
-import LogosMarquee from '@/components/landing/LogosMarquee';
+
 import ExamplesShowcase from '@/components/landing/ExamplesShowcase';
 import PricingV2 from '@/components/landing/PricingV2';
 import Testimonials from '@/components/landing/Testimonials';
@@ -170,8 +170,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <LogosMarquee />
-
       {/* Features Section */}
       <section id="features" className="relative py-20 px-4 bg-slate-50/50">
         <div className="container mx-auto relative z-10">
@@ -224,105 +222,6 @@ const LandingPage = () => {
       <ExamplesShowcase />
 
       <PricingV2 />
-
-      {/* Contact Section */}
-      <section id="contact" className="relative py-20 px-4 bg-slate-50/50">
-        <div className="container mx-auto relative z-10">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-2 bg-blue-800/10 backdrop-blur-sm border border-blue-800/20 rounded-full px-6 py-2 mb-6">
-              <Network className="w-5 h-5 text-blue-800" />
-              <span className="text-blue-800 font-medium">Conecte-se Conosco</span>
-            </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              {t('contact.title')}
-            </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              {t('contact.subtitle')}
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-            <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-slate-900 mb-6">
-                {t('contact.form.title')}
-              </h3>
-              <p className="text-slate-600 mb-8">
-                {t('contact.form.subtitle')}
-              </p>
-              
-              <form className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    {t('contact.form.name')}
-                  </label>
-                  <Input 
-                    placeholder={t('contact.form.namePlaceholder')} 
-                    className="bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-blue-800"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    {t('contact.form.email')}
-                  </label>
-                  <Input 
-                    type="email" 
-                    placeholder={t('contact.form.emailPlaceholder')} 
-                    className="bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-blue-800"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    {t('contact.form.subject')}
-                  </label>
-                  <Input 
-                    placeholder={t('contact.form.subjectPlaceholder')} 
-                    className="bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-blue-800"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    {t('contact.form.message')}
-                  </label>
-                  <Textarea 
-                    placeholder={t('contact.form.messagePlaceholder')} 
-                    rows={5} 
-                    className="bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-blue-800"
-                  />
-                </div>
-                <Button className="w-full bg-gradient-to-r from-blue-800 to-blue-700 hover:from-blue-900 hover:to-blue-800 text-white font-semibold py-3">
-                  <Zap className="w-4 h-4 mr-2" />
-                  {t('contact.form.send')}
-                </Button>
-              </form>
-            </div>
-            
-            <div className="space-y-8">
-              <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-6">
-                <h4 className="text-lg font-semibold text-slate-900 mb-2">
-                  {t('contact.phone')}
-                </h4>
-                <p className="text-blue-800">+55 (11) 99999-9999</p>
-              </div>
-              <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-6">
-                <h4 className="text-lg font-semibold text-slate-900 mb-2">
-                  {t('contact.email')}
-                </h4>
-                <p className="text-blue-800">contato@luxfy.com</p>
-              </div>
-              <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-6">
-                <h4 className="text-lg font-semibold text-slate-900 mb-2">
-                  {t('contact.address')}
-                </h4>
-                <p className="text-slate-600">
-                  Rua da Inovação, 123<br />
-                  São Paulo, SP - Brasil
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <Testimonials />
       <FAQ />
