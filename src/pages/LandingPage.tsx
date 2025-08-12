@@ -9,7 +9,7 @@ import { Bot, Kanban, Calendar, BarChart, Users, Shield, Check, Star, Zap, Brain
 import LandingNavbar from '@/components/LandingNavbar';
 import LandingFooter from '@/components/LandingFooter';
 import LanguageSelector from '@/components/LanguageSelector';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import LogosMarquee from '@/components/landing/LogosMarquee';
 import ExamplesShowcase from '@/components/landing/ExamplesShowcase';
 import PricingV2 from '@/components/landing/PricingV2';
@@ -126,7 +126,12 @@ const LandingPage = () => {
 
           <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
             <span className="bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
-              {t('hero.title', { interpolation: { escapeValue: false } })}
+              <Trans
+                i18nKey="hero.title"
+                components={{
+                  1: <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent animate-pulse" />
+                }}
+              />
             </span>
           </h1>
           
