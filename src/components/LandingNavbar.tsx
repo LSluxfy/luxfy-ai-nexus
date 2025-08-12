@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Menu, X, Cpu } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from './LanguageSelector';
 
@@ -15,8 +15,8 @@ const LandingNavbar = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-800 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/25">
-              <Cpu className="w-6 h-6 text-white" />
+            <div className="h-10 w-10 rounded-xl overflow-hidden shadow-lg shadow-blue-500/25">
+              <img src="/lovable-uploads/c0e6c735-5382-4c0e-81ee-5c39577c240d.png" alt="Luxfy Logo" className="w-full h-full object-cover" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
               Luxfy

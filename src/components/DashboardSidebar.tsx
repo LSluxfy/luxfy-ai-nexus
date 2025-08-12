@@ -66,7 +66,10 @@ const DashboardSidebar = () => {
     <aside className="w-64 border-r shrink-0 hidden md:block dark:border-gray-700 dark:bg-gray-800">
       <div className="flex flex-col h-full">
         <div className="py-4 px-4 border-b dark:border-gray-700">
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded-lg overflow-hidden">
+              <img src="/lovable-uploads/c0e6c735-5382-4c0e-81ee-5c39577c240d.png" alt="Luxfy Logo" className="w-full h-full object-cover" />
+            </div>
             <h2 className="text-2xl font-bold text-luxfy-blue">Luxfy</h2>
           </div>
         </div>

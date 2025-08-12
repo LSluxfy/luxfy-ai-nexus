@@ -117,7 +117,7 @@ const LandingPage = () => {
           <div className="flex justify-center mb-8">
             <div className="relative">
               <div className="w-16 h-16 bg-blue-800 rounded-full flex items-center justify-center animate-pulse">
-                <Cpu className="w-8 h-8 text-white animate-spin" style={{ animationDuration: '3s' }} />
+                <img src="/lovable-uploads/c0e6c735-5382-4c0e-81ee-5c39577c240d.png" alt="Luxfy Logo" className="w-8 h-8 animate-spin" style={{ animationDuration: '3s' }} />
               </div>
               <div className="absolute inset-0 w-16 h-16 bg-blue-600/20 rounded-full animate-ping"></div>
               <div className="absolute inset-0 w-16 h-16 bg-blue-800/10 rounded-full animate-ping delay-1000"></div>

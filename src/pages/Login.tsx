@@ -11,7 +11,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from '@/components/LanguageSelector';
-import { Cpu } from 'lucide-react';
+
 import {
   Form,
   FormControl,
@@ -76,7 +76,7 @@ const Login = () => {
         <div className="text-center">
           <Link to="/" className="inline-flex items-center gap-3 mb-8">
             <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-800 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/25">
-              <Cpu className="w-7 h-7 text-white" />
+              <img src="/lovable-uploads/c0e6c735-5382-4c0e-81ee-5c39577c240d.png" alt="Luxfy Logo" className="w-7 h-7" />
             </div>
             <span className="text-3xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">Luxfy</span>
           </Link>
