@@ -126,12 +126,7 @@ const LandingPage = () => {
 
           <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
             <span className="bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
-              <Trans
-                i18nKey="hero.title"
-                components={{
-                  1: <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent animate-pulse" />
-                }}
-              />
+              {t('hero.title')}
             </span>
           </h1>
           
