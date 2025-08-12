@@ -279,11 +279,7 @@
   },
   "examples": {
     "title": "Veja na prática",
-    "subtitle": "Explore como equipes usam a Luxfy no dia a dia.",
-    "tabs": { "chat": "Chat", "campaigns": "Campanhas", "crm": "CRM" },
-    "chat": { "desc": "Simulação de WhatsApp mostrando o agente de IA." },
-    "campaigns": { "desc": "Crie, agende e acompanhe campanhas de marketing." },
-    "crm": { "desc": "Kanban visual para organizar e mover leads rapidamente." }
+    "subtitle": "Veja como nossa IA conversa naturalmente com seus clientes."
   }
 }
 
