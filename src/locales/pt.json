@@ -282,9 +282,9 @@
     "subtitle": "Veja como nossa IA conversa naturalmente com seus clientes.",
     "conversation": {
       "0": { "text": "Olá! Gostaria de saber sobre os planos da Luxfy", "isUser": "true" },
-      "1": { "text": "Olá! Claro, posso te ajudar com isso. Temos três planos principais: Starter (R$ 97/mês), Professional (R$ 197/mês) e Enterprise (R$ 397/mês). Qual tipo de negócio você tem?", "isUser": "false" },
+      "1": { "text": "Olá! Claro, posso te ajudar com isso. Temos três planos principais: Start ($22/mês), Pro ($39/mês) e Teams ($79/mês). Qual tipo de negócio você tem?", "isUser": "false" },
       "2": { "text": "Tenho uma loja de roupas online com cerca de 200 pedidos por mês", "isUser": "true" },
-      "3": { "text": "Perfeito! Para seu volume, recomendo o plano Professional. Ele inclui até 5 agentes de IA, CRM completo e campanhas automatizadas. Gostaria de fazer um teste gratuito?", "isUser": "false" },
+      "3": { "text": "Perfeito! Para seu volume, recomendo o plano Pro. Ele inclui até 5 agentes de IA, CRM completo e campanhas automatizadas. Gostaria de fazer um teste gratuito?", "isUser": "false" },
       "4": { "text": "Sim, como faço para começar?", "isUser": "true" },
       "5": { "text": "Ótimo! Vou te enviar o link para criar sua conta gratuita. Em 2 minutos você já estará testando nossa IA! 🚀", "isUser": "false" }
     }
