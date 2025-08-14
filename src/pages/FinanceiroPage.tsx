@@ -13,33 +13,33 @@ import { InvoiceService } from '@/services/invoiceService';
 const FinanceiroPage = () => {
   const [currentPlan] = useState({
     name: 'Plano Básico',
-    price: 'R$ 97,00',
+    price: '$22,00',
     period: 'mensal',
-    features: ['1 Agente', 'Suporte por Email', 'Dashboard Básico']
+    features: ['1 Agente', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario']
   });
 
   const [availablePlans] = useState([
     {
       name: 'Básico',
-      price: 'R$ 97',
+      price: '$22',
       period: '/mês',
       current: true,
-      features: ['1 Agente', 'Suporte por Email', 'Dashboard Básico', '1.000 mensagens/mês']
+      features: ['1 Agente', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario']
     },
     {
       name: 'Pro',
-      price: 'R$ 197',
+      price: '$39',
       period: '/mês',
       current: false,
       popular: true,
-      features: ['5 Agentes', 'Suporte Prioritário', 'Analytics Avançado', '10.000 mensagens/mês', 'WhatsApp API']
+      features: ['3 Agentes', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario']
     },
     {
       name: 'Premium',
-      price: 'R$ 497',
+      price: '$79',
       period: '/mês',
       current: false,
-      features: ['Agentes Ilimitados', 'Suporte 24/7', 'White Label', 'Mensagens Ilimitadas', 'Integração Completa']
+      features: ['6 Agentes', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario']
     }
   ]);
 
