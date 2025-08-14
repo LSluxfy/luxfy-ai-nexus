@@ -59,6 +59,12 @@ export function useCRM({ agentId, enabled = true }: UseCRMOptions) {
 
   // Process rows to ensure tableId is present
   const processRowsWithTableId = useCallback((rows: CRMRow[]): CRMRow[] => {
+    // Ensure rows is an array before calling map
+    if (!Array.isArray(rows)) {
+      console.warn('CRM rows is not an array:', rows);
+      return [];
+    }
+    
     return rows.map(row => ({
       ...row,
       tableId: row.tableId || 1 // Default to 1 if not present
