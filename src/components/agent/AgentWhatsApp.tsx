@@ -18,7 +18,7 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
   const [qrCodeImage, setQrCodeImage] = useState<string | null>(null);
   const [generated, setGenerated] = useState(false);
   
-  const { connecting, disconnecting, checkingStatus, connectAgent, checkStatus, disconnectAgent, forceReconnect } = useAgentWhatsApp();
+  const { connecting, disconnecting, checkingStatus, clearingSession, connectAgent, checkStatus, disconnectAgent, forceReconnect, clearOrphanedSessions } = useAgentWhatsApp();
 
   useEffect(() => {
     checkAgentStatus();
@@ -36,9 +36,12 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
 
   const handleConnect = async () => {
     try {
-      console.log(`Iniciando conexão para agente ${agent.id}`);
+      console.log(`🚀 INTERFACE: Iniciando conexão para agente ${agent.id}`);
+      setQrCode(null);
+      setQrCodeImage(null);
+      
       const response = await connectAgent(agent.id.toString());
-      console.log('Resposta da conexão:', response);
+      console.log('🎯 INTERFACE: Resposta da conexão:', response);
       
       // Se já estava conectado, apenas atualizar status
       if (response.message === "Sessão já ativa") {
@@ -107,13 +110,13 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
 
   const handleForceReconnect = async () => {
     try {
-      console.log(`Forçando nova conexão para agente ${agent.id}`);
+      console.log(`🔄 INTERFACE: Forçando nova conexão para agente ${agent.id}`);
       // Limpar QR codes existentes
       setQrCode(null);
       setQrCodeImage(null);
       
       const response = await forceReconnect(agent.id.toString());
-      console.log('Resposta da reconexão forçada:', response);
+      console.log('🎯 INTERFACE: Resposta da reconexão forçada:', response);
       
       // Processar resposta igual ao handleConnect
       if (response.agent?.qr_string) {
@@ -163,12 +166,31 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
 
   const handleDisconnect = async () => {
     try {
+      console.log(`🔌 INTERFACE: Desconectando agente ${agent.id}`);
       await disconnectAgent(agent.id.toString());
       setIsOnline(false);
       setQrCode(null);
       setQrCodeImage(null);
     } catch (error) {
-      console.error('Erro ao desconectar:', error);
+      console.error('❌ INTERFACE: Erro ao desconectar:', error);
+    }
+  };
+
+  const handleClearSessions = async () => {
+    try {
+      console.log(`🧹 INTERFACE: Limpando sessões órfãs para agente ${agent.id}`);
+      setQrCode(null);
+      setQrCodeImage(null);
+      
+      const success = await clearOrphanedSessions(agent.id.toString());
+      if (success) {
+        // Aguardar um pouco e verificar status
+        setTimeout(() => {
+          checkAgentStatus();
+        }, 2000);
+      }
+    } catch (error) {
+      console.error('❌ INTERFACE: Erro ao limpar sessões:', error);
     }
   };
 
@@ -242,23 +264,34 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
               )}
             </div>
 
-            <div className="flex gap-2">
+            <div className="space-y-2">
               {!isOnline ? (
                 <>
+                  <div className="flex gap-2">
+                    <Button 
+                      onClick={handleConnect} 
+                      disabled={connecting || clearingSession}
+                      className="flex-1"
+                    >
+                      {connecting ? 'Conectando...' : 'Conectar WhatsApp'}
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={handleForceReconnect} 
+                      disabled={connecting || clearingSession}
+                      className="whitespace-nowrap"
+                    >
+                      {connecting ? 'Reconectando...' : 'Forçar Nova Conexão'}
+                    </Button>
+                  </div>
+                  
                   <Button 
-                    onClick={handleConnect} 
-                    disabled={connecting}
-                    className="flex-1"
+                    variant="secondary" 
+                    onClick={handleClearSessions} 
+                    disabled={connecting || clearingSession}
+                    className="w-full"
                   >
-                    {connecting ? 'Conectando...' : 'Conectar WhatsApp'}
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    onClick={handleForceReconnect} 
-                    disabled={connecting}
-                    className="whitespace-nowrap"
-                  >
-                    {connecting ? 'Reconectando...' : 'Forçar Nova Conexão'}
+                    {clearingSession ? 'Limpando Sessões...' : 'Limpar Sessões Órfãs'}
                   </Button>
                 </>
               ) : (
@@ -266,7 +299,7 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
                   variant="destructive" 
                   onClick={handleDisconnect} 
                   disabled={disconnecting}
-                  className="flex-1"
+                  className="w-full"
                 >
                   {disconnecting ? 'Desconectando...' : 'Desconectar'}
                 </Button>
