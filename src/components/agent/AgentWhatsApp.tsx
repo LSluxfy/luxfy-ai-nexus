@@ -18,7 +18,7 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
   const [qrCodeImage, setQrCodeImage] = useState<string | null>(null);
   const [generated, setGenerated] = useState(false);
   
-  const { connecting, disconnecting, checkingStatus, connectAgent, checkStatus, disconnectAgent } = useAgentWhatsApp();
+  const { connecting, disconnecting, checkingStatus, connectAgent, checkStatus, disconnectAgent, forceReconnect } = useAgentWhatsApp();
 
   useEffect(() => {
     checkAgentStatus();
@@ -36,11 +36,19 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
 
   const handleConnect = async () => {
     try {
+      console.log(`Iniciando conexão para agente ${agent.id}`);
       const response = await connectAgent(agent.id.toString());
       console.log('Resposta da conexão:', response);
       
+      // Se já estava conectado, apenas atualizar status
+      if (response.message === "Sessão já ativa") {
+        checkAgentStatus();
+        return;
+      }
+      
       // Verificar se existe QR code na resposta
       if (response.agent?.qr_string) {
+        console.log('QR code recebido, configurando interface...');
         setQrCode(response.agent.qr_string);
         setGenerated(response.agent.generated || false);
         
@@ -58,12 +66,14 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
             }
           });
           setQrCodeImage(qrImageUrl);
+          console.log('Imagem QR code gerada com sucesso');
         } catch (qrError) {
           console.error('Erro ao gerar QR code:', qrError);
         }
 
         // Aguardar 3 segundos antes de iniciar verificação de status
         setTimeout(() => {
+          console.log('Iniciando monitoramento de status...');
           // Verificar status periodicamente após mostrar QR code
           const interval = setInterval(async () => {
             console.log('Verificando status do agente...');
@@ -86,12 +96,68 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
           }, 300000);
         }, 3000);
       } else {
-        console.log('Nenhum QR code retornado na resposta');
+        console.log('Nenhum QR code retornado na resposta, verificando status...');
         // Se não há QR code, pode ser que já esteja conectado
         checkAgentStatus();
       }
     } catch (error) {
       console.error('Erro ao conectar:', error);
+    }
+  };
+
+  const handleForceReconnect = async () => {
+    try {
+      console.log(`Forçando nova conexão para agente ${agent.id}`);
+      // Limpar QR codes existentes
+      setQrCode(null);
+      setQrCodeImage(null);
+      
+      const response = await forceReconnect(agent.id.toString());
+      console.log('Resposta da reconexão forçada:', response);
+      
+      // Processar resposta igual ao handleConnect
+      if (response.agent?.qr_string) {
+        console.log('QR code recebido após reconexão, configurando interface...');
+        setQrCode(response.agent.qr_string);
+        setGenerated(response.agent.generated || false);
+        setIsOnline(false);
+        
+        try {
+          const qrImageUrl = await QRCodeGenerator.toDataURL(response.agent.qr_string, {
+            width: 300,
+            margin: 1,
+            color: {
+              dark: '#000000',
+              light: '#FFFFFF'
+            }
+          });
+          setQrCodeImage(qrImageUrl);
+        } catch (qrError) {
+          console.error('Erro ao gerar QR code:', qrError);
+        }
+
+        // Monitoramento igual ao handleConnect
+        setTimeout(() => {
+          const interval = setInterval(async () => {
+            const status = await checkStatus(agent.id.toString());
+            setIsOnline(status);
+            
+            if (status) {
+              setQrCode(null);
+              setQrCodeImage(null);
+              clearInterval(interval);
+            }
+          }, 5000);
+
+          setTimeout(() => {
+            clearInterval(interval);
+          }, 300000);
+        }, 3000);
+      } else {
+        checkAgentStatus();
+      }
+    } catch (error) {
+      console.error('Erro ao forçar reconexão:', error);
     }
   };
 
@@ -178,13 +244,23 @@ export function AgentWhatsApp({ agent }: AgentWhatsAppProps) {
 
             <div className="flex gap-2">
               {!isOnline ? (
-                <Button 
-                  onClick={handleConnect} 
-                  disabled={connecting}
-                  className="flex-1"
-                >
-                  {connecting ? 'Conectando...' : 'Conectar WhatsApp'}
-                </Button>
+                <>
+                  <Button 
+                    onClick={handleConnect} 
+                    disabled={connecting}
+                    className="flex-1"
+                  >
+                    {connecting ? 'Conectando...' : 'Conectar WhatsApp'}
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={handleForceReconnect} 
+                    disabled={connecting}
+                    className="whitespace-nowrap"
+                  >
+                    {connecting ? 'Reconectando...' : 'Forçar Nova Conexão'}
+                  </Button>
+                </>
               ) : (
                 <Button 
                   variant="destructive" 
