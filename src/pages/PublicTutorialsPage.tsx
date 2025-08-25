@@ -16,7 +16,7 @@ const PublicTutorialsPage = () => {
       title: 'Bem-vindos',
       icon: BookOpen,
       description: 'Introdução à plataforma Luxfy e como começar',
-      videoUrl: '',
+      videoUrl: 'https://player-vz-a5f41599-9ad.tv.pandavideo.com.br/embed/?v=f6d673e7-3f9a-4d8d-8c5e-8ee8152795d4&iosFakeFullscreen=true',
       topics: [
         'Visão geral da plataforma',
         'Primeiro acesso e configuração',
@@ -29,7 +29,7 @@ const PublicTutorialsPage = () => {
       title: 'Agentes',
       icon: Users,
       description: 'Como criar e configurar seus agentes de IA',
-      videoUrl: '',
+      videoUrl: 'https://player-vz-a5f41599-9ad.tv.pandavideo.com.br/embed/?v=5d7c91d2-45fc-4d37-9208-d5a68ac0723b&iosFakeFullscreen=true',
       topics: [
         'Criação de agentes',
         'Configurações básicas',
@@ -42,7 +42,7 @@ const PublicTutorialsPage = () => {
       title: 'Voz Personalizável',
       icon: Mic,
       description: 'Configure vozes únicas para seus agentes',
-      videoUrl: '',
+      videoUrl: 'https://player-vz-a5f41599-9ad.tv.pandavideo.com.br/embed/?v=10b6a739-0f50-4090-a507-fc1dbd677029&iosFakeFullscreen=true',
       topics: [
         'Seleção de vozes',
         'Personalização de tom',
@@ -55,7 +55,7 @@ const PublicTutorialsPage = () => {
       title: 'CRM e Chat',
       icon: MessageSquare,
       description: 'Gerencie leads e conversas em tempo real',
-      videoUrl: '',
+      videoUrl: 'https://player-vz-a5f41599-9ad.tv.pandavideo.com.br/embed/?v=44bce4b7-74ec-4bc0-9253-5ecf614b9e81&iosFakeFullscreen=true',
       topics: [
         'Configuração do CRM',
         'Gestão de leads',
@@ -81,7 +81,7 @@ const PublicTutorialsPage = () => {
       title: 'Campanhas Marketing',
       icon: Megaphone,
       description: 'Crie e gerencie campanhas automatizadas',
-      videoUrl: '',
+      videoUrl: 'https://player-vz-a5f41599-9ad.tv.pandavideo.com.br/embed/?v=7e3ccc4b-2715-4069-b766-f43db1d0ac0c&iosFakeFullscreen=true',
       topics: [
         'Criação de campanhas',
         'Segmentação de público',
@@ -94,7 +94,7 @@ const PublicTutorialsPage = () => {
       title: 'Análises e Métricas',
       icon: BarChart3,
       description: 'Monitore performance e resultados',
-      videoUrl: '',
+      videoUrl: 'https://player-vz-a5f41599-9ad.tv.pandavideo.com.br/embed/?v=f10f5926-9da3-4dd7-ad7d-a72d4d61b732&iosFakeFullscreen=true',
       topics: [
         'Dashboard de métricas',
         'Relatórios de performance',

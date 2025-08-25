@@ -2,6 +2,7 @@ import React from 'react';
 import { Play, PictureInPicture } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useFloatingVideo } from '@/contexts/FloatingVideoContext';
+import PandaVideoPlayer from './PandaVideoPlayer';
 
 interface VideoPlayerProps {
   videoUrl?: string;
@@ -12,6 +13,24 @@ interface VideoPlayerProps {
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, title, description, thumbnail }) => {
   const { openVideo } = useFloatingVideo();
+
+  // Check if it's a Panda Video URL
+  if (videoUrl && videoUrl.includes('pandavideo.com.br')) {
+    const videoIdMatch = videoUrl.match(/v=([^&]+)/);
+    if (videoIdMatch) {
+      const videoId = videoIdMatch[1];
+      const aspectRatio = videoUrl.includes('64.94') ? "64.94287432351172%" : "56.25%";
+      
+      return (
+        <PandaVideoPlayer
+          videoId={videoId}
+          title={title}
+          description={description}
+          aspectRatio={aspectRatio}
+        />
+      );
+    }
+  }
 
   if (!videoUrl) {
     return (

@@ -134,29 +134,24 @@ const LandingPage = () => {
               <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-cyan-300 to-blue-500 rounded-2xl opacity-50 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
               
               {/* Container do vídeo */}
-              <div className="relative bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl overflow-hidden aspect-video border border-blue-400/30 shadow-2xl shadow-blue-500/20">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-400/10"></div>
-                <div className="relative z-10 flex items-center justify-center h-full">
-                  <div className="text-center">
-                    <div className="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/30 group-hover:bg-white/30 transition-all duration-300 hover:scale-110">
-                      <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-                    </div>
-                    <h3 className="text-white font-bold text-xl mb-2">Veja como o Luxfy funciona</h3>
-                    <p className="text-white/80 text-sm max-w-sm mx-auto mb-4">Descubra como nossos agentes de IA podem revolucionar seu atendimento no WhatsApp</p>
-                    <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2">
-                      <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                      <span className="text-white/90 text-xs font-medium">Demonstração ao vivo</span>
-                    </div>
-                  </div>
+              <div className="relative rounded-2xl overflow-hidden aspect-video border border-blue-400/30 shadow-2xl shadow-blue-500/20">
+                <div style={{position:'relative',paddingTop:'56.25%'}}>
+                  <iframe 
+                    id="panda-43e448cc-a1c0-48db-b09e-90b281364b01" 
+                    src="https://player-vz-a5f41599-9ad.tv.pandavideo.com.br/embed/?v=43e448cc-a1c0-48db-b09e-90b281364b01&iosFakeFullscreen=true" 
+                    style={{border:'none',position:'absolute',top:0,left:0}} 
+                    allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture" 
+                    allowFullScreen={true} 
+                    width="100%" 
+                    height="100%"
+                  />
                 </div>
+              </div>
                 
                 {/* Efeitos de partículas */}
                 <div className="absolute top-4 left-4 w-2 h-2 bg-cyan-400 rounded-full animate-ping"></div>
                 <div className="absolute top-8 right-8 w-1 h-1 bg-blue-400 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
                 <div className="absolute bottom-6 left-8 w-1.5 h-1.5 bg-cyan-300 rounded-full animate-ping" style={{ animationDelay: '2s' }}></div>
-              </div>
             </div>
           </div>
           
