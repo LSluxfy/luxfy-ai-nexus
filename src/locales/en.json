@@ -252,7 +252,7 @@
       "pro": { "name": "Pro", "desc": "3 agents, advanced features" },
       "teams": { "name": "Teams", "desc": "6 agents, collaboration tools" }
     },
-    "cta": "Start free 24h",
+    "cta": "Start now",
     "ctaAria": "Create your Luxfy account"
   },
   "stickyCta": {
@@ -271,11 +271,11 @@
   "faq": {
     "title": "Frequently asked questions",
     "subtitle": "Everything you need to know about Luxfy.",
-    "q1": { "q": "What is Luxfy?", "a": "An AI-powered platform with CRM and campaigns." },
-    "q2": { "q": "Does it work with WhatsApp?", "a": "Yes, you can connect and automate WhatsApp." },
-    "q3": { "q": "Can I train the AI?", "a": "Yes, train it with your data and flows." },
-    "q4": { "q": "Is there a free trial?", "a": "Yes, you can start free and upgrade anytime." },
-    "q5": { "q": "Can I cancel anytime?", "a": "Yes, cancel or change plans whenever you want." }
+    "q1": { "q": "What is Luxfy?", "a": "Luxfy is a complete automation platform that combines artificial intelligence, visual CRM, and marketing campaigns. Our solution allows you to automate customer service, manage leads visually, and execute smart campaigns, all in one integrated platform." },
+    "q2": { "q": "Does it work with WhatsApp?", "a": "Yes! Luxfy offers complete integration with WhatsApp Business. You can connect your account, automate responses, set up personalized conversation flows, and manage all conversations directly through our platform while maintaining a natural experience for your customers." },
+    "q3": { "q": "Can I train the AI?", "a": "Absolutely! Our AI is fully trainable and customizable. You can feed it with your own data, create conversation flows specific to your business, define custom keywords, and adjust responses so the AI responds exactly as you would like." },
+    "q4": { "q": "Is there a free trial?", "a": "Yes! We offer a free trial period so you can experience all platform features. During the trial, you'll have complete access to resources: creating AI agents, visual CRM, automated campaigns, and WhatsApp integration. Then you can upgrade to continue using." },
+    "q5": { "q": "Can I cancel anytime?", "a": "Of course! There are no permanence contracts. You can cancel your subscription at any time or switch between plans according to your needs. We offer total flexibility so you can use Luxfy at your pace and according to your business growth." }
   },
   "examples": {
     "title": "See it in action",

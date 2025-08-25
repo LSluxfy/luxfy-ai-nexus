@@ -162,13 +162,6 @@ const LandingPage = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
             <Button 
               size="lg" 
-              className="bg-gradient-to-r from-blue-800 to-blue-700 hover:from-blue-900 hover:to-blue-800 text-white px-10 py-4 text-lg font-semibold border border-blue-700/50 shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-600/40 hover:scale-105"
-            >
-              <Zap className="w-5 h-5 mr-2" />
-              {t('hero.startFree')}
-            </Button>
-            <Button 
-              size="lg" 
               variant="outline" 
               className="border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-white px-10 py-4 text-lg font-semibold bg-white/80 backdrop-blur-sm transition-all duration-300 hover:scale-105"
             >

@@ -252,7 +252,7 @@
       "pro": { "name": "Pro", "desc": "3 agentes, recursos avançados" },
       "teams": { "name": "Teams", "desc": "6 agentes, colaboração em equipe" }
     },
-    "cta": "Começar grátis 24h",
+    "cta": "Começar agora",
     "ctaAria": "Criar sua conta Luxfy"
   },
   "stickyCta": {
@@ -271,11 +271,11 @@
   "faq": {
     "title": "Perguntas frequentes",
     "subtitle": "Tudo o que você precisa saber sobre a Luxfy.",
-    "q1": { "q": "O que é a Luxfy?", "a": "Uma plataforma com IA, CRM e campanhas." },
-    "q2": { "q": "Funciona com WhatsApp?", "a": "Sim, você pode conectar e automatizar o WhatsApp." },
-    "q3": { "q": "Posso treinar a IA?", "a": "Sim, treine com seus dados e fluxos." },
-    "q4": { "q": "Há teste grátis?", "a": "Sim, você pode começar grátis e fazer upgrade quando quiser." },
-    "q5": { "q": "Posso cancelar quando quiser?", "a": "Sim, cancele ou altere planos a qualquer momento." }
+    "q1": { "q": "O que é a Luxfy?", "a": "A Luxfy é uma plataforma completa de automação que combina inteligência artificial, CRM visual e campanhas de marketing. Nossa solução permite automatizar o atendimento ao cliente, gerenciar leads de forma visual e executar campanhas inteligentes, tudo em uma única plataforma integrada." },
+    "q2": { "q": "Funciona com WhatsApp?", "a": "Sim! A Luxfy oferece integração completa com WhatsApp Business. Você pode conectar sua conta, automatizar respostas, configurar fluxos de conversa personalizados e gerenciar todas as conversas diretamente pela nossa plataforma, mantendo a experiência natural para seus clientes." },
+    "q3": { "q": "Posso treinar a IA?", "a": "Absolutamente! Nossa IA é totalmente treinável e personalizável. Você pode alimentá-la com seus próprios dados, criar fluxos de conversa específicos do seu negócio, definir palavras-chave personalizadas e ajustar as respostas para que a IA responda exatamente como você gostaria." },
+    "q4": { "q": "Há teste grátis?", "a": "Sim! Oferecemos um período de teste gratuito para que você possa experimentar todas as funcionalidades da plataforma. Durante o teste, você terá acesso completo aos recursos: criação de agentes de IA, CRM visual, campanhas automatizadas e integração com WhatsApp. Depois pode fazer upgrade para continuar usando." },
+    "q5": { "q": "Posso cancelar quando quiser?", "a": "Claro! Não há contratos de permanência. Você pode cancelar sua assinatura a qualquer momento ou alterar entre os planos conforme sua necessidade. Oferecemos total flexibilidade para que você use a Luxfy no seu ritmo e conforme o crescimento do seu negócio." }
   },
   "examples": {
     "title": "Veja na prática",
