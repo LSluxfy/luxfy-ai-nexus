@@ -1,5 +1,7 @@
 import React from 'react';
-import { Play } from 'lucide-react';
+import { Play, PictureInPicture } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useFloatingVideo } from '@/contexts/FloatingVideoContext';
 
 interface VideoPlayerProps {
   videoUrl?: string;
@@ -9,6 +11,8 @@ interface VideoPlayerProps {
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, title, description, thumbnail }) => {
+  const { openVideo } = useFloatingVideo();
+
   if (!videoUrl) {
     return (
       <div className="relative bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl overflow-hidden aspect-video flex items-center justify-center group hover:from-slate-800 hover:to-slate-700 transition-all duration-300">
@@ -28,7 +32,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, title, description,
   }
 
   return (
-    <div className="relative rounded-xl overflow-hidden aspect-video">
+    <div className="relative rounded-xl overflow-hidden aspect-video group">
       <iframe
         src={videoUrl}
         title={title}
@@ -37,6 +41,19 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, title, description,
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
       />
+      
+      {/* Floating Mode Button */}
+      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={() => openVideo(videoUrl, title)}
+          className="h-8 gap-1 bg-black/70 hover:bg-black/90 text-white border-0"
+        >
+          <PictureInPicture className="w-3 h-3" />
+          <span className="text-xs">Flutuante</span>
+        </Button>
+      </div>
     </div>
   );
 };

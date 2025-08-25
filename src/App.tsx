@@ -30,6 +30,7 @@ import FinanceiroPage from "./pages/FinanceiroPage";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import { FloatingVideoProvider } from "./contexts/FloatingVideoContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import './i18n/config';
 
@@ -37,11 +38,12 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <AuthProvider>
-        <ThemeProvider>
-          <LanguageProvider>
-            <TooltipProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <ThemeProvider>
+            <LanguageProvider>
+              <FloatingVideoProvider>
+                <TooltipProvider>
               <Toaster />
               <Sonner />
               <Routes>
@@ -79,12 +81,13 @@ const App = () => (
                 
                 {/* Rota 404 */}
                 <Route path="*" element={<NotFound />} />
-              </Routes>
-            </TooltipProvider>
-          </LanguageProvider>
-        </ThemeProvider>
-      </AuthProvider>
-    </BrowserRouter>
+                </Routes>
+                </TooltipProvider>
+              </FloatingVideoProvider>
+            </LanguageProvider>
+          </ThemeProvider>
+        </AuthProvider>
+      </BrowserRouter>
   </QueryClientProvider>
 );
 

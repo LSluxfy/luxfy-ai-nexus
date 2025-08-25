@@ -2,6 +2,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import DashboardSidebar from './DashboardSidebar';
+import FloatingVideoPlayer from './FloatingVideoPlayer';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from './ui/button';
@@ -45,6 +46,9 @@ const DashboardLayout = () => {
           <Outlet />
         </div>
       </div>
+      
+      {/* Floating Video Player */}
+      <FloatingVideoPlayer />
     </div>
   );
 };
