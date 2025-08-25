@@ -11,11 +11,13 @@ import { Globe } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const LanguageSelector = () => {
-  const { currentLanguage, changeLanguage, availableLanguages } = useLanguage();
+  // Add error boundary protection
+  try {
+    const { currentLanguage, changeLanguage, availableLanguages } = useLanguage();
+    
+    const currentLang = availableLanguages.find(lang => lang.code === currentLanguage);
 
-  const currentLang = availableLanguages.find(lang => lang.code === currentLanguage);
-
-  return (
+    return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" className="gap-2">
@@ -37,7 +39,18 @@ const LanguageSelector = () => {
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+    );
+  } catch (error) {
+    console.error('LanguageSelector error:', error);
+    // Fallback UI when context is not available
+    return (
+      <Button variant="outline" size="sm" className="gap-2">
+        <Globe className="h-4 w-4" />
+        <span className="hidden sm:block">🇧🇷 Português</span>
+        <span className="sm:hidden">🇧🇷</span>
+      </Button>
+    );
+  }
 };
 
 export default LanguageSelector;

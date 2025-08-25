@@ -8,7 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Bot, Kanban, Calendar, BarChart, Users, Shield, Check, Star, Zap, Brain, Cpu, Network } from 'lucide-react';
 import LandingNavbar from '@/components/LandingNavbar';
 import LandingFooter from '@/components/LandingFooter';
-import LanguageSelector from '@/components/LanguageSelector';
 import { useTranslation, Trans } from 'react-i18next';
 
 import ExamplesShowcase from '@/components/landing/ExamplesShowcase';
