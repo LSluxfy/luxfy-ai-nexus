@@ -13,6 +13,8 @@ import ResetPassword from "./pages/ResetPassword";
 import { PendingInvoice } from "./pages/PendingInvoice";
 import NotFound from "./pages/NotFound";
 import DashboardLayout from "./components/DashboardLayout";
+import TutorialsPage from "./pages/TutorialsPage";
+import PublicTutorialsPage from "./pages/PublicTutorialsPage";
 import Dashboard from "./pages/Dashboard";
 import AgentPage from "./pages/AgentPage";
 import CRMPage from "./pages/CRMPage";
@@ -51,6 +53,7 @@ const App = () => (
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/pending-invoice" element={<PendingInvoice />} />
+                <Route path="/tutorials" element={<PublicTutorialsPage />} />
                 
                 {/* Área do Dashboard - Protegida */}
                 <Route path="/dashboard" element={
@@ -69,6 +72,7 @@ const App = () => (
                   <Route path="campanhas/:agentId" element={<CampanhasPage />} />
                   <Route path="agenda" element={<AgendaPage />} />
                   <Route path="analytics" element={<AnalyticsPage />} />
+                  <Route path="tutorials" element={<TutorialsPage />} />
                   <Route path="financeiro" element={<FinanceiroPage />} />
                   <Route path="settings" element={<SettingsPage />} />
                 </Route>

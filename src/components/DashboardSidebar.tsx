@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { HomeIcon, BookUserIcon, Users, MessagesSquare, BarChart3, Settings, UserPlus, Calendar, CreditCard, Share, Megaphone } from 'lucide-react';
+import { HomeIcon, BookUserIcon, Users, MessagesSquare, BarChart3, Settings, UserPlus, Calendar, CreditCard, Share, Megaphone, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAgents } from '@/hooks/use-agent';
 
@@ -49,6 +49,11 @@ const DashboardSidebar = () => {
       label: "Análises",
       href: "/dashboard/analytics",
       icon: <BarChart3 className="h-5 w-5" />,
+    },
+    {
+      label: "Tutoriais",
+      href: "/dashboard/tutorials",
+      icon: <BookOpen className="h-5 w-5" />,
     },
     {
       label: "Financeiro",

@@ -27,6 +27,7 @@ const LandingNavbar = () => {
           <div className="hidden md:flex items-center gap-8">
             <Link to="/" className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.home')}</Link>
             <Link to="/#features" className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.features')}</Link>
+            <Link to="/tutorials" className="text-slate-600 hover:text-blue-800 font-medium transition-colors">Tutoriais</Link>
             <Link to="/#pricing" className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.pricing')}</Link>
             <Link to="/#contact" className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.contact')}</Link>
             <LanguageSelector />
@@ -60,6 +61,7 @@ const LandingNavbar = () => {
             <div className="flex flex-col gap-4">
               <Link to="/" className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2">{t('nav.home')}</Link>
               <Link to="/#features" className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2">{t('nav.features')}</Link>
+              <Link to="/tutorials" className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2">Tutoriais</Link>
               <Link to="/#pricing" className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2">{t('nav.pricing')}</Link>
               <Link to="/#contact" className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2">{t('nav.contact')}</Link>
               <div className="py-2">
