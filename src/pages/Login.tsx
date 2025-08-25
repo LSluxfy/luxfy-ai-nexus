@@ -25,8 +25,8 @@ const Login = () => {
   const { t } = useTranslation();
   
   const loginSchema = z.object({
-    email: z.string().email(t('auth.validation.emailInvalid')),
-    password: z.string().min(6, t('auth.validation.passwordMinLength')),
+    email: z.string().email('Email inválido'),
+    password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
     remember: z.boolean().optional(),
   });
 
