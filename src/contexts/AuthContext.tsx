@@ -138,10 +138,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         try {
           await fetchUserData();
           
-          // Track Facebook Pixel event
-          if (typeof window !== 'undefined' && (window as any).fbq) {
-            (window as any).fbq('track', 'CompleteRegistration');
-          }
+          // Track Facebook Pixel event for successful login
+          import('../lib/facebook-pixel').then(({ trackEvent, FacebookEvents }) => {
+            trackEvent(FacebookEvents.COMPLETE_REGISTRATION, {
+              content_name: 'User Login',
+              status: 'completed'
+            });
+          });
           
           toast({
             title: "Login realizado com sucesso!",

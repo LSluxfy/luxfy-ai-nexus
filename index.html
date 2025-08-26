@@ -26,8 +26,24 @@
       t.src=v;s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '1062729962007816');
-      fbq('track', 'PageView');
+      
+      // Initialize pixel with enhanced error handling
+      try {
+        fbq('init', '1062729962007816');
+        fbq('track', 'PageView');
+        console.log('[Facebook Pixel] Initialized successfully');
+      } catch (error) {
+        console.error('[Facebook Pixel] Initialization error:', error);
+      }
+      
+      // Add pixel loaded event for debugging
+      window.addEventListener('load', function() {
+        if (window.fbq) {
+          console.log('[Facebook Pixel] Script loaded and available');
+        } else {
+          console.error('[Facebook Pixel] Script failed to load');
+        }
+      });
     </script>
     <!-- End Facebook Pixel Code -->
   </head>

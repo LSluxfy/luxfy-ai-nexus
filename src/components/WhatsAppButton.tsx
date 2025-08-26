@@ -1,5 +1,6 @@
 import { MessageCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { trackEvent, FacebookEvents } from '../lib/facebook-pixel';
 
 const WhatsAppButton = () => {
   const { t } = useTranslation();
@@ -10,9 +11,11 @@ const WhatsAppButton = () => {
 
   const handleClick = () => {
     // Track Facebook Pixel event
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'Contact');
-    }
+    trackEvent(FacebookEvents.CONTACT, {
+      content_name: 'WhatsApp Contact',
+      content_category: 'contact_form',
+      source: 'whatsapp_button'
+    });
     
     window.open(whatsappUrl, '_blank');
   };
