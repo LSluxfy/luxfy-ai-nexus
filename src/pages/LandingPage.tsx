@@ -119,7 +119,7 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-8 leading-tight">
+          <h1 className="text-3xl md:text-7xl font-bold text-slate-900 mb-6 md:mb-8 leading-tight">
             <span className="bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
               {t('hero.title')}
             </span>
