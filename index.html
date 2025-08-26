@@ -18,8 +18,6 @@
 
     <!-- Facebook Pixel Code -->
     <script>
-      console.log('[DEBUG] Starting Facebook Pixel initialization...');
-      
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -29,56 +27,23 @@
       s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
       
-      console.log('[DEBUG] Facebook Pixel script loaded, fbq function created');
-      
       // Initialize pixel with enhanced error handling
       try {
-        console.log('[DEBUG] Attempting to initialize pixel with ID: 1062729962007816');
         fbq('init', '1062729962007816');
-        console.log('[DEBUG] Pixel initialized successfully');
-        
         fbq('track', 'PageView');
-        console.log('[DEBUG] PageView event tracked');
-        
-        // Verify pixel is working
-        if (typeof fbq === 'function') {
-          console.log('[DEBUG] fbq function is available and working');
-          window.fbqDebug = fbq; // Make it available for testing
-        } else {
-          console.error('[DEBUG] fbq function is not available');
-        }
-        
+        console.log('[Facebook Pixel] Initialized successfully');
       } catch (error) {
-        console.error('[DEBUG] Facebook Pixel initialization error:', error);
+        console.error('[Facebook Pixel] Initialization error:', error);
       }
       
       // Add pixel loaded event for debugging
       window.addEventListener('load', function() {
-        console.log('[DEBUG] Window loaded, checking pixel status...');
         if (window.fbq) {
-          console.log('[DEBUG] Facebook Pixel script loaded and available');
-          console.log('[DEBUG] fbq object:', window.fbq);
-          
-          // Test tracking a custom event
-          try {
-            window.fbq('track', 'PageView');
-            console.log('[DEBUG] Test PageView tracked successfully on window load');
-          } catch (e) {
-            console.error('[DEBUG] Error tracking test event:', e);
-          }
-          
+          console.log('[Facebook Pixel] Script loaded and available');
         } else {
-          console.error('[DEBUG] Facebook Pixel script failed to load');
+          console.error('[Facebook Pixel] Script failed to load');
         }
       });
-      
-      // Additional debugging - check after 2 seconds
-      setTimeout(function() {
-        console.log('[DEBUG] 2-second check - fbq available:', !!window.fbq);
-        if (window.fbq) {
-          console.log('[DEBUG] Pixel queue length:', window.fbq.queue ? window.fbq.queue.length : 'No queue');
-        }
-      }, 2000);
     </script>
     <!-- End Facebook Pixel Code -->
   </head>
