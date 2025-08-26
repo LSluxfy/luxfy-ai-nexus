@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,10 +16,20 @@ import Testimonials from '@/components/landing/Testimonials';
 import FAQ from '@/components/landing/FAQ';
 import StickyCTA from '@/components/landing/StickyCTA';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import { trackEvent, FacebookEvents } from '@/lib/facebook-pixel';
 
 const LandingPage = () => {
   const { t } = useTranslation();
   const canonical = typeof window !== 'undefined' ? window.location.origin + window.location.pathname : '';
+
+  // Track page view on component mount
+  useEffect(() => {
+    trackEvent(FacebookEvents.VIEW_CONTENT, {
+      content_name: 'Landing Page',
+      content_category: 'sales_page',
+      content_type: 'website'
+    });
+  }, []);
 
   const features = [
     {
