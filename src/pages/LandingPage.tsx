@@ -15,6 +15,7 @@ import PricingV2 from '@/components/landing/PricingV2';
 import Testimonials from '@/components/landing/Testimonials';
 import FAQ from '@/components/landing/FAQ';
 import StickyCTA from '@/components/landing/StickyCTA';
+import WhatsAppButton from '@/components/WhatsAppButton';
 
 const LandingPage = () => {
   const { t } = useTranslation();
@@ -245,6 +246,7 @@ const LandingPage = () => {
 
       <LandingFooter />
       <StickyCTA />
+      <WhatsAppButton />
     </div>
   );
 };

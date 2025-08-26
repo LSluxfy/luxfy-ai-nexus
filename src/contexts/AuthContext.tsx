@@ -138,12 +138,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         try {
           await fetchUserData();
           
+          // Track Facebook Pixel event
+          if (typeof window !== 'undefined' && (window as any).fbq) {
+            (window as any).fbq('track', 'CompleteRegistration');
+          }
+          
           toast({
             title: "Login realizado com sucesso!",
             description: "Bem-vindo de volta.",
           });
 
-          navigate('/dashboard');
+          // Small delay to ensure state is set before navigation
+          setTimeout(() => {
+            navigate('/dashboard');
+          }, 100);
         } catch (fetchError: any) {
           console.log('Erro ao buscar dados do usuário:', fetchError);
           // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente

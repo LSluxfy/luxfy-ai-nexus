@@ -288,6 +288,10 @@
       "4": { "text": "Sí, ¿cómo empiezo?", "isUser": "true" },
       "5": { "text": "¡Excelente! Te enviaré el enlace para crear tu cuenta gratuita. ¡En 2 minutos ya estarás probando nuestra IA! 🚀", "isUser": "false" }
     }
+  },
+  "whatsapp": {
+    "message": "¡Hola! Me gustaría saber más sobre Luxfy",
+    "aria-label": "Contáctanos por WhatsApp"
   }
 }
 
