@@ -12,12 +12,13 @@ interface PlanDef {
   annual: number; // total annual billed
   agents: number;
   highlight?: boolean;
+  checkoutUrl: string;
 }
 
 const PLANS: PlanDef[] = [
-  { key: "start", monthly: 22, annual: 184, agents: 1 },
-  { key: "pro", monthly: 39, annual: 327.6, agents: 3, highlight: true },
-  { key: "teams", monthly: 79, annual: 663.6, agents: 6 },
+  { key: "start", monthly: 22, annual: 184, agents: 1, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=dc0nb9ba" },
+  { key: "pro", monthly: 39, annual: 327.6, agents: 3, highlight: true, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=361enbiy" },
+  { key: "teams", monthly: 79, annual: 663.6, agents: 6, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=p6dqhbmg" },
 ];
 
 export default function PricingV2() {
@@ -111,9 +112,9 @@ export default function PricingV2() {
                     ))}
                   </ul>
                   <Button asChild className="w-full">
-                    <Link to="/register" aria-label={t("pricingV2.ctaAria")}> 
+                    <a href={plan.checkoutUrl} target="_blank" rel="noopener noreferrer" aria-label={t("pricingV2.ctaAria")}> 
                       <Zap className="h-4 w-4 mr-2" />{t("pricingV2.cta")}
-                    </Link>
+                    </a>
                   </Button>
                 </CardContent>
               </Card>
