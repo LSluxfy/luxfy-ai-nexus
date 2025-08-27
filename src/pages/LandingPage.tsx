@@ -16,6 +16,7 @@ import Testimonials from '@/components/landing/Testimonials';
 import FAQ from '@/components/landing/FAQ';
 import StickyCTA from '@/components/landing/StickyCTA';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import WhatsAppNotification from '@/components/landing/WhatsAppNotification';
 import { trackEvent, FacebookEvents } from '@/lib/facebook-pixel';
 
 const LandingPage = () => {
@@ -255,8 +256,9 @@ const LandingPage = () => {
       <FAQ />
 
       <LandingFooter />
-      <StickyCTA />
-      <WhatsAppButton />
+      {/* <StickyCTA /> */}
+        <WhatsAppButton />
+        <WhatsAppNotification />
     </div>
   );
 };

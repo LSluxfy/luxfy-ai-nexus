@@ -292,6 +292,11 @@
   "whatsapp": {
     "message": "Olá! Gostaria de saber mais sobre a Luxfy",
     "aria-label": "Entre em contato pelo WhatsApp"
+  },
+  "whatsappNotification": {
+    "title": "🚀 Teste nossa IA agora!",
+    "subtitle": "Converse conosco e veja como funciona",
+    "cta": "Testar Agora"
   }
 }
 
