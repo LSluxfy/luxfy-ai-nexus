@@ -127,16 +127,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signIn = async (email: string, password: string) => {
     try {
       setLoading(true);
+      console.log('🔐 Iniciando processo de login para:', email);
+      
       const response = await api.post('/v1/user/login', {
         email,
         password
       });
 
       if (response.data.jwt) {
+        console.log('✅ JWT recebido, salvando no localStorage');
         localStorage.setItem('jwt-token', response.data.jwt);
         
         try {
+          console.log('📡 Buscando dados do usuário...');
           await fetchUserData();
+          
+          console.log('👤 Dados do usuário carregados, verificando estado...');
+          console.log('Estado atual - user:', !!user, 'session:', !!session);
           
           // Track Facebook Pixel event for successful login
           import('../lib/facebook-pixel').then(({ trackEvent, FacebookEvents }) => {
@@ -151,18 +158,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             description: "Bem-vindo de volta.",
           });
 
-          // Small delay to ensure state is set before navigation
-          setTimeout(() => {
-            navigate('/dashboard');
-          }, 100);
+          console.log('🔄 Redirecionando para dashboard...');
+          navigate('/dashboard');
+          
         } catch (fetchError: any) {
-          console.log('Erro ao buscar dados do usuário:', fetchError);
+          console.error('❌ Erro ao buscar dados do usuário:', fetchError);
           // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
           if (fetchError.response?.status === 402) {
             const errorData = fetchError.response?.data;
-            console.log('Fatura pendente detectada:', errorData);
+            console.log('💸 Fatura pendente detectada:', errorData);
             if (errorData?.invoice) {
-              console.log('Redirecionando para:', `/pending-invoice?invoice=${errorData.invoice}`);
+              console.log('🔄 Redirecionando para fatura pendente:', `/pending-invoice?invoice=${errorData.invoice}`);
               navigate(`/pending-invoice?invoice=${errorData.invoice}`);
               return;
             }
