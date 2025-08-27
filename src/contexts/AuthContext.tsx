@@ -226,9 +226,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const verifyUser = async (email: string, verificationCode: string) => {
     try {
       setLoading(true);
-      const response = await api.post('/v1/user/verify-email', {
+      const response = await api.put('/v1/user/verify', {
         email,
-        code: verificationCode
+        verificationCode
       });
 
       toast({
@@ -244,6 +244,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         errorMessage = 'Dados inválidos';
       } else if (error.response?.status === 404) {
         errorMessage = 'Usuário não encontrado';
+      } else if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
       } else if (error.response?.data?.message) {
         errorMessage = error.response.data.message;
       }
