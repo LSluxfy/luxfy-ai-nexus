@@ -548,7 +548,50 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_invoice_details: {
+        Args: { invoice_id: number }
+        Returns: {
+          action: string
+          amount: number
+          created_at: string
+          description: string
+          due_date: string
+          id: number
+          public_id: string
+          status: string
+          user_active: boolean
+          user_email: string
+          user_id: number
+          user_name: string
+        }[]
+      }
+      get_invoice_statistics: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          affected_users: number
+          average_amount: number
+          low_value_invoices: number
+          total_pending_amount: number
+          total_pending_invoices: number
+        }[]
+      }
+      get_pending_invoices_with_users: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          action: string
+          amount: number
+          created_at: string
+          description: string
+          due_date: string
+          id: number
+          public_id: string
+          status: string
+          user_active: boolean
+          user_email: string
+          user_id: number
+          user_name: string
+        }[]
+      }
     }
     Enums: {
       CampaingSendBy:
