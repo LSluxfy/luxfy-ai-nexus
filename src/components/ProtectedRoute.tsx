@@ -26,7 +26,16 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     return <Navigate to="/login" replace />;
   }
 
-  console.log('✅ ProtectedRoute - Usuário autenticado, renderizando conteúdo protegido');
+  // Verificar se a conta está ativa e não expirada
+  const isExpired = user.profileExpire && new Date(user.profileExpire) < new Date();
+  const isInactive = !user.active;
+
+  if (isInactive || isExpired) {
+    console.log('⚠️ ProtectedRoute - Conta inativa ou expirada, redirecionando para ativação');
+    return <Navigate to="/account-inactive" replace />;
+  }
+
+  console.log('✅ ProtectedRoute - Usuário autenticado e ativo, renderizando conteúdo protegido');
   return <>{children}</>;
 };
 

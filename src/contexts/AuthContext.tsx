@@ -15,6 +15,7 @@ interface User {
   numberAgentes: number;
   plan: string;
   profileExpire: string | null;
+  active: boolean;
   appointments: any[];
   createAt: string;
   lastLogin: string | null;

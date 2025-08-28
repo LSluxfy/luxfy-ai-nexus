@@ -33,7 +33,7 @@ i18n
     lng: savedLanguage || undefined, // Use saved language if available, otherwise let detector decide
     
     detection: {
-      order: ['localStorage', 'navigator', 'htmlTag'],
+      order: savedLanguage ? ['localStorage', 'navigator', 'htmlTag'] : ['navigator', 'localStorage', 'htmlTag'],
       lookupLocalStorage: 'luxfy-language',
       caches: ['localStorage'],
     },
