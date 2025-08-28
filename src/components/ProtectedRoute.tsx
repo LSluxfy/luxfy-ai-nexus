@@ -26,12 +26,18 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     return <Navigate to="/login" replace />;
   }
 
-  // Verificar se a conta expirou
-  const isExpired = user.profileExpire && new Date(user.profileExpire) < new Date();
-
-  if (isExpired) {
-    console.log('⚠️ ProtectedRoute - Conta expirada, redirecionando para ativação');
-    return <Navigate to="/account-inactive" replace />;
+  // Verificar se o usuário tem plano ativo
+  // Admin sempre tem acesso (luxfyapp@gmail.com)
+  const isAdmin = user.email === 'luxfyapp@gmail.com';
+  
+  if (!isAdmin) {
+    // Verificar se precisa de plano: não ativo OU sem data de expiração OU data expirada
+    const needsPlan = !user.active || !user.profileExpire || new Date(user.profileExpire) < new Date();
+    
+    if (needsPlan) {
+      console.log('🚫 ProtectedRoute - Usuário sem plano ativo, redirecionando para seleção de plano');
+      return <Navigate to="/select-plan" replace />;
+    }
   }
 
   console.log('✅ ProtectedRoute - Usuário autenticado e ativo, renderizando conteúdo protegido');

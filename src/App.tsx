@@ -28,6 +28,7 @@ import SettingsPage from "./pages/SettingsPage";
 import AgendaPage from "./pages/AgendaPage";
 import FinanceiroPage from "./pages/FinanceiroPage";
 import AccountInactive from "./pages/AccountInactive";
+import SelectPlan from "./pages/SelectPlan";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
@@ -57,6 +58,7 @@ const App = () => (
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/pending-invoice" element={<PendingInvoice />} />
                 <Route path="/account-inactive" element={<AccountInactive />} />
+                <Route path="/select-plan" element={<SelectPlan />} />
                 <Route path="/tutorials" element={<PublicTutorialsPage />} />
                 
                 {/* Área do Dashboard - Protegida */}
