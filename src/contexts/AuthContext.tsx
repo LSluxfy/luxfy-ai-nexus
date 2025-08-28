@@ -16,6 +16,7 @@ interface User {
   plan: string;
   profileExpire: string | null;
   active: boolean;
+  isAdmin: boolean;
   appointments: any[];
   createAt: string;
   lastLogin: string | null;
@@ -33,6 +34,7 @@ interface AuthContextType {
   session: Session | null;
   user: User | null;
   loading: boolean;
+  isAdmin: boolean;
   signUp: (email: string, password: string, firstName: string, lastName: string, plan: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -331,12 +333,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const isAdmin = user?.isAdmin || false;
+
   return (
     <AuthContext.Provider
       value={{
         session,
         user,
         loading,
+        isAdmin,
         signUp,
         signIn,
         signOut,

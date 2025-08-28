@@ -7,7 +7,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { user, session, loading } = useAuth();
+  const { user, session, loading, isAdmin } = useAuth();
 
   console.log('🛡️ ProtectedRoute - Estado atual:', {
     loading,
@@ -26,13 +26,15 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     return <Navigate to="/login" replace />;
   }
 
-  // Verificar se a conta está ativa e não expirada
-  const isExpired = user.profileExpire && new Date(user.profileExpire) < new Date();
-  const isInactive = !user.active;
+  // Verificar se a conta está ativa e não expirada (exceto para admins)
+  if (!isAdmin) {
+    const isExpired = user.profileExpire && new Date(user.profileExpire) < new Date();
+    const isInactive = !user.active;
 
-  if (isInactive || isExpired) {
-    console.log('⚠️ ProtectedRoute - Conta inativa ou expirada, redirecionando para ativação');
-    return <Navigate to="/account-inactive" replace />;
+    if (isInactive || isExpired) {
+      console.log('⚠️ ProtectedRoute - Conta inativa ou expirada, redirecionando para ativação');
+      return <Navigate to="/account-inactive" replace />;
+    }
   }
 
   console.log('✅ ProtectedRoute - Usuário autenticado e ativo, renderizando conteúdo protegido');

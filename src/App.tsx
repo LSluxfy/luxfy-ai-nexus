@@ -34,6 +34,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { FloatingVideoProvider } from "./contexts/FloatingVideoContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 import './i18n/config';
 
 const queryClient = new QueryClient();
@@ -80,7 +81,11 @@ const App = () => (
                   <Route path="tutorials" element={<TutorialsPage />} />
                   <Route path="financeiro" element={<FinanceiroPage />} />
                   <Route path="settings" element={<SettingsPage />} />
-                  <Route path="admin/invoices" element={<AdminInvoicesPage />} />
+                  <Route path="admin/invoices" element={
+                    <AdminRoute>
+                      <AdminInvoicesPage />
+                    </AdminRoute>
+                  } />
                 </Route>
                 
                 {/* Rota 404 */}

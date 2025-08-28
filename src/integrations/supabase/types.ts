@@ -449,6 +449,7 @@ export type Database = {
           create_at: string
           email: string
           id: number
+          is_admin: boolean
           last_login: string | null
           last_name: string
           login_method: Database["public"]["Enums"]["LoginMethods"]
@@ -470,6 +471,7 @@ export type Database = {
           create_at?: string
           email: string
           id?: number
+          is_admin?: boolean
           last_login?: string | null
           last_name: string
           login_method: Database["public"]["Enums"]["LoginMethods"]
@@ -491,6 +493,7 @@ export type Database = {
           create_at?: string
           email?: string
           id?: number
+          is_admin?: boolean
           last_login?: string | null
           last_name?: string
           login_method?: Database["public"]["Enums"]["LoginMethods"]
