@@ -28,13 +28,11 @@ import SettingsPage from "./pages/SettingsPage";
 import AgendaPage from "./pages/AgendaPage";
 import FinanceiroPage from "./pages/FinanceiroPage";
 import AccountInactive from "./pages/AccountInactive";
-import { AdminInvoicesPage } from "./pages/AdminInvoicesPage";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { FloatingVideoProvider } from "./contexts/FloatingVideoContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import AdminRoute from "./components/AdminRoute";
 import './i18n/config';
 
 const queryClient = new QueryClient();
@@ -81,11 +79,6 @@ const App = () => (
                   <Route path="tutorials" element={<TutorialsPage />} />
                   <Route path="financeiro" element={<FinanceiroPage />} />
                   <Route path="settings" element={<SettingsPage />} />
-                  <Route path="admin/invoices" element={
-                    <AdminRoute>
-                      <AdminInvoicesPage />
-                    </AdminRoute>
-                  } />
                 </Route>
                 
                 {/* Rota 404 */}

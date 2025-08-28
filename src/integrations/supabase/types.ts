@@ -412,54 +412,6 @@ export type Database = {
         }
         Relationships: []
       }
-      profiles: {
-        Row: {
-          active: boolean
-          created_at: string
-          email: string
-          id: string
-          is_admin: boolean
-          last_login: string | null
-          last_name: string
-          name: string
-          number_agentes: number
-          plan: string
-          profile_expire: string | null
-          updated_at: string
-          user_name: string
-        }
-        Insert: {
-          active?: boolean
-          created_at?: string
-          email: string
-          id: string
-          is_admin?: boolean
-          last_login?: string | null
-          last_name?: string
-          name: string
-          number_agentes?: number
-          plan?: string
-          profile_expire?: string | null
-          updated_at?: string
-          user_name?: string
-        }
-        Update: {
-          active?: boolean
-          created_at?: string
-          email?: string
-          id?: string
-          is_admin?: boolean
-          last_login?: string | null
-          last_name?: string
-          name?: string
-          number_agentes?: number
-          plan?: string
-          profile_expire?: string | null
-          updated_at?: string
-          user_name?: string
-        }
-        Relationships: []
-      }
       uploads: {
         Row: {
           create_at: string
@@ -497,7 +449,6 @@ export type Database = {
           create_at: string
           email: string
           id: number
-          is_admin: boolean
           last_login: string | null
           last_name: string
           login_method: Database["public"]["Enums"]["LoginMethods"]
@@ -519,7 +470,6 @@ export type Database = {
           create_at?: string
           email: string
           id?: number
-          is_admin?: boolean
           last_login?: string | null
           last_name: string
           login_method: Database["public"]["Enums"]["LoginMethods"]
@@ -541,7 +491,6 @@ export type Database = {
           create_at?: string
           email?: string
           id?: number
-          is_admin?: boolean
           last_login?: string | null
           last_name?: string
           login_method?: Database["public"]["Enums"]["LoginMethods"]
@@ -599,50 +548,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_invoice_details: {
-        Args: { invoice_id: number }
-        Returns: {
-          action: string
-          amount: number
-          created_at: string
-          description: string
-          due_date: string
-          id: number
-          public_id: string
-          status: string
-          user_active: boolean
-          user_email: string
-          user_id: number
-          user_name: string
-        }[]
-      }
-      get_invoice_statistics: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          affected_users: number
-          average_amount: number
-          low_value_invoices: number
-          total_pending_amount: number
-          total_pending_invoices: number
-        }[]
-      }
-      get_pending_invoices_with_users: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          action: string
-          amount: number
-          created_at: string
-          description: string
-          due_date: string
-          id: number
-          public_id: string
-          status: string
-          user_active: boolean
-          user_email: string
-          user_id: number
-          user_name: string
-        }[]
-      }
+      [_ in never]: never
     }
     Enums: {
       CampaingSendBy:

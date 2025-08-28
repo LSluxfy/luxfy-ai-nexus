@@ -1,27 +1,27 @@
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
-import type { User as SupabaseUser, Session as SupabaseSession } from '@supabase/supabase-js';
+import { api } from '@/lib/api';
 
 interface User {
-  id: string;
+  id: number;
   email: string;
-  userName: string | null;
+  userName: string;
   name: string;
   lastName: string;
+  loginMethod: string;
+  verificationCode: string;
+  numberAgentes: number;
   plan: string;
   profileExpire: string | null;
   active: boolean;
-  isAdmin: boolean;
-  numberAgentes: number;
-  createdAt: string;
-  lastLogin: string | null;
-  updatedAt: string | null;
-  // Legacy properties for backward compatibility
+  appointments: any[];
   createAt: string;
+  lastLogin: string | null;
   updateAt: string | null;
   agents: any[];
+  invoices: any[];
 }
 
 interface Session {
@@ -33,7 +33,6 @@ interface AuthContextType {
   session: Session | null;
   user: User | null;
   loading: boolean;
-  isAdmin: boolean;
   signUp: (email: string, password: string, firstName: string, lastName: string, plan: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -51,111 +50,61 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const fetchUserProfile = async (userId: string) => {
+  const fetchUserData = async () => {
     try {
-      const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
-
-      if (error) {
-        console.error('Error fetching profile:', error);
-        return null;
+      const response = await api.get('/v1/user/auth');
+      if (response.data.user) {
+        const userData = response.data.user;
+        setUser(userData);
+        const sessionData = {
+          user: userData,
+          token: localStorage.getItem('jwt-token') || ''
+        };
+        setSession(sessionData);
       }
-
-      return {
-        id: profile.id,
-        email: profile.email,
-        userName: profile.user_name,
-        name: profile.name,
-        lastName: profile.last_name,
-        plan: profile.plan,
-        profileExpire: profile.profile_expire,
-        active: profile.active,
-        isAdmin: profile.is_admin,
-        numberAgentes: profile.number_agentes,
-        createdAt: profile.created_at,
-        lastLogin: profile.last_login,
-        updatedAt: profile.updated_at,
-        // Legacy properties for backward compatibility
-        createAt: profile.created_at,
-        updateAt: profile.updated_at,
-        agents: [], // Will be loaded separately
-      };
-    } catch (error) {
-      console.error('Error in fetchUserProfile:', error);
-      return null;
+    } catch (error: any) {
+      console.error('Error fetching user data:', error);
+      
+      // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
+      if (error.response?.status === 402) {
+        const errorData = error.response?.data;
+        if (errorData?.invoice) {
+          navigate(`/pending-invoice?invoice=${errorData.invoice}`);
+          return;
+        }
+      }
+      
+      localStorage.removeItem('jwt-token');
+      localStorage.removeItem('user-data');
+      throw error;
     }
   };
 
   useEffect(() => {
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, supabaseSession) => {
-        console.log('🔐 Auth state changed:', event, !!supabaseSession);
-        
-        if (supabaseSession?.user) {
-          const profile = await fetchUserProfile(supabaseSession.user.id);
-          if (profile) {
-            setUser(profile);
-            setSession({
-              user: profile,
-              token: supabaseSession.access_token
-            });
-          }
-        } else {
-          setUser(null);
-          setSession(null);
-        }
+    const token = localStorage.getItem('jwt-token');
+    
+    if (token) {
+      fetchUserData().catch(() => {
+        // Se der erro na verificação inicial, apenas define loading como false
         setLoading(false);
-      }
-    );
-
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session: supabaseSession } }) => {
-      if (supabaseSession?.user) {
-        setTimeout(async () => {
-          const profile = await fetchUserProfile(supabaseSession.user.id);
-          if (profile) {
-            setUser(profile);
-            setSession({
-              user: profile,
-              token: supabaseSession.access_token
-            });
-          }
-          setLoading(false);
-        }, 0);
-      } else {
+      }).finally(() => {
         setLoading(false);
-      }
-    });
-
-    return () => subscription.unsubscribe();
+      });
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   const signUp = async (email: string, password: string, firstName: string, lastName: string, plan: string = 'BASICO') => {
     try {
       setLoading(true);
-      
-      const redirectUrl = `${window.location.origin}/`;
-      
-      const { error } = await supabase.auth.signUp({
+      const response = await api.post('/v1/user/register', {
+        name: firstName,
+        lastname: lastName,
         email,
         password,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: {
-            name: firstName,
-            last_name: lastName,
-            plan: plan
-          }
-        }
+        plan
       });
-
-      if (error) {
-        throw error;
-      }
 
       toast({
         title: "Conta criada com sucesso!",
@@ -164,7 +113,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       navigate('/verify-email', { state: { email } });
     } catch (error: any) {
-      const errorMessage = error.message || 'Erro ao criar conta';
+      const errorMessage = error.response?.data?.message || error.message || 'Erro ao criar conta';
       toast({
         title: "Erro ao criar conta",
         description: errorMessage,
@@ -181,43 +130,65 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(true);
       console.log('🔐 Iniciando processo de login para:', email);
       
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const response = await api.post('/v1/user/login', {
         email,
         password
       });
 
-      if (error) {
-        throw error;
-      }
-
-      if (data.user) {
-        console.log('✅ Login bem-sucedido');
+      if (response.data.jwt) {
+        console.log('✅ JWT recebido, salvando no localStorage');
+        localStorage.setItem('jwt-token', response.data.jwt);
         
-        // Track Facebook Pixel event for successful login
-        import('../lib/facebook-pixel').then(({ trackEvent, FacebookEvents }) => {
-          trackEvent(FacebookEvents.COMPLETE_REGISTRATION, {
-            content_name: 'User Login',
-            status: 'completed'
+        try {
+          console.log('📡 Buscando dados do usuário...');
+          await fetchUserData();
+          
+          console.log('👤 Dados do usuário carregados, verificando estado...');
+          console.log('Estado atual - user:', !!user, 'session:', !!session);
+          
+          // Track Facebook Pixel event for successful login
+          import('../lib/facebook-pixel').then(({ trackEvent, FacebookEvents }) => {
+            trackEvent(FacebookEvents.COMPLETE_REGISTRATION, {
+              content_name: 'User Login',
+              status: 'completed'
+            });
           });
-        });
-        
-        toast({
-          title: "Login realizado com sucesso!",
-          description: "Bem-vindo de volta.",
-        });
+          
+          toast({
+            title: "Login realizado com sucesso!",
+            description: "Bem-vindo de volta.",
+          });
 
-        console.log('🔄 Redirecionando para dashboard...');
-        navigate('/dashboard');
+          console.log('🔄 Redirecionando para dashboard...');
+          navigate('/dashboard');
+          
+        } catch (fetchError: any) {
+          console.error('❌ Erro ao buscar dados do usuário:', fetchError);
+          // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
+          if (fetchError.response?.status === 402) {
+            const errorData = fetchError.response?.data;
+            console.log('💸 Fatura pendente detectada:', errorData);
+            if (errorData?.invoice) {
+              console.log('🔄 Redirecionando para fatura pendente:', `/pending-invoice?invoice=${errorData.invoice}`);
+              navigate(`/pending-invoice?invoice=${errorData.invoice}`);
+              return;
+            }
+          }
+          
+          throw fetchError;
+        }
       }
     } catch (error: any) {
       let errorMessage = 'Erro ao fazer login';
       
-      if (error.message?.includes('Invalid login credentials')) {
+      if (error.response?.status === 401) {
         errorMessage = 'Email ou senha incorretos';
-      } else if (error.message?.includes('Email not confirmed')) {
-        errorMessage = 'Email não confirmado. Verifique sua caixa de entrada.';
-      } else if (error.message) {
-        errorMessage = error.message;
+      } else if (error.response?.status === 403) {
+        errorMessage = 'Usuário não verificado. Verifique seu email.';
+      } else if (error.response?.status === 404) {
+        errorMessage = 'Usuário não encontrado';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
       }
 
       toast({
@@ -233,12 +204,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signOut = async () => {
     try {
-      const { error } = await supabase.auth.signOut();
-      
-      if (error) {
-        throw error;
-      }
-      
+      localStorage.removeItem('jwt-token');
       setSession(null);
       setUser(null);
       
@@ -261,16 +227,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const verifyUser = async (email: string, verificationCode: string) => {
     try {
       setLoading(true);
-      
-      const { error } = await supabase.auth.verifyOtp({
+      const response = await api.put('/v1/user/verify', {
         email,
-        token: verificationCode,
-        type: 'signup'
+        verificationCode
       });
-
-      if (error) {
-        throw error;
-      }
 
       toast({
         title: "Usuário verificado com sucesso!",
@@ -281,10 +241,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error: any) {
       let errorMessage = 'Erro ao verificar usuário';
       
-      if (error.message?.includes('Invalid token')) {
-        errorMessage = 'Código de verificação inválido';
-      } else if (error.message) {
-        errorMessage = error.message;
+      if (error.response?.status === 400) {
+        errorMessage = 'Dados inválidos';
+      } else if (error.response?.status === 404) {
+        errorMessage = 'Usuário não encontrado';
+      } else if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
       }
 
       toast({
@@ -301,16 +265,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const requestPasswordReset = async (email: string) => {
     try {
       setLoading(true);
-      
-      const redirectUrl = `${window.location.origin}/reset-password`;
-      
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: redirectUrl
+      const response = await api.post('/v1/user/forgot-password', {
+        email
       });
-
-      if (error) {
-        throw error;
-      }
 
       toast({
         title: "Código de recuperação enviado!",
@@ -319,8 +276,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error: any) {
       let errorMessage = 'Erro ao solicitar recuperação de senha';
       
-      if (error.message) {
-        errorMessage = error.message;
+      if (error.response?.status === 403) {
+        errorMessage = 'Usuário não verificado';
+      } else if (error.response?.status === 404) {
+        errorMessage = 'Usuário não encontrado';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
       }
 
       toast({
@@ -337,14 +298,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const resetPassword = async (token: string, newPassword: string) => {
     try {
       setLoading(true);
-      
-      const { error } = await supabase.auth.updateUser({
-        password: newPassword
+      const response = await api.post('/v1/user/redeem-password/code', {
+        token,
+        newPassword
       });
-
-      if (error) {
-        throw error;
-      }
 
       toast({
         title: "Senha alterada com sucesso!",
@@ -355,8 +312,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error: any) {
       let errorMessage = 'Erro ao alterar senha';
       
-      if (error.message) {
-        errorMessage = error.message;
+      if (error.response?.status === 403) {
+        errorMessage = 'Código inválido';
+      } else if (error.response?.status === 404) {
+        errorMessage = 'Usuário não encontrado';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
       }
 
       toast({
@@ -370,15 +331,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const isAdmin = user?.isAdmin || false;
-
   return (
     <AuthContext.Provider
       value={{
         session,
         user,
         loading,
-        isAdmin,
         signUp,
         signIn,
         signOut,
