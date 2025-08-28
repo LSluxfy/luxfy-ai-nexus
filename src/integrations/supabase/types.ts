@@ -412,6 +412,54 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          active: boolean
+          created_at: string
+          email: string
+          id: string
+          is_admin: boolean
+          last_login: string | null
+          last_name: string
+          name: string
+          number_agentes: number
+          plan: string
+          profile_expire: string | null
+          updated_at: string
+          user_name: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          email: string
+          id: string
+          is_admin?: boolean
+          last_login?: string | null
+          last_name?: string
+          name: string
+          number_agentes?: number
+          plan?: string
+          profile_expire?: string | null
+          updated_at?: string
+          user_name?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          email?: string
+          id?: string
+          is_admin?: boolean
+          last_login?: string | null
+          last_name?: string
+          name?: string
+          number_agentes?: number
+          plan?: string
+          profile_expire?: string | null
+          updated_at?: string
+          user_name?: string
+        }
+        Relationships: []
+      }
       uploads: {
         Row: {
           create_at: string
