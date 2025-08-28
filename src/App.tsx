@@ -28,7 +28,6 @@ import SettingsPage from "./pages/SettingsPage";
 import AgendaPage from "./pages/AgendaPage";
 import FinanceiroPage from "./pages/FinanceiroPage";
 import AccountInactive from "./pages/AccountInactive";
-import { AdminInvoicesPage } from "./pages/AdminInvoicesPage";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
@@ -80,7 +79,6 @@ const App = () => (
                   <Route path="tutorials" element={<TutorialsPage />} />
                   <Route path="financeiro" element={<FinanceiroPage />} />
                   <Route path="settings" element={<SettingsPage />} />
-                  <Route path="admin/invoices" element={<AdminInvoicesPage />} />
                 </Route>
                 
                 {/* Rota 404 */}
