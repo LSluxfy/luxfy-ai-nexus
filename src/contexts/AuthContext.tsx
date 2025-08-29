@@ -54,7 +54,42 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const response = await api.get('/v1/user/auth');
       if (response.data.user) {
-        const userData = response.data.user;
+        const rawUserData = response.data.user;
+        
+        // Debug: log da resposta da API para verificar campos
+        console.log('🔍 API Response User Data:', rawUserData);
+        console.log('🔍 Available fields:', Object.keys(rawUserData));
+        
+        // Mapear os dados da API para o formato esperado
+        const userData: User = {
+          id: rawUserData.id,
+          email: rawUserData.email,
+          userName: rawUserData.userName || rawUserData.user_name || '',
+          name: rawUserData.name,
+          lastName: rawUserData.lastName || rawUserData.last_name || '',
+          loginMethod: rawUserData.loginMethod || rawUserData.login_method || '',
+          verificationCode: rawUserData.verificationCode || rawUserData.verification_code || '',
+          numberAgentes: rawUserData.numberAgentes || rawUserData.number_agentes || 0,
+          plan: rawUserData.plan,
+          profileExpire: rawUserData.profileExpire || rawUserData.profile_expire,
+          // Tentar múltiplas variações do campo active
+          active: rawUserData.active !== undefined ? rawUserData.active : 
+                  rawUserData.is_active !== undefined ? rawUserData.is_active :
+                  rawUserData.status === 'active' ? true : false,
+          appointments: rawUserData.appointments || [],
+          createAt: rawUserData.createAt || rawUserData.create_at || '',
+          lastLogin: rawUserData.lastLogin || rawUserData.last_login,
+          updateAt: rawUserData.updateAt || rawUserData.update_at,
+          agents: rawUserData.agents || [],
+          invoices: rawUserData.invoices || []
+        };
+        
+        console.log('✅ Mapped User Data:', {
+          active: userData.active,
+          profileExpire: userData.profileExpire,
+          plan: userData.plan
+        });
+        
         setUser(userData);
         const sessionData = {
           user: userData,
