@@ -72,10 +72,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           numberAgentes: rawUserData.numberAgentes || rawUserData.number_agentes || 0,
           plan: rawUserData.plan,
           profileExpire: rawUserData.profileExpire || rawUserData.profile_expire,
-          // Tentar múltiplas variações do campo active
-          active: rawUserData.active !== undefined ? rawUserData.active : 
-                  rawUserData.is_active !== undefined ? rawUserData.is_active :
-                  rawUserData.status === 'active' ? true : false,
+          // Calcular active baseado no plano e data de expiração (já que API não retorna campo active)
+          active: !!(rawUserData.plan && rawUserData.profileExpire && new Date(rawUserData.profileExpire) > new Date()),
           appointments: rawUserData.appointments || [],
           createAt: rawUserData.createAt || rawUserData.create_at || '',
           lastLogin: rawUserData.lastLogin || rawUserData.last_login,
