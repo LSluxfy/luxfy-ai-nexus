@@ -31,6 +31,14 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const isAdmin = user.email === 'luxfyapp@gmail.com';
   
   if (!isAdmin) {
+    // Debug: verificar todos os campos do usuário
+    console.log('🔍 ProtectedRoute - Campos do usuário:', {
+      active: user.active,
+      profileExpire: user.profileExpire,
+      profile_expire: (user as any).profile_expire,
+      userKeys: Object.keys(user)
+    });
+    
     // Verificar se precisa de plano: não ativo OU sem data de expiração OU data expirada
     const needsPlan = !user.active || !user.profileExpire || new Date(user.profileExpire) < new Date();
     
