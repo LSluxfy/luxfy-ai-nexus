@@ -23,8 +23,8 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
   });
 
   return (
-    <div className="w-80 border-r bg-white flex flex-col">
-      <div className="p-4 border-b bg-gray-50">
+    <div className="w-80 border-r bg-white flex flex-col h-full">
+      <div className="p-4 border-b bg-gray-50 flex-shrink-0">
         <h2 className="text-lg font-semibold text-gray-800">Conversas</h2>
         <div className="mt-2">
           <input
@@ -35,7 +35,7 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
         </div>
       </div>
       
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
         {sortedChats.map(chat => (
           <div
             key={chat.id}

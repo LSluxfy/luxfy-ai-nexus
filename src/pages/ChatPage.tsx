@@ -124,7 +124,7 @@ const ChatPage = () => {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-screen">
       <DashboardHeader title={t('chat.title')}>
         <AgentSelector
           selectedAgentId={currentAgentId}
@@ -141,14 +141,14 @@ const ChatPage = () => {
         />
         
         {selectedChat ? (
-          <div className="flex-1 flex flex-col min-h-0">
+          <div className="flex-1 flex flex-col h-full">
             <ChatHeader
               user={selectedChat.user}
               aiEnabled={selectedChat.aiEnabled}
               isUpdating={isUpdatingSettings}
             />
             
-            <div className="flex-1 min-h-0">
+            <div className="flex-1 overflow-hidden">
               <ChatMessages
                 messages={messages}
                 userName={selectedChat.user.name}
@@ -156,18 +156,20 @@ const ChatPage = () => {
               />
             </div>
             
-            <ChatInput
-              onSendMessage={(content, type, attachmentUrl) => 
-                sendMessage(selectedChatId!, content, type, attachmentUrl)
-              }
-              onToggleAI={() => toggleAI(selectedChatId!)}
-              onAddTag={(tag) => addTag(selectedChatId!, tag)}
-              onRemoveTag={(tag) => removeTag(selectedChatId!, tag)}
-              aiEnabled={selectedChat.aiEnabled}
-              userTags={selectedChat.user.tags}
-              disabled={isSendingMessage || isUpdatingSettings}
-              agentId={currentAgentId}
-            />
+            <div className="flex-shrink-0">
+              <ChatInput
+                onSendMessage={(content, type, attachmentUrl) => 
+                  sendMessage(selectedChatId!, content, type, attachmentUrl)
+                }
+                onToggleAI={() => toggleAI(selectedChatId!)}
+                onAddTag={(tag) => addTag(selectedChatId!, tag)}
+                onRemoveTag={(tag) => removeTag(selectedChatId!, tag)}
+                aiEnabled={selectedChat.aiEnabled}
+                userTags={selectedChat.user.tags}
+                disabled={isSendingMessage || isUpdatingSettings}
+                agentId={currentAgentId}
+              />
+            </div>
           </div>
         ) : (
           <div className="flex-1 flex items-center justify-center bg-card">
