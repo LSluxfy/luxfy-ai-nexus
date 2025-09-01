@@ -10,12 +10,31 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+// Normalize language codes for consistency
+const normalizeLanguage = (lang: string): string => {
+  if (!lang) return 'pt';
+  
+  const langCode = lang.toLowerCase().split('-')[0];
+  const supportedLanguages = ['pt', 'en', 'es'];
+  
+  return supportedLanguages.includes(langCode) ? langCode : 'pt';
+};
+
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentLanguage, setCurrentLanguage] = useState(() => {
-    // Always prioritize localStorage first
+    // Always prioritize localStorage first, then browser language, then fallback
     const savedLanguage = localStorage.getItem('luxfy-language');
-    console.log('LanguageProvider init - savedLanguage:', savedLanguage, 'i18n.language:', i18n.language);
-    return savedLanguage || 'pt';
+    const browserLanguage = normalizeLanguage(navigator.language || 'pt-BR');
+    const initialLang = savedLanguage ? normalizeLanguage(savedLanguage) : browserLanguage;
+    
+    console.log('LanguageProvider init - savedLanguage:', savedLanguage, 'browserLanguage:', browserLanguage, 'initialLang:', initialLang);
+    
+    // Save to localStorage if not saved before
+    if (!savedLanguage) {
+      localStorage.setItem('luxfy-language', initialLang);
+    }
+    
+    return initialLang;
   });
 
   const availableLanguages = [
@@ -25,10 +44,12 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   ];
 
   const changeLanguage = (language: string) => {
-    console.log('LanguageProvider changeLanguage called:', language);
-    i18n.changeLanguage(language);
-    setCurrentLanguage(language);
-    localStorage.setItem('luxfy-language', language);
+    const normalizedLanguage = normalizeLanguage(language);
+    console.log('LanguageProvider changeLanguage called:', language, 'normalized:', normalizedLanguage);
+    
+    i18n.changeLanguage(normalizedLanguage);
+    setCurrentLanguage(normalizedLanguage);
+    localStorage.setItem('luxfy-language', normalizedLanguage);
   };
 
   useEffect(() => {
@@ -54,16 +75,22 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     // Listen to i18n language changes
     const handleLanguageChange = (lng: string) => {
-      console.log('i18n languageChanged event:', lng);
+      const normalizedLng = normalizeLanguage(lng);
+      console.log('i18n languageChanged event:', lng, 'normalized:', normalizedLng);
+      
       const savedLanguage = localStorage.getItem('luxfy-language');
+      const normalizedSaved = savedLanguage ? normalizeLanguage(savedLanguage) : null;
       
       // Only update if the change is legitimate (matches localStorage or is a user-initiated change)
-      if (lng === savedLanguage || !savedLanguage) {
-        setCurrentLanguage(lng);
+      if (normalizedLng === normalizedSaved || !normalizedSaved) {
+        setCurrentLanguage(normalizedLng);
+        if (savedLanguage !== normalizedLng) {
+          localStorage.setItem('luxfy-language', normalizedLng);
+        }
       } else {
         // If i18n changed but doesn't match localStorage, restore from localStorage
-        console.log('i18n change conflicts with localStorage, restoring:', savedLanguage);
-        i18n.changeLanguage(savedLanguage);
+        console.log('i18n change conflicts with localStorage, restoring:', normalizedSaved);
+        i18n.changeLanguage(normalizedSaved);
       }
     };
 
@@ -79,9 +106,14 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     // Also listen to storage changes (in case language is changed in another tab)
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'luxfy-language' && e.newValue) {
-        console.log('localStorage changed externally:', e.newValue);
-        setCurrentLanguage(e.newValue);
-        i18n.changeLanguage(e.newValue);
+        const normalizedValue = normalizeLanguage(e.newValue);
+        console.log('localStorage changed externally:', e.newValue, 'normalized:', normalizedValue);
+        setCurrentLanguage(normalizedValue);
+        i18n.changeLanguage(normalizedValue);
+        // Ensure localStorage has normalized value
+        if (e.newValue !== normalizedValue) {
+          localStorage.setItem('luxfy-language', normalizedValue);
+        }
       }
     };
 
@@ -98,10 +130,16 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   useEffect(() => {
     const checkLanguageOnRouteChange = () => {
       const savedLanguage = localStorage.getItem('luxfy-language');
-      if (savedLanguage && savedLanguage !== currentLanguage) {
-        console.log('Route change detected, ensuring language sync:', savedLanguage);
-        setCurrentLanguage(savedLanguage);
-        i18n.changeLanguage(savedLanguage);
+      const normalizedSaved = savedLanguage ? normalizeLanguage(savedLanguage) : null;
+      
+      if (normalizedSaved && normalizedSaved !== currentLanguage) {
+        console.log('Route change detected, ensuring language sync:', savedLanguage, 'normalized:', normalizedSaved);
+        setCurrentLanguage(normalizedSaved);
+        i18n.changeLanguage(normalizedSaved);
+        // Ensure localStorage has normalized value
+        if (savedLanguage !== normalizedSaved) {
+          localStorage.setItem('luxfy-language', normalizedSaved);
+        }
       }
     };
 

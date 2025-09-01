@@ -19,9 +19,33 @@ const resources = {
   }
 };
 
-// Get the saved language from localStorage first
+// Normalize language codes (pt-BR -> pt, en-US -> en, es-ES -> es)
+const normalizeLanguage = (lang: string): string => {
+  if (!lang) return 'pt';
+  
+  const langCode = lang.toLowerCase().split('-')[0];
+  const supportedLanguages = ['pt', 'en', 'es'];
+  
+  return supportedLanguages.includes(langCode) ? langCode : 'pt';
+};
+
+// Get browser language and normalize it
+const getBrowserLanguage = (): string => {
+  const browserLang = navigator.language || navigator.languages?.[0] || 'pt-BR';
+  return normalizeLanguage(browserLang);
+};
+
+// Get the saved language from localStorage first, then browser, then fallback
 const savedLanguage = localStorage.getItem('luxfy-language');
-console.log('i18n config - savedLanguage from localStorage:', savedLanguage);
+const browserLanguage = getBrowserLanguage();
+const initialLanguage = savedLanguage ? normalizeLanguage(savedLanguage) : browserLanguage;
+
+console.log('i18n config - savedLanguage:', savedLanguage, 'browserLanguage:', browserLanguage, 'initialLanguage:', initialLanguage);
+
+// Save normalized language to localStorage if it wasn't saved before
+if (!savedLanguage) {
+  localStorage.setItem('luxfy-language', initialLanguage);
+}
 
 i18n
   .use(LanguageDetector)
@@ -30,12 +54,13 @@ i18n
     resources,
     fallbackLng: 'pt',
     debug: false,
-    lng: savedLanguage || undefined, // Use saved language if available, otherwise let detector decide
+    lng: initialLanguage,
     
     detection: {
-      order: savedLanguage ? ['localStorage', 'navigator', 'htmlTag'] : ['navigator', 'localStorage', 'htmlTag'],
+      order: ['localStorage', 'navigator', 'htmlTag'],
       lookupLocalStorage: 'luxfy-language',
       caches: ['localStorage'],
+      convertDetectedLanguage: normalizeLanguage, // Normalize detected languages
     },
 
     interpolation: {
