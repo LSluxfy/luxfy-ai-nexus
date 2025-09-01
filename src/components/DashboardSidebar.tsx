@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { HomeIcon, BookUserIcon, Users, MessagesSquare, BarChart3, Settings, UserPlus, Calendar, CreditCard, Megaphone, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -12,6 +12,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
 
@@ -19,7 +20,7 @@ const DashboardSidebar = () => {
   const { userPlan, agents } = useAgents();
   const { open, setOpen } = useSidebar();
   const location = useLocation();
-  const [isHovering, setIsHovering] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const links = [
     {
@@ -87,33 +88,35 @@ const DashboardSidebar = () => {
 
   // Auto-hover functionality
   const handleMouseEnter = () => {
-    setIsHovering(true);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
     if (!open) {
       setOpen(true);
     }
   };
 
   const handleMouseLeave = () => {
-    setIsHovering(false);
-    // Delay to close sidebar when not hovering
-    setTimeout(() => {
-      if (!isHovering) {
-        setOpen(false);
-      }
+    timeoutRef.current = setTimeout(() => {
+      setOpen(false);
     }, 300);
   };
 
   return (
     <Sidebar
       collapsible="icon"
-      className={cn(
-        "transition-all duration-300",
-        open ? "w-64" : "w-14"
-      )}
+      className="transition-all duration-300"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <SidebarContent>
+        {/* Trigger dentro do sidebar para quando está colapsado */}
+        {!open && (
+          <div className="p-2">
+            <SidebarTrigger className="h-8 w-8" />
+          </div>
+        )}
         {/* Logo Section */}
         <div className="py-4 px-4 border-b border-sidebar-border">
           <div className="flex items-center gap-3">

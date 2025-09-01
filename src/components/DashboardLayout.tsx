@@ -14,7 +14,7 @@ const DashboardLayout = () => {
   const { isDarkMode, toggleDarkMode } = useTheme();
 
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={false}>
       <div className={`flex min-h-screen w-full ${isDarkMode ? 'dark' : ''}`}>
         <DashboardSidebar />
         
