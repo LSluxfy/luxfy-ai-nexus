@@ -1,6 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -171,14 +172,16 @@ const LandingPage = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-white px-10 py-4 text-lg font-semibold bg-white/80 backdrop-blur-sm transition-all duration-300 hover:scale-105"
-            >
-              <Network className="w-5 h-5 mr-2" />
-              {t('hero.login')}
-            </Button>
+            <Link to="/login">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-white px-10 py-4 text-lg font-semibold bg-white/80 backdrop-blur-sm transition-all duration-300 hover:scale-105"
+              >
+                <Network className="w-5 h-5 mr-2" />
+                {t('hero.login')}
+              </Button>
+            </Link>
           </div>
           
           {/* Stats */}
@@ -250,12 +253,16 @@ const LandingPage = () => {
 
       <ExamplesShowcase />
 
-      <PricingV2 />
+      <div id="pricing">
+        <PricingV2 />
+      </div>
 
       <Testimonials />
       <FAQ />
 
-      <LandingFooter />
+      <div id="contact">
+        <LandingFooter />
+      </div>
       {/* <StickyCTA /> */}
         <WhatsAppButton />
         <WhatsAppNotification />

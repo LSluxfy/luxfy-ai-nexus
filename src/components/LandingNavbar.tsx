@@ -10,6 +10,17 @@ const LandingNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t } = useTranslation();
 
+  const handleScrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+    setIsMenuOpen(false); // Close mobile menu after click
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
       <div className="container mx-auto px-4 py-3">
@@ -26,10 +37,10 @@ const LandingNavbar = () => {
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
             <Link to="/" className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.home')}</Link>
-            <Link to="/#features" className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.features')}</Link>
+            <button onClick={() => handleScrollToSection('features')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.features')}</button>
             <Link to="/tutorials" className="text-slate-600 hover:text-blue-800 font-medium transition-colors">Tutoriais</Link>
-            <Link to="/#pricing" className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.pricing')}</Link>
-            <Link to="/#contact" className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.contact')}</Link>
+            <button onClick={() => handleScrollToSection('pricing')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.pricing')}</button>
+            <button onClick={() => handleScrollToSection('contact')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.contact')}</button>
             <LanguageSelector />
             <div className="flex gap-3 ml-4">
               <Link to="/login">
@@ -60,10 +71,10 @@ const LandingNavbar = () => {
           <div className="md:hidden py-4 animate-fade-in border-t border-slate-200 mt-3">
             <div className="flex flex-col gap-4">
               <Link to="/" className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2">{t('nav.home')}</Link>
-              <Link to="/#features" className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2">{t('nav.features')}</Link>
+              <button onClick={() => handleScrollToSection('features')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2 text-left">{t('nav.features')}</button>
               <Link to="/tutorials" className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2">Tutoriais</Link>
-              <Link to="/#pricing" className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2">{t('nav.pricing')}</Link>
-              <Link to="/#contact" className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2">{t('nav.contact')}</Link>
+              <button onClick={() => handleScrollToSection('pricing')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2 text-left">{t('nav.pricing')}</button>
+              <button onClick={() => handleScrollToSection('contact')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2 text-left">{t('nav.contact')}</button>
               <div className="py-2">
                 <LanguageSelector />
               </div>
