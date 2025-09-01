@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { UploadService } from '@/services/uploadService';
 import { TagAutocomplete } from '@/components/ui/tag-autocomplete';
 import { useAgentTags } from '@/hooks/use-agent-tags';
+import { cn } from '@/lib/utils';
 
 interface ChatInputProps {
   onSendMessage: (content: string, type?: 'text' | 'audio' | 'file' | 'image', attachmentUrl?: string) => void;
@@ -165,15 +166,15 @@ const ChatInput = ({
   };
 
   return (
-    <div className="border-t bg-white p-4 space-y-3">
+    <div className="border-t bg-card p-3 space-y-2 flex-shrink-0">
       {/* Tags do usuário */}
       <div className="flex items-center gap-2 flex-wrap">
-        <Tag size={16} className="text-gray-500" />
+        <Tag size={14} className="text-muted-foreground" />
         {userTags.map(tag => (
           <Badge 
             key={tag} 
             variant="secondary" 
-            className="bg-luxfy-purple/10 text-luxfy-purple cursor-pointer hover:bg-red-100 hover:text-red-600 transition-colors"
+            className="bg-primary/10 text-primary cursor-pointer hover:bg-destructive/10 hover:text-destructive transition-colors text-xs"
             onClick={() => !disabled && onRemoveTag(tag)}
           >
             {tag} ×
@@ -189,7 +190,7 @@ const ChatInput = ({
           suggestions={agentTags}
           isLoading={isLoadingTags}
           placeholder="Adicionar tag..."
-          className="w-60"
+          className="w-48"
         />
       </div>
 
@@ -199,7 +200,7 @@ const ChatInput = ({
           onClick={onToggleAI}
           variant={aiEnabled ? "default" : "outline"}
           size="sm"
-          className={aiEnabled ? "bg-luxfy-purple hover:bg-luxfy-darkPurple" : ""}
+          className="h-7 text-xs"
           disabled={disabled}
         >
           IA {aiEnabled ? 'Ativada' : 'Desativada'}
@@ -217,10 +218,10 @@ const ChatInput = ({
           variant="ghost"
           size="icon"
           onClick={() => fileInputRef.current?.click()}
-          className="text-gray-500 hover:text-luxfy-purple"
+          className="text-muted-foreground hover:text-primary h-9 w-9"
           disabled={disabled || isUploading}
         >
-          <Paperclip size={20} />
+          <Paperclip size={18} />
         </Button>
         
         <input
@@ -238,7 +239,7 @@ const ChatInput = ({
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="resize-none pr-12 min-h-[40px] max-h-32"
+            className="resize-none min-h-[36px] max-h-24 text-sm"
             rows={1}
             disabled={disabled}
           />
@@ -248,34 +249,37 @@ const ChatInput = ({
           onClick={toggleRecording}
           variant={isRecording ? "destructive" : "ghost"}
           size="icon"
-          className={isRecording ? "" : "text-gray-500 hover:text-luxfy-purple"}
+          className={cn(
+            "h-9 w-9",
+            isRecording ? "" : "text-muted-foreground hover:text-primary"
+          )}
           disabled={disabled}
         >
-          {isRecording ? <Square size={20} /> : <Mic size={20} />}
+          {isRecording ? <Square size={18} /> : <Mic size={18} />}
         </Button>
         
         <Button
           onClick={handleSend}
           disabled={(!message.trim() && !pendingAttachment) || disabled}
           size="icon"
-          className="bg-luxfy-purple hover:bg-luxfy-darkPurple disabled:bg-gray-300"
+          className="h-9 w-9 bg-primary hover:bg-primary/90"
         >
-          <Send size={20} />
+          <Send size={18} />
         </Button>
       </div>
 
       {/* Anexo pendente */}
       {pendingAttachment && (
-        <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg border">
-          <Paperclip size={16} className="text-luxfy-purple" />
-          <span className="flex-1 text-sm text-gray-700">
+        <div className="flex items-center gap-2 p-2 bg-muted rounded-lg border">
+          <Paperclip size={14} className="text-primary" />
+          <span className="flex-1 text-sm text-foreground">
             {pendingAttachment.name}
           </span>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setPendingAttachment(null)}
-            className="h-6 w-6 p-0 text-gray-500 hover:text-red-500"
+            className="h-5 w-5 p-0 text-muted-foreground hover:text-destructive"
           >
             ×
           </Button>
@@ -283,7 +287,7 @@ const ChatInput = ({
       )}
 
       {isUploading && (
-        <div className="text-xs text-gray-500 text-center">
+        <div className="text-xs text-muted-foreground text-center">
           Enviando arquivo...
         </div>
       )}

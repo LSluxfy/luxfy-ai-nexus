@@ -124,7 +124,7 @@ const ChatPage = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col h-full">
       <DashboardHeader title={t('chat.title')}>
         <AgentSelector
           selectedAgentId={currentAgentId}
@@ -132,7 +132,7 @@ const ChatPage = () => {
         />
       </DashboardHeader>
       
-      <main className="flex-1 flex bg-gray-50">
+      <main className="flex-1 flex bg-background min-h-0">
         <ChatList
           chats={chats}
           selectedChatId={selectedChatId}
@@ -141,18 +141,20 @@ const ChatPage = () => {
         />
         
         {selectedChat ? (
-          <div className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col min-h-0">
             <ChatHeader
               user={selectedChat.user}
               aiEnabled={selectedChat.aiEnabled}
               isUpdating={isUpdatingSettings}
             />
             
-            <ChatMessages
-              messages={messages}
-              userName={selectedChat.user.name}
-              userAvatar={selectedChat.user.avatar}
-            />
+            <div className="flex-1 min-h-0">
+              <ChatMessages
+                messages={messages}
+                userName={selectedChat.user.name}
+                userAvatar={selectedChat.user.avatar}
+              />
+            </div>
             
             <ChatInput
               onSendMessage={(content, type, attachmentUrl) => 
@@ -168,9 +170,9 @@ const ChatPage = () => {
             />
           </div>
         ) : (
-          <div className="flex-1 flex items-center justify-center bg-white">
-            <div className="text-center text-gray-500">
-              <MessageSquare size={64} className="mx-auto mb-4 text-gray-300" />
+          <div className="flex-1 flex items-center justify-center bg-card">
+            <div className="text-center text-muted-foreground">
+              <MessageSquare size={64} className="mx-auto mb-4 text-muted-foreground/50" />
               <h3 className="text-lg font-medium mb-2">
                 {isLoading ? 'Carregando conversas...' : t('chat.selectConversation')}
               </h3>
