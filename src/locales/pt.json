@@ -27,11 +27,11 @@
       },
       "messages": [
         {
-          "text": "Boa tarde, Pedro! Tudo bem? Sou Maria da Luxfy, vi que você se interessou por nossos agentes de IA. Posso te ajudar?",
+          "text": "Oi! Tenho uma loja de roupas online e preciso automatizar meu atendimento no WhatsApp. Vocês podem me ajudar?",
           "isUser": true
         },
         {
-          "text": "Oi Maria! Tudo ótimo! Sim, estou interessado em saber mais sobre como funciona.",
+          "text": "Olá! Claro, posso te ajudar! Sou da Luxfy e nossos agentes de IA são perfeitos para lojas como a sua.",
           "isUser": false
         },
         {
@@ -39,7 +39,7 @@
           "isUser": false
         },
         {
-          "text": "Tenho uma loja de roupas online",
+          "text": "Tenho uma loja de roupas online com foco em moda feminina",
           "isUser": true
         },
         {
