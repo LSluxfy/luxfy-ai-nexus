@@ -12,19 +12,19 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 // Normalize language codes for consistency
 const normalizeLanguage = (lang: string): string => {
-  if (!lang) return 'pt';
+  if (!lang) return 'es';
   
   const langCode = lang.toLowerCase().split('-')[0];
   const supportedLanguages = ['pt', 'en', 'es'];
   
-  return supportedLanguages.includes(langCode) ? langCode : 'pt';
+  return supportedLanguages.includes(langCode) ? langCode : 'es';
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentLanguage, setCurrentLanguage] = useState(() => {
     // Always prioritize localStorage first, then browser language, then fallback
     const savedLanguage = localStorage.getItem('luxfy-language');
-    const browserLanguage = normalizeLanguage(navigator.language || 'pt-BR');
+    const browserLanguage = normalizeLanguage(navigator.language || 'es-ES');
     const initialLang = savedLanguage ? normalizeLanguage(savedLanguage) : browserLanguage;
     
     console.log('LanguageProvider init - savedLanguage:', savedLanguage, 'browserLanguage:', browserLanguage, 'initialLang:', initialLang);
@@ -38,9 +38,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   });
 
   const availableLanguages = [
+    { code: 'es', name: 'Español', flag: '🇪🇸' },
     { code: 'pt', name: 'Português', flag: '🇧🇷' },
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'es', name: 'Español', flag: '🇪🇸' }
+    { code: 'en', name: 'English', flag: '🇺🇸' }
   ];
 
   const changeLanguage = (language: string) => {

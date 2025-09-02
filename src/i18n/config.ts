@@ -21,17 +21,17 @@ const resources = {
 
 // Normalize language codes (pt-BR -> pt, en-US -> en, es-ES -> es)
 const normalizeLanguage = (lang: string): string => {
-  if (!lang) return 'pt';
+  if (!lang) return 'es';
   
   const langCode = lang.toLowerCase().split('-')[0];
   const supportedLanguages = ['pt', 'en', 'es'];
   
-  return supportedLanguages.includes(langCode) ? langCode : 'pt';
+  return supportedLanguages.includes(langCode) ? langCode : 'es';
 };
 
 // Get browser language and normalize it
 const getBrowserLanguage = (): string => {
-  const browserLang = navigator.language || navigator.languages?.[0] || 'pt-BR';
+  const browserLang = navigator.language || navigator.languages?.[0] || 'es-ES';
   return normalizeLanguage(browserLang);
 };
 
@@ -52,7 +52,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'pt',
+    fallbackLng: 'es',
     debug: false,
     lng: initialLanguage,
     

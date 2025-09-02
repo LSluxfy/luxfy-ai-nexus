@@ -127,7 +127,7 @@ const PublicTutorialsPage = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/register">
                 <Button size="lg" className="bg-gradient-to-r from-blue-800 to-blue-700 hover:from-blue-900 hover:to-blue-800">
-                  Começar Gratuitamente
+                  Começar agora
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
@@ -182,16 +182,6 @@ const PublicTutorialsPage = () => {
                       </ul>
                     </div>
 
-                    <div className="bg-gradient-to-r from-blue-800/10 to-blue-600/10 rounded-lg p-6 text-center">
-                      <h4 className="text-lg font-semibold text-slate-900 mb-2">Pronto para começar?</h4>
-                      <p className="text-slate-600 mb-4">Crie sua conta gratuita e comece a usar essas funcionalidades hoje mesmo.</p>
-                      <Link to="/register">
-                        <Button className="bg-gradient-to-r from-blue-800 to-blue-700 hover:from-blue-900 hover:to-blue-800">
-                          Criar Conta Grátis
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
-                      </Link>
-                    </div>
                   </CardContent>
                 </Card>
               </TabsContent>
