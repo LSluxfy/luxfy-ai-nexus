@@ -11,8 +11,9 @@
   "hero": {
     "title": "Clona tu mejor",
     "subtitle": "con IA",
-    "description": "Transforma tus conversaciones en ventas automatizadas. Nuestra IA aprende de tus mejores vendedores y convierte leads 24/7 en WhatsApp.",
+    "description": "Reduce costos operacionales y aumenta tus ventas. Nuestra IA aprende de tus mejores vendedores y convierte leads 24/7 en WhatsApp.",
     "cta": "Comenzar ahora",
+    "login": "Comenzar ahora",
     "testimonial": "✨ Sin tarjeta de crédito • 7 días gratis",
     "words": ["vendedor", "SDR", "agente"],
     "stats": {

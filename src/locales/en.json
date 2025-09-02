@@ -11,8 +11,9 @@
   "hero": {
     "title": "Clone your best",
     "subtitle": "with AI",
-    "description": "Transform your conversations into automated sales. Our AI learns from your best salespeople and converts leads 24/7 on WhatsApp.",
+    "description": "Reduce operational costs and increase your sales. Our AI learns from your best salespeople and converts leads 24/7 on WhatsApp.",
     "cta": "Start now",
+    "login": "Get started",
     "testimonial": "✨ No credit card • 7 days free",
     "words": ["salesperson", "SDR", "agent"],
     "stats": {
