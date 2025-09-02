@@ -47,7 +47,7 @@ const TutorialsPage = () => {
       title: t('tutorials.categories.schedule.title'),
       icon: Calendar,
       description: t('tutorials.categories.schedule.description'),
-      videoUrl: '',
+      videoUrl: 'https://player-vz-a5f41599-9ad.tv.pandavideo.com.br/embed/?v=d249ceaa-3921-448f-a102-30272468701e&iosFakeFullscreen=true',
       topics: t('tutorials.categories.schedule.topics', { returnObjects: true }) as string[]
     },
     {
