@@ -235,7 +235,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <ExamplesShowcase />
+      
 
       <div id="pricing">
         <PricingV2 />
