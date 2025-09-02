@@ -22,16 +22,15 @@ const normalizeLanguage = (lang: string): string => {
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentLanguage, setCurrentLanguage] = useState(() => {
-    // Always prioritize localStorage first, then browser language, then fallback
+    // Always default to Spanish unless manually changed
     const savedLanguage = localStorage.getItem('luxfy-language');
-    const browserLanguage = normalizeLanguage(navigator.language || 'es-ES');
-    const initialLang = savedLanguage ? normalizeLanguage(savedLanguage) : browserLanguage;
+    const initialLang = savedLanguage ? normalizeLanguage(savedLanguage) : 'es';
     
-    console.log('LanguageProvider init - savedLanguage:', savedLanguage, 'browserLanguage:', browserLanguage, 'initialLang:', initialLang);
+    console.log('LanguageProvider init - savedLanguage:', savedLanguage, 'initialLang:', initialLang);
     
-    // Save to localStorage if not saved before
+    // Save Spanish as default if not saved before
     if (!savedLanguage) {
-      localStorage.setItem('luxfy-language', initialLang);
+      localStorage.setItem('luxfy-language', 'es');
     }
     
     return initialLang;

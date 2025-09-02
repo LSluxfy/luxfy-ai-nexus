@@ -333,6 +333,11 @@
     "title": "🚀 Test our AI now!",
     "subtitle": "Chat with us and see how it works",
     "cta": "Test Now"
+  },
+  "demonstration": {
+    "badge": "Demonstration",
+    "title": "See our AI in action",
+    "description": "Watch how we transform conversations into automated sales"
   }
 }
 

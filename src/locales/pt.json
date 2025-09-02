@@ -333,6 +333,11 @@
     "title": "🚀 Teste nossa IA agora!",
     "subtitle": "Converse conosco e veja como funciona",
     "cta": "Testar Agora"
+  },
+  "demonstration": {
+    "badge": "Demonstração",
+    "title": "Veja nossa IA em ação",
+    "description": "Assista como transformamos conversas em vendas automatizadas"
   }
 }
 

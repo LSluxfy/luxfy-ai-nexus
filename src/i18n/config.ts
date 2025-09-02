@@ -29,18 +29,20 @@ const normalizeLanguage = (lang: string): string => {
   return supportedLanguages.includes(langCode) ? langCode : 'es';
 };
 
-// Get browser language and normalize it
-const getBrowserLanguage = (): string => {
-  const browserLang = navigator.language || navigator.languages?.[0] || 'es-ES';
-  return normalizeLanguage(browserLang);
-};
+// Force Spanish as default language
+// Clear any existing language setting to ensure Spanish is always default
+if (typeof window !== 'undefined') {
+  const currentSaved = localStorage.getItem('luxfy-language');
+  if (!currentSaved) {
+    localStorage.setItem('luxfy-language', 'es');
+  }
+}
 
-// Get the saved language from localStorage first, then browser, then fallback
+// Always default to Spanish unless manually changed
 const savedLanguage = localStorage.getItem('luxfy-language');
-const browserLanguage = getBrowserLanguage();
-const initialLanguage = savedLanguage ? normalizeLanguage(savedLanguage) : browserLanguage;
+const initialLanguage = savedLanguage || 'es';
 
-console.log('i18n config - savedLanguage:', savedLanguage, 'browserLanguage:', browserLanguage, 'initialLanguage:', initialLanguage);
+console.log('i18n config - savedLanguage:', savedLanguage, 'initialLanguage:', initialLanguage);
 
 // Save normalized language to localStorage if it wasn't saved before
 if (!savedLanguage) {

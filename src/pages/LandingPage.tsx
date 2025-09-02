@@ -131,14 +131,14 @@ const LandingPage = () => {
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 bg-blue-800/10 backdrop-blur-sm border border-blue-800/20 rounded-full px-6 py-2 mb-6">
               <Cpu className="w-5 h-5 text-blue-800" />
-              <span className="text-blue-800 font-medium">Demonstração</span>
+              <span className="text-blue-800 font-medium">{t('demonstration.badge')}</span>
             </div>
             
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              Veja nossa IA em ação
+              {t('demonstration.title')}
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Assista como transformamos conversas em vendas automatizadas
+              {t('demonstration.description')}
             </p>
           </div>
 
