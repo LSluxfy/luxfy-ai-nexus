@@ -17,7 +17,7 @@ interface PlanDef {
 
 const PLANS: PlanDef[] = [
   { key: "start", monthly: 22, annual: 184, agents: 1, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=dc0nb9ba" },
-  { key: "pro", monthly: 43, annual: 361.2, agents: 3, highlight: true, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=361enbiy" },
+  { key: "pro", monthly: 43, annual: 361.2, agents: 3, highlight: true, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=v2dv9yey" },
   { key: "teams", monthly: 79, annual: 663.6, agents: 6, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=p6dqhbmg" },
 ];
 
