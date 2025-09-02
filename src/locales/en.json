@@ -275,12 +275,12 @@
     "savings": "Save {{amount}} yearly",
     "equivalentPerMonth": "≈ {{amount}}/mo",
     "features": {
-      "agents": "agents",
+      "agents": "agent",
       "crm": "Visual CRM with Kanban",
       "ai": "Trainable AI agent",
       "unlimited": "Unlimited conversations",
       "calendar": "Calendar integration",
-      "campaigns": "Campaign manager",
+      "campaigns": "Mass dispatch",
       "support": "Priority support"
     },
     "bestSeller": "Best seller",

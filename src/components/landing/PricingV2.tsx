@@ -17,7 +17,7 @@ interface PlanDef {
 
 const PLANS: PlanDef[] = [
   { key: "start", monthly: 22, annual: 184, agents: 1, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=dc0nb9ba" },
-  { key: "pro", monthly: 39, annual: 327.6, agents: 3, highlight: true, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=361enbiy" },
+  { key: "pro", monthly: 43, annual: 361.2, agents: 3, highlight: true, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=361enbiy" },
   { key: "teams", monthly: 79, annual: 663.6, agents: 6, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=p6dqhbmg" },
 ];
 
@@ -30,14 +30,21 @@ export default function PricingV2() {
     return "$";
   }, [i18n.language]);
 
-  const features = [
-    t("pricingV2.features.crm"),
-    t("pricingV2.features.ai"),
-    t("pricingV2.features.unlimited"),
-    t("pricingV2.features.calendar"),
-    t("pricingV2.features.campaigns"),
-    t("pricingV2.features.support"),
-  ];
+  const getFeatures = (planKey: string) => {
+    const baseFeatures = [
+      t("pricingV2.features.crm"),
+      t("pricingV2.features.ai"),
+      t("pricingV2.features.unlimited"),
+      t("pricingV2.features.calendar"),
+      t("pricingV2.features.campaigns"),
+    ];
+    
+    if (planKey === "start") {
+      return baseFeatures; // Start plan without support
+    }
+    
+    return [...baseFeatures, t("pricingV2.features.support")];
+  };
 
   return (
     <section id="pricing" className="relative py-20 px-4">
@@ -84,8 +91,8 @@ export default function PricingV2() {
                 className={`relative overflow-hidden ${plan.highlight ? "border-primary shadow-[0_10px_30px_-10px_hsl(var(--ring)/0.3)]" : ""}`}
               >
                 {plan.highlight && (
-                  <Badge className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-primary text-primary-foreground px-4 py-1 text-xs">
-                    {t("pricingV2.bestSeller")}
+                  <Badge className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 text-sm font-bold shadow-lg animate-pulse">
+                    ⭐ {t("pricingV2.bestSeller")} ⭐
                   </Badge>
                 )}
                 <CardHeader>
@@ -107,7 +114,7 @@ export default function PricingV2() {
                 <CardContent>
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" />{plan.agents} {t("pricingV2.features.agents")}</li>
-                    {features.map((f, i) => (
+                    {getFeatures(plan.key).map((f, i) => (
                       <li key={i} className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" />{f}</li>
                     ))}
                   </ul>

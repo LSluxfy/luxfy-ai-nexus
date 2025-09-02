@@ -21,6 +21,14 @@ const LandingNavbar = () => {
     setIsMenuOpen(false); // Close mobile menu after click
   };
 
+  const handleWhatsAppContact = () => {
+    const phoneNumber = "+5511967136762";
+    const message = encodeURIComponent(t('whatsapp.message'));
+    const whatsappUrl = `https://wa.me/${phoneNumber.replace(/\D/g, '')}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+    setIsMenuOpen(false); // Close mobile menu after click
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
       <div className="container mx-auto px-4 py-3">
@@ -40,7 +48,7 @@ const LandingNavbar = () => {
             <button onClick={() => handleScrollToSection('features')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.features')}</button>
             <Link to="/tutorials" className="text-slate-600 hover:text-blue-800 font-medium transition-colors">Tutoriais</Link>
             <button onClick={() => handleScrollToSection('pricing')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.pricing')}</button>
-            <button onClick={() => handleScrollToSection('contact')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.contact')}</button>
+            <button onClick={handleWhatsAppContact} className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.contact')}</button>
             <LanguageSelector />
             <div className="flex gap-3 ml-4">
               <Link to="/login">
@@ -74,7 +82,7 @@ const LandingNavbar = () => {
               <button onClick={() => handleScrollToSection('features')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2 text-left">{t('nav.features')}</button>
               <Link to="/tutorials" className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2">Tutoriais</Link>
               <button onClick={() => handleScrollToSection('pricing')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2 text-left">{t('nav.pricing')}</button>
-              <button onClick={() => handleScrollToSection('contact')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2 text-left">{t('nav.contact')}</button>
+              <button onClick={handleWhatsAppContact} className="text-slate-600 hover:text-blue-800 font-medium transition-colors py-2 text-left">{t('nav.contact')}</button>
               <div className="py-2">
                 <LanguageSelector />
               </div>

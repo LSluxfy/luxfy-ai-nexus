@@ -275,12 +275,12 @@
     "savings": "Economize {{amount}} ao ano",
     "equivalentPerMonth": "≈ {{amount}}/mês",
     "features": {
-      "agents": "agentes",
+      "agents": "agente",
       "crm": "CRM Visual com Kanban",
       "ai": "Agente de IA treinável",
       "unlimited": "Conversas ilimitadas",
       "calendar": "Integração com agenda",
-      "campaigns": "Gestor de campanhas",
+      "campaigns": "Disparo em massa",
       "support": "Suporte prioritário"
     },
     "bestSeller": "Mais vendido",
