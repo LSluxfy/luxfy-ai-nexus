@@ -4,20 +4,20 @@ import { ArrowRight, Users, TrendingUp, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import AnimatedChatMockup from './AnimatedChatMockup';
-
 const HeroSection = () => {
-  const { t } = useTranslation();
+  const {
+    t
+  } = useTranslation();
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
-  const words = t('hero.words', { returnObjects: true }) as string[] || ['vendedor', 'SDR', 'atendente'];
-
+  const words = t('hero.words', {
+    returnObjects: true
+  }) as string[] || ['vendedor', 'SDR', 'atendente'];
   useEffect(() => {
     const currentWord = words[currentWordIndex];
-    
     const typeSpeed = isDeleting ? 100 : 150;
     const pauseTime = isDeleting ? 500 : 2000;
-
     const timer = setTimeout(() => {
       if (!isDeleting && displayText === currentWord) {
         // Palavra completa, aguardar e começar a apagar
@@ -25,7 +25,7 @@ const HeroSection = () => {
       } else if (isDeleting && displayText === '') {
         // Texto apagado, ir para próxima palavra
         setIsDeleting(false);
-        setCurrentWordIndex((prev) => (prev + 1) % words.length);
+        setCurrentWordIndex(prev => (prev + 1) % words.length);
       } else if (isDeleting) {
         // Apagando caracteres
         setDisplayText(currentWord.substring(0, displayText.length - 1));
@@ -34,12 +34,9 @@ const HeroSection = () => {
         setDisplayText(currentWord.substring(0, displayText.length + 1));
       }
     }, typeSpeed);
-
     return () => clearTimeout(timer);
   }, [currentWordIndex, displayText, isDeleting, words]);
-
-  return (
-    <section className="relative min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
+  return <section className="relative min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-900/50 to-slate-900"></div>
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
@@ -70,17 +67,12 @@ const HeroSection = () => {
             {/* CTA Button */}
             <div className="space-y-4">
               <a href="#pricing">
-                <Button 
-                  size="lg" 
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold group transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/25"
-                >
+                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold group transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/25">
                   {t('hero.cta')}
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </a>
-              <p className="text-sm text-slate-400">
-                {t('hero.testimonial')}
-              </p>
+              
             </div>
 
             {/* Stats */}
@@ -115,8 +107,6 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroSection;
