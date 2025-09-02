@@ -8,15 +8,35 @@ import AnimatedChatMockup from './AnimatedChatMockup';
 const HeroSection = () => {
   const { t } = useTranslation();
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
   const words = ['vendedor', 'SDR', 'atendente'];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentWordIndex((prev) => (prev + 1) % words.length);
-    }, 2000);
+    const currentWord = words[currentWordIndex];
+    
+    const typeSpeed = isDeleting ? 100 : 150;
+    const pauseTime = isDeleting ? 500 : 2000;
 
-    return () => clearInterval(interval);
-  }, []);
+    const timer = setTimeout(() => {
+      if (!isDeleting && displayText === currentWord) {
+        // Palavra completa, aguardar e começar a apagar
+        setTimeout(() => setIsDeleting(true), pauseTime);
+      } else if (isDeleting && displayText === '') {
+        // Texto apagado, ir para próxima palavra
+        setIsDeleting(false);
+        setCurrentWordIndex((prev) => (prev + 1) % words.length);
+      } else if (isDeleting) {
+        // Apagando caracteres
+        setDisplayText(currentWord.substring(0, displayText.length - 1));
+      } else {
+        // Digitando caracteres
+        setDisplayText(currentWord.substring(0, displayText.length + 1));
+      }
+    }, typeSpeed);
+
+    return () => clearTimeout(timer);
+  }, [currentWordIndex, displayText, isDeleting, words]);
 
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
@@ -24,17 +44,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-900/50 to-slate-900"></div>
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
-      <div className="container mx-auto px-4 py-12 relative z-10">
-        {/* Logo */}
-        <div className="flex items-center justify-center mb-16">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">L</span>
-            </div>
-            <span className="text-white text-2xl font-bold">Luxfy</span>
-          </div>
-        </div>
-
+      <div className="container mx-auto px-4 py-20 relative z-10">
         {/* Main Content */}
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[600px]">
           {/* Left Column - Text Content */}
@@ -42,14 +52,12 @@ const HeroSection = () => {
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                 Clone seu melhor{' '}
-                <span className="relative inline-block">
-                  <span 
-                    key={currentWordIndex}
-                    className="text-blue-400 animate-fade-in"
-                  >
-                    {words[currentWordIndex]}
-                  </span>
-                </span>
+                 <span className="relative inline-block">
+                   <span className="text-blue-400">
+                     {displayText}
+                     <span className="animate-pulse">|</span>
+                   </span>
+                 </span>
                 <br />
                 com IA
               </h1>

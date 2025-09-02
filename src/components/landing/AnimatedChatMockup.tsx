@@ -25,14 +25,29 @@ const AnimatedChatMockup = () => {
   useEffect(() => {
     const showMessages = async () => {
       for (let i = 0; i < messages.length; i++) {
-        if (i > 0) {
+        // Delay inicial maior para primeira mensagem
+        const initialDelay = i === 0 ? 1000 : 0;
+        await new Promise(resolve => setTimeout(resolve, initialDelay));
+        
+        // Mostrar indicador de digitação apenas para mensagens da IA
+        if (!messages[i].isUser) {
           setIsTyping(true);
-          await new Promise(resolve => setTimeout(resolve, 1500));
+          // Tempo de digitação baseado no tamanho da mensagem
+          const typingTime = Math.max(2000, messages[i].text.length * 50);
+          await new Promise(resolve => setTimeout(resolve, typingTime));
           setIsTyping(false);
         }
         
+        // Mostrar a mensagem
         setVisibleMessages(prev => [...prev, messages[i].id]);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Pausa após mensagem do usuário (simula leitura)
+        if (messages[i].isUser) {
+          await new Promise(resolve => setTimeout(resolve, 1500));
+        } else {
+          // Pausa menor após mensagem da IA
+          await new Promise(resolve => setTimeout(resolve, 800));
+        }
       }
     };
 
