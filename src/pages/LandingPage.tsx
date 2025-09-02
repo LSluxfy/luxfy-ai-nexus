@@ -11,6 +11,7 @@ import LandingNavbar from '@/components/LandingNavbar';
 import LandingFooter from '@/components/LandingFooter';
 import { useTranslation, Trans } from 'react-i18next';
 
+import HeroSection from '@/components/landing/HeroSection';
 import ExamplesShowcase from '@/components/landing/ExamplesShowcase';
 import PricingV2 from '@/components/landing/PricingV2';
 import Testimonials from '@/components/landing/Testimonials';
@@ -97,23 +98,7 @@ const LandingPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
-      {/* Animated background effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-96 h-96 bg-slate-900/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-500/8 rounded-full blur-3xl animate-pulse delay-2000"></div>
-        
-        {/* Circuit-like grid */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="w-full h-full" style={{
-            backgroundImage: `linear-gradient(rgba(30, 58, 138, 0.3) 1px, transparent 1px),
-                             linear-gradient(90deg, rgba(30, 58, 138, 0.3) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px'
-          }}></div>
-        </div>
-      </div>
-
+    <div className="min-h-screen">
       <Helmet>
         <title>{t('seo.landing.title')}</title>
         <meta name="description" content={t('seo.landing.description')} />
@@ -122,21 +107,40 @@ const LandingPage = () => {
 
       <LandingNavbar />
       
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4">
-        <div className="container mx-auto text-center relative z-10">
-          {/* AI pulse indicator */}
-          <div className="flex justify-center mb-8">
-            <div className="relative">
-              <img src="/lovable-uploads/c0e6c735-5382-4c0e-81ee-5c39577c240d.png" alt="Luxfy Logo" className="w-16 h-16 animate-spin" style={{ animationDuration: '3s' }} />
-            </div>
-          </div>
+      {/* New Hero Section */}
+      <HeroSection />
 
-          <h1 className="text-3xl md:text-7xl font-bold text-slate-900 mb-6 md:mb-8 leading-tight">
-            <span className="bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
-              {t('hero.title')}
-            </span>
-          </h1>
+      {/* Video Section */}
+      <section id="video" className="relative py-20 px-4 bg-white">
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-40 right-20 w-96 h-96 bg-slate-900/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-500/8 rounded-full blur-3xl animate-pulse delay-2000"></div>
+          
+          {/* Circuit-like grid */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="w-full h-full" style={{
+              backgroundImage: `linear-gradient(rgba(30, 58, 138, 0.3) 1px, transparent 1px),
+                               linear-gradient(90deg, rgba(30, 58, 138, 0.3) 1px, transparent 1px)`,
+              backgroundSize: '50px 50px'
+            }}></div>
+          </div>
+        </div>
+
+        <div className="container mx-auto text-center relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-blue-800/10 backdrop-blur-sm border border-blue-800/20 rounded-full px-6 py-2 mb-6">
+              <Cpu className="w-5 h-5 text-blue-800" />
+              <span className="text-blue-800 font-medium">Demonstração</span>
+            </div>
+            
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+              Veja nossa IA em ação
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Assista como transformamos conversas em vendas automatizadas
+            </p>
+          </div>
 
           {/* VSL com moldura de neon */}
           <div className="relative max-w-4xl mx-auto mb-8">
@@ -167,11 +171,7 @@ const LandingPage = () => {
             </div>
           </div>
           
-          <p className="text-xl text-slate-600 mb-12 max-w-4xl mx-auto leading-relaxed">
-            {t('hero.subtitle')}
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link to="/login">
               <Button 
                 size="lg" 
@@ -182,22 +182,6 @@ const LandingPage = () => {
                 {t('hero.login')}
               </Button>
             </Link>
-          </div>
-          
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 max-w-md mx-auto">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-800">500+</div>
-              <div className="text-sm text-slate-500">Empresas</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-800">99.9%</div>
-              <div className="text-sm text-slate-500">Uptime</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-800">24/7</div>
-              <div className="text-sm text-slate-500">IA Ativa</div>
-            </div>
           </div>
         </div>
       </section>
