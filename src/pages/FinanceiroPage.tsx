@@ -9,10 +9,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InvoiceList } from '@/components/financial/InvoiceList';
 import { useInvoices } from '@/hooks/use-invoices';
 import { InvoiceService } from '@/services/invoiceService';
+import { useTranslation } from 'react-i18next';
 
 const FinanceiroPage = () => {
+  const { t } = useTranslation();
+  
   const [currentPlan] = useState({
-    name: 'Plano Básico',
+    name: t('financial.plans.basic'),
     price: '$22,00',
     period: 'mensal',
     features: ['1 Agente', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario']
@@ -20,14 +23,14 @@ const FinanceiroPage = () => {
 
   const [availablePlans] = useState([
     {
-      name: 'Básico',
+      name: t('financial.plans.basic'),
       price: '$22',
       period: '/mês',
       current: true,
       features: ['1 Agente', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario']
     },
     {
-      name: 'Pro',
+      name: t('financial.plans.pro'),
       price: '$39',
       period: '/mês',
       current: false,
@@ -35,7 +38,7 @@ const FinanceiroPage = () => {
       features: ['3 Agentes', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario']
     },
     {
-      name: 'Premium',
+      name: t('financial.plans.premium'),
       price: '$79',
       period: '/mês',
       current: false,
@@ -67,19 +70,19 @@ const FinanceiroPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <DashboardHeader title="Financeiro" />
+      <DashboardHeader title={t('financial.title')} />
       
       <main className="flex-1 p-6 bg-gray-50">
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800">Gerenciamento Financeiro</h2>
-          <p className="text-gray-600">Gerencie seu plano, faturas e faça upgrades</p>
+          <h2 className="text-2xl font-bold text-gray-800">{t('financial.subtitle')}</h2>
+          <p className="text-gray-600">{t('financial.description')}</p>
         </div>
 
         <Tabs defaultValue="plan" className="w-full">
           <TabsList className="grid grid-cols-3 mb-8">
-            <TabsTrigger value="plan">Plano Atual</TabsTrigger>
-            <TabsTrigger value="upgrade">Fazer Upgrade</TabsTrigger>
-            <TabsTrigger value="invoices">Faturas</TabsTrigger>
+            <TabsTrigger value="plan">{t('financial.tabs.currentPlan')}</TabsTrigger>
+            <TabsTrigger value="upgrade">{t('financial.tabs.upgrade')}</TabsTrigger>
+            <TabsTrigger value="invoices">{t('financial.tabs.invoices')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="plan" className="space-y-6">
@@ -88,7 +91,7 @@ const FinanceiroPage = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <CreditCard className="h-5 w-5" />
-                    Plano Atual
+                    {t('financial.currentPlan.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -96,16 +99,16 @@ const FinanceiroPage = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-xl font-bold">{currentPlan.name}</h3>
-                        <p className="text-gray-600">Renovação automática ativa</p>
+                        <p className="text-gray-600">{t('financial.currentPlan.autoRenewal')}</p>
                       </div>
                       <div className="text-right">
                         <div className="text-2xl font-bold text-luxfy-purple">{currentPlan.price}</div>
-                        <div className="text-sm text-gray-500">por mês</div>
+                        <div className="text-sm text-gray-500">{t('financial.currentPlan.perMonth')}</div>
                       </div>
                     </div>
                     
                     <div className="border-t pt-4">
-                      <h4 className="font-medium mb-2">Recursos Inclusos:</h4>
+                      <h4 className="font-medium mb-2">{t('financial.currentPlan.includedFeatures')}</h4>
                       <ul className="space-y-1">
                         {currentPlan.features.map((feature, index) => (
                           <li key={index} className="flex items-center gap-2 text-sm">
@@ -119,16 +122,16 @@ const FinanceiroPage = () => {
                     {/* Estatísticas de Faturas */}
                     {stats && (
                       <div className="border-t pt-4">
-                        <h4 className="font-medium mb-2">Resumo Financeiro:</h4>
+                        <h4 className="font-medium mb-2">{t('financial.currentPlan.financialSummary')}</h4>
                         <div className="grid grid-cols-2 gap-4 text-sm">
                           <div>
-                            <span className="text-gray-500">Total Pago:</span>
+                            <span className="text-gray-500">{t('financial.currentPlan.totalPaid')}</span>
                             <div className="font-medium text-green-600">
                               {formatCurrency(stats.totalPaid)}
                             </div>
                           </div>
                           <div>
-                            <span className="text-gray-500">Pendente:</span>
+                            <span className="text-gray-500">{t('financial.currentPlan.pending')}</span>
                             <div className="font-medium text-yellow-600">
                               {formatCurrency(stats.totalPending)}
                             </div>
@@ -138,10 +141,10 @@ const FinanceiroPage = () => {
                     )}
 
                     <div className="flex gap-2 pt-4">
-                      <Button variant="outline">Cancelar Plano</Button>
+                      <Button variant="outline">{t('financial.currentPlan.cancelPlan')}</Button>
                       <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
                         <ArrowUpRight className="mr-2 h-4 w-4" />
-                        Fazer Upgrade
+                        {t('financial.currentPlan.makeUpgrade')}
                       </Button>
                     </div>
                   </div>
@@ -152,39 +155,39 @@ const FinanceiroPage = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Calendar className="h-5 w-5" />
-                    Próxima Cobrança
+                    {t('financial.nextBilling.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     {nextPayment ? (
                       <>
-                        <div className="text-center">
-                          <div className="text-2xl font-bold">
-                            {calculateDaysUntilDue(nextPayment.dueDate!)} dias
-                          </div>
-                          <div className="text-sm text-gray-500">para vencimento</div>
-                        </div>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex justify-between">
-                            <span>Data:</span>
-                            <span>{formatDate(nextPayment.dueDate!)}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Valor:</span>
-                            <span className="font-medium">{formatCurrency(nextPayment.amount)}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Descrição:</span>
-                            <span className="text-xs">{nextPayment.description}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Status:</span>
-                            <Badge className={InvoiceService.getStatusColor(nextPayment.status)}>
-                              {InvoiceService.getStatusText(nextPayment.status)}
-                            </Badge>
-                          </div>
-                        </div>
+                          <div className="text-center">
+                           <div className="text-2xl font-bold">
+                             {calculateDaysUntilDue(nextPayment.dueDate!)} {t('financial.nextBilling.daysUntilDue')}
+                           </div>
+                           <div className="text-sm text-gray-500">{t('financial.nextBilling.untilDue')}</div>
+                         </div>
+                         <div className="space-y-2 text-sm">
+                           <div className="flex justify-between">
+                             <span>{t('financial.nextBilling.date')}</span>
+                             <span>{formatDate(nextPayment.dueDate!)}</span>
+                           </div>
+                           <div className="flex justify-between">
+                             <span>{t('financial.nextBilling.amount')}</span>
+                             <span className="font-medium">{formatCurrency(nextPayment.amount)}</span>
+                           </div>
+                           <div className="flex justify-between">
+                             <span>{t('financial.nextBilling.description')}</span>
+                             <span className="text-xs">{nextPayment.description}</span>
+                           </div>
+                           <div className="flex justify-between">
+                             <span>{t('financial.nextBilling.status')}</span>
+                             <Badge className={InvoiceService.getStatusColor(nextPayment.status)}>
+                               {InvoiceService.getStatusText(nextPayment.status)}
+                             </Badge>
+                           </div>
+                         </div>
                       </>
                     ) : (
                       <div className="text-center py-4">

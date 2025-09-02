@@ -9,25 +9,28 @@ import ClientMetrics from '@/components/analytics/ClientMetrics';
 import TagAnalytics from '@/components/analytics/TagAnalytics';
 import PerformanceChart from '@/components/analytics/PerformanceChart';
 import ResponseTimeChart from '@/components/analytics/ResponseTimeChart';
+import { useTranslation } from 'react-i18next';
 
 const AnalyticsPage = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col min-h-screen">
-      <DashboardHeader title="Análises e Métricas" />
+      <DashboardHeader title={t('analytics.title')} />
       
       <main className="flex-1 p-6 bg-gray-50">
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800">Dashboard de Análises</h2>
-          <p className="text-gray-600">Acompanhe o desempenho dos seus agentes de IA e métricas de atendimento</p>
+          <h2 className="text-2xl font-bold text-gray-800">{t('analytics.subtitle')}</h2>
+          <p className="text-gray-600">{t('analytics.description')}</p>
         </div>
 
         <Tabs defaultValue="overview" className="w-full space-y-6">
           <TabsList className="grid grid-cols-5 mb-8">
-            <TabsTrigger value="overview">Visão Geral</TabsTrigger>
-            <TabsTrigger value="conversations">Conversas</TabsTrigger>
-            <TabsTrigger value="clients">Clientes</TabsTrigger>
-            <TabsTrigger value="tags">Tags</TabsTrigger>
-            <TabsTrigger value="performance">Performance</TabsTrigger>
+            <TabsTrigger value="overview">{t('analytics.tabs.overview')}</TabsTrigger>
+            <TabsTrigger value="conversations">{t('analytics.tabs.conversations')}</TabsTrigger>
+            <TabsTrigger value="clients">{t('analytics.tabs.clients')}</TabsTrigger>
+            <TabsTrigger value="tags">{t('analytics.tabs.tags')}</TabsTrigger>
+            <TabsTrigger value="performance">{t('analytics.tabs.performance')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">

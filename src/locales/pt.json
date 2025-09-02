@@ -338,6 +338,153 @@
     "badge": "Demonstração",
     "title": "Veja nossa IA em ação",
     "description": "Assista como transformamos conversas em vendas automatizadas"
+  },
+  "tutorials": {
+    "page": {
+      "title": "Tutoriais Luxfy",
+      "description": "Aprenda a aproveitar ao máximo todas as funcionalidades da nossa plataforma de IA para WhatsApp com nossos tutoriais passo a passo.",
+      "startNow": "Começar agora",
+      "haveAccount": "Já tenho conta",
+      "topicsCovered": "Tópicos abordados:",
+      "seoTitle": "Tutoriais - Como usar o Luxfy | Guias em Vídeo",
+      "seoDescription": "Aprenda a usar todas as funcionalidades da plataforma Luxfy com nossos tutoriais em vídeo gratuitos. Agentes de IA, CRM, automação e muito mais.",
+      "internalTitle": "Tutoriais da Plataforma",
+      "internalDescription": "Aprenda a aproveitar ao máximo todas as funcionalidades da Luxfy com nossos tutoriais passo a passo."
+    },
+    "categories": {
+      "welcome": {
+        "title": "Bem-vindos",
+        "description": "Introdução à plataforma Luxfy e como começar",
+        "topics": [
+          "Visão geral da plataforma",
+          "Primeiro acesso e configuração",
+          "Navegação básica",
+          "Dicas para começar"
+        ]
+      },
+      "agents": {
+        "title": "Agentes",
+        "description": "Como criar e configurar seus agentes de IA",
+        "topics": [
+          "Criação de agentes",
+          "Configurações básicas",
+          "Treinamento e personalização",
+          "Gerenciamento de múltiplos agentes"
+        ]
+      },
+      "voice": {
+        "title": "Voz Personalizável",
+        "description": "Configure vozes únicas para seus agentes",
+        "topics": [
+          "Seleção de vozes",
+          "Personalização de tom",
+          "Configurações de áudio",
+          "Testes de qualidade"
+        ]
+      },
+      "crmChat": {
+        "title": "CRM e Chat",
+        "description": "Gerencie leads e conversas em tempo real",
+        "topics": [
+          "Configuração do CRM",
+          "Gestão de leads",
+          "Interface de chat",
+          "Histórico de conversas"
+        ]
+      },
+      "schedule": {
+        "title": "Agenda Inteligente",
+        "description": "Automatize agendamentos com IA",
+        "topics": [
+          "Configuração de horários",
+          "Integração com calendários",
+          "Automatização de agendamentos",
+          "Gestão de disponibilidade"
+        ]
+      },
+      "campaigns": {
+        "title": "Campanhas Marketing",
+        "description": "Crie e gerencie campanhas automatizadas",
+        "topics": [
+          "Criação de campanhas",
+          "Segmentação de público",
+          "Automação de marketing",
+          "Métricas de performance"
+        ]
+      },
+      "analytics": {
+        "title": "Análises e Métricas",
+        "description": "Monitore performance e resultados",
+        "topics": [
+          "Dashboard de métricas",
+          "Relatórios de performance",
+          "Análise de conversões",
+          "Insights de IA"
+        ]
+      }
+    }
+  },
+  "financial": {
+    "title": "Financeiro",
+    "subtitle": "Gerenciamento Financeiro",
+    "description": "Gerencie seu plano, faturas e faça upgrades",
+    "tabs": {
+      "currentPlan": "Plano Atual",
+      "upgrade": "Fazer Upgrade", 
+      "invoices": "Faturas"
+    },
+    "currentPlan": {
+      "title": "Plano Atual",
+      "autoRenewal": "Renovação automática ativa",
+      "perMonth": "por mês",
+      "includedFeatures": "Recursos Inclusos:",
+      "financialSummary": "Resumo Financeiro:",
+      "totalPaid": "Total Pago:",
+      "pending": "Pendente:",
+      "cancelPlan": "Cancelar Plano",
+      "makeUpgrade": "Fazer Upgrade"
+    },
+    "nextBilling": {
+      "title": "Próxima Cobrança",
+      "daysUntilDue": "dias",
+      "untilDue": "para vencimento",
+      "date": "Data:",
+      "amount": "Valor:",
+      "description": "Descrição:",
+      "status": "Status:",
+      "noPending": "Nenhuma cobrança pendente",
+      "changeMethod": "Alterar Método"
+    },
+    "plans": {
+      "basic": "Básico",
+      "pro": "Pro", 
+      "premium": "Premium",
+      "mostPopular": "Mais Popular",
+      "currentPlan": "Plano Atual",
+      "makeUpgrade": "Fazer Upgrade"
+    }
+  },
+  "analytics": {
+    "title": "Análises",
+    "subtitle": "Análises e Métricas de IA",
+    "description": "Monitore o desempenho e obtenha insights dos seus agentes de IA",
+    "tabs": {
+      "overview": "Visão Geral",
+      "conversations": "Conversas", 
+      "clients": "Clientes",
+      "tags": "Tags",
+      "performance": "Performance"
+    }
+  },
+  "settings": {
+    "title": "Configurações",
+    "subtitle": "Configurações da Conta",
+    "description": "Gerencie suas informações pessoais, agentes e configurações de segurança",
+    "tabs": {
+      "account": "Conta",
+      "agents": "Agentes",
+      "security": "Segurança"
+    }
   }
 }
 

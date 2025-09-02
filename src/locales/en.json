@@ -338,6 +338,153 @@
     "badge": "Demonstration",
     "title": "See our AI in action",
     "description": "Watch how we transform conversations into automated sales"
+  },
+  "tutorials": {
+    "page": {
+      "title": "Luxfy Tutorials",
+      "description": "Learn to make the most of all functionalities of our AI platform for WhatsApp with our step-by-step tutorials.",
+      "startNow": "Get started now",
+      "haveAccount": "I already have an account",
+      "topicsCovered": "Topics covered:",
+      "seoTitle": "Tutorials - How to use Luxfy | Video Guides",
+      "seoDescription": "Learn to use all Luxfy platform functionalities with our free video tutorials. AI Agents, CRM, automation and much more.",
+      "internalTitle": "Platform Tutorials",
+      "internalDescription": "Learn to make the most of all Luxfy functionalities with our step-by-step tutorials."
+    },
+    "categories": {
+      "welcome": {
+        "title": "Welcome",
+        "description": "Introduction to Luxfy platform and how to get started",
+        "topics": [
+          "Platform overview",
+          "First access and setup",
+          "Basic navigation",
+          "Tips to get started"
+        ]
+      },
+      "agents": {
+        "title": "Agents",
+        "description": "How to create and configure your AI agents",
+        "topics": [
+          "Agent creation",
+          "Basic configurations",
+          "Training and customization",
+          "Multiple agents management"
+        ]
+      },
+      "voice": {
+        "title": "Custom Voice",
+        "description": "Configure unique voices for your agents",
+        "topics": [
+          "Voice selection",
+          "Tone customization",
+          "Audio settings",
+          "Quality testing"
+        ]
+      },
+      "crmChat": {
+        "title": "CRM and Chat",
+        "description": "Manage leads and conversations in real time",
+        "topics": [
+          "CRM configuration",
+          "Lead management",
+          "Chat interface",
+          "Conversation history"
+        ]
+      },
+      "schedule": {
+        "title": "Smart Schedule",
+        "description": "Automate appointments with AI",
+        "topics": [
+          "Schedule configuration",
+          "Calendar integration",
+          "Appointment automation",
+          "Availability management"
+        ]
+      },
+      "campaigns": {
+        "title": "Marketing Campaigns",
+        "description": "Create and manage automated campaigns",
+        "topics": [
+          "Campaign creation",
+          "Audience segmentation",
+          "Marketing automation",
+          "Performance metrics"
+        ]
+      },
+      "analytics": {
+        "title": "Analytics and Metrics",
+        "description": "Monitor performance and results",
+        "topics": [
+          "Metrics dashboard",
+          "Performance reports",
+          "Conversion analysis",
+          "AI insights"
+        ]
+      }
+    }
+  },
+  "financial": {
+    "title": "Financial",
+    "subtitle": "Financial Management",
+    "description": "Manage your plan, invoices and make upgrades",
+    "tabs": {
+      "currentPlan": "Current Plan",
+      "upgrade": "Upgrade", 
+      "invoices": "Invoices"
+    },
+    "currentPlan": {
+      "title": "Current Plan",
+      "autoRenewal": "Auto renewal active",
+      "perMonth": "per month",
+      "includedFeatures": "Included Features:",
+      "financialSummary": "Financial Summary:",
+      "totalPaid": "Total Paid:",
+      "pending": "Pending:",
+      "cancelPlan": "Cancel Plan",
+      "makeUpgrade": "Upgrade"
+    },
+    "nextBilling": {
+      "title": "Next Billing",
+      "daysUntilDue": "days",
+      "untilDue": "until due",
+      "date": "Date:",
+      "amount": "Amount:",
+      "description": "Description:",
+      "status": "Status:",
+      "noPending": "No pending charges",
+      "changeMethod": "Change Method"
+    },
+    "plans": {
+      "basic": "Basic",
+      "pro": "Pro", 
+      "premium": "Premium",
+      "mostPopular": "Most Popular",
+      "currentPlan": "Current Plan",
+      "makeUpgrade": "Upgrade"
+    }
+  },
+  "analytics": {
+    "title": "Analytics",
+    "subtitle": "AI Analytics and Metrics",
+    "description": "Monitor performance and get insights from your AI agents",
+    "tabs": {
+      "overview": "Overview",
+      "conversations": "Conversations", 
+      "clients": "Clients",
+      "tags": "Tags",
+      "performance": "Performance"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Account Settings",
+    "description": "Manage your personal information, agents and security settings",
+    "tabs": {
+      "account": "Account",
+      "agents": "Agents",
+      "security": "Security"
+    }
   }
 }
 
