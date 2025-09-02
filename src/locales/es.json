@@ -9,11 +9,47 @@
     "register": "Registrarse"
   },
   "hero": {
-    "title": "Automatiza tu atención al cliente con Inteligencia Artificial",
-    "subtitle": "La plataforma completa para automatización de atención al cliente con IA, CRM visual y campañas de marketing que ayudan a escalar tu negocio.",
-    "startFree": "Comenzar Gratis",
-    "login": "Iniciar Sesión",
-    "companiesUsing": "+500 empresas usan Luxfy"
+    "title": "Clona tu mejor",
+    "subtitle": "con IA",
+    "description": "Transforma tus conversaciones en ventas automatizadas. Nuestra IA aprende de tus mejores vendedores y convierte leads 24/7 en WhatsApp.",
+    "cta": "Prueba Gratis",
+    "testimonial": "✨ Sin tarjeta de crédito • 7 días gratis",
+    "words": ["vendedor", "SDR", "agente"],
+    "stats": {
+      "companies": "Empresas activas",
+      "conversion": "Tasa de conversión",
+      "availability": "Disponibilidad"
+    },
+    "chat": {
+      "header": {
+        "name": "Agente IA Luxfy",
+        "status": "en línea"
+      },
+      "messages": [
+        {
+          "text": "¡Buenas tardes, Pedro! ¿Cómo estás? Soy María de Luxfy, vi que te interesaste en nuestros agentes de IA. ¿Puedo ayudarte?",
+          "isUser": true
+        },
+        {
+          "text": "¡Hola María! ¡Todo excelente! Sí, estoy interesado en saber más sobre cómo funciona.",
+          "isUser": false
+        },
+        {
+          "text": "¡Perfecto! Nuestra IA puede automatizar el 100% de tu atención al cliente en WhatsApp. ¿Qué tipo de negocio tienes?",
+          "isUser": false
+        },
+        {
+          "text": "Tengo una tienda de ropa online",
+          "isUser": true
+        },
+        {
+          "text": "¡Excelente! Para tiendas como la tuya, nuestros clientes aumentan las ventas hasta un 300%. ¿Te gustaría ver una demostración?",
+          "isUser": false
+        }
+      ],
+      "placeholder": "Escribe un mensaje",
+      "typing": "escribiendo..."
+    }
   },
   "features": {
     "title": "Todo lo que necesitas en una plataforma",

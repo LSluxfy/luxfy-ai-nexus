@@ -10,7 +10,7 @@ const HeroSection = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
-  const words = ['vendedor', 'SDR', 'atendente'];
+  const words = t('hero.words', { returnObjects: true }) as string[] || ['vendedor', 'SDR', 'atendente'];
 
   useEffect(() => {
     const currentWord = words[currentWordIndex];
@@ -51,7 +51,7 @@ const HeroSection = () => {
           <div className="space-y-8">
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                Clone seu melhor{' '}
+                {t('hero.title')}{' '}
                  <span className="relative inline-block">
                    <span className="text-blue-400">
                      {displayText}
@@ -59,12 +59,11 @@ const HeroSection = () => {
                    </span>
                  </span>
                 <br />
-                com IA
+                {t('hero.subtitle')}
               </h1>
               
               <p className="text-xl text-slate-300 leading-relaxed max-w-lg">
-                Transforme suas conversas em vendas automatizadas. Nossa IA aprende com seus melhores 
-                vendedores e converte leads 24/7 no WhatsApp.
+                {t('hero.description')}
               </p>
             </div>
 
@@ -75,12 +74,12 @@ const HeroSection = () => {
                   size="lg" 
                   className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold group transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/25"
                 >
-                  Experimente Grátis
+                  {t('hero.cta')}
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
               <p className="text-sm text-slate-400">
-                ✨ Sem cartão de crédito • 7 dias grátis
+                {t('hero.testimonial')}
               </p>
             </div>
 
@@ -91,21 +90,21 @@ const HeroSection = () => {
                   <Users className="h-5 w-5 text-blue-400 mr-2" />
                   <span className="text-2xl font-bold text-white">500+</span>
                 </div>
-                <p className="text-sm text-slate-400">Empresas ativas</p>
+                <p className="text-sm text-slate-400">{t('hero.stats.companies')}</p>
               </div>
               <div className="text-center">
                 <div className="flex items-center justify-center mb-2">
                   <TrendingUp className="h-5 w-5 text-green-400 mr-2" />
                   <span className="text-2xl font-bold text-white">85%</span>
                 </div>
-                <p className="text-sm text-slate-400">Taxa de conversão</p>
+                <p className="text-sm text-slate-400">{t('hero.stats.conversion')}</p>
               </div>
               <div className="text-center">
                 <div className="flex items-center justify-center mb-2">
                   <Clock className="h-5 w-5 text-purple-400 mr-2" />
                   <span className="text-2xl font-bold text-white">24/7</span>
                 </div>
-                <p className="text-sm text-slate-400">Disponibilidade</p>
+                <p className="text-sm text-slate-400">{t('hero.stats.availability')}</p>
               </div>
             </div>
           </div>

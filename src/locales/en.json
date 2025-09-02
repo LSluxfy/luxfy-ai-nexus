@@ -9,11 +9,47 @@
     "register": "Sign Up"
   },
   "hero": {
-    "title": "Automate your customer service with Artificial Intelligence",
-    "subtitle": "The complete platform for AI customer service automation, visual CRM, and marketing campaigns that help scale your business.",
-    "startFree": "Start Free",
-    "login": "Login",
-    "companiesUsing": "+500 companies use Luxfy"
+    "title": "Clone your best",
+    "subtitle": "with AI",
+    "description": "Transform your conversations into automated sales. Our AI learns from your best salespeople and converts leads 24/7 on WhatsApp.",
+    "cta": "Try Free",
+    "testimonial": "✨ No credit card • 7 days free",
+    "words": ["salesperson", "SDR", "agent"],
+    "stats": {
+      "companies": "Active companies",
+      "conversion": "Conversion rate",
+      "availability": "Availability"
+    },
+    "chat": {
+      "header": {
+        "name": "Luxfy AI Agent",
+        "status": "online"
+      },
+      "messages": [
+        {
+          "text": "Good afternoon, Peter! How are you? I'm Maria from Luxfy, I saw you were interested in our AI agents. Can I help you?",
+          "isUser": true
+        },
+        {
+          "text": "Hi Maria! Everything's great! Yes, I'm interested in learning more about how it works.",
+          "isUser": false
+        },
+        {
+          "text": "Perfect! Our AI can automate 100% of your WhatsApp customer service. What kind of business do you have?",
+          "isUser": false
+        },
+        {
+          "text": "I have an online clothing store",
+          "isUser": true
+        },
+        {
+          "text": "Excellent! For stores like yours, our clients increase sales by up to 300%. Would you like to see a demo?",
+          "isUser": false
+        }
+      ],
+      "placeholder": "Type a message",
+      "typing": "typing..."
+    }
   },
   "features": {
     "title": "Everything you need in one platform",

@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Phone, Video, MoreVertical, ArrowLeft } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Video, Phone, MoreVertical, ArrowLeft } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { useInView } from '@/hooks/useInView';
 
 interface Message {
   id: number;
@@ -10,52 +12,70 @@ interface Message {
 }
 
 const AnimatedChatMockup = () => {
-  const [visibleMessages, setVisibleMessages] = useState<number[]>([]);
+  const { t } = useTranslation();
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(-1);
   const [isTyping, setIsTyping] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.3 });
 
-  const messages: Message[] = [
-    { id: 1, text: "Boa tarde, Pedro, tudo certinho?", isUser: true, timestamp: "14:25" },
-    { id: 2, text: "Oi, tudo ótimo! 👋", isUser: false, timestamp: "14:25" },
-    { id: 3, text: "🎵 Áudio (0:15)", isUser: true, timestamp: "14:26", isAudio: true },
-    { id: 4, text: "Aqui é o Matheus da Luxfy, você acabou de se cadastrar no nosso site, né?", isUser: false, timestamp: "14:27" },
-    { id: 5, text: "Isso mesmo! Queria saber mais sobre o produto.", isUser: true, timestamp: "14:28" },
-    { id: 6, text: "Perfeito! Posso agendar uma demonstração gratuita para você hoje às 16h?", isUser: false, timestamp: "14:28" },
-  ];
+  const messages: Message[] = t('hero.chat.messages', { returnObjects: true }) as Message[];
+
+  const animateMessages = useCallback(async () => {
+    if (isAnimating || messages.length === 0) return;
+    
+    setIsAnimating(true);
+    setCurrentMessageIndex(-1);
+    
+    // Delay inicial
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    for (let i = 0; i < messages.length; i++) {
+      const message = messages[i];
+      
+      // Mostrar indicador de digitação apenas para mensagens da IA
+      if (!message.isUser) {
+        setIsTyping(true);
+        // Tempo de digitação baseado no tamanho da mensagem
+        const typingTime = Math.max(1500, message.text.length * 30);
+        await new Promise(resolve => setTimeout(resolve, typingTime));
+        setIsTyping(false);
+      }
+      
+      // Mostrar a mensagem
+      setCurrentMessageIndex(i);
+      
+      // Pausa após mensagem do usuário (simula leitura)
+      if (message.isUser) {
+        await new Promise(resolve => setTimeout(resolve, 1200));
+      } else {
+        // Pausa menor após mensagem da IA
+        await new Promise(resolve => setTimeout(resolve, 800));
+      }
+    }
+    
+    // Pausa antes de reiniciar o loop
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    setIsAnimating(false);
+  }, [messages, isAnimating]);
 
   useEffect(() => {
-    const showMessages = async () => {
-      for (let i = 0; i < messages.length; i++) {
-        // Delay inicial maior para primeira mensagem
-        const initialDelay = i === 0 ? 1000 : 0;
-        await new Promise(resolve => setTimeout(resolve, initialDelay));
-        
-        // Mostrar indicador de digitação apenas para mensagens da IA
-        if (!messages[i].isUser) {
-          setIsTyping(true);
-          // Tempo de digitação baseado no tamanho da mensagem
-          const typingTime = Math.max(2000, messages[i].text.length * 50);
-          await new Promise(resolve => setTimeout(resolve, typingTime));
-          setIsTyping(false);
-        }
-        
-        // Mostrar a mensagem
-        setVisibleMessages(prev => [...prev, messages[i].id]);
-        
-        // Pausa após mensagem do usuário (simula leitura)
-        if (messages[i].isUser) {
-          await new Promise(resolve => setTimeout(resolve, 1500));
-        } else {
-          // Pausa menor após mensagem da IA
-          await new Promise(resolve => setTimeout(resolve, 800));
-        }
-      }
-    };
+    if (inView && messages.length > 0) {
+      animateMessages();
+    }
+  }, [inView, animateMessages, messages]);
 
-    showMessages();
-  }, []);
+  useEffect(() => {
+    if (!isAnimating && currentMessageIndex >= messages.length - 1 && inView) {
+      const restartTimer = setTimeout(() => {
+        animateMessages();
+      }, 2000);
+      
+      return () => clearTimeout(restartTimer);
+    }
+  }, [isAnimating, currentMessageIndex, messages.length, inView, animateMessages]);
 
   return (
-    <div className="relative w-[300px] mx-auto">
+    <div ref={ref} className={`relative w-[300px] mx-auto ${inView ? 'animate-enter' : ''}`}>
       {/* Phone Frame */}
       <div className="relative bg-slate-900 rounded-[2.5rem] p-2 shadow-2xl border border-slate-700">
         {/* Screen */}
@@ -77,8 +97,8 @@ const AnimatedChatMockup = () => {
               <span className="text-white font-semibold text-sm">AI</span>
             </div>
             <div className="flex-1">
-              <h3 className="text-white font-medium">Agente IA Luxfy</h3>
-              <p className="text-green-400 text-xs">online</p>
+              <h3 className="text-white font-medium">{t('hero.chat.header.name')}</h3>
+              <p className="text-green-400 text-xs">{t('hero.chat.header.status')}</p>
             </div>
             <div className="flex items-center gap-4 text-white">
               <Video className="w-5 h-5" />
@@ -89,12 +109,10 @@ const AnimatedChatMockup = () => {
 
           {/* Chat Messages */}
           <div className="bg-slate-800 h-[400px] p-4 space-y-3 overflow-hidden">
-            {messages.map((message) => (
+            {messages.slice(0, currentMessageIndex + 1).map((message, index) => (
               <div
-                key={message.id}
-                className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} ${
-                  visibleMessages.includes(message.id) ? 'animate-fade-in' : 'opacity-0'
-                }`}
+                key={index}
+                className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}
               >
                 <div
                   className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm ${
@@ -113,7 +131,7 @@ const AnimatedChatMockup = () => {
                     <p>{message.text}</p>
                   )}
                   <div className="flex justify-end mt-1">
-                    <span className="text-xs opacity-75">{message.timestamp}</span>
+                    <span className="text-xs opacity-75">14:{32 + index}</span>
                     {message.isUser && (
                       <span className="ml-1 text-blue-300 text-xs">✓✓</span>
                     )}
@@ -127,10 +145,11 @@ const AnimatedChatMockup = () => {
               <div className="flex justify-start animate-fade-in">
                 <div className="bg-slate-600 text-white px-3 py-2 rounded-2xl rounded-bl-md">
                   <div className="flex items-center gap-1">
-                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-pulse"></div>
-                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-pulse [animation-delay:0.2s]"></div>
-                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-pulse [animation-delay:0.4s]"></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                   </div>
+                  <p className="text-xs text-slate-400 mt-1">{t('hero.chat.typing')}</p>
                 </div>
               </div>
             )}
@@ -139,7 +158,7 @@ const AnimatedChatMockup = () => {
           {/* Input Area */}
           <div className="bg-slate-700 p-3 border-t border-slate-600">
             <div className="bg-slate-600 rounded-full px-4 py-2 flex items-center gap-3">
-              <span className="text-slate-400 text-sm flex-1">Digite uma mensagem</span>
+              <span className="text-slate-400 text-sm flex-1">{t('hero.chat.placeholder')}</span>
               <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
                 <span className="text-white text-xs">📎</span>
               </div>
