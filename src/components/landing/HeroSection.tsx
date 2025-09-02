@@ -43,7 +43,7 @@ const HeroSection = () => {
       
       <div className="container mx-auto px-4 py-20 relative z-10">
         {/* Main Content */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[600px]">
+        <div className="grid md:grid-cols-2 gap-12 items-center min-h-[600px]">
           {/* Left Column - Text Content */}
           <div className="space-y-8">
             <div className="space-y-6">
@@ -102,7 +102,7 @@ const HeroSection = () => {
           </div>
 
           {/* Right Column - Animated Mockup */}
-          <div className="flex justify-center lg:justify-end">
+          <div className="flex justify-center md:justify-end">
             <AnimatedChatMockup />
           </div>
         </div>
