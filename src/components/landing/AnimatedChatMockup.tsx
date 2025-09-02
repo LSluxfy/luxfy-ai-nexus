@@ -108,7 +108,7 @@ const AnimatedChatMockup = () => {
           </div>
 
           {/* Chat Messages */}
-          <div className="bg-slate-800 h-[400px] p-4 space-y-3 overflow-hidden">
+          <div className="bg-slate-800 h-[400px] p-4 space-y-3 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-700">
             {messages.slice(0, currentMessageIndex + 1).map((message, index) => (
               <div
                 key={index}

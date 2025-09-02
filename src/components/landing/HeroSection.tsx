@@ -69,7 +69,7 @@ const HeroSection = () => {
 
             {/* CTA Button */}
             <div className="space-y-4">
-              <Link to="/register">
+              <a href="#pricing">
                 <Button 
                   size="lg" 
                   className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold group transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/25"
@@ -77,7 +77,7 @@ const HeroSection = () => {
                   {t('hero.cta')}
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
-              </Link>
+              </a>
               <p className="text-sm text-slate-400">
                 {t('hero.testimonial')}
               </p>
