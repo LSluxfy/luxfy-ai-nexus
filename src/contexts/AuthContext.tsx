@@ -327,7 +327,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const requestPasswordReset = async (email: string) => {
     try {
       setLoading(true);
-      const response = await api.post('/v1/user/forgot-password', {
+      const response = await api.post('/v1/user/redeem-password', {
         email
       });
 
