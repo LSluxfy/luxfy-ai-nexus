@@ -35,16 +35,31 @@ export function AgentTraining({ agent, onUpdate }: AgentTrainingProps) {
     setLoading(true);
 
     try {
-      console.log('Enviando dados de treinamento:', { apprenticeship });
+      const timestamp = new Date().toISOString();
+      console.log(`🚀 [TRAINING UPDATE] ${timestamp} - Atualizando treinamento do agente ${agent.id}`);
+      console.log(`📦 [TRAINING DATA] ${timestamp}`, { apprenticeship });
+      
       const response = await AgentApiService.updateAgent(agent.id.toString(), {
         apprenticeship
       });
+      
+      console.log(`✅ [TRAINING SUCCESS] ${timestamp} - Treinamento atualizado com sucesso`);
+      console.log(`📦 [TRAINING RESPONSE] ${timestamp}`, response.agent);
+      
       onUpdate(response.agent);
       toast({
         title: "Sucesso",
         description: "Treinamento atualizado com sucesso!",
       });
-    } catch (error) {
+    } catch (error: any) {
+      const timestamp = new Date().toISOString();
+      console.error(`❌ [TRAINING ERROR] ${timestamp} - Erro ao atualizar treinamento`, error);
+      console.error(`🔍 [TRAINING ERROR DETAILS] ${timestamp}`, {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status
+      });
+      
       toast({
         title: "Erro",
         description: "Erro ao atualizar treinamento",

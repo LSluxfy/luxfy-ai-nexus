@@ -34,16 +34,31 @@ export function AgentFlowEditor({ agent, onUpdate }: AgentFlowEditorProps) {
     setLoading(true);
 
     try {
-      console.log('Enviando dados de fluxos:', { flow: flows });
+      const timestamp = new Date().toISOString();
+      console.log(`🚀 [FLOWS UPDATE] ${timestamp} - Atualizando fluxos conversacionais do agente ${agent.id}`);
+      console.log(`📦 [FLOWS DATA] ${timestamp}`, { flow: flows });
+      
       const response = await AgentApiService.updateAgent(agent.id.toString(), {
         flow: flows
       });
+      
+      console.log(`✅ [FLOWS SUCCESS] ${timestamp} - Fluxos conversacionais atualizados com sucesso`);
+      console.log(`📦 [FLOWS RESPONSE] ${timestamp}`, response.agent);
+      
       onUpdate(response.agent);
       toast({
         title: "Sucesso",
         description: "Fluxos conversacionais atualizados com sucesso!",
       });
-    } catch (error) {
+    } catch (error: any) {
+      const timestamp = new Date().toISOString();
+      console.error(`❌ [FLOWS ERROR] ${timestamp} - Erro ao atualizar fluxos`, error);
+      console.error(`🔍 [FLOWS ERROR DETAILS] ${timestamp}`, {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status
+      });
+      
       toast({
         title: "Erro",
         description: "Erro ao atualizar fluxos",

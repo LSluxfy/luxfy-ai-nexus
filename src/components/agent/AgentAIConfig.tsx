@@ -35,13 +35,29 @@ export function AgentAIConfig({ agent, onUpdate }: AgentAIConfigProps) {
     setLoading(true);
 
     try {
+      const timestamp = new Date().toISOString();
+      console.log(`🚀 [AI CONFIG UPDATE] ${timestamp} - Atualizando configurações de IA do agente ${agent.id}`);
+      console.log(`📦 [AI CONFIG DATA] ${timestamp}`, formData);
+      
       const response = await AgentApiService.updateAgent(agent.id.toString(), formData);
+      
+      console.log(`✅ [AI CONFIG SUCCESS] ${timestamp} - Configurações de IA atualizadas com sucesso`);
+      console.log(`📦 [AI CONFIG RESPONSE] ${timestamp}`, response.agent);
+      
       onUpdate(response.agent);
       toast({
         title: "Sucesso",
         description: "Configurações de IA atualizadas com sucesso!",
       });
-    } catch (error) {
+    } catch (error: any) {
+      const timestamp = new Date().toISOString();
+      console.error(`❌ [AI CONFIG ERROR] ${timestamp} - Erro ao atualizar configurações de IA`, error);
+      console.error(`🔍 [AI CONFIG ERROR DETAILS] ${timestamp}`, {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status
+      });
+      
       toast({
         title: "Erro",
         description: "Erro ao atualizar configurações de IA",
