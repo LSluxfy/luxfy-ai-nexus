@@ -50,15 +50,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const fetchUserData = async () => {
+  const fetchUserData = async (isAutoRefresh = false) => {
+    const timestamp = new Date().toLocaleTimeString('pt-BR');
+    const requestType = isAutoRefresh ? '🔄 [AUTO-REFRESH]' : '🚀 [INITIAL/MANUAL]';
+    
+    console.log(`${requestType} Buscando dados dos agentes em ${timestamp}`);
+    
     try {
-      const response = await api.get('/v1/user/auth');
+      // Adiciona timestamp para evitar cache do navegador
+      const cacheBuster = new Date().getTime();
+      const response = await api.get(`/v1/user/auth?_=${cacheBuster}`);
+      
       if (response.data.user) {
         const rawUserData = response.data.user;
         
         // Debug: log da resposta da API para verificar campos
-        console.log('🔍 API Response User Data:', rawUserData);
-        console.log('🔍 Available fields:', Object.keys(rawUserData));
+        console.log(`✅ ${requestType} Dados recebidos com sucesso em ${timestamp}:`, {
+          agentes: rawUserData.agents?.length || 0,
+          usuario: rawUserData.name,
+          plan: rawUserData.plan
+        });
         
         // Mapear os dados da API para o formato esperado
         const userData: User = {
@@ -82,12 +93,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           invoices: rawUserData.invoices || []
         };
         
-        console.log('✅ Mapped User Data:', {
-          active: userData.active,
-          profileExpire: userData.profileExpire,
-          plan: userData.plan
-        });
-        
         setUser(userData);
         const sessionData = {
           user: userData,
@@ -96,7 +101,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setSession(sessionData);
       }
     } catch (error: any) {
-      console.error('Error fetching user data:', error);
+      console.error(`❌ ${requestType} Erro ao buscar dados em ${timestamp}:`, error.message || error);
       
       // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
       if (error.response?.status === 402) {
@@ -107,8 +112,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       }
       
-      localStorage.removeItem('jwt-token');
-      localStorage.removeItem('user-data');
+      // Para auto-refresh, não remove token nem dados locais
+      if (!isAutoRefresh) {
+        localStorage.removeItem('jwt-token');
+        localStorage.removeItem('user-data');
+      }
+      
       throw error;
     }
   };
@@ -117,12 +126,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const token = localStorage.getItem('jwt-token');
     
     if (token) {
-      fetchUserData().catch(() => {
+      // Busca inicial dos dados
+      fetchUserData(false).catch(() => {
         // Se der erro na verificação inicial, apenas define loading como false
         setLoading(false);
       }).finally(() => {
         setLoading(false);
       });
+
+      // Sistema de atualização automática a cada 2 minutos
+      const autoRefreshInterval = setInterval(() => {
+        const currentToken = localStorage.getItem('jwt-token');
+        if (currentToken) {
+          fetchUserData(true).catch((error) => {
+            console.error('🔄 Erro no auto-refresh:', error.message || error);
+          });
+        } else {
+          console.log('🔄 Auto-refresh cancelado: usuário não autenticado');
+          clearInterval(autoRefreshInterval);
+        }
+      }, 2 * 60 * 1000); // 2 minutos
+
+      // Cleanup do interval quando o componente for desmontado
+      return () => {
+        clearInterval(autoRefreshInterval);
+        console.log('🧹 Sistema de auto-refresh limpo');
+      };
     } else {
       setLoading(false);
     }
