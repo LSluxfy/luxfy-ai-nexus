@@ -67,15 +67,39 @@ const MigrateUser = () => {
         })
       });
 
+      console.log(`📡 [MIGRATION RESPONSE STATUS] ${timestamp} - Status: ${response.status}, OK: ${response.ok}`);
+
+      // Verificar se a resposta é válida
+      if (!response.ok) {
+        let errorMessage = `Erro HTTP ${response.status}`;
+        
+        try {
+          const responseData = await response.json();
+          console.log(`📦 [MIGRATION ERROR DATA] ${timestamp}`, responseData);
+          
+          // Usar a mensagem específica do servidor
+          errorMessage = responseData.error || responseData.message || errorMessage;
+        } catch (parseError) {
+          console.error(`❌ [MIGRATION PARSE ERROR] ${timestamp}`, parseError);
+          const textResponse = await response.text();
+          console.log(`📄 [MIGRATION RAW RESPONSE] ${timestamp}`, textResponse);
+          errorMessage = textResponse || errorMessage;
+        }
+        
+        throw new Error(errorMessage);
+      }
+
       const responseData = await response.json();
-      
-      console.log(`📦 [MIGRATION RESPONSE] ${timestamp} - Status: ${response.status}`, responseData);
+      console.log(`✅ [MIGRATION SUCCESS DATA] ${timestamp}`, responseData);
 
       if (response.status === 402) {
         console.log(`✅ [MIGRATION SUCCESS] ${timestamp} - Usuário migrado com sucesso`);
+        
+        const successMessage = responseData.message || "Usuário migrado com sucesso! Redirecionando para o login...";
+        
         toast({
           title: "Sucesso",
-          description: "Usuário migrado com sucesso! Redirecionando para o login...",
+          description: successMessage,
         });
         
         // Redirecionar para login após 2 segundos
@@ -83,24 +107,31 @@ const MigrateUser = () => {
           navigate('/login');
         }, 2000);
       } else {
-        console.error(`❌ [MIGRATION ERROR] ${timestamp} - Status: ${response.status}`, responseData);
-        toast({
-          title: "Erro",
-          description: responseData.error || "Erro ao migrar usuário",
-          variant: "destructive",
-        });
+        // Caso o status não seja 402, mas a requisição foi bem-sucedida
+        const errorMessage = responseData.error || responseData.message || `Status inesperado: ${response.status}`;
+        throw new Error(errorMessage);
       }
+      
     } catch (error: any) {
       const timestamp = new Date().toISOString();
-      console.error(`❌ [MIGRATION ERROR] ${timestamp} - Erro na migração`, error);
+      console.error(`❌ [MIGRATION CATCH ERROR] ${timestamp}`, error);
       console.error(`🔍 [MIGRATION ERROR DETAILS] ${timestamp}`, {
         message: error.message,
+        name: error.name,
         stack: error.stack
       });
       
+      let errorMessage = "Erro desconhecido";
+      
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        errorMessage = "Erro de conexão com o servidor. Verifique sua internet e tente novamente.";
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: "Erro",
-        description: "Erro ao conectar com o servidor",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
