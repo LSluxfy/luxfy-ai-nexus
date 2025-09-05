@@ -29,6 +29,7 @@ import AgendaPage from "./pages/AgendaPage";
 import FinanceiroPage from "./pages/FinanceiroPage";
 import AccountInactive from "./pages/AccountInactive";
 import SelectPlan from "./pages/SelectPlan";
+import MigrateUser from "./pages/MigrateUser";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
@@ -52,6 +53,7 @@ const App = () => (
                 {/* Área pública */}
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/migrate-user" element={<MigrateUser />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/verify-email" element={<VerifyEmail />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />

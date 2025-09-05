@@ -167,6 +167,16 @@ const Login = () => {
                 >
                   {isLoading ? t('auth.login.loginButtonLoading') : t('auth.login.loginButton')}
                 </Button>
+
+                <Button 
+                  type="button" 
+                  variant="outline"
+                  className="w-full mt-4"
+                  onClick={() => window.location.href = '/migrate-user'}
+                  disabled={isLoading}
+                >
+                  Migrar conta
+                </Button>
               </form>
             </Form>
           </CardContent>
