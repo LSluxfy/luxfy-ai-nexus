@@ -20,7 +20,7 @@ import {
 
 const ResetPassword = () => {
   const resetSchema = z.object({
-    token: z.string().min(156, 'Código deve ter 156 caracteres'),
+    token: z.string().min(8, 'Código deve ter pelo menos 8 caracteres').max(200, 'Código deve ter no máximo 200 caracteres'),
     newPassword: z.string().min(6, 'Nova senha deve ter pelo menos 6 caracteres'),
     confirmPassword: z.string().min(6, 'Confirmação de senha obrigatória'),
   }).refine(data => data.newPassword === data.confirmPassword, {
@@ -93,7 +93,7 @@ const ResetPassword = () => {
           <CardHeader>
             <CardTitle className="text-slate-900">Redefinir Senha</CardTitle>
             <CardDescription className="text-slate-600">
-              Use o código de 156 caracteres que recebeu por email
+              Use o código que recebeu por email (8 a 200 caracteres)
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -104,7 +104,7 @@ const ResetPassword = () => {
                   name="token"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-700">Código de Recuperação (156 caracteres)</FormLabel>
+                      <FormLabel className="text-slate-700">Código de Recuperação (8 a 200 caracteres)</FormLabel>
                       <FormControl>
                         <Input placeholder="Cole o código aqui" {...field} className="border-slate-300 focus:border-blue-800 font-mono text-xs" />
                       </FormControl>
