@@ -3,24 +3,51 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 const API_BASE_URL = 'https://api.luxfy.app';
 
+// Função para adicionar parâmetros anti-cache
+const addCacheBustingParams = (url: string): string => {
+  const separator = url.includes('?') ? '&' : '?';
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(7);
+  return `${url}${separator}_t=${timestamp}&_r=${random}`;
+};
+
 // Criar instância do axios
 export const api: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0',
   },
 });
 
-// Interceptor para adicionar JWT token nas requisições
+// Interceptor para adicionar JWT token nas requisições e parâmetros anti-cache
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('jwt-token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    
+    // Adicionar parâmetros anti-cache na URL
+    if (config.url) {
+      config.url = addCacheBustingParams(config.url);
+    }
+    
+    // Headers adicionais para prevenir cache
+    config.headers['If-None-Match'] = '';
+    config.headers['If-Modified-Since'] = '';
+    
+    // Log da requisição
+    const timestamp = new Date().toISOString();
+    console.log(`🚀 [API REQUEST] ${timestamp} - ${config.method?.toUpperCase()} ${config.url}`);
+    
     return config;
   },
   (error) => {
+    const timestamp = new Date().toISOString();
+    console.error(`❌ [API REQUEST ERROR] ${timestamp}`, error);
     return Promise.reject(error);
   }
 );
@@ -28,9 +55,29 @@ api.interceptors.request.use(
 // Interceptor para lidar com respostas e erros
 api.interceptors.response.use(
   (response: AxiosResponse) => {
+    const timestamp = new Date().toISOString();
+    const method = response.config.method?.toUpperCase();
+    const url = response.config.url;
+    const status = response.status;
+    
+    console.log(`✅ [API SUCCESS] ${timestamp} - ${method} ${url} - Status: ${status}`);
+    console.log(`📦 [API DATA] ${timestamp}`, response.data);
+    
     return response;
   },
   (error) => {
+    const timestamp = new Date().toISOString();
+    const method = error.config?.method?.toUpperCase();
+    const url = error.config?.url;
+    const status = error.response?.status;
+    
+    console.error(`❌ [API ERROR] ${timestamp} - ${method} ${url} - Status: ${status}`);
+    console.error(`🔍 [ERROR DETAILS] ${timestamp}`, {
+      message: error.message,
+      response: error.response?.data,
+      status: error.response?.status
+    });
+    
     if (error.response?.status === 401) {
       // Token expirado ou inválido
       localStorage.removeItem('jwt-token');

@@ -51,25 +51,29 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   const fetchUserData = async (isAutoRefresh = false) => {
-    const timestamp = new Date().toLocaleTimeString('pt-BR');
+    const timestamp = new Date().toISOString();
     const requestType = isAutoRefresh ? '🔄 [AUTO-REFRESH]' : '🚀 [INITIAL/MANUAL]';
     
-    console.log(`${requestType} Buscando dados dos agentes em ${timestamp}`);
+    console.log(`${requestType} ${timestamp} - Iniciando busca de dados dos agentes (ANTI-CACHE ATIVO)`);
     
     try {
-      // Adiciona timestamp para evitar cache do navegador
-      const cacheBuster = new Date().getTime();
-      const response = await api.get(`/v1/user/auth?_=${cacheBuster}`);
+      // Sistema anti-cache já está implementado no interceptor do axios
+      const response = await api.get('/v1/user/auth');
       
       if (response.data.user) {
         const rawUserData = response.data.user;
+        const successTimestamp = new Date().toISOString();
         
-        // Debug: log da resposta da API para verificar campos
-        console.log(`✅ ${requestType} Dados recebidos com sucesso em ${timestamp}:`, {
+        // Log detalhado dos dados recebidos
+        console.log(`✅ ${requestType} ${successTimestamp} - Dados recebidos com sucesso`);
+        console.log(`📊 [USER DATA] ${successTimestamp}`, {
           agentes: rawUserData.agents?.length || 0,
           usuario: rawUserData.name,
-          plan: rawUserData.plan
+          plan: rawUserData.plan,
+          profileExpire: rawUserData.profileExpire,
+          active: !!(rawUserData.plan && rawUserData.profileExpire && new Date(rawUserData.profileExpire) > new Date())
         });
+        console.log(`🔍 [RAW API DATA] ${successTimestamp}`, rawUserData);
         
         // Mapear os dados da API para o formato esperado
         const userData: User = {
@@ -99,14 +103,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           token: localStorage.getItem('jwt-token') || ''
         };
         setSession(sessionData);
+        
+        console.log(`💾 [STATE UPDATE] ${successTimestamp} - Estado do usuário atualizado`);
       }
     } catch (error: any) {
-      console.error(`❌ ${requestType} Erro ao buscar dados em ${timestamp}:`, error.message || error);
+      const errorTimestamp = new Date().toISOString();
+      console.error(`❌ ${requestType} ${errorTimestamp} - Erro ao buscar dados dos agentes`);
+      console.error(`🚨 [ERROR DETAILS] ${errorTimestamp}`, {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+        url: error.config?.url
+      });
       
       // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
       if (error.response?.status === 402) {
         const errorData = error.response?.data;
         if (errorData?.invoice) {
+          console.log(`💳 [REDIRECT] ${errorTimestamp} - Redirecionando para fatura pendente: ${errorData.invoice}`);
           navigate(`/pending-invoice?invoice=${errorData.invoice}`);
           return;
         }
@@ -114,6 +128,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       
       // Para auto-refresh, não remove token nem dados locais
       if (!isAutoRefresh) {
+        console.log(`🧹 [CLEANUP] ${errorTimestamp} - Removendo dados locais devido ao erro`);
         localStorage.removeItem('jwt-token');
         localStorage.removeItem('user-data');
       }
@@ -123,36 +138,52 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    const initTimestamp = new Date().toISOString();
     const token = localStorage.getItem('jwt-token');
     
+    console.log(`🚀 [SYSTEM INIT] ${initTimestamp} - Inicializando sistema anti-cache com auto-refresh`);
+    
     if (token) {
-      // Busca inicial dos dados
-      fetchUserData(false).catch(() => {
+      console.log(`🔑 [TOKEN FOUND] ${initTimestamp} - Token JWT encontrado, iniciando busca de dados`);
+      
+      // Busca inicial dos dados (sem cache)
+      fetchUserData(false).catch((error) => {
+        const errorTimestamp = new Date().toISOString();
+        console.error(`❌ [INITIAL FETCH ERROR] ${errorTimestamp}`, error.message || error);
         // Se der erro na verificação inicial, apenas define loading como false
         setLoading(false);
       }).finally(() => {
         setLoading(false);
       });
 
-      // Sistema de atualização automática a cada 2 minutos
+      // Sistema de atualização automática a cada 2 minutos (ANTI-CACHE)
       const autoRefreshInterval = setInterval(() => {
+        const refreshTimestamp = new Date().toISOString();
         const currentToken = localStorage.getItem('jwt-token');
+        
         if (currentToken) {
+          console.log(`⏰ [AUTO-REFRESH TRIGGER] ${refreshTimestamp} - Executando refresh automático (ignorando cache)`);
           fetchUserData(true).catch((error) => {
-            console.error('🔄 Erro no auto-refresh:', error.message || error);
+            const errorTimestamp = new Date().toISOString();
+            console.error(`❌ [AUTO-REFRESH ERROR] ${errorTimestamp}`, error.message || error);
           });
         } else {
-          console.log('🔄 Auto-refresh cancelado: usuário não autenticado');
+          const cancelTimestamp = new Date().toISOString();
+          console.log(`🚫 [AUTO-REFRESH CANCELLED] ${cancelTimestamp} - Usuário não autenticado`);
           clearInterval(autoRefreshInterval);
         }
       }, 2 * 60 * 1000); // 2 minutos
 
+      console.log(`✅ [SYSTEM CONFIGURED] ${initTimestamp} - Auto-refresh configurado para 2 minutos com anti-cache`);
+
       // Cleanup do interval quando o componente for desmontado
       return () => {
+        const cleanupTimestamp = new Date().toISOString();
+        console.log(`🧹 [CLEANUP] ${cleanupTimestamp} - Limpando sistema de auto-refresh`);
         clearInterval(autoRefreshInterval);
-        console.log('🧹 Sistema de auto-refresh limpo');
       };
     } else {
+      console.log(`🚫 [NO TOKEN] ${initTimestamp} - Nenhum token encontrado`);
       setLoading(false);
     }
   }, []);
