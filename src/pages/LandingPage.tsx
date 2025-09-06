@@ -19,6 +19,16 @@ import FAQ from '@/components/landing/FAQ';
 import StickyCTA from '@/components/landing/StickyCTA';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import WhatsAppNotification from '@/components/landing/WhatsAppNotification';
+import ScarcityBanner from '@/components/landing/ScarcityBanner';
+import ScarcityPopup from '@/components/landing/ScarcityPopup';
+import RealResults from '@/components/landing/RealResults';
+import LiveNotifications from '@/components/landing/LiveNotifications';
+import HowItWorks from '@/components/landing/HowItWorks';
+import Guarantee from '@/components/landing/Guarantee';
+import ComparisonTable from '@/components/landing/ComparisonTable';
+import FloatingCTA from '@/components/landing/FloatingCTA';
+import BeforeAfter from '@/components/landing/BeforeAfter';
+import ROICalculator from '@/components/landing/ROICalculator';
 import { trackEvent, FacebookEvents } from '@/lib/facebook-pixel';
 
 const LandingPage = () => {
@@ -105,6 +115,7 @@ const LandingPage = () => {
         <link rel="canonical" href={canonical} />
       </Helmet>
 
+      <ScarcityBanner />
       <LandingNavbar />
       
       {/* New Hero Section */}
@@ -235,6 +246,12 @@ const LandingPage = () => {
         </div>
       </section>
 
+      <RealResults />
+      <HowItWorks />
+      <BeforeAfter />
+      <ROICalculator />
+      <ComparisonTable />
+      <Guarantee />
       
 
       <div id="pricing">
@@ -247,9 +264,11 @@ const LandingPage = () => {
       <div id="contact">
         <LandingFooter />
       </div>
-      {/* <StickyCTA /> */}
-        <WhatsAppButton />
-        <WhatsAppNotification />
+      <FloatingCTA />
+      <LiveNotifications />
+      <ScarcityPopup />
+      <WhatsAppButton />
+      <WhatsAppNotification />
     </div>
   );
 };

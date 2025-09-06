@@ -578,6 +578,147 @@
       "removeError": "Error al eliminar agente",
       "removeErrorDesc": "No se pudo eliminar el agente. Inténtalo de nuevo."
     }
+  },
+  "countdown": {
+    "title": "⏰ Oferta Especial Termina En:",
+    "subtitle": "¡No pierdas esta oportunidad única!",
+    "hours": "HORAS",
+    "minutes": "MINUTOS",
+    "seconds": "SEGUNDOS"
+  },
+  "scarcity": {
+    "banner": "🚨 ÚLTIMAS PLAZAS DISPONIBLES - Solo quedan pocas vacantes para nuevos clientes"
+  },
+  "scarcityPopup": {
+    "title": "⚠️ ¡Atención!",
+    "description": "Solo quedan pocas plazas disponibles en nuestro plan PRO este mes. Las empresas que implementan IA primero obtienen ventaja competitiva.",
+    "spotsLeft": "Solo 3 plazas restantes",
+    "later": "Tal vez después",
+    "secure": "Asegurar mi plaza"
+  },
+  "realResults": {
+    "title": "Resultados Reales de Nuestros Clientes",
+    "subtitle": "Más que promesas, estos son los resultados que nuestros clientes están obteniendo:",
+    "cases": {
+      "0": {
+        "description": "Aumento en ventas",
+        "company": "Empresa de Bienes Raíces"
+      },
+      "1": {
+        "description": "Economía mensual",
+        "company": "E-commerce de Moda"
+      },
+      "2": {
+        "description": "Reducción en tiempo de respuesta",
+        "company": "Clínica Médica"
+      },
+      "3": {
+        "description": "Más leads calificados",
+        "company": "Consultora Financiera"
+      }
+    },
+    "stats": {
+      "clients": "Clientes Activos",
+      "messages": "Mensajes Procesados",
+      "satisfaction": "Satisfacción",
+      "availability": "Disponibilidad"
+    }
+  },
+  "liveNotifications": {
+    "actions": {
+      "registered": "se registró en la plataforma",
+      "purchased": "compró el plan PRO",
+      "demo": "agendó una demostración"
+    },
+    "ago": "hace"
+  },
+  "howItWorks": {
+    "title": "Cómo Funciona en 3 Pasos Simples",
+    "subtitle": "Implementar IA en tu negocio nunca fue tan fácil",
+    "steps": {
+      "0": {
+        "title": "Conecta tu WhatsApp",
+        "description": "En menos de 2 minutos conectas tu número de WhatsApp Business con nuestra plataforma"
+      },
+      "1": {
+        "title": "Configura tu Agente IA",
+        "description": "Personaliza las respuestas y comportamiento del agente según tu negocio"
+      },
+      "2": {
+        "title": "¡Listo! Empieza a Convertir",
+        "description": "Tu agente IA funciona 24/7 calificando leads y cerrando ventas automáticamente"
+      }
+    }
+  },
+  "guarantee": {
+    "title": "Garantía Total de 7 Días",
+    "description": "Estamos tan seguros de que amarás nuestro agente IA que ofrecemos garantía total de reembolso.",
+    "promise": "Si en 7 días no estás completamente satisfecho, devolvemos 100% de tu dinero. Sin preguntas, sin complicaciones.",
+    "benefits": [
+      "Prueba sin riesgo por 7 días completos",
+      "Reembolso del 100% garantizado",
+      "Soporte prioritario durante la prueba",
+      "Configuración gratuita incluida"
+    ]
+  },
+  "comparison": {
+    "title": "¿Por Qué Elegir IA vs Métodos Tradicionales?",
+    "subtitle": "Vea la diferencia que hace la inteligencia artificial",
+    "traditional": "Métodos Tradicionales",
+    "aiAgent": "Agente IA",
+    "features": [
+      "Atención 24/7 sin descanso",
+      "Respuestas instantáneas consistentes",
+      "Atención simultánea ilimitada",
+      "Calificación automática de leads",
+      "Integración con CRM",
+      "Análisis predictivo de ventas",
+      "Escalabilidad sin costos adicionales",
+      "ROI positivo desde el primer mes"
+    ],
+    "conclusion": "Con IA obtienes todos los beneficios sin las limitaciones humanas"
+  },
+  "floatingCTA": {
+    "title": "🔥 Oferta especial por tiempo limitado",
+    "button": "Garantizar mi descuento"
+  },
+  "beforeAfter": {
+    "title": "Antes vs Después de Implementar IA",
+    "subtitle": "Vea la transformación que la IA puede traer a su negocio",
+    "before": "ANTES (Sin IA)",
+    "after": "DESPUÉS (Con IA)",
+    "scenarios": {
+      "0": {
+        "before": "Clientes esperan horas para respuesta, muchos desisten antes de comprar",
+        "after": "Respuesta instantánea 24/7, leads calificados automáticamente y conversiones constantes"
+      },
+      "1": {
+        "before": "Vendedor ocupado pierde leads, horario limitado, vacaciones = ventas paradas",
+        "after": "IA nunca duerme, nunca se enferma, nunca toma vacaciones. Ventas 24/7/365"
+      },
+      "2": {
+        "before": "Costos altos con team de ventas, entrenamiento constante, rotación de personal",
+        "after": "Un solo agente IA reemplaza múltiples vendedores, sin rotación, siempre actualizado"
+      }
+    }
+  },
+  "roiCalculator": {
+    "title": "Calculadora de ROI - ¿Cuánto Puede Ahorrar?",
+    "subtitle": "Descubra cuánto dinero puede ahorrar implementando IA en su negocio",
+    "inputs": {
+      "title": "Sus Datos Actuales",
+      "employees": "Empleados en atención",
+      "hourlyRate": "Salario por hora (R$)",
+      "hoursPerDay": "Horas por día en atención"
+    },
+    "results": {
+      "title": "Su Ahorro con IA",
+      "currentCost": "Costo actual con empleados:",
+      "monthlySavings": "Ahorro mensual con IA:",
+      "yearlySavings": "Ahorro anual con IA:",
+      "roi": "Retorno de Inversión:"
+    },
+    "disclaimer": "* Cálculos basados en el plan PRO (R$ 197/mes). Resultados pueden variar según implementación."
   }
 }
 

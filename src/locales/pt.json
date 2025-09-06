@@ -486,6 +486,147 @@
       "agents": "Agentes",
       "security": "Segurança"
     }
+  },
+  "countdown": {
+    "title": "⏰ Oferta Especial Termina Em:",
+    "subtitle": "Não perca esta oportunidade única!",
+    "hours": "HORAS",
+    "minutes": "MINUTOS",
+    "seconds": "SEGUNDOS"
+  },
+  "scarcity": {
+    "banner": "🚨 ÚLTIMAS VAGAS DISPONÍVEIS - Restam poucas vagas para novos clientes"
+  },
+  "scarcityPopup": {
+    "title": "⚠️ Atenção!",
+    "description": "Restam poucas vagas disponíveis no nosso plano PRO este mês. Empresas que implementam IA primeiro obtêm vantagem competitiva.",
+    "spotsLeft": "Apenas 3 vagas restantes",
+    "later": "Talvez depois",
+    "secure": "Garantir minha vaga"
+  },
+  "realResults": {
+    "title": "Resultados Reais dos Nossos Clientes",
+    "subtitle": "Mais que promessas, estes são os resultados que nossos clientes estão obtendo:",
+    "cases": {
+      "0": {
+        "description": "Aumento nas vendas",
+        "company": "Imobiliária Premium"
+      },
+      "1": {
+        "description": "Economia mensal",
+        "company": "E-commerce de Moda"
+      },
+      "2": {
+        "description": "Redução no tempo de resposta",
+        "company": "Clínica Médica"
+      },
+      "3": {
+        "description": "Mais leads qualificados",
+        "company": "Consultoria Financeira"
+      }
+    },
+    "stats": {
+      "clients": "Clientes Ativos",
+      "messages": "Mensagens Processadas",
+      "satisfaction": "Satisfação",
+      "availability": "Disponibilidade"
+    }
+  },
+  "liveNotifications": {
+    "actions": {
+      "registered": "se cadastrou na plataforma",
+      "purchased": "comprou o plano PRO",
+      "demo": "agendou uma demonstração"
+    },
+    "ago": "atrás"
+  },
+  "howItWorks": {
+    "title": "Como Funciona em 3 Passos Simples",
+    "subtitle": "Implementar IA no seu negócio nunca foi tão fácil",
+    "steps": {
+      "0": {
+        "title": "Conecte seu WhatsApp",
+        "description": "Em menos de 2 minutos você conecta seu WhatsApp Business com nossa plataforma"
+      },
+      "1": {
+        "title": "Configure seu Agente IA",
+        "description": "Personalize as respostas e comportamento do agente de acordo com seu negócio"
+      },
+      "2": {
+        "title": "Pronto! Comece a Converter",
+        "description": "Seu agente IA funciona 24/7 qualificando leads e fechando vendas automaticamente"
+      }
+    }
+  },
+  "guarantee": {
+    "title": "Garantia Total de 7 Dias",
+    "description": "Estamos tão seguros de que você vai amar nosso agente IA que oferecemos garantia total de reembolso.",
+    "promise": "Se em 7 dias você não estiver completamente satisfeito, devolvemos 100% do seu dinheiro. Sem perguntas, sem complicações.",
+    "benefits": [
+      "Teste sem risco por 7 dias completos",
+      "Reembolso de 100% garantido",
+      "Suporte prioritário durante o teste",
+      "Configuração gratuita inclusa"
+    ]
+  },
+  "comparison": {
+    "title": "Por Que Escolher IA vs Métodos Tradicionais?",
+    "subtitle": "Veja a diferença que a inteligência artificial faz",
+    "traditional": "Métodos Tradicionais",
+    "aiAgent": "Agente IA",
+    "features": [
+      "Atendimento 24/7 sem descanso",
+      "Respostas instantâneas consistentes",
+      "Atendimento simultâneo ilimitado",
+      "Qualificação automática de leads",
+      "Integração com CRM",
+      "Análise preditiva de vendas",
+      "Escalabilidade sem custos extras",
+      "ROI positivo desde o primeiro mês"
+    ],
+    "conclusion": "Com IA você tem todos os benefícios sem as limitações humanas"
+  },
+  "floatingCTA": {
+    "title": "🔥 Oferta especial por tempo limitado",
+    "button": "Garantir meu desconto"
+  },
+  "beforeAfter": {
+    "title": "Antes vs Depois de Implementar IA",
+    "subtitle": "Veja a transformação que a IA pode trazer para seu negócio",
+    "before": "ANTES (Sem IA)",
+    "after": "DEPOIS (Com IA)",
+    "scenarios": {
+      "0": {
+        "before": "Clientes esperam horas por resposta, muitos desistem antes de comprar",
+        "after": "Resposta instantânea 24/7, leads qualificados automaticamente e conversões constantes"
+      },
+      "1": {
+        "before": "Vendedor ocupado perde leads, horário limitado, férias = vendas paradas",
+        "after": "IA nunca dorme, nunca adoece, nunca tira férias. Vendas 24/7/365"
+      },
+      "2": {
+        "before": "Custos altos com time de vendas, treinamento constante, rotatividade de pessoal",
+        "after": "Um único agente IA substitui múltiplos vendedores, sem rotatividade, sempre atualizado"
+      }
+    }
+  },
+  "roiCalculator": {
+    "title": "Calculadora de ROI - Quanto Você Pode Economizar?",
+    "subtitle": "Descubra quanto dinheiro você pode economizar implementando IA no seu negócio",
+    "inputs": {
+      "title": "Seus Dados Atuais",
+      "employees": "Funcionários no atendimento",
+      "hourlyRate": "Salário por hora (R$)",
+      "hoursPerDay": "Horas por dia no atendimento"
+    },
+    "results": {
+      "title": "Sua Economia com IA",
+      "currentCost": "Custo atual com funcionários:",
+      "monthlySavings": "Economia mensal com IA:",
+      "yearlySavings": "Economia anual com IA:",
+      "roi": "Retorno do Investimento:"
+    },
+    "disclaimer": "* Cálculos baseados no plano PRO (R$ 197/mês). Resultados podem variar conforme implementação."
   }
 }
 

@@ -486,6 +486,147 @@
       "agents": "Agents",
       "security": "Security"
     }
+  },
+  "countdown": {
+    "title": "⏰ Special Offer Ends In:",
+    "subtitle": "Don't miss this unique opportunity!",
+    "hours": "HOURS",
+    "minutes": "MINUTES",
+    "seconds": "SECONDS"
+  },
+  "scarcity": {
+    "banner": "🚨 LAST SPOTS AVAILABLE - Only a few spots left for new customers"
+  },
+  "scarcityPopup": {
+    "title": "⚠️ Attention!",
+    "description": "Only a few spots are available in our PRO plan this month. Companies that implement AI first get competitive advantage.",
+    "spotsLeft": "Only 3 spots remaining",
+    "later": "Maybe later",
+    "secure": "Secure my spot"
+  },
+  "realResults": {
+    "title": "Real Results from Our Clients",
+    "subtitle": "More than promises, these are the results our clients are getting:",
+    "cases": {
+      "0": {
+        "description": "Increase in sales",
+        "company": "Real Estate Company"
+      },
+      "1": {
+        "description": "Monthly savings",
+        "company": "Fashion E-commerce"
+      },
+      "2": {
+        "description": "Reduction in response time",
+        "company": "Medical Clinic"
+      },
+      "3": {
+        "description": "More qualified leads",
+        "company": "Financial Consulting"
+      }
+    },
+    "stats": {
+      "clients": "Active Clients",
+      "messages": "Messages Processed",
+      "satisfaction": "Satisfaction",
+      "availability": "Availability"
+    }
+  },
+  "liveNotifications": {
+    "actions": {
+      "registered": "registered on the platform",
+      "purchased": "purchased the PRO plan",
+      "demo": "scheduled a demonstration"
+    },
+    "ago": "ago"
+  },
+  "howItWorks": {
+    "title": "How It Works in 3 Simple Steps",
+    "subtitle": "Implementing AI in your business has never been easier",
+    "steps": {
+      "0": {
+        "title": "Connect your WhatsApp",
+        "description": "In less than 2 minutes you connect your WhatsApp Business with our platform"
+      },
+      "1": {
+        "title": "Configure your AI Agent",
+        "description": "Personalize responses and behavior of the agent according to your business"
+      },
+      "2": {
+        "title": "Ready! Start Converting",
+        "description": "Your AI agent works 24/7 qualifying leads and closing sales automatically"
+      }
+    }
+  },
+  "guarantee": {
+    "title": "Total 7-Day Guarantee",
+    "description": "We are so confident you'll love our AI agent that we offer a total refund guarantee.",
+    "promise": "If within 7 days you're not completely satisfied, we'll refund 100% of your money. No questions, no complications.",
+    "benefits": [
+      "Risk-free trial for 7 complete days",
+      "100% refund guaranteed",
+      "Priority support during trial",
+      "Free setup included"
+    ]
+  },
+  "comparison": {
+    "title": "Why Choose AI vs Traditional Methods?",
+    "subtitle": "See the difference artificial intelligence makes",
+    "traditional": "Traditional Methods",
+    "aiAgent": "AI Agent",
+    "features": [
+      "24/7 service without rest",
+      "Instant consistent responses",
+      "Unlimited simultaneous service",
+      "Automatic lead qualification",
+      "CRM integration",
+      "Predictive sales analysis",
+      "Scalability without extra costs",
+      "Positive ROI from the first month"
+    ],
+    "conclusion": "With AI you get all the benefits without human limitations"
+  },
+  "floatingCTA": {
+    "title": "🔥 Limited time special offer",
+    "button": "Secure my discount"
+  },
+  "beforeAfter": {
+    "title": "Before vs After Implementing AI",
+    "subtitle": "See the transformation AI can bring to your business",
+    "before": "BEFORE (Without AI)",
+    "after": "AFTER (With AI)",
+    "scenarios": {
+      "0": {
+        "before": "Customers wait hours for response, many give up before buying",
+        "after": "Instant 24/7 response, leads qualified automatically and constant conversions"
+      },
+      "1": {
+        "before": "Busy salesperson loses leads, limited hours, vacation = stopped sales",
+        "after": "AI never sleeps, never gets sick, never takes vacation. Sales 24/7/365"
+      },
+      "2": {
+        "before": "High costs with sales team, constant training, staff turnover",
+        "after": "A single AI agent replaces multiple salespeople, no turnover, always updated"
+      }
+    }
+  },
+  "roiCalculator": {
+    "title": "ROI Calculator - How Much Can You Save?",
+    "subtitle": "Discover how much money you can save implementing AI in your business",
+    "inputs": {
+      "title": "Your Current Data",
+      "employees": "Customer service employees",
+      "hourlyRate": "Hourly wage ($)",
+      "hoursPerDay": "Hours per day in service"
+    },
+    "results": {
+      "title": "Your Savings with AI",
+      "currentCost": "Current cost with employees:",
+      "monthlySavings": "Monthly savings with AI:",
+      "yearlySavings": "Annual savings with AI:",
+      "roi": "Return on Investment:"
+    },
+    "disclaimer": "* Calculations based on PRO plan ($197/month). Results may vary according to implementation."
   }
 }
 
