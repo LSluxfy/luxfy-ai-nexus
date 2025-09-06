@@ -30,21 +30,21 @@ const LiveNotifications: React.FC = () => {
   const notification = notifications[currentNotification];
 
   return (
-    <div className={`fixed top-20 right-4 z-60 transform transition-all duration-700 ${
+    <div className={`fixed top-16 md:top-20 right-2 md:right-4 z-40 transform transition-all duration-700 ${
       isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
     }`}>
-      <div className="bg-white border border-gray-200 rounded-lg shadow-xl p-3 md:p-4 max-w-xs md:max-w-sm">
-        <div className="flex items-start gap-3">
-          <div className="bg-green-100 rounded-full p-2">
-            <CheckCircle className="w-4 h-4 text-green-600" />
+      <div className="bg-white border border-gray-200 rounded-lg shadow-xl p-2 md:p-3 max-w-[280px] md:max-w-xs">
+        <div className="flex items-start gap-2 md:gap-3">
+          <div className="bg-green-100 rounded-full p-1.5 md:p-2 flex-shrink-0">
+            <CheckCircle className="w-3 h-3 md:w-4 md:h-4 text-green-600" />
           </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-1 mb-1">
-              <User className="w-3 h-3 text-gray-500" />
-              <span className="font-semibold text-sm text-gray-900">{notification.name}</span>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1 mb-0.5">
+              <User className="w-2.5 h-2.5 md:w-3 md:h-3 text-gray-500 flex-shrink-0" />
+              <span className="font-semibold text-xs md:text-sm text-gray-900 truncate">{notification.name}</span>
             </div>
-            <p className="text-sm text-gray-600">{notification.action}</p>
-            <p className="text-xs text-gray-400 mt-1">{notification.time} {t('liveNotifications.ago')}</p>
+            <p className="text-xs md:text-sm text-gray-600 line-clamp-2">{notification.action}</p>
+            <p className="text-xs text-gray-400 mt-0.5">{notification.time} {t('liveNotifications.ago')}</p>
           </div>
         </div>
       </div>
