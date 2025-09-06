@@ -281,7 +281,9 @@
       "unlimited": "Conversaciones ilimitadas",
       "calendar": "Integración con calendario",
       "campaigns": "Envío masivo",
-      "support": "Soporte prioritario"
+      "support": "Soporte prioritario",
+      "aiTokensLimited": "Tokens de IA limitados",
+      "aiTokensUnlimited": "Tokens de IA ilimitados"
     },
     "bestSeller": "Más vendido",
     "plans": {
@@ -485,6 +487,96 @@
       "account": "Cuenta",
       "agents": "Agentes",
       "security": "Seguridad"
+    },
+    "account": {
+      "personalInfo": {
+        "title": "Información Personal",
+        "description": "Actualiza tu información personal y de contacto",
+        "name": "Nombre",
+        "lastName": "Apellido",
+        "email": "Email",
+        "emailNote": "El email no puede ser alterado. Contacta soporte si es necesario.",
+        "editingNote": "La información personal no puede ser editada en esta versión de la aplicación."
+      },
+      "accountInfo": {
+        "title": "Información de la Cuenta",
+        "email": "Email",
+        "userId": "ID del Usuario",
+        "plan": "Plan",
+        "agentsNumber": "Número de Agentes",
+        "creationDate": "Fecha de Creación"
+      },
+      "profileEditMessage": {
+        "title": "Información",
+        "description": "La edición de perfil no está disponible en esta versión."
+      }
+    },
+    "security": {
+      "changePassword": {
+        "title": "Cambiar Contraseña",
+        "description": "Mantén tu cuenta segura cambiando tu contraseña regularmente",
+        "currentPassword": "Contraseña Actual",
+        "currentPasswordPlaceholder": "Ingresa tu contraseña actual",
+        "newPassword": "Nueva Contraseña",
+        "newPasswordPlaceholder": "Ingresa tu nueva contraseña",
+        "confirmPassword": "Confirmar Nueva Contraseña",
+        "confirmPasswordPlaceholder": "Confirma tu nueva contraseña",
+        "changeButton": "Cambiar Contraseña",
+        "changingButton": "Cambiando...",
+        "passwordsDoNotMatch": "Las contraseñas no coinciden.",
+        "passwordTooShort": "La nueva contraseña debe tener al menos 6 caracteres.",
+        "passwordChanged": "Contraseña cambiada con éxito.",
+        "passwordChangeError": "Error al cambiar la contraseña"
+      },
+      "securitySettings": {
+        "title": "Configuraciones de Seguridad",
+        "description": "Gestiona tus configuraciones de seguridad y privacidad",
+        "twoFactor": "Autenticación de Dos Factores",
+        "twoFactorDesc": "Añade una capa extra de seguridad",
+        "activeSessions": "Sesiones Activas",
+        "activeSessionsDesc": "Visualiza y gestiona tus sesiones activas",
+        "activityLogs": "Registros de Actividad",
+        "activityLogsDesc": "Historial de actividades de tu cuenta",
+        "comingSoon": "Próximamente",
+        "viewSessions": "Ver Sesiones",
+        "viewLogs": "Ver Registros"
+      },
+      "dangerZone": {
+        "title": "Zona de Peligro",
+        "description": "Acciones irreversibles que afectan permanentemente tu cuenta",
+        "deleteAccount": "Eliminar Cuenta",
+        "deleteAccountDesc": "Esta acción es irreversible. Todos tus datos, agentes y configuraciones serán eliminados permanentemente.",
+        "deleteAccountButton": "Eliminar Cuenta",
+        "confirmTitle": "Confirmar Eliminación de Cuenta",
+        "confirmDescription": "Esta acción es irreversible. Todos tus datos, incluyendo agentes, conversaciones y configuraciones serán eliminados permanentemente. ¿Estás seguro de que deseas continuar?",
+        "cancel": "Cancelar",
+        "confirmDelete": "Sí, Eliminar Cuenta"
+      }
+    },
+    "agents": {
+      "title": "Gestionar Agentes",
+      "description": "Visualiza, configura y elimina tus agentes de IA",
+      "currentPlan": "Plan Actual",
+      "agentsUsed": "agentes utilizados",
+      "loadingPlan": "Cargando información del plan...",
+      "upgrade": "Hacer Upgrade",
+      "noAgents": "Ningún agente creado",
+      "noAgentsDesc": "Aún no has creado ningún agente de IA.",
+      "createFirst": "Crear Primer Agente",
+      "loading": "Cargando agentes...",
+      "noDescription": "Sin descripción",
+      "createdOn": "Creado el",
+      "configure": "Configurar",
+      "remove": "Eliminar",
+      "removing": "Eliminando...",
+      "confirmRemoval": "Confirmar Eliminación",
+      "confirmRemovalDesc": "¿Estás seguro de que deseas eliminar el agente \"{{name}}\"? Esta acción no se puede deshacer y todos los datos relacionados se perderán.",
+      "cancel": "Cancelar",
+      "removeAgent": "Eliminar Agente",
+      "agentRemoved": "Agente eliminado",
+      "agentRemovedDesc": "El agente \"{{name}}\" fue eliminado con éxito.",
+      "removeError": "Error al eliminar agente",
+      "removeErrorDesc": "No se pudo eliminar el agente. Inténtalo de nuevo."
     }
   }
 }

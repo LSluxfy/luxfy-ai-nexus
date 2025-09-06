@@ -6,10 +6,12 @@ import { useAgents } from '@/hooks/use-agent';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Trash2, Settings, Bot } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from 'react-i18next';
 
 const AgentSettings = () => {
   const { agents, loading, deleteAgent, userPlan } = useAgents();
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [deletingAgent, setDeletingAgent] = useState<string | null>(null);
 
   const handleDeleteAgent = async (agentId: string, agentName: string) => {
@@ -19,14 +21,14 @@ const AgentSettings = () => {
       const success = await deleteAgent(agentId);
       if (success) {
         toast({
-          title: "Agente removido",
-          description: `O agente "${agentName}" foi removido com sucesso.`,
+          title: t("settings.agents.agentRemoved"),
+          description: t("settings.agents.agentRemovedDesc", { name: agentName }),
         });
       }
     } catch (error) {
       toast({
-        title: "Erro ao remover agente",
-        description: "Não foi possível remover o agente. Tente novamente.",
+        title: t("settings.agents.removeError"),
+        description: t("settings.agents.removeErrorDesc"),
         variant: "destructive",
       });
     } finally {
@@ -38,7 +40,7 @@ const AgentSettings = () => {
     return (
       <Card>
         <CardContent className="pt-6">
-          <div className="text-center py-8">Carregando agentes...</div>
+          <div className="text-center py-8">{t("settings.agents.loading")}</div>
         </CardContent>
       </Card>
     );
@@ -50,39 +52,39 @@ const AgentSettings = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Bot className="h-5 w-5" />
-            Gerenciar Agentes
+            {t("settings.agents.title")}
           </CardTitle>
           <CardDescription>
-            Visualize, configure e remova seus agentes de IA
+            {t("settings.agents.description")}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div className="flex justify-between items-center p-4 bg-blue-50 rounded-lg">
               <div>
-                <h4 className="font-medium">Plano Atual</h4>
+                <h4 className="font-medium">{t("settings.agents.currentPlan")}</h4>
                 <p className="text-sm text-gray-600">
                   {userPlan ? (
                     <>
                       <span className="capitalize">{userPlan.plan_type}</span> - 
-                      {agents.length}/{userPlan.max_agents} agentes utilizados
+                      {agents.length}/{userPlan.max_agents} {t("settings.agents.agentsUsed")}
                     </>
                   ) : (
-                    'Carregando informações do plano...'
+                    t("settings.agents.loadingPlan")
                   )}
                 </p>
               </div>
               <Button variant="outline" size="sm">
-                Fazer Upgrade
+                {t("settings.agents.upgrade")}
               </Button>
             </div>
 
             {agents.length === 0 ? (
               <div className="text-center py-8">
                 <Bot className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhum agente criado</h3>
-                <p className="text-gray-600 mb-4">Você ainda não criou nenhum agente de IA.</p>
-                <Button>Criar Primeiro Agente</Button>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">{t("settings.agents.noAgents")}</h3>
+                <p className="text-gray-600 mb-4">{t("settings.agents.noAgentsDesc")}</p>
+                <Button>{t("settings.agents.createFirst")}</Button>
               </div>
             ) : (
               <div className="space-y-4">
@@ -91,17 +93,17 @@ const AgentSettings = () => {
                     <div className="flex-1">
                       <h4 className="font-medium text-gray-900">{agent.name}</h4>
                       <p className="text-sm text-gray-600">
-                        {agent.description || 'Sem descrição'}
+                        {agent.description || t("settings.agents.noDescription")}
                       </p>
                       <p className="text-xs text-gray-500 mt-1">
-                        Criado em {new Date(agent.created_at).toLocaleDateString('pt-BR')}
+                        {t("settings.agents.createdOn")} {new Date(agent.created_at).toLocaleDateString('es-ES')}
                       </p>
                     </div>
                     
                     <div className="flex items-center gap-2">
                       <Button variant="outline" size="sm">
                         <Settings className="h-4 w-4 mr-1" />
-                        Configurar
+                        {t("settings.agents.configure")}
                       </Button>
                       
                       <AlertDialog>
@@ -113,24 +115,23 @@ const AgentSettings = () => {
                             disabled={deletingAgent === agent.id}
                           >
                             <Trash2 className="h-4 w-4 mr-1" />
-                            {deletingAgent === agent.id ? 'Removendo...' : 'Remover'}
+                            {deletingAgent === agent.id ? t("settings.agents.removing") : t("settings.agents.remove")}
                           </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Confirmar Remoção</AlertDialogTitle>
+                            <AlertDialogTitle>{t("settings.agents.confirmRemoval")}</AlertDialogTitle>
                             <AlertDialogDescription>
-                              Tem certeza que deseja remover o agente "{agent.name}"? 
-                              Esta ação não pode ser desfeita e todos os dados relacionados serão perdidos.
+                              {t("settings.agents.confirmRemovalDesc", { name: agent.name })}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogCancel>{t("settings.agents.cancel")}</AlertDialogCancel>
                             <AlertDialogAction
                               onClick={() => handleDeleteAgent(agent.id, agent.name)}
                               className="bg-red-600 hover:bg-red-700"
                             >
-                              Remover Agente
+                              {t("settings.agents.removeAgent")}
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>

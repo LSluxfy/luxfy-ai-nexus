@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Zap } from "lucide-react";
+import { Check, Zap, X, Infinity } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -114,6 +114,17 @@ export default function PricingV2() {
                 <CardContent>
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" />{plan.agents} {t("pricingV2.features.agents")}</li>
+                    {plan.key === "start" ? (
+                      <li className="flex items-center gap-2">
+                        <X className="h-4 w-4 text-orange-500" />
+                        {t("pricingV2.features.aiTokensLimited")}
+                      </li>
+                    ) : (
+                      <li className="flex items-center gap-2">
+                        <Infinity className="h-4 w-4 text-green-500" />
+                        {t("pricingV2.features.aiTokensUnlimited")}
+                      </li>
+                    )}
                     {getFeatures(plan.key).map((f, i) => (
                       <li key={i} className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" />{f}</li>
                     ))}
