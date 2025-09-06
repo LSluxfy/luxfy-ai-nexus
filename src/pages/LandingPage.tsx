@@ -19,7 +19,7 @@ import FAQ from '@/components/landing/FAQ';
 import StickyCTA from '@/components/landing/StickyCTA';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import WhatsAppNotification from '@/components/landing/WhatsAppNotification';
-import ScarcityBanner from '@/components/landing/ScarcityBanner';
+
 import ScarcityPopup from '@/components/landing/ScarcityPopup';
 import RealResults from '@/components/landing/RealResults';
 import LiveNotifications from '@/components/landing/LiveNotifications';
@@ -115,7 +115,6 @@ const LandingPage = () => {
         <link rel="canonical" href={canonical} />
       </Helmet>
 
-      <ScarcityBanner />
       <LandingNavbar />
       
       {/* New Hero Section */}
