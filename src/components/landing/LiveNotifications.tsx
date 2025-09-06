@@ -21,8 +21,8 @@ const LiveNotifications: React.FC = () => {
       setTimeout(() => {
         setIsVisible(false);
         setCurrentNotification((prev) => (prev + 1) % notifications.length);
-      }, 4000);
-    }, 8000);
+      }, 5000);
+    }, 30000);
 
     return () => clearInterval(showTimer);
   }, [notifications.length]);
@@ -30,10 +30,10 @@ const LiveNotifications: React.FC = () => {
   const notification = notifications[currentNotification];
 
   return (
-    <div className={`fixed bottom-24 left-6 z-40 transform transition-all duration-500 ${
-      isVisible ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'
+    <div className={`fixed top-20 right-4 z-60 transform transition-all duration-700 ${
+      isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
     }`}>
-      <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm">
+      <div className="bg-white border border-gray-200 rounded-lg shadow-xl p-3 md:p-4 max-w-xs md:max-w-sm">
         <div className="flex items-start gap-3">
           <div className="bg-green-100 rounded-full p-2">
             <CheckCircle className="w-4 h-4 text-green-600" />
