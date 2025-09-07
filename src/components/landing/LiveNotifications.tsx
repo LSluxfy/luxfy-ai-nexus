@@ -30,10 +30,10 @@ const LiveNotifications: React.FC = () => {
   const notification = notifications[currentNotification];
 
   return (
-    <div className={`fixed top-20 right-4 z-60 transform transition-all duration-700 ${
+    <div className={`fixed top-4 right-2 md:top-6 md:right-4 z-[9999] transform transition-all duration-700 ${
       isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
     }`}>
-      <div className="bg-white border border-gray-200 rounded-lg shadow-xl p-3 md:p-4 max-w-xs md:max-w-sm">
+      <div className="bg-white border border-gray-200 rounded-lg shadow-xl p-3 md:p-4 max-w-xs md:max-w-sm backdrop-blur-sm">
         <div className="flex items-start gap-3">
           <div className="bg-green-100 rounded-full p-2">
             <CheckCircle className="w-4 h-4 text-green-600" />

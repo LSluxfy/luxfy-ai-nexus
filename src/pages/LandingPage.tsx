@@ -26,7 +26,6 @@ import LiveNotifications from '@/components/landing/LiveNotifications';
 import HowItWorks from '@/components/landing/HowItWorks';
 import Guarantee from '@/components/landing/Guarantee';
 import ComparisonTable from '@/components/landing/ComparisonTable';
-import FloatingCTA from '@/components/landing/FloatingCTA';
 import BeforeAfter from '@/components/landing/BeforeAfter';
 import ROICalculator from '@/components/landing/ROICalculator';
 import { trackEvent, FacebookEvents } from '@/lib/facebook-pixel';
@@ -263,7 +262,6 @@ const LandingPage = () => {
       <div id="contact">
         <LandingFooter />
       </div>
-      <FloatingCTA />
       <LiveNotifications />
       <ScarcityPopup />
       <WhatsAppButton />
