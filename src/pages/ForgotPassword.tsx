@@ -76,16 +76,9 @@ const ForgotPassword = () => {
               </div>
               <CardTitle className="text-slate-900">Email Enviado!</CardTitle>
               <CardDescription className="text-slate-600">
-                Verifique sua caixa de entrada para o código de recuperação
+                O link de redefinição de senha foi enviado para o seu e-mail
               </CardDescription>
             </CardHeader>
-            <CardFooter>
-              <Link to="/reset-password" className="w-full">
-                <Button className="w-full bg-gradient-to-r from-blue-800 to-blue-700 hover:from-blue-900 hover:to-blue-800">
-                  Redefinir Senha
-                </Button>
-              </Link>
-            </CardFooter>
           </Card>
         </div>
       </div>
