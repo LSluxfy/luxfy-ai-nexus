@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -31,6 +31,7 @@ const ResetPassword = () => {
   type ResetFormValues = z.infer<typeof resetSchema>;
 
   const { resetPassword } = useAuth();
+  const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<ResetFormValues>({
@@ -41,6 +42,14 @@ const ResetPassword = () => {
       confirmPassword: '',
     },
   });
+
+  // Preencher o token automaticamente da URL
+  useEffect(() => {
+    const tokenFromUrl = searchParams.get('token');
+    if (tokenFromUrl) {
+      form.setValue('token', tokenFromUrl);
+    }
+  }, [searchParams, form]);
 
   const onSubmit = async (data: ResetFormValues) => {
     setIsLoading(true);
