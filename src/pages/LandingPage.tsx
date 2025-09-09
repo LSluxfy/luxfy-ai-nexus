@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -13,22 +13,26 @@ import { useTranslation, Trans } from 'react-i18next';
 
 import HeroSection from '@/components/landing/HeroSection';
 import ExamplesShowcase from '@/components/landing/ExamplesShowcase';
-import PricingV2 from '@/components/landing/PricingV2';
-import Testimonials from '@/components/landing/Testimonials';
-import FAQ from '@/components/landing/FAQ';
 import StickyCTA from '@/components/landing/StickyCTA';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import WhatsAppNotification from '@/components/landing/WhatsAppNotification';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import WebVitalsTracker from '@/components/WebVitalsTracker';
 
 import ScarcityPopup from '@/components/landing/ScarcityPopup';
 import RealResults from '@/components/landing/RealResults';
 import LiveNotifications from '@/components/landing/LiveNotifications';
 import HowItWorks from '@/components/landing/HowItWorks';
 import Guarantee from '@/components/landing/Guarantee';
-import ComparisonTable from '@/components/landing/ComparisonTable';
 import BeforeAfter from '@/components/landing/BeforeAfter';
-import ROICalculator from '@/components/landing/ROICalculator';
 import { trackEvent, FacebookEvents } from '@/lib/facebook-pixel';
+
+// Lazy load componentes pesados
+const LazyPricingV2 = lazy(() => import('@/components/landing/PricingV2'));
+const LazyTestimonials = lazy(() => import('@/components/landing/Testimonials'));
+const LazyFAQ = lazy(() => import('@/components/landing/FAQ'));
+const LazyComparisonTable = lazy(() => import('@/components/landing/ComparisonTable'));
+const LazyROICalculator = lazy(() => import('@/components/landing/ROICalculator'));
 
 const LandingPage = () => {
   const { t } = useTranslation();
@@ -247,17 +251,30 @@ const LandingPage = () => {
       <RealResults />
       <HowItWorks />
       <BeforeAfter />
-      <ROICalculator />
-      <ComparisonTable />
-      <Guarantee />
       
+      <Suspense fallback={<LoadingSpinner />}>
+        <LazyROICalculator />
+      </Suspense>
+      
+      <Suspense fallback={<LoadingSpinner />}>
+        <LazyComparisonTable />
+      </Suspense>
+      
+      <Guarantee />
 
       <div id="pricing">
-        <PricingV2 />
+        <Suspense fallback={<LoadingSpinner />}>
+          <LazyPricingV2 />
+        </Suspense>
       </div>
 
-      <Testimonials />
-      <FAQ />
+      <Suspense fallback={<LoadingSpinner />}>
+        <LazyTestimonials />
+      </Suspense>
+      
+      <Suspense fallback={<LoadingSpinner />}>
+        <LazyFAQ />
+      </Suspense>
 
       <div id="contact">
         <LandingFooter />
@@ -266,6 +283,7 @@ const LandingPage = () => {
       <ScarcityPopup />
       <WhatsAppButton />
       <WhatsAppNotification />
+      <WebVitalsTracker />
     </div>
   );
 };

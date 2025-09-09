@@ -1,54 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>luxfy-ai-nexus</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+    <title>Luxfy AI - Agentes de IA para WhatsApp que Aumentan tus Ventas</title>
+    <meta name="description" content="Aumenta tus ventas con agentes de IA para WhatsApp. Automatiza respuestas, califica leads y cierra más ventas. ROI de 300%+ garantizado." />
+    <meta name="keywords" content="agente IA WhatsApp, automatización ventas, chatbot ventas, IA conversacional, leads automáticos" />
+    <meta name="author" content="Luxfy AI" />
+    <link rel="canonical" href="https://luxfy.ai" />
     
-    <!-- Cache Control - Disable caching for dashboard pages -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Performance hints -->
+    <link rel="dns-prefetch" href="//connect.facebook.net" />
+    <link rel="dns-prefetch" href="//www.facebook.com" />
 
-    <meta property="og:title" content="luxfy-ai-nexus" />
-    <meta property="og:description" content="Lovable Generated Project" />
+    <!-- Open Graph optimizado -->
+    <meta property="og:title" content="Luxfy AI - Agentes de IA para WhatsApp que Aumentan tus Ventas" />
+    <meta property="og:description" content="Aumenta tus ventas con agentes de IA para WhatsApp. Automatiza respuestas, califica leads y cierra más ventas. ROI de 300%+ garantizado." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:url" content="https://luxfy.ai" />
+    <meta property="og:image" content="https://luxfy.ai/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="Luxfy AI" />
 
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:title" content="Luxfy AI - Agentes de IA para WhatsApp" />
+    <meta name="twitter:description" content="Aumenta tus ventas con agentes de IA para WhatsApp. ROI de 300%+ garantizado." />
+    <meta name="twitter:image" content="https://luxfy.ai/og-image.jpg" />
 
-    <!-- Facebook Pixel Code -->
-    <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      
-      // Initialize pixel with enhanced error handling
-      try {
-        fbq('init', '1062729962007816');
-        fbq('track', 'PageView');
-        console.log('[Facebook Pixel] Initialized successfully');
-      } catch (error) {
-        console.error('[Facebook Pixel] Initialization error:', error);
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Luxfy AI",
+      "description": "Agentes de IA para WhatsApp que aumentan las ventas automáticamente",
+      "url": "https://luxfy.ai",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "97",
+        "priceCurrency": "USD"
       }
-      
-      // Add pixel loaded event for debugging
-      window.addEventListener('load', function() {
-        if (window.fbq) {
-          console.log('[Facebook Pixel] Script loaded and available');
-        } else {
-          console.error('[Facebook Pixel] Script failed to load');
-        }
-      });
+    }
+    </script>
+
+    <!-- Facebook Pixel Code - Optimizado -->
+    <script>
+      // Load Facebook Pixel asynchronously
+      (function() {
+        var script = document.createElement('script');
+        script.async = true;
+        script.defer = true;
+        script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+        document.head.appendChild(script);
+        
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];
+        
+        script.onload = function() {
+          try {
+            fbq('init', '1062729962007816');
+            fbq('track', 'PageView');
+          } catch (error) {
+            console.error('[Facebook Pixel] Error:', error);
+          }
+        };
+      })();
     </script>
     <!-- End Facebook Pixel Code -->
   </head>
@@ -59,9 +88,20 @@
       src="https://www.facebook.com/tr?id=1062729962007816&ev=PageView&noscript=1"
     /></noscript>
     <div id="root"></div>
+    
+    <!-- Load scripts conditionally and optimized -->
+    <script>
+      // Only load PandaVideo when needed (dashboard)
+      if (window.location.pathname.includes('/dashboard')) {
+        var pandaScript = document.createElement('script');
+        pandaScript.src = 'https://player.pandavideo.com.br/api.v2.js';
+        pandaScript.async = true;
+        document.head.appendChild(pandaScript);
+      }
+    </script>
+    
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script src="https://player.pandavideo.com.br/api.v2.js" async></script>
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module" defer></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

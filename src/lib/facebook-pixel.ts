@@ -1,8 +1,9 @@
 // Simplified Facebook Pixel utility - assumes pixel is loaded via HTML
+// Facebook Pixel types
 declare global {
   interface Window {
-    fbq: any;
-    _fbq: any;
+    fbq?: any;
+    _fbq?: any;
   }
 }
 
