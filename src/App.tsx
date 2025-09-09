@@ -52,26 +52,26 @@ const App = () => (
       <BrowserRouter>
         <ThemeProvider>
           <LanguageProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <Routes>
-              {/* Área pública - sem contextos pesados */}
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/migrate-user" element={<MigrateUser />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/verify-email" element={<VerifyEmail />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/pending-invoice" element={<PendingInvoice />} />
-              <Route path="/account-inactive" element={<AccountInactive />} />
-              <Route path="/select-plan" element={<SelectPlan />} />
-              <Route path="/tutorials" element={<PublicTutorialsPage />} />
-              
-              {/* Área do Dashboard - com contextos completos e lazy loading */}
-              <Route path="/dashboard" element={
-                <AuthProvider>
+            <AuthProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                <Routes>
+                {/* Área pública - agora com AuthProvider disponível */}
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/migrate-user" element={<MigrateUser />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/verify-email" element={<VerifyEmail />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/pending-invoice" element={<PendingInvoice />} />
+                <Route path="/account-inactive" element={<AccountInactive />} />
+                <Route path="/select-plan" element={<SelectPlan />} />
+                <Route path="/tutorials" element={<PublicTutorialsPage />} />
+                
+                {/* Área do Dashboard - com contextos completos e lazy loading */}
+                <Route path="/dashboard" element={
                   <FloatingVideoProvider>
                     <ProtectedRoute>
                       <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Layout</div>}>
@@ -81,8 +81,7 @@ const App = () => (
                       </ErrorBoundary>
                     </ProtectedRoute>
                   </FloatingVideoProvider>
-                </AuthProvider>
-              }>
+                }>
                 <Route index element={
                   <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Dashboard</div>}>
                     <Suspense fallback={<LoadingSpinner message="Carregando Dashboard..." />}>
@@ -180,12 +179,13 @@ const App = () => (
               {/* Rota 404 */}
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </TooltipProvider>
-        </LanguageProvider>
-      </ThemeProvider>
-    </BrowserRouter>
-  </QueryClientProvider>
-  </ErrorBoundary>
-);
+                </TooltipProvider>
+              </AuthProvider>
+            </LanguageProvider>
+          </ThemeProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ErrorBoundary>
+  );
 
 export default App;

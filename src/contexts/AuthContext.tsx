@@ -50,6 +50,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  console.log('✅ AuthProvider inicializado');
+
   const fetchUserData = async (isAutoRefresh = false) => {
     const timestamp = new Date().toISOString();
     const requestType = isAutoRefresh ? '🔄 [AUTO-REFRESH]' : '🚀 [INITIAL/MANUAL]';
@@ -139,51 +141,56 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const initTimestamp = new Date().toISOString();
-    const token = localStorage.getItem('jwt-token');
     
-    console.log(`🚀 [SYSTEM INIT] ${initTimestamp} - Inicializando sistema anti-cache com auto-refresh`);
-    
-    if (token) {
-      console.log(`🔑 [TOKEN FOUND] ${initTimestamp} - Token JWT encontrado, iniciando busca de dados`);
+    try {
+      console.log(`🚀 [SYSTEM INIT] ${initTimestamp} - Inicializando AuthProvider`);
       
-      // Busca inicial dos dados (sem cache)
-      fetchUserData(false).catch((error) => {
-        const errorTimestamp = new Date().toISOString();
-        console.error(`❌ [INITIAL FETCH ERROR] ${errorTimestamp}`, error.message || error);
-        // Se der erro na verificação inicial, apenas define loading como false
-        setLoading(false);
-      }).finally(() => {
-        setLoading(false);
-      });
-
-      // Sistema de atualização automática a cada 2 minutos (ANTI-CACHE)
-      const autoRefreshInterval = setInterval(() => {
-        const refreshTimestamp = new Date().toISOString();
-        const currentToken = localStorage.getItem('jwt-token');
+      const token = localStorage.getItem('jwt-token');
+      
+      if (token) {
+        console.log(`🔑 [TOKEN FOUND] ${initTimestamp} - Token JWT encontrado, iniciando busca de dados`);
         
-        if (currentToken) {
-          console.log(`⏰ [AUTO-REFRESH TRIGGER] ${refreshTimestamp} - Executando refresh automático (ignorando cache)`);
-          fetchUserData(true).catch((error) => {
-            const errorTimestamp = new Date().toISOString();
-            console.error(`❌ [AUTO-REFRESH ERROR] ${errorTimestamp}`, error.message || error);
-          });
-        } else {
-          const cancelTimestamp = new Date().toISOString();
-          console.log(`🚫 [AUTO-REFRESH CANCELLED] ${cancelTimestamp} - Usuário não autenticado`);
+        // Busca inicial dos dados (sem cache)
+        fetchUserData(false).catch((error) => {
+          const errorTimestamp = new Date().toISOString();
+          console.error(`❌ [INITIAL FETCH ERROR] ${errorTimestamp}`, error.message || error);
+          setLoading(false);
+        }).finally(() => {
+          setLoading(false);
+        });
+
+        // Sistema de atualização automática a cada 2 minutos (ANTI-CACHE)
+        const autoRefreshInterval = setInterval(() => {
+          const refreshTimestamp = new Date().toISOString();
+          const currentToken = localStorage.getItem('jwt-token');
+          
+          if (currentToken) {
+            console.log(`⏰ [AUTO-REFRESH TRIGGER] ${refreshTimestamp} - Executando refresh automático (ignorando cache)`);
+            fetchUserData(true).catch((error) => {
+              const errorTimestamp = new Date().toISOString();
+              console.error(`❌ [AUTO-REFRESH ERROR] ${errorTimestamp}`, error.message || error);
+            });
+          } else {
+            const cancelTimestamp = new Date().toISOString();
+            console.log(`🚫 [AUTO-REFRESH CANCELLED] ${cancelTimestamp} - Usuário não autenticado`);
+            clearInterval(autoRefreshInterval);
+          }
+        }, 2 * 60 * 1000); // 2 minutos
+
+        console.log(`✅ [SYSTEM CONFIGURED] ${initTimestamp} - Auto-refresh configurado para 2 minutos com anti-cache`);
+
+        // Cleanup do interval quando o componente for desmontado
+        return () => {
+          const cleanupTimestamp = new Date().toISOString();
+          console.log(`🧹 [CLEANUP] ${cleanupTimestamp} - Limpando sistema de auto-refresh`);
           clearInterval(autoRefreshInterval);
-        }
-      }, 2 * 60 * 1000); // 2 minutos
-
-      console.log(`✅ [SYSTEM CONFIGURED] ${initTimestamp} - Auto-refresh configurado para 2 minutos com anti-cache`);
-
-      // Cleanup do interval quando o componente for desmontado
-      return () => {
-        const cleanupTimestamp = new Date().toISOString();
-        console.log(`🧹 [CLEANUP] ${cleanupTimestamp} - Limpando sistema de auto-refresh`);
-        clearInterval(autoRefreshInterval);
-      };
-    } else {
-      console.log(`🚫 [NO TOKEN] ${initTimestamp} - Nenhum token encontrado`);
+        };
+      } else {
+        console.log(`🚫 [NO TOKEN] ${initTimestamp} - Nenhum token encontrado`);
+        setLoading(false);
+      }
+    } catch (error: any) {
+      console.error(`🚨 [INIT ERROR] ${initTimestamp} - Erro na inicialização do AuthProvider:`, error);
       setLoading(false);
     }
   }, []);
@@ -446,6 +453,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
+    console.error('🚨 useAuth chamado fora do AuthProvider. Componente atual:', new Error().stack);
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;

@@ -23,7 +23,14 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary capturou um erro:', error, errorInfo);
+    console.error('🚨 ErrorBoundary capturou um erro:', error);
+    console.error('📍 Informações do erro:', errorInfo);
+    console.error('📄 Stack do erro:', error.stack);
+    
+    // Log específico para erros de AuthContext
+    if (error.message?.includes('useAuth must be used within an AuthProvider')) {
+      console.error('🔴 ERRO DE AUTH CONTEXT: Um componente está tentando usar useAuth fora do AuthProvider');
+    }
   }
 
   private handleRetry = () => {
@@ -53,9 +60,14 @@ class ErrorBoundary extends Component<Props, State> {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              {process.env.NODE_ENV === 'development' && this.state.error && (
+              {this.state.error && (
                 <div className="rounded-lg bg-muted p-4 text-sm font-mono text-muted-foreground">
-                  {this.state.error.message}
+                  <strong>Erro:</strong> {this.state.error.message}
+                  {this.state.error.message?.includes('useAuth') && (
+                    <div className="mt-2 text-xs">
+                      💡 Este erro geralmente significa que um componente está tentando usar autenticação fora do contexto.
+                    </div>
+                  )}
                 </div>
               )}
               
