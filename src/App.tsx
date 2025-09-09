@@ -18,6 +18,7 @@ import AccountInactive from "./pages/AccountInactive";
 import SelectPlan from "./pages/SelectPlan";
 import MigrateUser from "./pages/MigrateUser";
 import LoadingSpinner from "./components/LoadingSpinner";
+import ErrorBoundary from "./components/ErrorBoundary";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
@@ -46,14 +47,15 @@ import {
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <ThemeProvider>
-        <LanguageProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <Routes>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <ThemeProvider>
+          <LanguageProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <Routes>
               {/* Área pública - sem contextos pesados */}
               <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
@@ -72,78 +74,106 @@ const App = () => (
                 <AuthProvider>
                   <FloatingVideoProvider>
                     <ProtectedRoute>
-                      <Suspense fallback={<LoadingSpinner />}>
-                        <LazyDashboardLayout />
-                      </Suspense>
+                      <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Layout</div>}>
+                        <Suspense fallback={<LoadingSpinner message="Carregando Layout..." />}>
+                          <LazyDashboardLayout />
+                        </Suspense>
+                      </ErrorBoundary>
                     </ProtectedRoute>
                   </FloatingVideoProvider>
                 </AuthProvider>
               }>
                 <Route index element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LazyDashboard />
-                  </Suspense>
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Dashboard</div>}>
+                    <Suspense fallback={<LoadingSpinner message="Carregando Dashboard..." />}>
+                      <LazyDashboard />
+                    </Suspense>
+                  </ErrorBoundary>
                 } />
                 <Route path="agents" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LazyAgentsPage />
-                  </Suspense>
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Agentes</div>}>
+                    <Suspense fallback={<LoadingSpinner message="Carregando Agentes..." />}>
+                      <LazyAgentsPage />
+                    </Suspense>
+                  </ErrorBoundary>
                 } />
                 <Route path="agent" element={<Navigate to="agents" replace />} />
                 <Route path="agent/:id" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LazyAgentPage />
-                  </Suspense>
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Agente</div>}>
+                    <Suspense fallback={<LoadingSpinner message="Carregando Agente..." />}>
+                      <LazyAgentPage />
+                    </Suspense>
+                  </ErrorBoundary>
                 } />
                 <Route path="crm" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LazyCRMSelectionPage />
-                  </Suspense>
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar CRM</div>}>
+                    <Suspense fallback={<LoadingSpinner message="Carregando CRM..." />}>
+                      <LazyCRMSelectionPage />
+                    </Suspense>
+                  </ErrorBoundary>
                 } />
                 <Route path="crm/:agentId" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LazyCRMPage />
-                  </Suspense>
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar CRM</div>}>
+                    <Suspense fallback={<LoadingSpinner message="Carregando CRM..." />}>
+                      <LazyCRMPage />
+                    </Suspense>
+                  </ErrorBoundary>
                 } />
                 <Route path="chat" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LazyChatPage />
-                  </Suspense>
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Chat</div>}>
+                    <Suspense fallback={<LoadingSpinner message="Carregando Chat..." />}>
+                      <LazyChatPage />
+                    </Suspense>
+                  </ErrorBoundary>
                 } />
                 <Route path="campanhas" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LazyCampanhasSelectionPage />
-                  </Suspense>
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Campanhas</div>}>
+                    <Suspense fallback={<LoadingSpinner message="Carregando Campanhas..." />}>
+                      <LazyCampanhasSelectionPage />
+                    </Suspense>
+                  </ErrorBoundary>
                 } />
                 <Route path="campanhas/:agentId" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LazyCampanhasPage />
-                  </Suspense>
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Campanhas</div>}>
+                    <Suspense fallback={<LoadingSpinner message="Carregando Campanhas..." />}>
+                      <LazyCampanhasPage />
+                    </Suspense>
+                  </ErrorBoundary>
                 } />
                 <Route path="agenda" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LazyAgendaPage />
-                  </Suspense>
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Agenda</div>}>
+                    <Suspense fallback={<LoadingSpinner message="Carregando Agenda..." />}>
+                      <LazyAgendaPage />
+                    </Suspense>
+                  </ErrorBoundary>
                 } />
                 <Route path="analytics" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LazyAnalyticsPage />
-                  </Suspense>
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Analytics</div>}>
+                    <Suspense fallback={<LoadingSpinner message="Carregando Analytics..." />}>
+                      <LazyAnalyticsPage />
+                    </Suspense>
+                  </ErrorBoundary>
                 } />
                 <Route path="tutorials" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LazyTutorialsPage />
-                  </Suspense>
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Tutoriais</div>}>
+                    <Suspense fallback={<LoadingSpinner message="Carregando Tutoriais..." />}>
+                      <LazyTutorialsPage />
+                    </Suspense>
+                  </ErrorBoundary>
                 } />
                 <Route path="financeiro" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LazyFinanceiroPage />
-                  </Suspense>
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Financeiro</div>}>
+                    <Suspense fallback={<LoadingSpinner message="Carregando Financeiro..." />}>
+                      <LazyFinanceiroPage />
+                    </Suspense>
+                  </ErrorBoundary>
                 } />
                 <Route path="settings" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LazySettingsPage />
-                  </Suspense>
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Configurações</div>}>
+                    <Suspense fallback={<LoadingSpinner message="Carregando Configurações..." />}>
+                      <LazySettingsPage />
+                    </Suspense>
+                  </ErrorBoundary>
                 } />
               </Route>
               
@@ -155,6 +185,7 @@ const App = () => (
       </ThemeProvider>
     </BrowserRouter>
   </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

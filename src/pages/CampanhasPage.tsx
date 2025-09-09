@@ -12,8 +12,10 @@ const CampanhasPage = () => {
   
   // Se não há agentId na URL, redireciona para a página de seleção
   if (!agentId) {
-    navigate('/dashboard/campanhas', { replace: true });
-    return null;
+    React.useEffect(() => {
+      navigate('/dashboard/campanhas', { replace: true });
+    }, [navigate]);
+    return <div className="min-h-screen flex items-center justify-center">Redirecionando...</div>;
   }
   
   // Estado para o agente selecionado (sempre será o agentId da URL)
