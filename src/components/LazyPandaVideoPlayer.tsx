@@ -1,10 +1,43 @@
-import React, { Suspense, lazy, useState } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useInView } from '@/hooks/useInView';
 
-// Lazy load o PandaVideoPlayer apenas quando necessário
-const PandaVideoPlayer = lazy(() => import('./PandaVideoPlayer'));
+// Componente de vídeo simples sem dependências do FloatingVideo
+const SimplePandaVideo: React.FC<{
+  videoId: string;
+  title: string;
+  aspectRatio?: string;
+}> = ({ videoId, title, aspectRatio = "56.25%" }) => {
+  const embedUrl = `https://player-vz-a5f41599-9ad.tv.pandavideo.com.br/embed/?v=${videoId}&iosFakeFullscreen=true`;
+
+  useEffect(() => {
+    // Carregar script do Panda Video apenas quando necessário
+    if (!document.querySelector('script[src="https://player.pandavideo.com.br/api.v2.js"]')) {
+      const script = document.createElement('script');
+      script.src = 'https://player.pandavideo.com.br/api.v2.js';
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  }, []);
+
+  return (
+    <div className="relative rounded-xl overflow-hidden" style={{ aspectRatio: aspectRatio === "56.25%" ? "16/9" : "16/10.39" }}>
+      <div style={{ position: 'relative', paddingTop: aspectRatio }}>
+        <iframe
+          id={`panda-${videoId}`}
+          src={embedUrl}
+          style={{ border: 'none', position: 'absolute', top: 0, left: 0 }}
+          allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
+          allowFullScreen={true}
+          width="100%"
+          height="100%"
+          title={title}
+        />
+      </div>
+    </div>
+  );
+};
 
 interface LazyPandaVideoPlayerProps {
   videoId: string;
@@ -47,9 +80,11 @@ const LazyPandaVideoPlayer: React.FC<LazyPandaVideoPlayerProps> = (props) => {
   return (
     <div ref={ref}>
       {shouldLoad ? (
-        <Suspense fallback={placeholder}>
-          <PandaVideoPlayer {...props} />
-        </Suspense>
+        <SimplePandaVideo 
+          videoId={props.videoId}
+          title={props.title}
+          aspectRatio={props.aspectRatio}
+        />
       ) : (
         placeholder
       )}
