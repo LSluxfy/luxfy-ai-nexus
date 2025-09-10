@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Play, PictureInPicture } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useFloatingVideo } from '@/contexts/FloatingVideoContext';
 
 interface PandaVideoPlayerProps {
   videoId: string;
@@ -16,8 +15,20 @@ const PandaVideoPlayer: React.FC<PandaVideoPlayerProps> = ({
   description, 
   aspectRatio = "56.25%" 
 }) => {
-  const { openVideo } = useFloatingVideo();
   const embedUrl = `https://player-vz-a5f41599-9ad.tv.pandavideo.com.br/embed/?v=${videoId}&iosFakeFullscreen=true`;
+  
+  // Try to get floating video context safely
+  let openVideo: ((url: string, title: string) => void) | undefined;
+  
+  try {
+    // Dynamic import to avoid build errors
+    const { useFloatingVideo } = require('@/contexts/FloatingVideoContext');
+    const floating = useFloatingVideo();
+    openVideo = floating?.openVideo;
+  } catch {
+    // Context not available - this is expected for pages without FloatingVideoProvider
+    openVideo = undefined;
+  }
 
   useEffect(() => {
     // Ensure Panda Video script is loaded
@@ -45,17 +56,19 @@ const PandaVideoPlayer: React.FC<PandaVideoPlayerProps> = ({
       </div>
       
       {/* Floating Mode Button */}
-      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={() => openVideo(embedUrl, title)}
-          className="h-8 gap-1 bg-black/70 hover:bg-black/90 text-white border-0"
-        >
-          <PictureInPicture className="w-3 h-3" />
-          <span className="text-xs">Flutuante</span>
-        </Button>
-      </div>
+      {openVideo && (
+        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => openVideo(embedUrl, title)}
+            className="h-8 gap-1 bg-black/70 hover:bg-black/90 text-white border-0"
+          >
+            <PictureInPicture className="w-3 h-3" />
+            <span className="text-xs">Flutuante</span>
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
