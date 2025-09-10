@@ -23,6 +23,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { FloatingVideoProvider } from "./contexts/FloatingVideoContext";
+import FloatingVideoPlayer from "./components/FloatingVideoPlayer";
 import ProtectedRoute from "./components/ProtectedRoute";
 import './i18n/config';
 
@@ -53,9 +54,11 @@ const App = () => (
         <ThemeProvider>
           <LanguageProvider>
             <AuthProvider>
-              <TooltipProvider>
-                <Toaster />
-                <Sonner />
+              <FloatingVideoProvider>
+                <TooltipProvider>
+                  <Toaster />
+                  <Sonner />
+                  <FloatingVideoPlayer />
                 <Routes>
                 {/* Área pública - agora com AuthProvider disponível */}
                 <Route path="/" element={<LandingPage />} />
@@ -72,7 +75,6 @@ const App = () => (
                 
                 {/* Área do Dashboard - com contextos completos e lazy loading */}
                 <Route path="/dashboard" element={
-                  <FloatingVideoProvider>
                     <ProtectedRoute>
                       <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Layout</div>}>
                         <Suspense fallback={<LoadingSpinner message="Carregando Layout..." />}>
@@ -80,7 +82,6 @@ const App = () => (
                         </Suspense>
                       </ErrorBoundary>
                     </ProtectedRoute>
-                  </FloatingVideoProvider>
                 }>
                 <Route index element={
                   <ErrorBoundary fallback={<div className="p-4 text-center">Erro ao carregar Dashboard</div>}>
@@ -180,12 +181,13 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
                 </TooltipProvider>
-              </AuthProvider>
-            </LanguageProvider>
-          </ThemeProvider>
-        </BrowserRouter>
-      </QueryClientProvider>
-    </ErrorBoundary>
-  );
+              </FloatingVideoProvider>
+            </AuthProvider>
+          </LanguageProvider>
+        </ThemeProvider>
+      </BrowserRouter>
+    </QueryClientProvider>
+  </ErrorBoundary>
+);
 
 export default App;
