@@ -32,8 +32,11 @@ export default defineConfig(({ mode }) => ({
           // App chunks
           landing: [
             './src/pages/LandingPage.tsx',
-            './src/components/landing/HeroSection.tsx',
-            './src/components/landing/AnimatedChatMockup.tsx'
+            './src/components/landing/HeroSection.tsx'
+          ],
+          'landing-heavy': [
+            './src/components/landing/AnimatedChatMockup.tsx',
+            './src/components/PandaVideoPlayer.tsx'
           ],
           dashboard: [
             './src/pages/Dashboard.tsx',

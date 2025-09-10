@@ -18,7 +18,9 @@ import WhatsAppButton from '@/components/WhatsAppButton';
 import WhatsAppNotification from '@/components/landing/WhatsAppNotification';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import WebVitalsTracker from '@/components/WebVitalsTracker';
+import PerformanceOptimizer from '@/components/PerformanceOptimizer';
 
+import LazyPandaVideoPlayer from '@/components/LazyPandaVideoPlayer';
 import ScarcityPopup from '@/components/landing/ScarcityPopup';
 import RealResults from '@/components/landing/RealResults';
 import LiveNotifications from '@/components/landing/LiveNotifications';
@@ -164,17 +166,11 @@ const LandingPage = () => {
               
               {/* Container do vídeo */}
               <div className="relative rounded-2xl overflow-hidden aspect-video border border-blue-400/30 shadow-2xl shadow-blue-500/20">
-                <div style={{position:'relative',paddingTop:'56.25%'}}>
-                  <iframe 
-                    id="panda-43e448cc-a1c0-48db-b09e-90b281364b01" 
-                    src="https://player-vz-a5f41599-9ad.tv.pandavideo.com.br/embed/?v=43e448cc-a1c0-48db-b09e-90b281364b01&iosFakeFullscreen=true" 
-                    style={{border:'none',position:'absolute',top:0,left:0}} 
-                    allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture" 
-                    allowFullScreen={true} 
-                    width="100%" 
-                    height="100%"
-                  />
-                </div>
+                <LazyPandaVideoPlayer
+                  videoId="43e448cc-a1c0-48db-b09e-90b281364b01"
+                  title="Veja como funciona na prática"
+                  description="Demonstração completa do agente de IA"
+                />
               </div>
                 
                 {/* Efeitos de partículas */}
@@ -284,6 +280,7 @@ const LandingPage = () => {
       <WhatsAppButton />
       <WhatsAppNotification />
       <WebVitalsTracker />
+      <PerformanceOptimizer />
     </div>
   );
 };

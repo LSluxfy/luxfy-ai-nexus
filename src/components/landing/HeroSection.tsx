@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Users, TrendingUp, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
-import AnimatedChatMockup from './AnimatedChatMockup';
+import LazyAnimatedChatMockup from './LazyAnimatedChatMockup';
 import LeadCaptureModal from './LeadCaptureModal';
 const HeroSection = () => {
   const {
@@ -105,9 +105,7 @@ const HeroSection = () => {
           </div>
 
           {/* Right Column - Animated Mockup */}
-          <div className="flex justify-center md:justify-end">
-            <AnimatedChatMockup />
-          </div>
+          <LazyAnimatedChatMockup />
         </div>
       </div>
 
