@@ -334,10 +334,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       toast({
         title: "Usuário verificado com sucesso!",
-        description: "Agora você pode fazer login.",
+        description: "Você já pode acessar sua conta.",
       });
 
-      navigate('/login');
+      // Fazer login automático após verificação
+      try {
+        await fetchUserData();
+        navigate('/dashboard');
+      } catch (error) {
+        // Se não conseguir fazer login automático, redireciona para login
+        navigate('/login');
+      }
     } catch (error: any) {
       let errorMessage = 'Erro ao verificar usuário';
       
