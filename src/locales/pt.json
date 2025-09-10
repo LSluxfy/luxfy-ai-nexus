@@ -335,6 +335,39 @@
     "subtitle": "Converse conosco e veja como funciona",
     "cta": "Testar Agora"
   },
+  "leadCapture": {
+    "title": "Comece sua transformação digital!",
+    "description": "Deixe seus dados e um especialista entrará em contato para mostrar como automatizar seu negócio.",
+    "fields": {
+      "name": "Nome completo",
+      "email": "E-mail",
+      "phone": "Telefone com código do país"
+    },
+    "placeholders": {
+      "name": "Ex: João Silva",
+      "email": "exemplo@email.com",
+      "phone": "Ex: +5511999999999"
+    },
+    "submit": "Enviar informações",
+    "submitting": "Enviando...",
+    "cancel": "Cancelar",
+    "validation": {
+      "nameMinLength": "O nome deve ter pelo menos 2 caracteres",
+      "emailRequired": "O e-mail é obrigatório",
+      "emailInvalid": "Por favor insira um e-mail válido",
+      "phoneRequired": "O telefone é obrigatório",
+      "phoneInvalid": "Por favor insira um telefone válido com código do país (Ex: +5511999999999)"
+    },
+    "success": {
+      "title": "Informações enviadas!",
+      "description": "Dados enviados com sucesso",
+      "message": "Em breve um especialista entrará em contato para mostrar tudo o que a Luxfy pode fazer pelo seu negócio."
+    },
+    "error": {
+      "title": "Erro ao enviar",
+      "description": "Houve um problema ao enviar seus dados. Por favor tente novamente."
+    }
+  },
   "demonstration": {
     "badge": "Demonstração",
     "title": "Veja nossa IA em ação",

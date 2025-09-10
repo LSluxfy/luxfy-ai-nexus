@@ -335,6 +335,39 @@
     "subtitle": "Chat with us and see how it works",
     "cta": "Test Now"
   },
+  "leadCapture": {
+    "title": "Start your digital transformation!",
+    "description": "Leave your details and a specialist will contact you to show how to automate your business.",
+    "fields": {
+      "name": "Full name",
+      "email": "Email address",
+      "phone": "Phone with country code"
+    },
+    "placeholders": {
+      "name": "Ex: John Smith",
+      "email": "example@email.com",
+      "phone": "Ex: +1234567890"
+    },
+    "submit": "Send information",
+    "submitting": "Sending...",
+    "cancel": "Cancel",
+    "validation": {
+      "nameMinLength": "Name must be at least 2 characters",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email",
+      "phoneRequired": "Phone is required",
+      "phoneInvalid": "Please enter a valid phone with country code (Ex: +1234567890)"
+    },
+    "success": {
+      "title": "Information sent!",
+      "description": "Data sent successfully",
+      "message": "A specialist will contact you soon to show everything Luxfy can do for your business."
+    },
+    "error": {
+      "title": "Send error",
+      "description": "There was a problem sending your data. Please try again."
+    }
+  },
   "demonstration": {
     "badge": "Demonstration",
     "title": "See our AI in action",

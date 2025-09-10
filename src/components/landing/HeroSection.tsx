@@ -4,6 +4,7 @@ import { ArrowRight, Users, TrendingUp, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import AnimatedChatMockup from './AnimatedChatMockup';
+import LeadCaptureModal from './LeadCaptureModal';
 const HeroSection = () => {
   const {
     t
@@ -11,6 +12,7 @@ const HeroSection = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+  const [leadModalOpen, setLeadModalOpen] = useState(false);
   const words = t('hero.words', {
     returnObjects: true
   }) as string[] || ['vendedor', 'SDR', 'atendente'];
@@ -66,13 +68,14 @@ const HeroSection = () => {
 
             {/* CTA Button */}
             <div className="space-y-4">
-              <a href="#pricing">
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold group transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/25">
-                  {t('hero.cta')}
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </a>
-              
+              <Button 
+                size="lg" 
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold group transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/25"
+                onClick={() => setLeadModalOpen(true)}
+              >
+                {t('hero.cta')}
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
             </div>
 
             {/* Stats */}
@@ -107,6 +110,12 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Lead Capture Modal */}
+      <LeadCaptureModal 
+        open={leadModalOpen} 
+        onOpenChange={setLeadModalOpen} 
+      />
     </section>;
 };
 export default HeroSection;
