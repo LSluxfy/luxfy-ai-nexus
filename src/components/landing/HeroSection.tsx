@@ -18,7 +18,7 @@ const HeroSection = () => {
   }) as string[] || ['vendedor', 'SDR', 'atendente'];
   useEffect(() => {
     const currentWord = words[currentWordIndex];
-    const typeSpeed = isDeleting ? 100 : 150;
+    const typeSpeed = isDeleting ? 120 : 180; // Slower for better performance
     const pauseTime = isDeleting ? 500 : 2000;
     const timer = setTimeout(() => {
       if (!isDeleting && displayText === currentWord) {

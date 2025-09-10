@@ -2,6 +2,26 @@ import { useEffect } from 'react';
 
 const PerformanceOptimizer = () => {
   useEffect(() => {
+    // Optimize critical rendering path
+    const optimizeRendering = () => {
+      // Remove unnecessary animations during initial load
+      document.documentElement.style.setProperty('--animation-duration', '0s');
+      
+      // Re-enable animations after critical content loads
+      const enableAnimations = () => {
+        document.documentElement.style.removeProperty('--animation-duration');
+      };
+      
+      // Use requestIdleCallback if available
+      if ('requestIdleCallback' in window) {
+        (window as any).requestIdleCallback(enableAnimations, { timeout: 1000 });
+      } else {
+        setTimeout(enableAnimations, 1000);
+      }
+    };
+
+    optimizeRendering();
+
     // Defer non-critical scripts
     const deferredScripts = [
       'https://player.pandavideo.com.br/api.v2.js'
@@ -18,12 +38,37 @@ const PerformanceOptimizer = () => {
       }
     };
 
-    // Load scripts after initial render
-    const timer = setTimeout(() => {
-      deferredScripts.forEach(loadDeferredScript);
-    }, 2000);
+    // Load scripts after user interaction or 3 seconds
+    let scriptsLoaded = false;
+    
+    const loadScripts = () => {
+      if (!scriptsLoaded) {
+        scriptsLoaded = true;
+        deferredScripts.forEach(loadDeferredScript);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    const handleInteraction = () => {
+      loadScripts();
+      ['click', 'scroll', 'touchstart'].forEach(event => {
+        document.removeEventListener(event, handleInteraction, { passive: true } as any);
+      });
+    };
+
+    // Load on interaction
+    ['click', 'scroll', 'touchstart'].forEach(event => {
+      document.addEventListener(event, handleInteraction, { passive: true } as any);
+    });
+
+    // Fallback: load after 3 seconds
+    const timer = setTimeout(loadScripts, 3000);
+
+    return () => {
+      clearTimeout(timer);
+      ['click', 'scroll', 'touchstart'].forEach(event => {
+        document.removeEventListener(event, handleInteraction, { passive: true } as any);
+      });
+    };
   }, []);
 
   useEffect(() => {

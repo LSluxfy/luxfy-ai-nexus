@@ -21,13 +21,13 @@ import WebVitalsTracker from '@/components/WebVitalsTracker';
 import PerformanceOptimizer from '@/components/PerformanceOptimizer';
 
 import LazyPandaVideoPlayer from '@/components/LazyPandaVideoPlayer';
+import OptimizedFacebookPixel from '@/components/OptimizedFacebookPixel';
+import LazyRealResults from '@/components/landing/LazyRealResults';
+import LazyHowItWorks from '@/components/landing/LazyHowItWorks';
+import LazyBeforeAfter from '@/components/landing/LazyBeforeAfter';
 import ScarcityPopup from '@/components/landing/ScarcityPopup';
-import RealResults from '@/components/landing/RealResults';
 import LiveNotifications from '@/components/landing/LiveNotifications';
-import HowItWorks from '@/components/landing/HowItWorks';
 import Guarantee from '@/components/landing/Guarantee';
-import BeforeAfter from '@/components/landing/BeforeAfter';
-import { trackEvent, FacebookEvents } from '@/lib/facebook-pixel';
 
 // Lazy load componentes pesados
 const LazyPricingV2 = lazy(() => import('@/components/landing/PricingV2'));
@@ -39,15 +39,6 @@ const LazyROICalculator = lazy(() => import('@/components/landing/ROICalculator'
 const LandingPage = () => {
   const { t } = useTranslation();
   const canonical = typeof window !== 'undefined' ? window.location.origin + window.location.pathname : '';
-
-  // Track page view on component mount
-  useEffect(() => {
-    trackEvent(FacebookEvents.VIEW_CONTENT, {
-      content_name: 'Landing Page',
-      content_category: 'sales_page',
-      content_type: 'website'
-    });
-  }, []);
 
   const features = [
     {
@@ -244,9 +235,9 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <RealResults />
-      <HowItWorks />
-      <BeforeAfter />
+      <LazyRealResults />
+      <LazyHowItWorks />
+      <LazyBeforeAfter />
       
       <Suspense fallback={<LoadingSpinner />}>
         <LazyROICalculator />
@@ -281,6 +272,7 @@ const LandingPage = () => {
       <WhatsAppNotification />
       <WebVitalsTracker />
       <PerformanceOptimizer />
+      <OptimizedFacebookPixel />
     </div>
   );
 };
