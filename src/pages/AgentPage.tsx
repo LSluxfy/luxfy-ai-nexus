@@ -5,67 +5,18 @@ import { AgentConfigTabs } from '@/components/agent/AgentConfigTabs';
 import { AgentSelector } from '@/components/crm/AgentSelector';
 import { ApiAgent } from '@/types/agent-api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Bot, RefreshCw, CheckCircle } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
 export function AgentPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [agent, setAgent] = useState<ApiAgent | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showDirectAccessAlert, setShowDirectAccessAlert] = useState(false);
   const { user } = useAuth();
 
   const handleAgentChange = (agentId: string) => {
     navigate(`/dashboard/agent/${agentId}`);
   };
-
-  const handleReloadPage = () => {
-    window.location.reload();
-  };
-
-  const handleContinue = () => {
-    setShowDirectAccessAlert(false);
-  };
-
-  // Detectar se a página foi aberta diretamente
-  useEffect(() => {
-    const checkDirectAccess = () => {
-      try {
-        // Verificar o tipo de navegação usando performance.navigation
-        const navigationType = (performance.navigation && performance.navigation.type) || 
-                              (performance.getEntriesByType && performance.getEntriesByType('navigation')[0]?.type);
-        
-        // Verificar se foi abertura direta (navigate/reload) e não back_forward
-        const isDirectAccess = navigationType === 'navigate' || 
-                              navigationType === 'reload' || 
-                              navigationType === 1 || // TYPE_RELOAD
-                              navigationType === 0;   // TYPE_NAVIGATE
-        
-        const isBackForward = navigationType === 'back_forward' || 
-                             navigationType === 2; // TYPE_BACK_FORWARD
-
-        console.log('🔍 Navigation detection:', {
-          navigationType,
-          isDirectAccess,
-          isBackForward,
-          pathname: window.location.pathname
-        });
-
-        // Só mostrar alerta se for acesso direto e estivermos na rota do agente
-        if (isDirectAccess && !isBackForward && window.location.pathname.includes('/dashboard/agent/')) {
-          setShowDirectAccessAlert(true);
-        }
-      } catch (error) {
-        console.warn('❌ Erro ao detectar tipo de navegação:', error);
-      }
-    };
-
-    // Executar a verificação após um pequeno delay para garantir que tudo esteja carregado
-    const timeoutId = setTimeout(checkDirectAccess, 100);
-    
-    return () => clearTimeout(timeoutId);
-  }, []);
 
   useEffect(() => {
     console.log('AgentPage - ID:', id);
@@ -148,38 +99,10 @@ export function AgentPage() {
   }
 
   return (
-    <>
-      <AgentConfigTabs 
-        agent={agent} 
-        onUpdate={setAgent}
-      />
-      
-      {/* Modal de aviso para acesso direto */}
-      <AlertDialog open={showDirectAccessAlert} onOpenChange={setShowDirectAccessAlert}>
-        <AlertDialogContent className="max-w-md">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2">
-              <RefreshCw className="h-5 w-5 text-primary" />
-              Aviso de atualização de dados
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-left leading-relaxed">
-              Percebemos que você abriu esta página diretamente ao iniciar o navegador. Os dados exibidos podem não estar atualizados. 
-              Você pode recarregar a página para garantir informações mais recentes ou continuar assim mesmo e verificar se os dados estão corretos.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
-            <AlertDialogCancel onClick={handleContinue} className="flex items-center gap-2">
-              <CheckCircle className="h-4 w-4" />
-              ✅ Continuar assim
-            </AlertDialogCancel>
-            <AlertDialogAction onClick={handleReloadPage} className="flex items-center gap-2">
-              <RefreshCw className="h-4 w-4" />
-              🔄 Recarregar página
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
+    <AgentConfigTabs 
+      agent={agent} 
+      onUpdate={setAgent}
+    />
   );
 }
 
