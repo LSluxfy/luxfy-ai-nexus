@@ -23,22 +23,17 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: {
-          // Ultra-critical vendor chunks
-          'react-core': ['react', 'react-dom'],
-          'react-router': ['react-router-dom'],
-          'ui-core': ['@radix-ui/react-dialog', '@radix-ui/react-alert-dialog'],
-          'ui-extended': ['@radix-ui/react-dropdown-menu', '@radix-ui/react-tabs'],
+          // Vendor chunks
+          react: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tabs'],
           charts: ['recharts'],
           i18n: ['react-i18next', 'i18next'],
           
-          // Ultra-critical landing chunks
-          'landing-hero': [
-            './src/components/landing/HeroSection.tsx',
-            './src/components/landing/HeroSectionOptimized.tsx',
-            './src/components/landing/StaticHeroSkeleton.tsx'
-          ],
+          // App chunks - more granular
           'landing-core': [
-            './src/pages/LandingPage.tsx'
+            './src/pages/LandingPage.tsx',
+            './src/components/landing/HeroSection.tsx'
           ],
           'landing-video': [
             './src/components/landing/AnimatedChatMockup.tsx',
@@ -66,9 +61,8 @@ export default defineConfig(({ mode }) => ({
     },
     target: 'esnext',
     minify: 'esbuild',
-    cssCodeSplit: false, // Inline critical CSS
-    sourcemap: false,
-    chunkSizeWarningLimit: 1000
+    cssCodeSplit: true,
+    sourcemap: false
   },
   esbuild: {
     drop: mode === 'production' ? ['console', 'debugger'] : []

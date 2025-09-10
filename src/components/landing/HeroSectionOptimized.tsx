@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight, Users, TrendingUp, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
-import StaticHeroSkeleton from './StaticHeroSkeleton';
+import UltraLightSkeleton from './UltraLightSkeleton';
 import LeadCaptureModal from './LeadCaptureModal';
 
 const HeroSectionOptimized = () => {
@@ -11,45 +11,55 @@ const HeroSectionOptimized = () => {
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [leadModalOpen, setLeadModalOpen] = useState(false);
+  const [animationsReady, setAnimationsReady] = useState(false);
+  const [showRealComponent, setShowRealComponent] = useState(false);
   
   const words = t('hero.words', { returnObjects: true }) as string[] || ['vendedor', 'SDR', 'atendente'];
   
-  // Initialize immediately with first word - NO DELAYS
+  // Initialize with static text for FCP
   const staticWord = words[0] || 'vendedor';
   
   useEffect(() => {
-    // Start immediately - NO DELAYS for FCP optimization
-    setDisplayText(staticWord);
-    
-    // Only start typewriter after FCP (deferred)
-    const startTypewriter = () => {
-      const currentWord = words[currentWordIndex];
-      const typeSpeed = isDeleting ? 80 : 120; // Faster typing
-      const pauseTime = isDeleting ? 300 : 1500; // Shorter pauses
+    // Only start animations after FCP
+    const initAnimations = () => {
+      setAnimationsReady(true);
+      setDisplayText(staticWord);
       
-      const timer = setTimeout(() => {
-        if (!isDeleting && displayText === currentWord) {
-          setTimeout(() => setIsDeleting(true), pauseTime);
-        } else if (isDeleting && displayText === '') {
-          setIsDeleting(false);
-          setCurrentWordIndex(prev => (prev + 1) % words.length);
-        } else if (isDeleting) {
-          setDisplayText(currentWord.substring(0, displayText.length - 1));
-        } else {
-          setDisplayText(currentWord.substring(0, displayText.length + 1));
-        }
-      }, typeSpeed);
-      
-      return () => clearTimeout(timer);
+      // Show real animated component after slight delay
+      setTimeout(() => {
+        setShowRealComponent(true);
+      }, 500);
     };
-
-    // Defer typewriter animation until after FCP
+    
     if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(startTypewriter, { timeout: 100 });
+      (window as any).requestIdleCallback(initAnimations, { timeout: 1000 });
     } else {
-      setTimeout(startTypewriter, 50);
+      setTimeout(initAnimations, 800);
     }
-  }, [currentWordIndex, displayText, isDeleting, words, staticWord]);
+  }, [staticWord]);
+
+  useEffect(() => {
+    if (!animationsReady) return;
+    
+    const currentWord = words[currentWordIndex];
+    const typeSpeed = isDeleting ? 120 : 180;
+    const pauseTime = isDeleting ? 500 : 2000;
+    
+    const timer = setTimeout(() => {
+      if (!isDeleting && displayText === currentWord) {
+        setTimeout(() => setIsDeleting(true), pauseTime);
+      } else if (isDeleting && displayText === '') {
+        setIsDeleting(false);
+        setCurrentWordIndex(prev => (prev + 1) % words.length);
+      } else if (isDeleting) {
+        setDisplayText(currentWord.substring(0, displayText.length - 1));
+      } else {
+        setDisplayText(currentWord.substring(0, displayText.length + 1));
+      }
+    }, typeSpeed);
+    
+    return () => clearTimeout(timer);
+  }, [currentWordIndex, displayText, isDeleting, words, animationsReady]);
 
   return (
     <section className="hero-container">
@@ -64,8 +74,8 @@ const HeroSectionOptimized = () => {
                 {t('hero.title')}{' '}
                 <span className="relative inline-block">
                   <span className="text-blue-400">
-                    {displayText || staticWord}
-                    <span className="blink-animation">|</span>
+                    {animationsReady ? displayText : staticWord}
+                    {animationsReady && <span className="blink-animation">|</span>}
                   </span>
                 </span>
                 <br />
@@ -114,8 +124,8 @@ const HeroSectionOptimized = () => {
             </div>
           </div>
 
-          {/* Right Column - Static skeleton for FCP */}
-          <StaticHeroSkeleton />
+          {/* Right Column - Ultra Light Skeleton initially */}
+          <UltraLightSkeleton showReal={showRealComponent} />
         </div>
       </div>
 
