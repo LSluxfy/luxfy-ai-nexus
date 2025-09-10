@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { AgentApiService } from '@/services/agentApiService';
 import { ApiAgent, ApprenticeshipItem } from '@/types/agent-api';
 import { SimpleFileUpload } from '@/components/upload/SimpleFileUpload';
+import { cacheBustingUtils } from '@/utils/cache-utils';
 
 interface AgentTrainingProps {
   agent: ApiAgent;
@@ -30,6 +31,12 @@ export function AgentTraining({ agent, onUpdate }: AgentTrainingProps) {
   });
   const { toast } = useToast();
 
+  // Limpar cache ao carregar o componente
+  useEffect(() => {
+    cacheBustingUtils.clearBrowserCache();
+    console.log('🧹 [TRAINING CACHE] Cache limpo ao carregar página de treinamento');
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -39,6 +46,7 @@ export function AgentTraining({ agent, onUpdate }: AgentTrainingProps) {
       console.log(`🚀 [TRAINING UPDATE] ${timestamp} - Atualizando treinamento do agente ${agent.id}`);
       console.log(`📦 [TRAINING DATA] ${timestamp}`, { apprenticeship });
       
+      // Força atualização sem cache
       const response = await AgentApiService.updateAgent(agent.id.toString(), {
         apprenticeship
       });

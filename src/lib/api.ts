@@ -3,12 +3,13 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 const API_BASE_URL = 'https://api.luxfy.app';
 
-// Função para adicionar parâmetros anti-cache
+// Função para adicionar parâmetros anti-cache mais agressivos
 const addCacheBustingParams = (url: string): string => {
   const separator = url.includes('?') ? '&' : '?';
   const timestamp = Date.now();
   const random = Math.random().toString(36).substring(7);
-  return `${url}${separator}_t=${timestamp}&_r=${random}`;
+  const sessionId = crypto.randomUUID().substring(0, 8);
+  return `${url}${separator}_t=${timestamp}&_r=${random}&_s=${sessionId}&_v=${Date.now()}`;
 };
 
 // Criar instância do axios
@@ -16,9 +17,11 @@ export const api: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
     'Pragma': 'no-cache',
     'Expires': '0',
+    'ETag': '',
+    'Last-Modified': '',
   },
 });
 
@@ -35,9 +38,14 @@ api.interceptors.request.use(
       config.url = addCacheBustingParams(config.url);
     }
     
-    // Headers adicionais para prevenir cache
+    // Headers adicionais mais agressivos para prevenir cache
     config.headers['If-None-Match'] = '';
     config.headers['If-Modified-Since'] = '';
+    config.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, max-age=0';
+    config.headers['Pragma'] = 'no-cache';
+    config.headers['Expires'] = '0';
+    config.headers['X-Requested-With'] = 'XMLHttpRequest';
+    config.headers['X-Cache-Bust'] = Date.now().toString();
     
     // Log da requisição
     const timestamp = new Date().toISOString();
