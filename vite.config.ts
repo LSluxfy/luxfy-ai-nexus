@@ -28,15 +28,21 @@ export default defineConfig(({ mode }) => ({
           router: ['react-router-dom'],
           ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tabs'],
           charts: ['recharts'],
+          i18n: ['react-i18next', 'i18next'],
           
-          // App chunks
-          landing: [
+          // App chunks - more granular
+          'landing-core': [
             './src/pages/LandingPage.tsx',
             './src/components/landing/HeroSection.tsx'
           ],
-          'landing-heavy': [
+          'landing-video': [
             './src/components/landing/AnimatedChatMockup.tsx',
             './src/components/PandaVideoPlayer.tsx'
+          ],
+          'landing-sections': [
+            './src/components/landing/LazyRealResults.tsx',
+            './src/components/landing/LazyHowItWorks.tsx',
+            './src/components/landing/LazyBeforeAfter.tsx'
           ],
           dashboard: [
             './src/pages/Dashboard.tsx',

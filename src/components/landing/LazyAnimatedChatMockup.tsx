@@ -11,7 +11,7 @@ const LazyAnimatedChatMockup = () => {
     <div ref={ref} className="flex justify-center md:justify-end">
       {inView ? (
         <Suspense fallback={
-          <div className="w-[300px] h-[500px] bg-slate-800 rounded-[2.5rem] animate-pulse flex items-center justify-center">
+          <div className="w-[300px] h-[500px] bg-slate-800 rounded-[2.5rem] flex items-center justify-center">
             <div className="text-slate-400 text-sm">Carregando chat...</div>
           </div>
         }>

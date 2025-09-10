@@ -75,7 +75,7 @@ const AnimatedChatMockup = () => {
   }, [isAnimating, currentMessageIndex, messages.length, inView, animateMessages]);
 
   return (
-    <div ref={ref} className={`relative w-[300px] mx-auto ${inView ? 'animate-enter' : ''}`}>
+    <div ref={ref} className={`relative w-[300px] mx-auto ${inView ? 'animate-fade-in' : ''}`} style={{ willChange: inView ? 'transform' : 'auto' }}>
       {/* Phone Frame */}
       <div className="relative bg-slate-900 rounded-[2.5rem] p-2 shadow-2xl border border-slate-700">
         {/* Screen */}
