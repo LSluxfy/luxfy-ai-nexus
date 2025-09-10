@@ -38,10 +38,9 @@ const HeroSection = () => {
     }, typeSpeed);
     return () => clearTimeout(timer);
   }, [currentWordIndex, displayText, isDeleting, words]);
-  return <section className="relative min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-900/50 to-slate-900"></div>
-      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+  return <section className="relative min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 overflow-hidden">
+      {/* Simplified Background Effects */}
+      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/10 to-transparent"></div>
       
       <div className="container mx-auto px-4 py-20 relative z-10">
         {/* Main Content */}
@@ -52,10 +51,10 @@ const HeroSection = () => {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                 {t('hero.title')}{' '}
                  <span className="relative inline-block">
-                   <span className="text-blue-400">
-                     {displayText}
-                     <span className="animate-pulse">|</span>
-                   </span>
+                    <span className="text-blue-400">
+                      {displayText}
+                      <span className="animate-[blink_1s_ease-in-out_infinite]">|</span>
+                    </span>
                  </span>
                 <br />
                 {t('hero.subtitle')}
@@ -70,11 +69,11 @@ const HeroSection = () => {
             <div className="space-y-4">
               <Button 
                 size="lg" 
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold group transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/25"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold group transition-colors duration-200"
                 onClick={() => setLeadModalOpen(true)}
               >
                 {t('hero.cta')}
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-0.5 transition-transform duration-200" />
               </Button>
             </div>
 

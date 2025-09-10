@@ -167,9 +167,9 @@ const AnimatedChatMockup = () => {
         </div>
       </div>
 
-      {/* Floating Elements */}
-      <div className="absolute -right-4 top-1/4 w-20 h-20 bg-blue-500/20 rounded-full blur-xl"></div>
-      <div className="absolute -left-6 bottom-1/4 w-16 h-16 bg-purple-500/20 rounded-full blur-xl"></div>
+      {/* Floating Elements - Simplified */}
+      <div className="absolute -right-4 top-1/4 w-20 h-20 bg-blue-500/10 rounded-full"></div>
+      <div className="absolute -left-6 bottom-1/4 w-16 h-16 bg-purple-500/10 rounded-full"></div>
     </div>
   );
 };

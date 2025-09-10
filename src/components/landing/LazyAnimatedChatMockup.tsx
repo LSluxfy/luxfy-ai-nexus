@@ -12,7 +12,7 @@ const LazyAnimatedChatMockup = () => {
       {inView ? (
         <Suspense fallback={
           <div className="w-[300px] h-[500px] bg-slate-800 rounded-[2.5rem] flex items-center justify-center">
-            <div className="text-slate-400 text-sm">Carregando chat...</div>
+            <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
           </div>
         }>
           <AnimatedChatMockup />
