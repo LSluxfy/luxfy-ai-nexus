@@ -133,13 +133,21 @@
       .blink-animation { animation: blink 1s ease-in-out infinite; }
     </style>
     
-    <!-- Preload critical resources - FCP Optimized -->
-    <link rel="preload" href="/src/main.tsx" as="script" />
+    <!-- Ultra-aggressive resource preloading for FCP <1.5s -->
+    <link rel="modulepreload" href="/src/main.tsx" />
+    <link rel="modulepreload" href="/src/components/landing/HeroSection.tsx" />
+    <link rel="modulepreload" href="/src/components/landing/HeroSectionOptimized.tsx" />
+    <link rel="modulepreload" href="/src/components/landing/StaticHeroSkeleton.tsx" />
     <link rel="preload" href="/src/assets/hero-chat-webp.webp" as="image" type="image/webp" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
-    <!-- Defer non-critical font loading -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <!-- DNS prefetch for critical domains -->
+    <link rel="dns-prefetch" href="//hook.us1.make.com" />
+    <link rel="dns-prefetch" href="//api.stripe.com" />
+    
+    <!-- Ultra-deferred font loading - only after FCP -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet';this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"></noscript>
 
     <!-- Open Graph optimizado -->
     <meta property="og:title" content="Luxfy AI - Agentes de IA para WhatsApp que Aumentan tus Ventas" />
