@@ -38,14 +38,21 @@ api.interceptors.request.use(
       config.url = addCacheBustingParams(config.url);
     }
     
-    // Headers adicionais mais agressivos para prevenir cache
+    // Headers anti-cache ultra agressivos para TODAS as requests
     config.headers['If-None-Match'] = '';
     config.headers['If-Modified-Since'] = '';
-    config.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, max-age=0';
+    config.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
     config.headers['Pragma'] = 'no-cache';
     config.headers['Expires'] = '0';
+    config.headers['Surrogate-Control'] = 'no-store';
     config.headers['X-Requested-With'] = 'XMLHttpRequest';
     config.headers['X-Cache-Bust'] = Date.now().toString();
+    
+    // Headers extras para requests de autenticação
+    if (config.url?.includes('/auth') || config.url?.includes('/user/auth')) {
+      config.headers['X-Auth-Cache-Bust'] = `auth-${Date.now()}-${Math.random().toString(36).substring(7)}`;
+      config.headers['X-Force-Fresh'] = 'true';
+    }
     
     // Log da requisição
     const timestamp = new Date().toISOString();

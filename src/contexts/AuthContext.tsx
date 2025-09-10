@@ -56,11 +56,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const timestamp = new Date().toISOString();
     const requestType = isAutoRefresh ? '🔄 [AUTO-REFRESH]' : '🚀 [INITIAL/MANUAL]';
     
-    console.log(`${requestType} ${timestamp} - Iniciando busca de dados dos agentes (ANTI-CACHE ATIVO)`);
+    console.log(`${requestType} ${timestamp} - Iniciando busca de dados dos agentes (ANTI-CACHE MÁXIMO)`);
     
     try {
-      // Sistema anti-cache já está implementado no interceptor do axios
-      const response = await api.get('/v1/user/auth');
+      // Headers anti-cache máximos para request de autenticação
+      const antiCacheHeaders = {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'Surrogate-Control': 'no-store',
+        'If-None-Match': '',
+        'If-Modified-Since': '',
+        'X-Cache-Bust': `auth-${Date.now()}-${Math.random().toString(36).substring(7)}`,
+        'X-Requested-With': 'XMLHttpRequest'
+      };
+
+      const response = await api.get('/v1/user/auth', {
+        headers: antiCacheHeaders,
+        // Garantir que o axios não use cache
+        adapter: undefined,
+        // Forçar nova conexão
+        timeout: 30000
+      });
       
       if (response.data.user) {
         const rawUserData = response.data.user;
