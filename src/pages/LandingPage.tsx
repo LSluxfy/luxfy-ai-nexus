@@ -158,9 +158,10 @@ const LandingPage = () => {
               {/* Container do vídeo */}
               <div className="relative rounded-2xl overflow-hidden aspect-video border border-blue-400/30 shadow-2xl shadow-blue-500/20">
                 <LazyPandaVideoPlayer
-                  videoId="43e448cc-a1c0-48db-b09e-90b281364b01"
+                  videoId="cbb7191e-22c5-4129-8da0-9f17ff2dbcf8"
                   title="Veja como funciona na prática"
                   description="Demonstração completa do agente de IA"
+                  aspectRatio="64.94287432351172%"
                 />
               </div>
                 
