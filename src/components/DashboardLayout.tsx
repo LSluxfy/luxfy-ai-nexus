@@ -8,6 +8,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from './ui/button';
 import { LogOut, User, Moon, Sun } from 'lucide-react';
 import { SidebarProvider, SidebarTrigger } from './ui/sidebar';
+import LanguageSelector from './LanguageSelector';
 
 const DashboardLayout = () => {
   const { user, signOut } = useAuth();
@@ -34,6 +35,7 @@ const DashboardLayout = () => {
               >
                 {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </Button>
+              <LanguageSelector />
               <div className="flex items-center gap-2">
                 <div className="h-8 w-8 rounded-full bg-sidebar-primary/20 flex items-center justify-center">
                   <User className="h-4 w-4 text-sidebar-primary" />

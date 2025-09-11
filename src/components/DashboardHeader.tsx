@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import LanguageSelector from './LanguageSelector';
 
 interface DashboardHeaderProps {
   title: string;
@@ -34,6 +35,9 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ title, children }) =>
             className="pl-10 w-[200px]"
           />
         </div>
+        
+        {/* Language Selector */}
+        <LanguageSelector />
         
         {/* Notifications */}
         <DropdownMenu>
