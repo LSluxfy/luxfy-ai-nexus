@@ -229,7 +229,6 @@ const ChatInput = ({
           type="file"
           hidden
           onChange={handleFileUpload}
-          accept="image/*,application/pdf,.doc,.docx,.txt"
           disabled={disabled}
         />
         
