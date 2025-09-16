@@ -43,6 +43,7 @@ const CriticalResourceLoader = () => {
       const hints = [
         { rel: 'dns-prefetch', href: '//hook.us1.make.com' },
         { rel: 'dns-prefetch', href: '//api.stripe.com' },
+        { rel: 'dns-prefetch', href: '//analytics.tiktok.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' }
       ];
 

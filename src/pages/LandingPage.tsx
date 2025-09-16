@@ -36,6 +36,7 @@ const LazyTestimonials = lazy(() => import('@/components/landing/Testimonials'))
 const LazyFAQ = lazy(() => import('@/components/landing/FAQ'));
 const LazyComparisonTable = lazy(() => import('@/components/landing/ComparisonTable'));
 const LazyROICalculator = lazy(() => import('@/components/landing/ROICalculator'));
+const OptimizedTikTokPixel = lazy(() => import('../components/OptimizedTikTokPixel'));
 
 const LandingPage = () => {
   const { t } = useTranslation();
@@ -280,6 +281,9 @@ const LandingPage = () => {
       <WebVitalsTracker />
       <PerformanceOptimizer />
       <OptimizedFacebookPixel />
+      <Suspense fallback={null}>
+        <OptimizedTikTokPixel />
+      </Suspense>
     </div>
   );
 };
