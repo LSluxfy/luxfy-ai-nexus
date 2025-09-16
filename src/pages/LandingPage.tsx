@@ -26,7 +26,7 @@ import OptimizedFacebookPixel from '@/components/OptimizedFacebookPixel';
 import LazyRealResults from '@/components/landing/LazyRealResults';
 import LazyHowItWorks from '@/components/landing/LazyHowItWorks';
 import LazyBeforeAfter from '@/components/landing/LazyBeforeAfter';
-import ScarcityPopup from '@/components/landing/ScarcityPopup';
+
 import LiveNotifications from '@/components/landing/LiveNotifications';
 import Guarantee from '@/components/landing/Guarantee';
 
@@ -275,7 +275,7 @@ const LandingPage = () => {
         <LandingFooter />
       </div>
       <LiveNotifications />
-      <ScarcityPopup />
+      
       <WhatsAppButton />
       <WhatsAppNotification />
       <WebVitalsTracker />
