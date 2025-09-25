@@ -14,7 +14,7 @@ const debugMode = process.env.NODE_ENV === 'development';
 
 const log = (message: string, type: 'log' | 'error' | 'warn' = 'log') => {
   if (debugMode) {
-    console[type](`[Facebook Pixel 1062729962007816]`, message);
+    console[type](`[Facebook Pixel 2373170249763986]`, message);
   }
 };
 
@@ -71,7 +71,7 @@ const trackCustomEvent = (eventName: string, parameters?: Record<string, any>) =
 const getPixelStatus = () => {
   return {
     pixelLoaded: typeof window !== 'undefined' && !!window.fbq,
-    pixelId: '1062729962007816'
+    pixelId: '2373170249763986'
   };
 };
 

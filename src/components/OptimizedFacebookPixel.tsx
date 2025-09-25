@@ -27,7 +27,7 @@ const OptimizedFacebookPixel = () => {
           s.parentNode.insertBefore(t, s);
         })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
 
-        (window as any).fbq('init', '1062729962007816');
+        (window as any).fbq('init', '2373170249763986');
         (window as any).fbq('track', 'PageView');
       };
 
