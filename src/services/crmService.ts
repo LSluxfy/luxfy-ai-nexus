@@ -37,31 +37,44 @@ export class CRMService {
     updates: { tables?: CRMTables; rows?: CRMRow[] }
   ): Promise<ParsedCRMData> {
     try {
-      // Convert objects to JSON strings for API
-      const updatePayload: CRMUpdateRequest = {};
+      // Create CRM data object
+      const crmData: any = {};
       
       if (updates.tables) {
-        updatePayload.tables = JSON.stringify(updates.tables);
+        crmData.tables = JSON.stringify(updates.tables);
       }
       
       if (updates.rows) {
-        updatePayload.rows = JSON.stringify(updates.rows);
+        crmData.rows = JSON.stringify(updates.rows);
       }
 
-      const response = await api.put<CRMApiResponse>(`/v1/crm/${agentId}/update`, updatePayload);
-      const crmData = response.data.crm;
+      // Create JSON file content
+      const jsonContent = JSON.stringify(crmData);
+      const blob = new Blob([jsonContent], { type: 'application/json' });
+      const file = new File([blob], 'crm.json', { type: 'application/json' });
+
+      // Create FormData
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await api.put<CRMApiResponse>(`/v1/crm/${agentId}/update`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      const responseData = response.data.crm;
       
       // Parse JSON strings to objects
-      const parsedTables: CRMTables = JSON.parse(crmData.tables);
-      const parsedRows: CRMRow[] = JSON.parse(crmData.rows);
+      const parsedTables: CRMTables = JSON.parse(responseData.tables);
+      const parsedRows: CRMRow[] = JSON.parse(responseData.rows);
       
       return {
-        id: crmData.id,
+        id: responseData.id,
         tables: parsedTables,
         rows: parsedRows,
-        Agent: crmData.Agent,
-        createAt: crmData.createAt,
-        updatedAt: crmData.updatedAt,
+        Agent: responseData.Agent,
+        createAt: responseData.createAt,
+        updatedAt: responseData.updatedAt,
       };
     } catch (error) {
       console.error('Erro ao atualizar dados do CRM:', error);
