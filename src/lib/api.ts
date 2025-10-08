@@ -33,6 +33,10 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     
+    // Adicionar timezone do cliente
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    config.headers['X-Client-Timezone'] = timezone;
+    
     // Adicionar parâmetros anti-cache na URL
     if (config.url) {
       config.url = addCacheBustingParams(config.url);
