@@ -220,7 +220,7 @@ const Register = () => {
                   render={({ field }) => (
                     <FormItem className="flex items-start space-x-2">
                       <FormControl>
-                        <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-8" />
+                        <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-2" />
                       </FormControl>
                       <div className="leading-none mt-0">
                         <FormLabel className="text-sm leading-none text-slate-700">
