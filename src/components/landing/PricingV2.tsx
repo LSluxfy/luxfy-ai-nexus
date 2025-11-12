@@ -157,8 +157,8 @@ export default function PricingV2() {
                     <a
                       href={
                         user
-                          ? `${plan.checkoutUrl}${plan.checkoutUrl.includes("?") ? "&" : "?"}user_id=${user.id}`
-                          : plan.checkoutUrl
+                          ? `${plan.checkoutUrl}&user_id=${user.id}`
+                          : ${plan.checkoutUrl}
                       }
                       target="_blank"
                       rel="noopener noreferrer"
