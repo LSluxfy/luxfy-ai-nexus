@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Check, Zap, X, Infinity } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface PlanDef {
   key: "start" | "pro" | "teams";
@@ -35,6 +36,7 @@ const PLANS: PlanDef[] = [
 ];
 
 export default function PricingV2() {
+  const { user } = useAuth();
   const { t, i18n } = useTranslation();
   const [annual, setAnnual] = useState(false);
 
@@ -153,7 +155,7 @@ export default function PricingV2() {
                   </ul>
                   <Button asChild className="w-full">
                     <a
-                      href={plan.checkoutUrl}
+                      href={`${plan.checkoutUrl}&user_id=${user.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={t("pricingV2.ctaAria")}
