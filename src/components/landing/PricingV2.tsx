@@ -155,7 +155,7 @@ export default function PricingV2() {
                   </ul>
                   <Button asChild className="w-full">
                     <a
-                      href={`${plan.checkoutUrl}?user_id=${user.id}`}
+                      href={plan.checkoutUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={t("pricingV2.ctaAria")}
