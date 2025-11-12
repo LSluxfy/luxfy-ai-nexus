@@ -145,7 +145,7 @@ const Login = () => {
                   render={({ field }) => (
                     <FormItem className="flex items-center space-x-2">
                       <FormControl>
-                        <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1" />
+                        <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-2" />
                       </FormControl>
                       <FormLabel className="text-sm font-medium leading-none cursor-pointer text-slate-700">
                         {t("auth.login.rememberMe")}
