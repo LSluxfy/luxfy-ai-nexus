@@ -195,7 +195,7 @@ const Register = () => {
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <div className="space-y-1 leading-none" style="margin-top: 0px;">
+                      <div className="space-y-1 leading-none mt-0">
                         <FormLabel className="text-sm leading-none text-slate-700">
                           {t('auth.register.agreeToTerms')}{' '}
                           <Link to="/terms" className="text-blue-800 hover:underline">
