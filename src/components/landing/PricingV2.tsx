@@ -106,7 +106,7 @@ export default function PricingV2() {
                 className={`relative overflow-hidden ${plan.highlight ? "border-primary shadow-[0_10px_30px_-10px_hsl(var(--ring)/0.3)]" : ""}`}
               >
                 {plan.highlight && (
-                  <Badge className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 text-sm font-bold shadow-lg animate-pulse">
+                  <Badge className=w-max absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 text-sm font-bold shadow-lg animate-pulse">
                     ⭐ {t("pricingV2.bestSeller")} ⭐
                   </Badge>
                 )}
