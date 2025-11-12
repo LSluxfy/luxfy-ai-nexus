@@ -158,7 +158,7 @@ export default function PricingV2() {
                       href={
                         user
                           ? `${plan.checkoutUrl}&user_id=${user.id}`
-                          : ${plan.checkoutUrl}
+                          : plan.checkoutUrl
                       }
                       target="_blank"
                       rel="noopener noreferrer"
