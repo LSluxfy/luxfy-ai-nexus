@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Zap, X, Infinity } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
 
 interface PlanDef {
@@ -36,7 +35,6 @@ const PLANS: PlanDef[] = [
 ];
 
 export default function PricingV2() {
-  const { user } = useAuth();
   const { t, i18n } = useTranslation();
   const [annual, setAnnual] = useState(false);
 
