@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Zap, X, Infinity } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
 
 interface PlanDef {
@@ -17,11 +18,25 @@ interface PlanDef {
 
 const PLANS: PlanDef[] = [
   { key: "start", monthly: 22, annual: 184, agents: 1, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=dc0nb9ba" },
-  { key: "pro", monthly: 43, annual: 361.2, agents: 3, highlight: true, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=v2dv9yey" },
-  { key: "teams", monthly: 79, annual: 663.6, agents: 6, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=p6dqhbmg" },
+  {
+    key: "pro",
+    monthly: 43,
+    annual: 361.2,
+    agents: 3,
+    highlight: true,
+    checkoutUrl: "https://pay.hotmart.com/P96043448T?off=v2dv9yey",
+  },
+  {
+    key: "teams",
+    monthly: 79,
+    annual: 663.6,
+    agents: 6,
+    checkoutUrl: "https://pay.hotmart.com/P96043448T?off=p6dqhbmg",
+  },
 ];
 
 export default function PricingV2() {
+  const { user } = useAuth();
   const { t, i18n } = useTranslation();
   const [annual, setAnnual] = useState(false);
 
@@ -38,11 +53,11 @@ export default function PricingV2() {
       t("pricingV2.features.calendar"),
       t("pricingV2.features.campaigns"),
     ];
-    
+
     if (planKey === "start") {
       return baseFeatures; // Start plan without support
     }
-    
+
     return [...baseFeatures, t("pricingV2.features.support")];
   };
 
@@ -82,7 +97,7 @@ export default function PricingV2() {
           {PLANS.map((plan) => {
             const price = annual ? plan.annual : plan.monthly;
             const per = annual ? t("pricingV2.perYear") : t("pricingV2.perMonth");
-            const monthlyEquiv = annual ? (plan.annual / 12) : plan.monthly;
+            const monthlyEquiv = annual ? plan.annual / 12 : plan.monthly;
             const savings = Math.max(0, plan.monthly * 12 - plan.annual);
 
             return (
@@ -96,24 +111,30 @@ export default function PricingV2() {
                   </Badge>
                 )}
                 <CardHeader>
-                  <CardTitle className="text-2xl">
-                    {t(`pricingV2.plans.${plan.key}.name`)}
-                  </CardTitle>
+                  <CardTitle className="text-2xl">{t(`pricingV2.plans.${plan.key}.name`)}</CardTitle>
                   <div className="mt-2">
-                    <span className="text-4xl font-bold">{currency}{price.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                    <span className="text-4xl font-bold">
+                      {currency}
+                      {price.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                    </span>
                     <span className="text-sm text-muted-foreground ml-1">{per}</span>
                   </div>
                   {annual && (
                     <p className="text-xs text-green-600 mt-1">
                       {t("pricingV2.savings", { amount: `${currency}${savings.toFixed(2)}` })}
-                      <span className="ml-2 text-muted-foreground">({t("pricingV2.equivalentPerMonth", { amount: `${currency}${monthlyEquiv.toFixed(2)}` })})</span>
+                      <span className="ml-2 text-muted-foreground">
+                        ({t("pricingV2.equivalentPerMonth", { amount: `${currency}${monthlyEquiv.toFixed(2)}` })})
+                      </span>
                     </p>
                   )}
                   <p className="text-muted-foreground text-sm mt-2">{t(`pricingV2.plans.${plan.key}.desc`)}</p>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2 mb-6">
-                    <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" />{plan.agents} {t("pricingV2.features.agents")}</li>
+                    <li className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-primary" />
+                      {plan.agents} {t("pricingV2.features.agents")}
+                    </li>
                     {plan.key === "start" ? (
                       <li className="flex items-center gap-2">
                         <X className="h-4 w-4 text-orange-500" />
@@ -126,12 +147,21 @@ export default function PricingV2() {
                       </li>
                     )}
                     {getFeatures(plan.key).map((f, i) => (
-                      <li key={i} className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" />{f}</li>
+                      <li key={i} className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-primary" />
+                        {f}
+                      </li>
                     ))}
                   </ul>
                   <Button asChild className="w-full">
-                    <a href={plan.checkoutUrl} target="_blank" rel="noopener noreferrer" aria-label={t("pricingV2.ctaAria")}> 
-                      <Zap className="h-4 w-4 mr-2" />{t("pricingV2.cta")}
+                    <a
+                      href={`${plan.checkoutUrl}?user_id=${user.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={t("pricingV2.ctaAria")}
+                    >
+                      <Zap className="h-4 w-4 mr-2" />
+                      {t("pricingV2.cta")}
                     </a>
                   </Button>
                 </CardContent>
