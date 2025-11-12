@@ -108,7 +108,7 @@ const VerifyEmail = () => {
                           placeholder="seu@email.com"
                           type="email"
                           {...field}
-                          disabled={email ? "true" : "false"}
+                          disabled
                           className="border-slate-300 focus:border-blue-800"
                         />
                       </FormControl>
