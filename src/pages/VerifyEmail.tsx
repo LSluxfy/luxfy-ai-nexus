@@ -91,7 +91,7 @@ const VerifyEmail = () => {
           <CardHeader>
             <CardTitle className="text-slate-900">Confirmar Conta</CardTitle>
             <CardDescription className="text-slate-600">
-              Digite o código que enviamos para {email || "seu email"}
+              Digite o código que enviamos para <br> {email || "seu email"}
             </CardDescription>
           </CardHeader>
           <CardContent>
