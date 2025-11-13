@@ -1,8 +1,20 @@
-import React, { useRef } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { HomeIcon, BookUserIcon, Users, MessagesSquare, BarChart3, Settings, UserPlus, Calendar, CreditCard, Megaphone, BookOpen } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useAgents } from '@/hooks/use-agent';
+import React, { useRef } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import {
+  HomeIcon,
+  BookUserIcon,
+  Users,
+  MessagesSquare,
+  BarChart3,
+  Settings,
+  UserPlus,
+  Calendar,
+  CreditCard,
+  Megaphone,
+  BookOpen,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useAgents } from "@/hooks/use-agent";
 import {
   Sidebar,
   SidebarContent,
@@ -14,7 +26,7 @@ import {
   SidebarMenuItem,
   SidebarTrigger,
   useSidebar,
-} from '@/components/ui/sidebar';
+} from "@/components/ui/sidebar";
 
 const DashboardSidebar = () => {
   const { userPlan, agents } = useAgents();
@@ -32,14 +44,18 @@ const DashboardSidebar = () => {
       label: "Agentes",
       href: "/dashboard/agents",
       icon: UserPlus,
-      badge: userPlan ? `${agents.length}/${userPlan.max_agents}` : '0/1'
+      badge: userPlan ? `${agents.length}/${userPlan.max_agents}` : "0/1",
     },
     // Só mostrar "Agente" se há agentes criados
-    ...(agents.length > 0 ? [{
-      label: "Agente",
-      href: "/dashboard/agent",
-      icon: BookUserIcon,
-    }] : []),
+    ...(agents.length > 0
+      ? [
+          {
+            label: "Agente",
+            href: "/dashboard/agent",
+            icon: BookUserIcon,
+          },
+        ]
+      : []),
     {
       label: "CRM",
       href: "/dashboard/crm",
@@ -79,12 +95,12 @@ const DashboardSidebar = () => {
       label: "Configurações",
       href: "/dashboard/settings",
       icon: Settings,
-    }
+    },
   ];
 
   const currentPath = location.pathname;
-  const isActive = (path: string) => currentPath === path || (path !== '/dashboard' && currentPath.startsWith(path));
-  const hasActiveRoute = links.some(link => isActive(link.href));
+  const isActive = (path: string) => currentPath === path || (path !== "/dashboard" && currentPath.startsWith(path));
+  const hasActiveRoute = links.some((link) => isActive(link.href));
 
   // Auto-hover functionality
   const handleMouseEnter = () => {
@@ -120,23 +136,21 @@ const DashboardSidebar = () => {
         {/* Logo Section */}
         <div className="py-4 px-4 border-b border-sidebar-border">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg overflow-hidden flex-shrink-0">
-              <img 
-                src="/lovable-uploads/c0e6c735-5382-4c0e-81ee-5c39577c240d.png" 
-                alt="Luxfy Logo" 
-                className="w-full h-full object-cover" 
+            <div className="h-8 w-8 rounded-lg flex-shrink-0">
+              <img
+                src="/lovable-uploads/c0e6c735-5382-4c0e-81ee-5c39577c240d.png"
+                alt="Luxfy Logo"
+                className="w-full h-full object-cover -ml-2"
               />
             </div>
-            {open && (
-              <h2 className="text-2xl font-bold text-sidebar-primary">Luxfy</h2>
-            )}
+            {open && <h2 className="text-2xl font-bold text-sidebar-primary">Luxfy</h2>}
           </div>
         </div>
 
         {/* Navigation */}
         <SidebarGroup>
           {open && <SidebarGroupLabel>Menu</SidebarGroupLabel>}
-          
+
           <SidebarGroupContent>
             <SidebarMenu className="space-y-1">
               {links.map((link) => (
@@ -149,7 +163,7 @@ const DashboardSidebar = () => {
                           "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all w-full",
                           navActive || isActive(link.href)
                             ? "bg-sidebar-primary text-sidebar-primary-foreground font-medium"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                         )
                       }
                     >
