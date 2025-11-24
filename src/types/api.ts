@@ -1,8 +1,6 @@
 // Tipos de planos
 export type PlanType = "BASICO" | "PRO" | "PREMIUM";
 
-export type PaymentStatus = "PENDING_PAYMENT" | "ACTIVE" | "CANCELED";
-
 // Tipos de status
 export type InvoiceStatus = "PENDING" | "PAID" | "CANCELLED";
 export type StyleResponse = "CONCISE" | "BALANCED" | "DETAILED";
@@ -25,7 +23,6 @@ export interface ApiUser {
   updateAt: string | null;
   agents: Agent[];
   invoices: Invoice[];
-  PaymentStatus: PaymentStatus;
 }
 
 // Interface de agendamento
