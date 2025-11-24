@@ -303,8 +303,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             const errorData = fetchError.response?.data;
             console.log("💸 Fatura pendente detectada:", errorData);
             if (errorData?.invoice) {
-              console.log("🔄 Redirecionando para fatura pendente:", `/pending-invoice?invoice=${errorData.invoice}`);
-              navigate(`/pending-invoice?invoice=${errorData.invoice}`);
+              //console.log("🔄 Redirecionando para fatura pendente:", `/pending-invoice?invoice=${errorData.invoice}`);
+              //navigate(`/pending-invoice?invoice=${errorData.invoice}`);
+              //return;
+
+              console.log(`💳 [REDIRECT] ${errorTimestamp} - Plano pendente, enviando para select-plan`);
+              navigate("/select-plan");
               return;
             }
           }
