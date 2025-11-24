@@ -307,7 +307,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
               //navigate(`/pending-invoice?invoice=${errorData.invoice}`);
               //return;
 
-              console.log(`💳 [REDIRECT] ${errorTimestamp} - Plano pendente, enviando para select-plan`);
+              console.log(`💳 [REDIRECT] - Plano pendente, enviando para select-plan`);
               navigate("/select-plan");
               return;
             }
