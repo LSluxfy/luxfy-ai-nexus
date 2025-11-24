@@ -1,10 +1,10 @@
 // Tipos de planos
-export type PlanType = 'BASICO' | 'PRO' | 'PREMIUM';
+export type PlanType = "BASICO" | "PRO" | "PREMIUM";
 
 // Tipos de status
-export type InvoiceStatus = 'PENDING' | 'PAID' | 'CANCELLED';
-export type StyleResponse = 'CONCISE' | 'BALANCED' | 'DETAILED';
-export type MessageSender = 'agent' | 'attendant' | 'user';
+export type InvoiceStatus = "PENDING" | "PAID" | "CANCELLED";
+export type StyleResponse = "CONCISE" | "BALANCED" | "DETAILED";
+export type MessageSender = "agent" | "attendant" | "user";
 
 // Interface do usuário da API
 export interface ApiUser {
@@ -23,6 +23,7 @@ export interface ApiUser {
   updateAt: string | null;
   agents: Agent[];
   invoices: Invoice[];
+  PaymentStatus: string;
 }
 
 // Interface de agendamento
@@ -212,7 +213,7 @@ export interface UploadProgress {
   fileIndex: number;
   fileName: string;
   progress: number;
-  status: 'pending' | 'uploading' | 'completed' | 'error';
+  status: "pending" | "uploading" | "completed" | "error";
   url?: string;
   error?: string;
 }
