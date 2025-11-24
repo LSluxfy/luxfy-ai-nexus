@@ -21,6 +21,7 @@ interface User {
   updateAt: string | null;
   agents: any[];
   invoices: any[];
+  PaymentStatus: string;
 }
 
 interface Session {
