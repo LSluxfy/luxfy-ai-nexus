@@ -296,8 +296,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             description: "Bem-vindo de volta.",
           });
 
-          console.log("🔄 Redirecionando para dashboard...");
-          navigate("/dashboard");
+          if (user?.paymentStatus === "ACTIVE") {
+            console.log("🔄 Redirecionando para dashboard...");
+            navigate("/dashboard");
+            return;
+          } else {
+            console.log("💳 [REDIRECT] - Pagamento pendente, enviando para select-plan");
+            navigate("/select-plan");
+            return;
+          }
         } catch (fetchError: any) {
           console.error("❌ Erro ao buscar dados do usuário:", fetchError);
           // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
