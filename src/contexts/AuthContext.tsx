@@ -300,17 +300,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           console.error("❌ Erro ao buscar dados do usuário:", fetchError);
           // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
           if (fetchError.response?.status === 402) {
-            const errorData = fetchError.response?.data;
-            console.log("💸 Fatura pendente detectada:", errorData);
-            if (errorData?.invoice) {
-              //console.log("🔄 Redirecionando para fatura pendente:", `/pending-invoice?invoice=${errorData.invoice}`);
-              //navigate(`/pending-invoice?invoice=${errorData.invoice}`);
-              //return;
-
-              console.log(`💳 [REDIRECT] - Plano pendente, enviando para select-plan`);
-              navigate("/select-plan");
-              return;
-            }
+            console.log(`💳 [REDIRECT] - Pagamento pendente, enviando para select-plan`);
+            navigate("/select-plan");
+            return;
           }
 
           throw fetchError;
