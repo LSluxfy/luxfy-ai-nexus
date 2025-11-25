@@ -14,6 +14,7 @@ interface User {
   numberAgentes: number;
   plan: string;
   profileExpire: string | null;
+  paymentStatus: "PENDING_PAYMENT" | "ACTIVE" | "CANCELED";
   active: boolean;
   appointments: any[];
   createAt: string;
@@ -105,6 +106,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           numberAgentes: rawUserData.numberAgentes || rawUserData.number_agentes || 0,
           plan: rawUserData.plan,
           profileExpire: rawUserData.profileExpire || rawUserData.profile_expire,
+          paymentStatus: rawUserData.paymentStatus,
           // Calcular active baseado no plano e data de expiração (já que API não retorna campo active)
           active: !!(rawUserData.plan && rawUserData.profileExpire && new Date(rawUserData.profileExpire) > new Date()),
           appointments: rawUserData.appointments || [],
