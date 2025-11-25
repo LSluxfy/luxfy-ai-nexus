@@ -370,7 +370,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       // Fazer login automático após verificação
       try {
         await fetchUserData();
-        navigate("/dashboard");
+        navigate("/select-plan");
       } catch (error) {
         // Se não conseguir fazer login automático, redireciona para login
         navigate("/login");
