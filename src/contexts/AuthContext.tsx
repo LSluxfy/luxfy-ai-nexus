@@ -256,92 +256,94 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signIn = async (email: string, password: string) => {
-    try {
-      setLoading(true);
-      console.log("🔐 Iniciando processo de login para:", email);
+  try {
+    setLoading(true);
+    console.log("🔐 Iniciando processo de login para:", email);
 
-      const response = await api.post("/v1/user/login", {
-        email,
-        password,
-      });
+    const response = await api.post("/v1/user/login", {
+      email,
+      password,
+    });
 
-      if (response.data.jwt) {
-        console.log("✅ JWT recebido, salvando no localStorage");
-        localStorage.setItem("jwt-token", response.data.jwt);
+    if (!response.data.jwt) {
+      throw new Error("JWT não retornado pelo backend");
+    }
 
-        try {
-          console.log("📡 Buscando dados do usuário (pós-login)...");
-          const freshUser = await fetchUserData(false);
+    console.log("✅ JWT recebido, salvando no localStorage");
+    localStorage.setItem("jwt-token", response.data.jwt);
 
-          console.log("👤 Dados do usuário carregados (freshUser):", freshUser);
+    console.log("📡 Buscando dados do usuário (pós-login)...");
+    const freshUser = await fetchUserData(false);
 
-          // Se por algum motivo não vier user, tratar como sem plano
-          if (!freshUser) {
-            console.log("⚠️ freshUser vazio, redirecionando para select-plan por segurança");
-            navigate("/select-plan");
-            return;
-          }
+    console.log("👤 Dados do usuário carregados (freshUser):", freshUser);
 
-          // Se pagamento estiver ativo → dashboard
-          if (freshUser.paymentStatus === "ACTIVE") {
-            console.log("🔄 Pagamento ativo, redirecionando para dashboard...");
-            toast({
-              title: "Login realizado com sucesso!",
-              description: "Bem-vindo de volta.",
-            });
+    // Se por algum motivo não vier user, tratar como sem plano
+    if (!freshUser) {
+      console.log("⚠️ freshUser vazio, redirecionando para select-plan por segurança");
+      navigate("/select-plan");
+      return;
+    }
 
-            import("../lib/facebook-pixel").then(({ trackEvent, FacebookEvents }) => {
-              trackEvent(FacebookEvents.COMPLETE_REGISTRATION, {
-                content_name: "User Login",
-                status: "completed",
-              });
-            });
-
-            navigate("/dashboard");
-            return;
-          }
-
-          // Qualquer outro status → select-plan
-          console.log(
-            `💳 Pagamento não ativo (status=${freshUser.paymentStatus}), redirecionando para select-plan`,
-          );
-          navigate("/select-plan");
-          return;
-        } catch (fetchError: any) {
-          console.error("❌ Erro ao buscar dados do usuário após login:", fetchError);
-
-          if (fetchError.response?.status === 402) {
-            console.log(`💳 [REDIRECT CATCH] - Pagamento pendente (402), enviando para select-plan`);
-            navigate("/select-plan");
-            return;
-          }
-
-          throw fetchError;
-        }
-      }
-    } catch (error: any) {
-      let errorMessage = "Erro ao fazer login";
-
-      if (error.response?.status === 401) {
-        errorMessage = "Email ou senha incorretos";
-      } else if (error.response?.status === 403) {
-        errorMessage = "Usuário não verificado. Verifique seu email.";
-      } else if (error.response?.status === 404) {
-        errorMessage = "Usuário não encontrado";
-      } else if (error.response?.data?.message) {
-        errorMessage = error.response.data.message;
-      }
+    // Se pagamento estiver ativo → dashboard
+    if (freshUser.paymentStatus === "ACTIVE") {
+      console.log("🔄 Pagamento ativo, redirecionando para dashboard...");
 
       toast({
-        title: "Erro ao fazer login",
-        description: errorMessage,
-        variant: "destructive",
+        title: "Login realizado com sucesso!",
+        description: "Bem-vindo de volta.",
       });
-      throw new Error(errorMessage);
-    } finally {
-      setLoading(false);
+
+      import("../lib/facebook-pixel").then(({ trackEvent, FacebookEvents }) => {
+        trackEvent(FacebookEvents.COMPLETE_REGISTRATION, {
+          content_name: "User Login",
+          status: "completed",
+        });
+      });
+
+      navigate("/dashboard");
+      return;
     }
-  };
+
+    // Qualquer outro status (PENDING_PAYMENT, CANCELED) → select-plan
+    console.log(
+      `💳 Pagamento não ativo (status=${freshUser.paymentStatus}), redirecionando para select-plan`,
+    );
+    navigate("/select-plan");
+    return;
+  } catch (error: any) {
+    console.error("❌ Erro no fluxo de login:", error);
+
+    // ⬇️ AQUI É O PONTO CRÍTICO:
+    // Se der 402 em QUALQUER chamada (login ou auth), vai para select-plan
+    if (error.response?.status === 402) {
+      console.log("💳 [CATCH GLOBAL] 402 detectado, redirecionando para /select-plan");
+      navigate("/select-plan");
+      return;
+    }
+
+    let errorMessage = "Erro ao fazer login";
+
+    if (error.response?.status === 401) {
+      errorMessage = "Email ou senha incorretos";
+    } else if (error.response?.status === 403) {
+      errorMessage = "Usuário não verificado. Verifique seu email.";
+    } else if (error.response?.status === 404) {
+      errorMessage = "Usuário não encontrado";
+    } else if (error.response?.data?.message) {
+      errorMessage = error.response.data.message;
+    }
+
+    toast({
+      title: "Erro ao fazer login",
+      description: errorMessage,
+      variant: "destructive",
+    });
+
+    throw new Error(errorMessage);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const signOut = async () => {
     try {
