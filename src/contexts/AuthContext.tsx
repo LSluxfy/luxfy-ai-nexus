@@ -52,14 +52,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   console.log("✅ AuthProvider inicializado");
 
-  const fetchUserData = async (isAutoRefresh = false) => {
+  const fetchUserData = async (isAutoRefresh = false): Promise<User | null> => {
     const timestamp = new Date().toISOString();
     const requestType = isAutoRefresh ? "🔄 [AUTO-REFRESH]" : "🚀 [INITIAL/MANUAL]";
 
     console.log(`${requestType} ${timestamp} - Iniciando busca de dados dos agentes (ANTI-CACHE MÁXIMO)`);
 
     try {
-      // Headers anti-cache máximos para request de autenticação
       const antiCacheHeaders = {
         "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
         Pragma: "no-cache",
@@ -73,9 +72,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const response = await api.get("/v1/user/auth", {
         headers: antiCacheHeaders,
-        // Garantir que o axios não use cache
         adapter: undefined,
-        // Forçar nova conexão
         timeout: 30000,
       });
 
@@ -83,18 +80,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const rawUserData = response.data.user;
         const successTimestamp = new Date().toISOString();
 
-        // Log detalhado dos dados recebidos
         console.log(`✅ ${requestType} ${successTimestamp} - Dados recebidos com sucesso`);
         console.log(`📊 [USER DATA] ${successTimestamp}`, {
           agentes: rawUserData.agents?.length || 0,
           usuario: rawUserData.name,
           plan: rawUserData.plan,
           profileExpire: rawUserData.profileExpire,
-          active: !!(rawUserData.plan && rawUserData.profileExpire && new Date(rawUserData.profileExpire) > new Date()),
+          paymentStatus: rawUserData.paymentStatus,
+          active:
+            !!rawUserData.plan &&
+            !!rawUserData.profileExpire &&
+            new Date(rawUserData.profileExpire) > new Date(),
         });
         console.log(`🔍 [RAW API DATA] ${successTimestamp}`, rawUserData);
 
-        // Mapear os dados da API para o formato esperado
         const userData: User = {
           id: rawUserData.id,
           email: rawUserData.email,
@@ -107,8 +106,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           plan: rawUserData.plan,
           profileExpire: rawUserData.profileExpire || rawUserData.profile_expire,
           paymentStatus: rawUserData.paymentStatus,
-          // Calcular active baseado no plano e data de expiração (já que API não retorna campo active)
-          active: !!(rawUserData.plan && rawUserData.profileExpire && new Date(rawUserData.profileExpire) > new Date()),
+          active:
+            !!rawUserData.plan &&
+            !!rawUserData.profileExpire &&
+            new Date(rawUserData.profileExpire) > new Date(),
           appointments: rawUserData.appointments || [],
           createAt: rawUserData.createAt || rawUserData.create_at || "",
           lastLogin: rawUserData.lastLogin || rawUserData.last_login,
@@ -118,14 +119,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         };
 
         setUser(userData);
-        const sessionData = {
+        const sessionData: Session = {
           user: userData,
           token: localStorage.getItem("jwt-token") || "",
         };
         setSession(sessionData);
 
         console.log(`💾 [STATE UPDATE] ${successTimestamp} - Estado do usuário atualizado`);
+
+        return userData;
       }
+
+      return null;
     } catch (error: any) {
       const errorTimestamp = new Date().toISOString();
       console.error(`❌ ${requestType} ${errorTimestamp} - Erro ao buscar dados dos agentes`);
@@ -136,23 +141,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         url: error.config?.url,
       });
 
-      // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
-      //if (error.response?.status === 402) {
-      //  const errorData = error.response?.data;
-      //  if (errorData?.invoice) {
-      //    console.log(`💳 [REDIRECT] ${errorTimestamp} - Redirecionando para fatura pendente: ${errorData.invoice}`);
-      //    navigate(`/pending-invoice?invoice=${errorData.invoice}`);
-      //    return;
-      //  }
-      // }
-
+      // 402 = pagamento pendente → NÃO limpa token, só propaga erro
       if (error.response?.status === 402) {
-        console.log(`💳 [REDIRECT] ${errorTimestamp} - Plano pendente, enviando para select-plan`);
-        navigate("/select-plan");
-        return;
+        console.log(
+          `💳 [AUTH] ${errorTimestamp} - Plano/pagamento pendente (402), repassando erro para quem chamou`,
+        );
+        throw error;
       }
 
-      // Para auto-refresh, não remove token nem dados locais
+      // Outros erros (401, 403, 500 etc.), só limpa se não for auto-refresh
       if (!isAutoRefresh) {
         console.log(`🧹 [CLEANUP] ${errorTimestamp} - Removendo dados locais devido ao erro`);
         localStorage.removeItem("jwt-token");
@@ -174,7 +171,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (token) {
         console.log(`🔑 [TOKEN FOUND] ${initTimestamp} - Token JWT encontrado, iniciando busca de dados`);
 
-        // Busca inicial dos dados (sem cache)
         fetchUserData(false)
           .catch((error) => {
             const errorTimestamp = new Date().toISOString();
@@ -185,32 +181,29 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             setLoading(false);
           });
 
-        // Sistema de atualização automática a cada 2 minutos (ANTI-CACHE)
-        const autoRefreshInterval = setInterval(
-          () => {
-            const refreshTimestamp = new Date().toISOString();
-            const currentToken = localStorage.getItem("jwt-token");
+        const autoRefreshInterval = setInterval(() => {
+          const refreshTimestamp = new Date().toISOString();
+          const currentToken = localStorage.getItem("jwt-token");
 
-            if (currentToken) {
-              console.log(
-                `⏰ [AUTO-REFRESH TRIGGER] ${refreshTimestamp} - Executando refresh automático (ignorando cache)`,
-              );
-              fetchUserData(true).catch((error) => {
-                const errorTimestamp = new Date().toISOString();
-                console.error(`❌ [AUTO-REFRESH ERROR] ${errorTimestamp}`, error.message || error);
-              });
-            } else {
-              const cancelTimestamp = new Date().toISOString();
-              console.log(`🚫 [AUTO-REFRESH CANCELLED] ${cancelTimestamp} - Usuário não autenticado`);
-              clearInterval(autoRefreshInterval);
-            }
-          },
-          2 * 60 * 1000,
-        ); // 2 minutos
+          if (currentToken) {
+            console.log(
+              `⏰ [AUTO-REFRESH TRIGGER] ${refreshTimestamp} - Executando refresh automático (ignorando cache)`,
+            );
+            fetchUserData(true).catch((error) => {
+              const errorTimestamp = new Date().toISOString();
+              console.error(`❌ [AUTO-REFRESH ERROR] ${errorTimestamp}`, error.message || error);
+            });
+          } else {
+            const cancelTimestamp = new Date().toISOString();
+            console.log(`🚫 [AUTO-REFRESH CANCELLED] ${cancelTimestamp} - Usuário não autenticado`);
+            clearInterval(autoRefreshInterval);
+          }
+        }, 2 * 60 * 1000);
 
-        console.log(`✅ [SYSTEM CONFIGURED] ${initTimestamp} - Auto-refresh configurado para 2 minutos com anti-cache`);
+        console.log(
+          `✅ [SYSTEM CONFIGURED] ${initTimestamp} - Auto-refresh configurado para 2 minutos com anti-cache`,
+        );
 
-        // Cleanup do interval quando o componente for desmontado
         return () => {
           const cleanupTimestamp = new Date().toISOString();
           console.log(`🧹 [CLEANUP] ${cleanupTimestamp} - Limpando sistema de auto-refresh`);
@@ -235,7 +228,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   ) => {
     try {
       setLoading(true);
-      const response = await api.post("/v1/user/register", {
+      await api.post("/v1/user/register", {
         name: firstName,
         lastname: lastName,
         email,
@@ -277,39 +270,48 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.setItem("jwt-token", response.data.jwt);
 
         try {
-          console.log("📡 Buscando dados do usuário...");
-          await fetchUserData();
+          console.log("📡 Buscando dados do usuário (pós-login)...");
+          const freshUser = await fetchUserData(false);
 
-          console.log("👤 Dados do usuário carregados, verificando estado...");
-          console.log("Estado atual - user:", !!user, "session:", !!session);
+          console.log("👤 Dados do usuário carregados (freshUser):", freshUser);
 
-          // Track Facebook Pixel event for successful login
-          import("../lib/facebook-pixel").then(({ trackEvent, FacebookEvents }) => {
-            trackEvent(FacebookEvents.COMPLETE_REGISTRATION, {
-              content_name: "User Login",
-              status: "completed",
-            });
-          });
-
-          toast({
-            title: "Login realizado com sucesso!",
-            description: "Bem-vindo de volta.",
-          });
-
-          if (user?.paymentStatus === "ACTIVE") {
-            console.log("🔄 Redirecionando para dashboard...");
-            navigate("/dashboard");
-            return;
-          } else {
-            console.log("💳 [REDIRECT] - Pagamento pendente, enviando para select-plan");
+          // Se por algum motivo não vier user, tratar como sem plano
+          if (!freshUser) {
+            console.log("⚠️ freshUser vazio, redirecionando para select-plan por segurança");
             navigate("/select-plan");
             return;
           }
+
+          // Se pagamento estiver ativo → dashboard
+          if (freshUser.paymentStatus === "ACTIVE") {
+            console.log("🔄 Pagamento ativo, redirecionando para dashboard...");
+            toast({
+              title: "Login realizado com sucesso!",
+              description: "Bem-vindo de volta.",
+            });
+
+            import("../lib/facebook-pixel").then(({ trackEvent, FacebookEvents }) => {
+              trackEvent(FacebookEvents.COMPLETE_REGISTRATION, {
+                content_name: "User Login",
+                status: "completed",
+              });
+            });
+
+            navigate("/dashboard");
+            return;
+          }
+
+          // Qualquer outro status → select-plan
+          console.log(
+            `💳 Pagamento não ativo (status=${freshUser.paymentStatus}), redirecionando para select-plan`,
+          );
+          navigate("/select-plan");
+          return;
         } catch (fetchError: any) {
-          console.error("❌ Erro ao buscar dados do usuário:", fetchError);
-          // Se for erro 402 (fatura pendente), redireciona para página de fatura pendente
+          console.error("❌ Erro ao buscar dados do usuário após login:", fetchError);
+
           if (fetchError.response?.status === 402) {
-            console.log(`💳 [REDIRECT] - Pagamento pendente, enviando para select-plan`);
+            console.log(`💳 [REDIRECT CATCH] - Pagamento pendente (402), enviando para select-plan`);
             navigate("/select-plan");
             return;
           }
@@ -366,7 +368,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const verifyUser = async (email: string, verificationCode: string) => {
     try {
       setLoading(true);
-      const response = await api.put("/v1/user/verify", {
+      await api.put("/v1/user/verify", {
         email,
         verificationCode,
       });
@@ -376,12 +378,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         description: "Você já pode acessar sua conta.",
       });
 
-      // Fazer login automático após verificação
       try {
-        await fetchUserData();
+        await fetchUserData(false);
         navigate("/select-plan");
-      } catch (error) {
-        // Se não conseguir fazer login automático, redireciona para login
+      } catch {
         navigate("/login");
       }
     } catch (error: any) {
@@ -411,7 +411,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const requestPasswordReset = async (email: string) => {
     try {
       setLoading(true);
-      const response = await api.post("/v1/user/redeem-password", {
+      await api.post("/v1/user/redeem-password", {
         email,
       });
 
@@ -444,7 +444,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const resetPassword = async (token: string, newPassword: string) => {
     try {
       setLoading(true);
-      const response = await api.post("/v1/user/redeem-password/code", {
+      await api.post("/v1/user/redeem-password/code", {
         token,
         newPassword,
       });
