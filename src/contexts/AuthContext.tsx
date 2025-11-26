@@ -146,6 +146,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         console.log(
           `💳 [AUTH] ${errorTimestamp} - Plano/pagamento pendente (402), repassando erro para quem chamou`,
         );
+        navigate("/select-plan");
         throw error;
       }
 
