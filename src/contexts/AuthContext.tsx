@@ -327,6 +327,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       errorMessage = "Email ou senha incorretos";
     } else if (error.response?.status === 403) {
       errorMessage = "Usuário não verificado. Verifique seu email.";
+    } else if (error.response?.status === 402) {
+      errorMessage = "Usuário sem plano.";
+      navigate("/select-plan");
     } else if (error.response?.status === 404) {
       errorMessage = "Usuário não encontrado";
     } else if (error.response?.data?.message) {
