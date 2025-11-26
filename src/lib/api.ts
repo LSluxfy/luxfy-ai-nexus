@@ -102,6 +102,11 @@ api.interceptors.response.use(
       localStorage.removeItem('jwt-token');
       window.location.href = '/login';
     }
+    if (error.response?.status === 402) {
+      // Token expirado ou inválido
+      localStorage.removeItem('jwt-token');
+      window.location.href = '/select-plan';
+    }
     return Promise.reject(error);
   }
 );
