@@ -75,6 +75,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         adapter: undefined,
         timeout: 30000,
       });
+      console.log('ZZZZZZZZZZZZZZZZZZZZZ', response);
+      
 
       if (response.data.user) {
         const rawUserData = response.data.user;
