@@ -172,7 +172,7 @@ export default async function PricingV2() {
                   </ul>
                   <Button asChild className="w-full">
                     <a
-                      href={await checkoutUrlStripe()}
+                      href={checkoutUrlStripe()}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={t("pricingV2.ctaAria")}
