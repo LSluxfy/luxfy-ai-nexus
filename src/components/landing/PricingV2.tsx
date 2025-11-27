@@ -52,7 +52,7 @@ async function checkoutUrlStripe() {
 }
 
 
-export default function PricingV2() {
+export default async function PricingV2() {
   const { user } = useAuth();
   const { t, i18n } = useTranslation();
   const [annual, setAnnual] = useState(false);
@@ -172,7 +172,7 @@ export default function PricingV2() {
                   </ul>
                   <Button asChild className="w-full">
                     <a
-                      href={checkoutUrlStripe()}
+                      href={await checkoutUrlStripe()}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={t("pricingV2.ctaAria")}
