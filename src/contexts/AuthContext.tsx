@@ -132,7 +132,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         message: error.message,
         status: error.response?.status,
         user: error.response?.user,
-        data: error.response?.data,
+        data: JSON.stringify(error.response?.data),
         url: error.config?.url,
       });
 
