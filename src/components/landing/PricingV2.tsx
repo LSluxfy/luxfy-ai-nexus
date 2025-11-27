@@ -173,6 +173,7 @@ export default function PricingV2() {
                   <Button asChild className="w-full">
                     <a
                     href="#"
+                    target="_blank"
                     onClick={async (e) => {
                       e.preventDefault();
                       const url = await checkoutUrlStripe();
