@@ -108,7 +108,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         };
         setSession(sessionData);
 
-        console.log(`💾 [STATE UPDATE] ${successTimestamp} - Estado do usuário atualizado`);
+        console.log(`💾 [STATE UPDATE] ${successTimestamp} ${sessionData} - Estado do usuário atualizado`);
 
         return userData;
       }
