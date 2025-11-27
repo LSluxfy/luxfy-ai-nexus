@@ -75,23 +75,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         adapter: undefined,
         timeout: 30000,
       });
-      console.log('ZZZZZZZZZZZZZZZZZZZZZ', response);
+      console.log('ZZZZZZZZZZZZZZZZZZZZZ', response.data);
       
+
+      if (response.data.paymentStatus !== "ACTIVE") {
+        navigate("/select-plan");
+        console.log('AAAAAAAAAAAA', response.data);
+
+      }
 
       if (response.data.user) {
         const rawUserData = response.data.user;
         const successTimestamp = new Date().toISOString();
-
-        console.log(`✅ ${requestType} ${successTimestamp} - Dados recebidos com sucesso`);
-        console.log(`📊 [USER DATA] ${successTimestamp}`, {
-          agentes: rawUserData.agents?.length || 0,
-          usuario: rawUserData.name,
-          plan: rawUserData.plan,
-          profileExpire: rawUserData.profileExpire,
-          paymentStatus: rawUserData.paymentStatus,
-          active: !!rawUserData.plan && !!rawUserData.profileExpire && new Date(rawUserData.profileExpire) > new Date(),
-        });
-        console.log(`🔍 [RAW API DATA] ${successTimestamp}`, rawUserData);
 
         const userData: User = {
           id: rawUserData.id,
@@ -137,13 +132,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         data: JSON.stringify(error.response?.data),
         url: error.config?.url,
       });
-
-      // 402 = pagamento pendente → NÃO limpa token, só propaga erro
-      if (error.response?.status === 402) {
-        console.log(`💳 [AUTH] ${errorTimestamp} - Plano/pagamento pendente (402), repassando erro para quem chamou`);
-        navigate("/select-plan");
-        throw error;
-      }
 
       // Outros erros (401, 403, 500 etc.), só limpa se não for auto-refresh
       if (!isAutoRefresh) {
