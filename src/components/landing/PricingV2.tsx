@@ -42,13 +42,13 @@ async function checkoutUrlStripe() {
   console.log("TOKEN TOKEN TOKEN TOKEN TOKEN", token);
   
   
-  const {checkoutUrl} = await api.post("v1/user/create-checkout-session", {
+  const response = await api.post("v1/user/create-checkout-session", {
     headers: {Authorization: `Bearer ${token}`},
   });
-  console.log("response response response response response", checkoutUrl);
+  console.log("response response response response response", response, response.checkoutUrl);
 
 
-  return checkoutUrl;
+  return response.checkoutUrl;
 }
 
 
