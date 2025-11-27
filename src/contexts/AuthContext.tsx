@@ -77,13 +77,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
       console.log('ZZZZZZZZZZZZZZZZZZZZZ', response.data);
       
-
-      if (response.data.paymentStatus !== "ACTIVE") {
-        navigate("/select-plan");
-        console.log('AAAAAAAAAAAA', response.data);
-
-      }
-
       if (response.data.user) {
         const rawUserData = response.data.user;
         const successTimestamp = new Date().toISOString();
@@ -117,6 +110,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setSession(sessionData);
 
         console.log(`💾 [STATE UPDATE] ${successTimestamp} - Estado do usuário atualizado`);
+
+      // if (rawUserData.paymentStatus !== "ACTIVE") {
+      //   navigate("/select-plan");
+      //   console.log('AAAAAAAAAAAA', response.data);
+      // }
+
 
         return userData;
       }
