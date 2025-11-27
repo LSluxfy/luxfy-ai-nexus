@@ -36,17 +36,21 @@ const PLANS: PlanDef[] = [
   },
 ];
 
-
 async function checkoutUrlStripe(plano) {
   const token = localStorage.getItem("jwt-token");
-  const response = await api.post("v1/user/create-checkout-session", {
-    headers: {Authorization: `Bearer ${token}`},
-    body: {planValue: plano},
-  });
+
+  const response = await api.post(
+    "v1/user/create-checkout-session",
+    { planValue: plano },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
   return response.data.checkoutUrl;
 }
-
 
 export default function PricingV2() {
   const { user } = useAuth();
