@@ -45,10 +45,10 @@ async function checkoutUrlStripe() {
   const response = await api.post("v1/user/create-checkout-session", {
     headers: {Authorization: `Bearer ${token}`},
   });
-  console.log("response response response response response", response, response.checkoutUrl);
+  console.log("response response response response response", response, response.data.checkoutUrl);
 
 
-  return response.checkoutUrl;
+  return response.data.checkoutUrl;
 }
 
 
