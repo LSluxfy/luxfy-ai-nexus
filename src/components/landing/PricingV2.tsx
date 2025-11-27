@@ -38,7 +38,7 @@ const PLANS: PlanDef[] = [
 
 
 async function checkoutUrlStripe() {
-  const token = localStorage.getItem("jwt");
+  const token = localStorage.getItem("jwt-token");
   console.log("TOKEN TOKEN TOKEN TOKEN TOKEN", token);
   
   
