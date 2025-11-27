@@ -170,15 +170,18 @@ export default function PricingV2() {
                       </li>
                     ))}
                   </ul>
-                  <Button asChild className="w-full"
-                    onClick={async () => {
+                  <Button asChild className="w-full">
+                    <a
+                    href="#"
+                    onClick={async (e) => {
+                      e.preventDefault();
                       const url = await checkoutUrlStripe();
-                      window.open(url, "_blank");
+                      window.location.href = url;
                     }}
-                    aria-label={t("pricingV2.ctaAria")}
                   >
-                    <Zap className="h-4 w-4 mr-2" />
+                   <Zap className="h-4 w-4 mr-2" />
                       {t("pricingV2.cta")}
+                  </a>
                   </Button>
                 </CardContent>
               </Card>
