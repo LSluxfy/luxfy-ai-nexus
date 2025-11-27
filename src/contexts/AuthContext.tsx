@@ -87,10 +87,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           plan: rawUserData.plan,
           profileExpire: rawUserData.profileExpire,
           paymentStatus: rawUserData.paymentStatus,
-          active:
-            !!rawUserData.plan &&
-            !!rawUserData.profileExpire &&
-            new Date(rawUserData.profileExpire) > new Date(),
+          active: !!rawUserData.plan && !!rawUserData.profileExpire && new Date(rawUserData.profileExpire) > new Date(),
         });
         console.log(`🔍 [RAW API DATA] ${successTimestamp}`, rawUserData);
 
@@ -106,10 +103,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           plan: rawUserData.plan,
           profileExpire: rawUserData.profileExpire || rawUserData.profile_expire,
           paymentStatus: rawUserData.paymentStatus,
-          active:
-            !!rawUserData.plan &&
-            !!rawUserData.profileExpire &&
-            new Date(rawUserData.profileExpire) > new Date(),
+          active: !!rawUserData.plan && !!rawUserData.profileExpire && new Date(rawUserData.profileExpire) > new Date(),
           appointments: rawUserData.appointments || [],
           createAt: rawUserData.createAt || rawUserData.create_at || "",
           lastLogin: rawUserData.lastLogin || rawUserData.last_login,
@@ -137,15 +131,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.error(`🚨 [ERROR DETAILS] ${errorTimestamp}`, {
         message: error.message,
         status: error.response?.status,
+        user: error.response?.user,
         data: error.response?.data,
         url: error.config?.url,
       });
 
       // 402 = pagamento pendente → NÃO limpa token, só propaga erro
       if (error.response?.status === 402) {
-        console.log(
-          `💳 [AUTH] ${errorTimestamp} - Plano/pagamento pendente (402), repassando erro para quem chamou`,
-        );
+        console.log(`💳 [AUTH] ${errorTimestamp} - Plano/pagamento pendente (402), repassando erro para quem chamou`);
         navigate("/select-plan");
         throw error;
       }
@@ -182,28 +175,29 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             setLoading(false);
           });
 
-        const autoRefreshInterval = setInterval(() => {
-          const refreshTimestamp = new Date().toISOString();
-          const currentToken = localStorage.getItem("jwt-token");
+        const autoRefreshInterval = setInterval(
+          () => {
+            const refreshTimestamp = new Date().toISOString();
+            const currentToken = localStorage.getItem("jwt-token");
 
-          if (currentToken) {
-            console.log(
-              `⏰ [AUTO-REFRESH TRIGGER] ${refreshTimestamp} - Executando refresh automático (ignorando cache)`,
-            );
-            fetchUserData(true).catch((error) => {
-              const errorTimestamp = new Date().toISOString();
-              console.error(`❌ [AUTO-REFRESH ERROR] ${errorTimestamp}`, error.message || error);
-            });
-          } else {
-            const cancelTimestamp = new Date().toISOString();
-            console.log(`🚫 [AUTO-REFRESH CANCELLED] ${cancelTimestamp} - Usuário não autenticado`);
-            clearInterval(autoRefreshInterval);
-          }
-        }, 2 * 60 * 1000);
-
-        console.log(
-          `✅ [SYSTEM CONFIGURED] ${initTimestamp} - Auto-refresh configurado para 2 minutos com anti-cache`,
+            if (currentToken) {
+              console.log(
+                `⏰ [AUTO-REFRESH TRIGGER] ${refreshTimestamp} - Executando refresh automático (ignorando cache)`,
+              );
+              fetchUserData(true).catch((error) => {
+                const errorTimestamp = new Date().toISOString();
+                console.error(`❌ [AUTO-REFRESH ERROR] ${errorTimestamp}`, error.message || error);
+              });
+            } else {
+              const cancelTimestamp = new Date().toISOString();
+              console.log(`🚫 [AUTO-REFRESH CANCELLED] ${cancelTimestamp} - Usuário não autenticado`);
+              clearInterval(autoRefreshInterval);
+            }
+          },
+          2 * 60 * 1000,
         );
+
+        console.log(`✅ [SYSTEM CONFIGURED] ${initTimestamp} - Auto-refresh configurado para 2 minutos com anti-cache`);
 
         return () => {
           const cleanupTimestamp = new Date().toISOString();
@@ -257,97 +251,95 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signIn = async (email: string, password: string) => {
-  try {
-    setLoading(true);
-    console.log("🔐 Iniciando processo de login para:", email);
+    try {
+      setLoading(true);
+      console.log("🔐 Iniciando processo de login para:", email);
 
-    const response = await api.post("/v1/user/login", {
-      email,
-      password,
-    });
+      const response = await api.post("/v1/user/login", {
+        email,
+        password,
+      });
 
-    if (!response.data.jwt) {
-      throw new Error("JWT não retornado pelo backend");
-    }
+      if (!response.data.jwt) {
+        throw new Error("JWT não retornado pelo backend");
+      }
 
-    console.log("✅ JWT recebido, salvando no localStorage");
-    localStorage.setItem("jwt-token", response.data.jwt);
+      console.log("✅ JWT recebido, salvando no localStorage");
+      localStorage.setItem("jwt-token", response.data.jwt);
 
-    console.log("📡 Buscando dados do usuário (pós-login)...");
-    const freshUser = await fetchUserData(false);
+      console.log("📡 Buscando dados do usuário (pós-login)...");
+      const freshUser = await fetchUserData(false);
 
-    console.log("👤 Dados do usuário carregados (freshUser):", freshUser);
+      console.log("👤 Dados do usuário carregados (freshUser):", freshUser);
 
-    // Se por algum motivo não vier user, tratar como sem plano
-    if (!freshUser) {
-      console.log("⚠️ freshUser vazio, redirecionando para select-plan por segurança");
+      // Se por algum motivo não vier user, tratar como sem plano
+      if (!freshUser) {
+        console.log("⚠️ freshUser vazio, redirecionando para select-plan por segurança");
+        navigate("/select-plan");
+        return;
+      }
+
+      // Se pagamento estiver ativo → dashboard
+      if (freshUser.paymentStatus === "ACTIVE") {
+        console.log("🔄 Pagamento ativo, redirecionando para dashboard...");
+
+        toast({
+          title: "Login realizado com sucesso!",
+          description: "Bem-vindo de volta.",
+        });
+
+        import("../lib/facebook-pixel").then(({ trackEvent, FacebookEvents }) => {
+          trackEvent(FacebookEvents.COMPLETE_REGISTRATION, {
+            content_name: "User Login",
+            status: "completed",
+          });
+        });
+
+        navigate("/dashboard");
+        return;
+      }
+
+      // Qualquer outro status (PENDING_PAYMENT, CANCELED) → select-plan
+      console.log(`💳 Pagamento não ativo (status=${freshUser.paymentStatus}), redirecionando para select-plan`);
       navigate("/select-plan");
       return;
-    }
+    } catch (error: any) {
+      console.error("❌ Erro no fluxo de login:", error);
 
-    // Se pagamento estiver ativo → dashboard
-    if (freshUser.paymentStatus === "ACTIVE") {
-      console.log("🔄 Pagamento ativo, redirecionando para dashboard...");
+      // ⬇️ AQUI É O PONTO CRÍTICO:
+      // Se der 402 em QUALQUER chamada (login ou auth), vai para select-plan
+      if (error.response?.status === 402) {
+        console.log("💳 [CATCH GLOBAL] 402 detectado, redirecionando para /select-plan");
+        navigate("/select-plan");
+        return;
+      }
+
+      let errorMessage = "Erro ao fazer login";
+
+      if (error.response?.status === 401) {
+        errorMessage = "Email ou senha incorretos";
+      } else if (error.response?.status === 403) {
+        errorMessage = "Usuário não verificado. Verifique seu email.";
+      } else if (error.response?.status === 402) {
+        errorMessage = "Usuário sem plano.";
+        navigate("/select-plan");
+      } else if (error.response?.status === 404) {
+        errorMessage = "Usuário não encontrado";
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
 
       toast({
-        title: "Login realizado com sucesso!",
-        description: "Bem-vindo de volta.",
+        title: "Erro ao fazer login",
+        description: errorMessage,
+        variant: "destructive",
       });
 
-      import("../lib/facebook-pixel").then(({ trackEvent, FacebookEvents }) => {
-        trackEvent(FacebookEvents.COMPLETE_REGISTRATION, {
-          content_name: "User Login",
-          status: "completed",
-        });
-      });
-
-      navigate("/dashboard");
-      return;
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
     }
-
-    // Qualquer outro status (PENDING_PAYMENT, CANCELED) → select-plan
-    console.log(
-      `💳 Pagamento não ativo (status=${freshUser.paymentStatus}), redirecionando para select-plan`,
-    );
-    navigate("/select-plan");
-    return;
-  } catch (error: any) {
-    console.error("❌ Erro no fluxo de login:", error);
-
-    // ⬇️ AQUI É O PONTO CRÍTICO:
-    // Se der 402 em QUALQUER chamada (login ou auth), vai para select-plan
-    if (error.response?.status === 402) {
-      console.log("💳 [CATCH GLOBAL] 402 detectado, redirecionando para /select-plan");
-      navigate("/select-plan");
-      return;
-    }
-
-    let errorMessage = "Erro ao fazer login";
-
-    if (error.response?.status === 401) {
-      errorMessage = "Email ou senha incorretos";
-    } else if (error.response?.status === 403) {
-      errorMessage = "Usuário não verificado. Verifique seu email.";
-    } else if (error.response?.status === 402) {
-      errorMessage = "Usuário sem plano.";
-      navigate("/select-plan");
-    } else if (error.response?.status === 404) {
-      errorMessage = "Usuário não encontrado";
-    } else if (error.response?.data?.message) {
-      errorMessage = error.response.data.message;
-    }
-
-    toast({
-      title: "Erro ao fazer login",
-      description: errorMessage,
-      variant: "destructive",
-    });
-
-    throw new Error(errorMessage);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   const signOut = async () => {
     try {
