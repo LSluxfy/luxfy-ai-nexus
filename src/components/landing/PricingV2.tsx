@@ -52,7 +52,7 @@ async function checkoutUrlStripe() {
 }
 
 
-export default async function PricingV2() {
+export default function PricingV2() {
   const { user } = useAuth();
   const { t, i18n } = useTranslation();
   const [annual, setAnnual] = useState(false);
@@ -170,16 +170,15 @@ export default async function PricingV2() {
                       </li>
                     ))}
                   </ul>
-                  <Button asChild className="w-full">
-                    <a
-                      href={checkoutUrlStripe()}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={t("pricingV2.ctaAria")}
-                    >
-                      <Zap className="h-4 w-4 mr-2" />
+                  <Button asChild className="w-full"
+                    onClick={async () => {
+                      const url = await checkoutUrlStripe();
+                      window.open(url, "_blank");
+                    }}
+                    aria-label={t("pricingV2.ctaAria")}
+                  >
+                    <Zap className="h-4 w-4 mr-2" />
                       {t("pricingV2.cta")}
-                    </a>
                   </Button>
                 </CardContent>
               </Card>
