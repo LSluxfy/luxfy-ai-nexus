@@ -6,6 +6,7 @@ import { Check, Zap, X, Infinity } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { api } from "@/lib/api";
 
 interface PlanDef {
   key: "start" | "pro" | "teams";
@@ -17,23 +18,37 @@ interface PlanDef {
 }
 
 const PLANS: PlanDef[] = [
-  { key: "start", monthly: 22, annual: 184, agents: 1, checkoutUrl: "https://pay.hotmart.com/P96043448T?off=dc0nb9ba" },
+  { key: "start", monthly: 22, annual: 184, agents: 1, checkoutUrl: "" },
   {
     key: "pro",
     monthly: 43,
     annual: 361.2,
     agents: 3,
     highlight: true,
-    checkoutUrl: "https://pay.hotmart.com/P96043448T?off=v2dv9yey",
+    checkoutUrl: "",
   },
   {
     key: "teams",
     monthly: 79,
     annual: 663.6,
     agents: 6,
-    checkoutUrl: "https://pay.hotmart.com/P96043448T?off=p6dqhbmg",
+    checkoutUrl: "",
   },
 ];
+
+
+async function checkoutUrlStripe() {
+  const token = localStorage.getItem("jwt");
+  console.log("TOKEN TOKEN TOKEN TOKEN TOKEN", token);
+  
+  
+  const response = await api.get("v1/user/create-checkout-session", {
+    headers: {Authorization: `Bearer ${token}`},
+  });
+
+  return response;
+}
+
 
 export default function PricingV2() {
   const { user } = useAuth();
@@ -155,7 +170,7 @@ export default function PricingV2() {
                   </ul>
                   <Button asChild className="w-full">
                     <a
-                      href={user ? `${plan.checkoutUrl}&user_id=${user.id}` : plan.checkoutUrl}
+                      href={checkoutUrlStripe()}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={t("pricingV2.ctaAria")}

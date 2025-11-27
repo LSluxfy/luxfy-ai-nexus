@@ -75,7 +75,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         adapter: undefined,
         timeout: 30000,
       });
-      console.log('ZZZZZZZZZZZZZZZZZZZZZ', response.data);
       
       if (response.data.user) {
         const rawUserData = response.data.user;
@@ -110,12 +109,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setSession(sessionData);
 
         console.log(`💾 [STATE UPDATE] ${successTimestamp} - Estado do usuário atualizado`);
-
-      // if (rawUserData.paymentStatus !== "ACTIVE") {
-      //   navigate("/select-plan");
-      //   console.log('AAAAAAAAAAAA', response.data);
-      // }
-
 
         return userData;
       }
