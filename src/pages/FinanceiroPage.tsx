@@ -10,8 +10,10 @@ import { InvoiceList } from '@/components/financial/InvoiceList';
 import { useInvoices } from '@/hooks/use-invoices';
 import { InvoiceService } from '@/services/invoiceService';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/contexts/AuthContext';
 
 const FinanceiroPage = () => {
+  const { user } = useAuth();
   const { t } = useTranslation();
   
   const [currentPlan] = useState({
@@ -98,7 +100,7 @@ const FinanceiroPage = () => {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-xl font-bold">{currentPlan.name}</h3>
+                        <h3 className="text-xl font-bold">{currentPlan.name}{user.plan}</h3>
                         <p className="text-gray-600">{t('financial.currentPlan.autoRenewal')}</p>
                       </div>
                       <div className="text-right">

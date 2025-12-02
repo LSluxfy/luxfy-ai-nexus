@@ -4,35 +4,31 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Zap, X, Infinity } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { api } from "@/lib/api";
 
 interface PlanDef {
   key: "start" | "pro" | "teams";
   monthly: number;
-  annual: number; // total annual billed
+  annual: number;
   agents: number;
   highlight?: boolean;
-  checkoutUrl: string;
 }
 
 const PLANS: PlanDef[] = [
-  { key: "start", monthly: 22, annual: 184, agents: 1, checkoutUrl: "" },
+  { key: "start", monthly: 22, annual: 184, agents: 1,},
   {
     key: "pro",
     monthly: 43,
     annual: 361.2,
     agents: 3,
     highlight: true,
-    checkoutUrl: "",
   },
   {
     key: "teams",
     monthly: 79,
     annual: 663.6,
     agents: 6,
-    checkoutUrl: "",
   },
 ];
 
