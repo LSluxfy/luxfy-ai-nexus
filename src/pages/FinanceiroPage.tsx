@@ -16,12 +16,27 @@ const FinanceiroPage = () => {
   const { user } = useAuth();
   const { t } = useTranslation();
   
-  const [currentPlan] = useState({
-    name: t('financial.plans.basic'),
-    price: '$22,00',
-    period: 'mensal',
-    features: ['1 Agente', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario']
-  });
+  const currentPlan = {
+  name:
+    user?.plan === "BASICO"
+      ? t("financial.plans.basic")
+      : user?.plan === "PRO"
+        ? t("financial.plans.pro")
+        : t("financial.plans.premium"),
+  price:
+    user?.plan === "BASICO"
+      ? "$ 22"
+      : user?.plan === "PRO"
+        ? "$ 39"
+        : "$ 79",
+  period: "mensal",
+  features:
+    user?.plan === "BASICO"
+      ? ['1 Agente', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario']
+      : user?.plan === "PRO"
+        ? ['3 Agentes', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario']
+        : ['6 Agentes', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario'],
+};
 
   const [availablePlans] = useState([
     {
@@ -100,7 +115,7 @@ const FinanceiroPage = () => {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-xl font-bold">{currentPlan.name}{user.plan}</h3>
+                        <h3 className="text-xl font-bold">{user.plan}</h3>
                         <p className="text-gray-600">{t('financial.currentPlan.autoRenewal')}</p>
                       </div>
                       <div className="text-right">
