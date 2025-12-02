@@ -117,10 +117,12 @@ const FinanceiroPage = () => {
 
                     <div className="flex gap-2 pt-4">
                       <Button variant="outline">{t('financial.currentPlan.cancelPlan')}</Button>
+                      <TabsTrigger value="upgrade">
                       <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
                         <ArrowUpRight className="mr-2 h-4 w-4" />
                         {t('financial.currentPlan.makeUpgrade')}
                       </Button>
+                      </TabsTrigger>
                     </div>
                   </div>
                 </CardContent>
