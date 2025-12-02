@@ -36,12 +36,14 @@ const PLANS: PlanDef[] = [
   },
 ];
 
-async function checkoutUrlStripe(plano) {
+async function checkoutUrlStripe(plano, annual) {
   const token = localStorage.getItem("jwt-token");
 
   const response = await api.post(
     "v1/user/create-checkout-session",
-    { planValue: plano },
+    { planValue: plano,
+      isAnnual: annual,
+     },
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -176,7 +178,7 @@ export default function PricingV2() {
                     target="_blank"
                     onClick={async (e) => {
                       e.preventDefault();
-                      const url = await checkoutUrlStripe(plan.key);
+                      const url = await checkoutUrlStripe(plan.key, annual);
                       window.location.href = url;
                     }}
                   >
