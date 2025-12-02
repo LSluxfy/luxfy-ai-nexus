@@ -76,7 +76,7 @@ const FinanceiroPage = () => {
         <Tabs defaultValue="plan" className="w-full">
           <TabsList className="grid grid-cols-3 mb-8">
             <TabsTrigger value="plan">{t('financial.tabs.currentPlan')}</TabsTrigger>
-            <TabsTrigger value="upgrade">{t('financial.tabs.upgrade')}</TabsTrigger>
+            <TabsTrigger value="upgrade" id="tab-upgrade-trigger">{t('financial.tabs.upgrade')}</TabsTrigger>
             <TabsTrigger value="invoices">{t('financial.tabs.invoices')}</TabsTrigger>
           </TabsList>
 
@@ -117,12 +117,13 @@ const FinanceiroPage = () => {
 
                     <div className="flex gap-2 pt-4">
                       <Button variant="outline">{t('financial.currentPlan.cancelPlan')}</Button>
-                      <TabsTrigger value="upgrade">
-                      <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
+                      <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple" onClick={() => {
+                            const trigger = document.getElementById("tab-upgrade-trigger");
+                            trigger?.click();
+                          }}>
                         <ArrowUpRight className="mr-2 h-4 w-4" />
                         {t('financial.currentPlan.makeUpgrade')}
                       </Button>
-                      </TabsTrigger>
                     </div>
                   </div>
                 </CardContent>
