@@ -55,7 +55,7 @@ async function checkoutUrlStripe(plano, annual) {
 export default function PricingV2() {
   const { user } = useAuth();
   const { t, i18n } = useTranslation();
-  const [annual, setAnnual] = useState(true);
+  const [annual, setAnnual] = useState(false);
 
   const currency = useMemo(() => {
     // Keep dollar symbol as in brief
