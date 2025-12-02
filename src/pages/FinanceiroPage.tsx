@@ -7,8 +7,6 @@ import { Badge } from '@/components/ui/badge';
 import { CreditCard, ArrowUpRight, Calendar, Clock, CheckCircle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InvoiceList } from '@/components/financial/InvoiceList';
-import { useInvoices } from '@/hooks/use-invoices';
-import { InvoiceService } from '@/services/invoiceService';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -63,27 +61,7 @@ const FinanceiroPage = () => {
     }
   ]);
 
-  // Use real invoice data for next payment
-  const { nextPayment, stats } = useInvoices();
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(value);
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('pt-BR');
-  };
-
-  const calculateDaysUntilDue = (dueDate: string) => {
-    const due = new Date(dueDate);
-    const now = new Date();
-    const diffTime = due.getTime() - now.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
-  };
+  const nextPayment  = false
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -136,26 +114,6 @@ const FinanceiroPage = () => {
                       </ul>
                     </div>
 
-                    {/* Estatísticas de Faturas */}
-                    {stats && (
-                      <div className="border-t pt-4">
-                        <h4 className="font-medium mb-2">{t('financial.currentPlan.financialSummary')}</h4>
-                        <div className="grid grid-cols-2 gap-4 text-sm">
-                          <div>
-                            <span className="text-gray-500">{t('financial.currentPlan.totalPaid')}</span>
-                            <div className="font-medium text-green-600">
-                              {formatCurrency(stats.totalPaid)}
-                            </div>
-                          </div>
-                          <div>
-                            <span className="text-gray-500">{t('financial.currentPlan.pending')}</span>
-                            <div className="font-medium text-yellow-600">
-                              {formatCurrency(stats.totalPending)}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
 
                     <div className="flex gap-2 pt-4">
                       <Button variant="outline">{t('financial.currentPlan.cancelPlan')}</Button>
@@ -179,32 +137,9 @@ const FinanceiroPage = () => {
                   <div className="space-y-4">
                     {nextPayment ? (
                       <>
-                          <div className="text-center">
-                           <div className="text-2xl font-bold">
-                             {calculateDaysUntilDue(nextPayment.dueDate!)} {t('financial.nextBilling.daysUntilDue')}
-                           </div>
-                           <div className="text-sm text-gray-500">{t('financial.nextBilling.untilDue')}</div>
-                         </div>
-                         <div className="space-y-2 text-sm">
-                           <div className="flex justify-between">
-                             <span>{t('financial.nextBilling.date')}</span>
-                             <span>{formatDate(nextPayment.dueDate!)}</span>
-                           </div>
-                           <div className="flex justify-between">
-                             <span>{t('financial.nextBilling.amount')}</span>
-                             <span className="font-medium">{formatCurrency(nextPayment.amount)}</span>
-                           </div>
-                           <div className="flex justify-between">
-                             <span>{t('financial.nextBilling.description')}</span>
-                             <span className="text-xs">{nextPayment.description}</span>
-                           </div>
-                           <div className="flex justify-between">
-                             <span>{t('financial.nextBilling.status')}</span>
-                             <Badge className={InvoiceService.getStatusColor(nextPayment.status)}>
-                               {InvoiceService.getStatusText(nextPayment.status)}
-                             </Badge>
-                           </div>
-                         </div>
+                        <div className="text-sm text-gray-500">
+                          cobrança pendente
+                        </div>
                       </>
                     ) : (
                       <div className="text-center py-4">
