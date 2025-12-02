@@ -25,7 +25,7 @@ const FinanceiroPage = () => {
     user?.plan === "BASICO"
       ? "$ 22"
       : user?.plan === "PRO"
-        ? "$ 39"
+        ? "$ 43"
         : "$ 79",
   period: "mensal",
   features:
