@@ -41,14 +41,12 @@ async function checkoutUrlStripe(plano, annual) {
 
   const response = await api.post(
     "v1/user/create-checkout-session",
-    { planValue: plano,
-      isAnnual: annual,
-     },
+    { planValue: plano, isAnnual: annual },
     {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   return response.data.checkoutUrl;
@@ -57,7 +55,7 @@ async function checkoutUrlStripe(plano, annual) {
 export default function PricingV2() {
   const { user } = useAuth();
   const { t, i18n } = useTranslation();
-  const [annual, setAnnual] = useState(false);
+  const [annual, setAnnual] = useState(true);
 
   const currency = useMemo(() => {
     // Keep dollar symbol as in brief
@@ -174,17 +172,17 @@ export default function PricingV2() {
                   </ul>
                   <Button asChild className="w-full">
                     <a
-                    href="#"
-                    target="_blank"
-                    onClick={async (e) => {
-                      e.preventDefault();
-                      const url = await checkoutUrlStripe(plan.key, annual);
-                      window.location.href = url;
-                    }}
-                  >
-                   <Zap className="h-4 w-4 mr-2" />
+                      href="#"
+                      target="_blank"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        const url = await checkoutUrlStripe(plan.key, annual);
+                        window.location.href = url;
+                      }}
+                    >
+                      <Zap className="h-4 w-4 mr-2" />
                       {t("pricingV2.cta")}
-                  </a>
+                    </a>
                   </Button>
                 </CardContent>
               </Card>
