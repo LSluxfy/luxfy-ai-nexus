@@ -41,14 +41,14 @@ const FinanceiroPage = () => {
       name: t('financial.plans.basic'),
       price: '$22',
       period: '/mês',
-      current: true,
+      current: user?.plan === "BASICO",
       features: ['1 Agente', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario']
     },
     {
       name: t('financial.plans.pro'),
       price: '$39',
       period: '/mês',
-      current: false,
+      current: user?.plan === "PRO",
       popular: true,
       features: ['3 Agentes', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario']
     },
@@ -56,7 +56,7 @@ const FinanceiroPage = () => {
       name: t('financial.plans.premium'),
       price: '$79',
       period: '/mês',
-      current: false,
+      current: user?.plan === "PREMIUM",
       features: ['6 Agentes', 'CRM avanzado', 'IA gratis incluida', 'Respuestas ilimitadas', 'Agenda con sincronización', 'Campañas de WhatsApp', 'Soporte prioritario']
     }
   ]);
