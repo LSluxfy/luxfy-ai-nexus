@@ -46,7 +46,7 @@ const FinanceiroPage = () => {
     },
     {
       name: t('financial.plans.pro'),
-      price: '$39',
+      price: '$43',
       period: '/mês',
       current: user?.plan === "PRO",
       popular: true,
