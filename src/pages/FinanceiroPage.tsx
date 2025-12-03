@@ -15,23 +15,16 @@ import api from '@/lib/api';
 async function cancelSubscription() {
   const token = localStorage.getItem("jwt-token");
 
-  try {
     const response = await api.post(
       "v1/user/cancel-subscription",
-      {},
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-
-    alert("Seu plano será cancelado ao final do período.");
-  } catch (err) {
-    alert("Erro ao cancelar plano.");
-  }
+  return response;
 }
-
 
 const FinanceiroPage = () => {
   const { user } = useAuth();
