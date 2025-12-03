@@ -17,6 +17,7 @@ async function cancelSubscription() {
 
     const response = await api.post(
       "v1/user/cancel-subscription",
+      {},
       {
         headers: {
           Authorization: `Bearer ${token}`,
