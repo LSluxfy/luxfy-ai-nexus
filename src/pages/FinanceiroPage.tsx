@@ -9,6 +9,29 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InvoiceList } from '@/components/financial/InvoiceList';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
+import api from '@/lib/api';
+
+
+async function cancelSubscription() {
+  const token = localStorage.getItem("jwt-token");
+
+  try {
+    const response = await api.post(
+      "/v1/user/cancel-subscription",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    alert("Seu plano será cancelado ao final do período.");
+  } catch (err) {
+    alert("Erro ao cancelar plano.");
+  }
+}
+
 
 const FinanceiroPage = () => {
   const { user } = useAuth();
@@ -117,7 +140,7 @@ const FinanceiroPage = () => {
 
                     <div className="flex gap-2 pt-4">
                       <Button variant="outline">{t('financial.currentPlan.cancelPlan')}</Button>
-                      <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
+                      <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple" onClick={cancelSubscription}>
                         <ArrowUpRight className="mr-2 h-4 w-4" />
                         {t('financial.currentPlan.makeUpgrade')}
                       </Button>
