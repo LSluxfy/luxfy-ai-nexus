@@ -15,15 +15,17 @@ import api from '@/lib/api';
 async function cancelSubscription() {
   const token = localStorage.getItem("jwt-token");
 
-    const response = await api.post(
-      "v1/user/cancel-subscription",
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+  const response = await api.post(
+    "v1/user/cancel-subscription",
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  console.log(response);
+  
   return response;
 }
 
