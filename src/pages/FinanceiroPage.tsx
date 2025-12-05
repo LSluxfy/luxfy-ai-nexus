@@ -189,7 +189,7 @@ const FinanceiroPage = () => {
                     </div>
 
                     <div className="flex gap-2 pt-4">
-                      <Button variant="outline">{t("financial.currentPlan.cancelPlan")}</Button>
+                      <Button variant="outline" onClick={cancelSubscription}>{t("financial.currentPlan.cancelPlan")}</Button>
                       <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
                         <ArrowUpRight className="mr-2 h-4 w-4" />
                         {t("financial.currentPlan.makeUpgrade")}
