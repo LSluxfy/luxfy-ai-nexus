@@ -122,7 +122,21 @@ const FinanceiroPage = () => {
   ]);
 
   const nextPayment = false;
-
+ async function updateCheckoutUrlStripe(plano, annual) {
+    const token = localStorage.getItem("jwt-token");
+  
+    const response = await api.post(
+      "v1/user/update-subscription",
+      { planValue: plano, isAnnual: annual },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+  
+    return response.data.checkoutUrl;
+  }
   return (
     <div className="flex flex-col min-h-screen">
       <DashboardHeader title={t("financial.title")} />
@@ -220,7 +234,7 @@ const FinanceiroPage = () => {
                   key={index}
                   className={`relative ${plan.current ? "border-luxfy-purple" : ""} ${plan.popular ? "border-2 border-yellow-400" : ""}`}
                 >
-                  {plan.popular && (
+                  {plan.current !== plan.popular && plan.popular && (
                     <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-yellow-900">
                       Mais Popular
                     </Badge>
@@ -246,11 +260,16 @@ const FinanceiroPage = () => {
                         </li>
                       ))}
                     </ul>
-                    <Button
-                      className={`w-full ${plan.current ? "bg-gray-400" : "bg-luxfy-purple hover:bg-luxfy-darkPurple"}`}
+                   <Button 
+                      className={`w-full ${plan.current ? 'bg-gray-400' : 'bg-luxfy-purple hover:bg-luxfy-darkPurple'}`}
                       disabled={plan.current}
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        const url = await updateCheckoutUrlStripe(plan.name, false);
+                        window.location.href = url;
+                      }}
                     >
-                      {plan.current ? "Plano Atual" : "Fazer Upgrade"}
+                      {plan.current ? 'Plano Atual' : 'Fazer Upgrade'}
                     </Button>
                   </CardContent>
                 </Card>
