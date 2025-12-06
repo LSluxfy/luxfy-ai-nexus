@@ -9,10 +9,12 @@ import { Button } from './ui/button';
 import { LogOut, User, Moon, Sun } from 'lucide-react';
 import { SidebarProvider, SidebarTrigger } from './ui/sidebar';
 import LanguageSelector from './LanguageSelector';
+import { useTranslation } from 'react-i18next';
 
 const DashboardLayout = () => {
   const { user, signOut } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <SidebarProvider defaultOpen={false}>
@@ -52,7 +54,7 @@ const DashboardLayout = () => {
                 className="flex items-center gap-1 text-sidebar-foreground border-sidebar-border hover:bg-sidebar-accent"
               >
                 <LogOut className="h-4 w-4" />
-                Sair
+                {t('nav.logout')}
               </Button>
             </div>
           </header>

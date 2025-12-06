@@ -139,8 +139,6 @@ const FinanceiroPage = () => {
   }
   return (
     <div className="flex flex-col min-h-screen">
-      <DashboardHeader title={t("financial.title")} />
-
       <main className="flex-1 p-6 bg-gray-50">
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-gray-800">{t("financial.subtitle")}</h2>

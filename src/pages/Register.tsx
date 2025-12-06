@@ -98,7 +98,7 @@ const Register = () => {
               <img
                 src="/lovable-uploads/c0e6c735-5382-4c0e-81ee-5c39577c240d.png"
                 alt="Luxfy Logo"
-                className="w-7 h-7"
+                className="w-full h-full object-cover"
               />
             </div>
             <span className="text-3xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
@@ -119,7 +119,7 @@ const Register = () => {
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
@@ -222,13 +222,13 @@ const Register = () => {
                       <FormControl>
                         <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-2" />
                       </FormControl>
-                      <div className="leading-none mt-0">
+                      <div className="leading-none mt-0 pt-0">
                         <FormLabel className="text-sm leading-none text-slate-700">
-                          {t("auth.register.agreeToTerms")}{" "}
+                          {t("auth.register.agreeToTerms")}
                           <Link to="/terms" className="text-blue-800 hover:underline">
                             {t("auth.register.termsOfService")}
-                          </Link>{" "}
-                          {t("auth.register.and")}{" "}
+                          </Link>
+                          {t("auth.register.and")}
                           <Link to="/privacy" className="text-blue-800 hover:underline">
                             {t("auth.register.privacyPolicy")}
                           </Link>
@@ -251,7 +251,7 @@ const Register = () => {
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
             <p className="text-center text-sm text-slate-600 mt-4">
-              {t("auth.register.hasAccount")}{" "}
+              {t("auth.register.hasAccount")}
               <Link to="/login" className="text-blue-800 hover:underline font-medium">
                 {t("auth.register.loginLink")}
               </Link>

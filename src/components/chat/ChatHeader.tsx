@@ -2,8 +2,6 @@
 import React from 'react';
 import { ChatUser } from '@/types/chat';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Phone, Video, MoreVertical, Settings } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -51,24 +49,6 @@ const ChatHeader = ({ user, aiEnabled }: ChatHeaderProps) => {
             </p>
             <p className="text-xs text-gray-400">{user.phone}</p>
           </div>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="text-gray-500 hover:text-luxfy-purple">
-            <Phone size={20} />
-          </Button>
-          
-          <Button variant="ghost" size="icon" className="text-gray-500 hover:text-luxfy-purple">
-            <Video size={20} />
-          </Button>
-          
-          <Button variant="ghost" size="icon" className="text-gray-500 hover:text-luxfy-purple">
-            <Settings size={20} />
-          </Button>
-          
-          <Button variant="ghost" size="icon" className="text-gray-500 hover:text-luxfy-purple">
-            <MoreVertical size={20} />
-          </Button>
         </div>
       </div>
     </div>

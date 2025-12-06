@@ -6,7 +6,15 @@
     "pricing": "Precios",
     "contact": "Contacto",
     "login": "Iniciar Sesión",
-    "register": "Registrarse"
+    "register": "Registrarse",
+    "logout": "Cerrar sesión",
+    "agent": "Agentes",
+    "marketing": "Campaña",
+    "calendar": "Agenda",
+    "analitic": "Análisis",
+    "tutorial": "Tutoriales",
+    "financial": "Finanzas",
+    "settings": "Configuraciones"
   },
   "hero": {
     "title": "Clona tu mejor",
@@ -53,6 +61,7 @@
     }
   },
   "features": {
+    "headTitle": "Tecnología Avanzada",
     "title": "Todo lo que necesitas en una plataforma",
     "subtitle": "Luxfy reúne las principales herramientas para automatización, atención al cliente y ventas en una interfaz simple e intuitiva.",
     "aiAgent": {
@@ -138,12 +147,20 @@
   },
   "dashboard": {
     "title": "Dashboard",
-    "affiliateProgram": "Programa de Afiliados",
-    "luxfyAffiliate": "Programa de Afiliados Luxfy",
-    "recurringCommission": "Comisión Recurrente",
-    "earningsThisMonth": "Ganancias Este Mes",
-    "referrals": "Referidos",
-    "startReferring": "Comenzar a Referir"
+    "affiliateProgram": "Programa de Afiliados"
+  },
+  "profileCard": {
+    "name": "Nombre",
+    "lastName": "Apellido",
+    "plan": "Plan",
+    "agentsAvalible": "Agentes disponibles"
+  },
+  "SelectAgent": {
+    "title": "Seleccione un agente",
+    "description": "No se encontró el agente. Seleccione un agente válido a continuación:",
+    "noAgent": "No se encontraron agentes",
+    "noAgentDescription": "Aún no has creado ningún agente. Ve a la página de Agentes para crear tu primer agente.",
+    "loading":"Cargando agentes..."
   },
   "agents": {
     "title": "Agentes de IA",
@@ -171,6 +188,7 @@
   },
   "crm": {
     "title": "CRM Visual",
+    "description": "Seleccione un agente para administrar su CRM.",
     "subtitle": "Gestiona tus leads y oportunidades en formato Kanban",
     "searchPlaceholder": "Buscar leads...",
     "newColumn": "Nueva Columna",
@@ -198,6 +216,14 @@
     "negotiation": "En Negociación",
     "closed": "Cerrados",
     "lost": "Perdidos"
+  },
+  "marketing": {
+    "title": "Campañas de marketing",
+    "description": "Seleccione un agente para administrar sus campañas." 
+  },
+  "calendar": {
+    "agentNotFound": "No hay agentes disponibles",
+    "noAgentDescription": "Es necesario tener al menos un agente para acceder al calendario." 
   },
   "chat": {
     "title": "Chat - WhatsApp Web",
@@ -752,6 +778,20 @@
       "roi": "Retorno de Inversión:"
     },
     "disclaimer": "* Cálculos basados en el plan PRO (R$ 197/mes). Resultados pueden variar según implementación."
-  }
+  },
+  "errors": {
+    "layout": "Error al cargar el Layout",
+    "dashboard": "Error al cargar el Dashboard",
+    "agents": "Error al cargar los Agentes",
+    "agent": "Error al cargar el Agente",
+    "crm": "Error al cargar el CRM",
+    "chat": "Error al cargar el Chat",
+    "marketing": "Error al cargar las Campañas",
+    "calendar": "Error al cargar la Agenda",
+    "analytics": "Error al cargar Analytics",
+    "tutorial": "Error al cargar los Tutoriales",
+    "financial": "Error al cargar Finanzas",
+    "settings": "Error al cargar Configuraciones"
+}
 }
 

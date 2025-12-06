@@ -49,12 +49,9 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white py-12 px-4 relative overflow-hidden">
-      {/* Background effects */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-800/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-slate-900/3 rounded-full blur-3xl"></div>
-
-        {/* Circuit grid */}
         <div className="absolute inset-0 opacity-3">
           <div
             className="w-full h-full"
@@ -176,12 +173,7 @@ const Login = () => {
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
             <p className="text-center text-sm text-slate-600">
-              <Link to="/forgot-password" className="text-blue-800 hover:underline">
-                Esqueci minha senha
-              </Link>
-            </p>
-            <p className="text-center text-sm text-slate-600 mt-4">
-              {t("auth.login.noAccount")}{" "}
+              {t("auth.login.noAccount")}
               <Link to="/register" className="text-blue-800 hover:underline font-medium">
                 {t("auth.login.registerLink")}
               </Link>

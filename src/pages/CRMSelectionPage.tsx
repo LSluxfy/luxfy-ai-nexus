@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import DashboardHeader from '@/components/DashboardHeader';
 import { AgentSelector } from '@/components/crm/AgentSelector';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -18,8 +17,6 @@ const CRMSelectionPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <DashboardHeader title={t('crm.title')} />
-
       <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
@@ -30,7 +27,7 @@ const CRMSelectionPage = () => {
               {t('crm.title')}
             </h2>
             <p className="text-gray-600 dark:text-gray-300 text-lg">
-              Selecione um agente para gerenciar seu CRM
+              {t('crm.description')}
             </p>
           </div>
 
@@ -38,9 +35,9 @@ const CRMSelectionPage = () => {
             <Card className="text-center">
               <CardHeader>
                 <Bot className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                <CardTitle>Nenhum agente encontrado</CardTitle>
+                <CardTitle>{t('SelectAgent.noAgent')}</CardTitle>
                 <CardDescription>
-                  Você ainda não tem agentes criados. Vá para a página de Agentes para criar seu primeiro agente.
+                  {t('SelectAgent.noAgentDescription')}
                 </CardDescription>
               </CardHeader>
             </Card>

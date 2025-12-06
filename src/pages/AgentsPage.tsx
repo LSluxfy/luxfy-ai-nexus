@@ -67,7 +67,7 @@ const AgentsPage = () => {
             {user && (
               <>
                 {t('agents.currentPlan')}: <span className="font-semibold capitalize">{user.plan}</span> •
-                {" "}Agentes: <span className="font-semibold">{agents.length}/{user.numberAgentes || 'Ilimitado'}</span>
+                Agentes: <span className="font-semibold">{agents.length}/{user.numberAgentes || 'Ilimitado'}</span>
               </>
             )}
           </p>

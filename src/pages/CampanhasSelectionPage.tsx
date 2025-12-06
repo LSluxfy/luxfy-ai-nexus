@@ -1,14 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import DashboardHeader from '@/components/DashboardHeader';
 import { AgentSelector } from '@/components/crm/AgentSelector';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Megaphone, Bot } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
 
 const CampanhasSelectionPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   const handleAgentChange = (agentId: string) => {
     navigate(`/dashboard/campanhas/${agentId}`);
@@ -16,8 +18,6 @@ const CampanhasSelectionPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <DashboardHeader title="Campanhas de Marketing" />
-
       <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
@@ -25,10 +25,10 @@ const CampanhasSelectionPage = () => {
               <Megaphone className="h-16 w-16 text-blue-600 dark:text-blue-400" />
             </div>
             <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
-              Campanhas de Marketing
+              {t('marketing.title')}
             </h2>
             <p className="text-gray-600 dark:text-gray-300 text-lg">
-              Selecione um agente para gerenciar suas campanhas
+              {t('marketing.description')}
             </p>
           </div>
 
@@ -36,9 +36,9 @@ const CampanhasSelectionPage = () => {
             <Card className="text-center">
               <CardHeader>
                 <Bot className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                <CardTitle>Nenhum agente encontrado</CardTitle>
+                <CardTitle>{t('SelectAgent.noAgent')}</CardTitle>
                 <CardDescription>
-                  Você ainda não tem agentes criados. Vá para a página de Agentes para criar seu primeiro agente.
+                  {t('SelectAgent.noAgentDescription')}
                 </CardDescription>
               </CardHeader>
             </Card>

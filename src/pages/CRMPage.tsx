@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import DashboardHeader from '@/components/DashboardHeader';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
@@ -104,7 +103,6 @@ const CRMPage = () => {
   if (isLoading) {
     return (
       <div className="flex flex-col min-h-screen">
-        <DashboardHeader title={t('crm.title')} />
         <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
           <div className="flex items-center justify-center h-64">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-800"></div>
@@ -117,7 +115,6 @@ const CRMPage = () => {
   if (error) {
     return (
       <div className="flex flex-col min-h-screen">
-        <DashboardHeader title={t('crm.title')} />
         <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
@@ -143,7 +140,6 @@ const CRMPage = () => {
   if (!crmData) {
     return (
       <div className="flex flex-col min-h-screen">
-        <DashboardHeader title={t('crm.title')} />
         <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
             <div>
@@ -186,8 +182,6 @@ const CRMPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <DashboardHeader title={t('crm.title')} />
-
       <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
           <div>

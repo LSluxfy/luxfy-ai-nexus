@@ -147,7 +147,7 @@ const VerifyEmail = () => {
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
             <p className="text-center text-sm text-slate-600 mt-4">
-              Já verificou sua conta?{" "}
+              Já verificou sua conta?
               <Link to="/login" className="text-blue-800 hover:underline font-medium">
                 Fazer Login
               </Link>

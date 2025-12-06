@@ -6,8 +6,11 @@ import { AgentSelector } from '@/components/crm/AgentSelector';
 import { ApiAgent } from '@/types/agent-api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Bot } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
 
 export function AgentPage() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [agent, setAgent] = useState<ApiAgent | null>(null);
@@ -21,18 +24,13 @@ export function AgentPage() {
 
 
   useEffect(() => {
-    console.log('AgentPage - ID:', id);
-    console.log('AgentPage - User agents:', user?.agents);
-    
     if (!id || !user?.agents) {
-      console.log('AgentPage - Missing ID or user agents');
       setLoading(false);
       return;
     }
 
     // Buscar o agente nos dados que já temos do contexto
     const foundAgent = user.agents.find(agent => agent.id.toString() === id);
-    console.log('AgentPage - Found agent:', foundAgent);
     
     // Converter strings JSON para objetos JavaScript
     if (foundAgent) {
@@ -55,7 +53,7 @@ export function AgentPage() {
   if (loading) {
     return (
       <div className="container mx-auto py-6">
-        <div>Carregando agente...</div>
+        <div> {t('SelectAgent.loading')}</div>
       </div>
     );
   }
@@ -68,9 +66,9 @@ export function AgentPage() {
           <Card className="max-w-md mx-auto">
             <CardHeader className="text-center">
               <Bot className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-              <CardTitle>Nenhum agente encontrado</CardTitle>
+              <CardTitle>{t('SelectAgent.noAgent')}</CardTitle>
               <CardDescription>
-                Você ainda não tem agentes criados. Vá para a página de Agentes para criar seu primeiro agente.
+                {t('SelectAgent.noAgentDescription')}
               </CardDescription>
             </CardHeader>
           </Card>
@@ -84,9 +82,9 @@ export function AgentPage() {
         <Card className="max-w-md mx-auto">
           <CardHeader className="text-center">
             <Bot className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-            <CardTitle>Selecione um agente</CardTitle>
+            <CardTitle>{t('SelectAgent.title')}</CardTitle>
             <CardDescription>
-              {id ? 'Agente não encontrado. Selecione um agente válido abaixo:' : 'Escolha um agente para configurar:'}
+              {id ? t('SelectAgent.description') : 'Escolha um agente para configurar:'}
             </CardDescription>
           </CardHeader>
           <CardContent>

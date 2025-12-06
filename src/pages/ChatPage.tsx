@@ -90,8 +90,6 @@ const ChatPage = () => {
   if (error) {
     return (
       <div className="flex flex-col min-h-screen">
-        <DashboardHeader title={t('chat.title')} />
-        
         <main className="flex-1 flex items-center justify-center bg-gray-50 p-6">
           <div className="max-w-md w-full">
             <Alert variant="destructive">

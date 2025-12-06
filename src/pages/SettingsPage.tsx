@@ -1,7 +1,5 @@
 
 import React, { useState } from 'react';
-import DashboardHeader from '@/components/DashboardHeader';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AccountSettings from '@/components/settings/AccountSettings';
 import AgentSettings from '@/components/settings/AgentSettings';
@@ -13,8 +11,6 @@ const SettingsPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <DashboardHeader title={t('settings.title')} />
-      
       <main className="flex-1 p-6 bg-gray-50">
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-gray-800">{t('settings.subtitle')}</h2>

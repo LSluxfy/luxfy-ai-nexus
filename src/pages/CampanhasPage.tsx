@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import DashboardHeader from '@/components/DashboardHeader';
 import { AgentCampaigns } from '@/components/agent/AgentCampaigns';
 import { AgentSelector } from '@/components/crm/AgentSelector';
 import { useAuth } from '@/contexts/AuthContext';
@@ -28,8 +27,6 @@ const CampanhasPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <DashboardHeader title="Campanhas de Marketing" />
-      
       <main className="flex-1 p-6">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
           <div>

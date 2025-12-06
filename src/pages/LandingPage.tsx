@@ -1,20 +1,15 @@
 
 import React, { useEffect, Suspense, lazy, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import LeadCaptureModal from '@/components/landing/LeadCaptureModal';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Bot, Kanban, Calendar, BarChart, Users, Shield, Check, Star, Zap, Brain, Cpu, Network } from 'lucide-react';
+import { Kanban, Calendar, BarChart, Users, Shield, Check, Brain, Cpu, Network } from 'lucide-react';
 import LandingNavbar from '@/components/LandingNavbar';
 import LandingFooter from '@/components/LandingFooter';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 import HeroSection from '@/components/landing/HeroSection';
-import ExamplesShowcase from '@/components/landing/ExamplesShowcase';
-import StickyCTA from '@/components/landing/StickyCTA';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import WhatsAppNotification from '@/components/landing/WhatsAppNotification';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -200,7 +195,7 @@ const LandingPage = () => {
           <div className="text-center mb-20">
             <div className="inline-flex items-center gap-2 bg-blue-800/10 backdrop-blur-sm border border-blue-800/20 rounded-full px-6 py-2 mb-6">
               <Brain className="w-5 h-5 text-blue-800" />
-              <span className="text-blue-800 font-medium">Tecnologia Avançada</span>
+              <span className="text-blue-800 font-medium">{t('features.headTitle')}</span>
             </div>
             
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">

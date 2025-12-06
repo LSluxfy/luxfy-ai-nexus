@@ -27,12 +27,15 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useTranslation } from 'react-i18next';
 
 const DashboardSidebar = () => {
   const { userPlan, agents } = useAgents();
   const { open, setOpen } = useSidebar();
   const location = useLocation();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { t } = useTranslation();
+
 
   const links = [
     {
@@ -67,32 +70,32 @@ const DashboardSidebar = () => {
       icon: MessagesSquare,
     },
     {
-      label: "Campanhas",
+      label: t('nav.marketing'),
       href: "/dashboard/campanhas",
       icon: Megaphone,
     },
     {
-      label: "Agenda",
+      label: t('nav.calendar'),
       href: "/dashboard/agenda",
       icon: Calendar,
     },
     {
-      label: "Análises",
+      label: t('nav.analitic'),
       href: "/dashboard/analytics",
       icon: BarChart3,
     },
     {
-      label: "Tutoriais",
+      label: t('nav.tutorial'),
       href: "/dashboard/tutorials",
       icon: BookOpen,
     },
     {
-      label: "Financeiro",
+      label: t('nav.financial'),
       href: "/dashboard/financeiro",
       icon: CreditCard,
     },
     {
-      label: "Configurações",
+      label: t('nav.settings'),
       href: "/dashboard/settings",
       icon: Settings,
     },

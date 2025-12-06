@@ -4,28 +4,17 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { useTranslation } from 'react-i18next';
 
 const ProfileCard = () => {
   const { user } = useAuth();
+  const { t } = useTranslation();
+
   const getInitials = () => {
     if (user?.name && user?.lastName) {
       return `${user.name[0]}${user.lastName[0]}`.toUpperCase();
@@ -51,11 +40,11 @@ const ProfileCard = () => {
       <CardContent>
         <div className="space-y-4">
           <div>
-            <h3 className="text-sm font-medium text-gray-500">Nome</h3>
+            <h3 className="text-sm font-medium text-gray-500">{t('profileCard.name')}</h3>
             <p>{user?.name || 'Não informado'}</p>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-gray-500">Sobrenome</h3>
+            <h3 className="text-sm font-medium text-gray-500">{t('profileCard.lastName')}</h3>
             <p>{user?.lastName || 'Não informado'}</p>
           </div>
           <div>
@@ -63,11 +52,11 @@ const ProfileCard = () => {
             <p>{user?.email || 'Não informado'}</p>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-gray-500">Plano</h3>
+            <h3 className="text-sm font-medium text-gray-500">{t('profileCard.plan')}</h3>
             <p className="font-medium">{user?.plan || 'BASICO'}</p>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-gray-500">Agentes Disponíveis</h3>
+            <h3 className="text-sm font-medium text-gray-500">{t('profileCard.agentsAvalible')}</h3>
             <p>{user?.numberAgentes || 0}</p>
           </div>
         </div>

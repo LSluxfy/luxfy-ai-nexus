@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import DashboardHeader from '@/components/DashboardHeader';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Calendar as CalendarIcon, Clock, Plus, MapPin, User, Trash2, Edit } from 'lucide-react';
 import { format } from 'date-fns';
@@ -12,12 +11,13 @@ import { useAppointments } from '@/hooks/use-appointments';
 import { AppointmentForm } from '@/components/agent/AppointmentForm';
 import { DeleteAppointmentDialog } from '@/components/agent/DeleteAppointmentDialog';
 import { AgentSelector } from '@/components/crm/AgentSelector';
-import { AppointmentService } from '@/services/appointmentService';
 import { ApiAppointment } from '@/types/appointment';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const AgendaPage = () => {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState<ApiAppointment | null>(null);
@@ -32,7 +32,6 @@ const AgendaPage = () => {
     fetchAppointments 
   } = useAppointments();
 
-  // Fetch appointments when agent is selected
   useEffect(() => {
     if (selectedAgentId) {
       fetchAppointments(selectedAgentId);
@@ -56,24 +55,6 @@ const AgendaPage = () => {
     return appointments.filter(apt => new Date(apt.dateTime) <= now);
   };
 
-  const getAppointmentTypeColor = (type: string): "default" | "destructive" | "outline" | "secondary" => {
-    switch (type) {
-      case 'reuniao_presencial': return 'default';
-      case 'videochamada': return 'secondary';
-      case 'ligacao': return 'outline';
-      default: return 'outline';
-    }
-  };
-
-  const formatDuration = (duration: number) => {
-    const hours = Math.floor(duration / 60);
-    const minutes = duration % 60;
-    if (hours > 0) {
-      return minutes > 0 ? `${hours}h ${minutes}min` : `${hours}h`;
-    }
-    return `${minutes}min`;
-  };
-
   const handleEdit = (appointment: ApiAppointment) => {
     setSelectedAppointment(appointment);
     setShowAddForm(true);
@@ -87,7 +68,6 @@ const AgendaPage = () => {
   const handleClose = () => {
     setShowAddForm(false);
     setSelectedAppointment(null);
-    // Refresh appointments after create/update
     if (selectedAgentId) {
       fetchAppointments(selectedAgentId);
     }
@@ -102,7 +82,6 @@ const AgendaPage = () => {
       try {
         await deleteAppointment(appointmentToDelete.id.toString(), () => {
           setAppointmentToDelete(null);
-          // Refresh appointments after deletion
           if (selectedAgentId) {
             fetchAppointments(selectedAgentId);
           }
@@ -113,7 +92,6 @@ const AgendaPage = () => {
     }
   };
 
-  // Handle agent selection
   const handleAgentChange = (agentId: string) => {
     setSelectedAgentId(agentId);
   };
@@ -123,15 +101,14 @@ const AgendaPage = () => {
   if (!user?.agents || user.agents.length === 0) {
     return (
       <div className="flex flex-col min-h-screen">
-        <DashboardHeader title="Agenda" />
         <main className="flex-1 p-6 bg-background">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <h3 className="text-lg font-medium mb-2">
-                Nenhum agente disponível
+                {t('calendar.agentNotFound')}
               </h3>
               <p className="text-muted-foreground">
-                Você precisa ter pelo menos um agente para acessar a agenda.
+                {t('calendar.noAgentDescription')}
               </p>
             </div>
           </div>
@@ -146,8 +123,6 @@ const AgendaPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <DashboardHeader title="Agenda" />
-      
       <main className="flex-1 p-6 bg-background">
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
