@@ -121,6 +121,23 @@ const FinanceiroPage = () => {
     },
   ]);
 
+
+  let newPlan
+  function namePlan(namePlano) {
+    switch (namePlano) {
+      case 'Premium':
+        newPlan = 'teams'
+        break;
+      case 'Pro':
+        newPlan = 'teams'
+        break;
+      default:
+        newPlan = 'start'
+        break;
+    }
+    return newPlan
+  }
+
   const nextPayment = false;
  async function updateCheckoutUrlStripe(plano, annual) {
     const token = localStorage.getItem("jwt-token");
@@ -263,7 +280,7 @@ const FinanceiroPage = () => {
                       disabled={plan.current}
                       onClick={async (e) => {
                         e.preventDefault();
-                        const url = await updateCheckoutUrlStripe(plan.name, false);
+                        const url = await updateCheckoutUrlStripe(namePlan(plan.name), false);
                         window.location.href = url;
                       }}
                     >
