@@ -544,6 +544,25 @@
       "account": "Account",
       "agents": "Agents",
       "security": "Security"
+    },
+    "account": {
+      "personalInfo": {
+        "title": "Información Personal",
+        "description": "Actualiza tu información personal y de contacto",
+        "name": "Nombre",
+        "lastName": "Apellido",
+        "email": "Email",
+        "emailNote": "El email no puede ser alterado. Contacta soporte si es necesario.",
+        "editingNote": "La información personal no puede ser editada en esta versión de la aplicación."
+      },
+      "accountInfo": {
+        "title": "Informações da Conta",
+        "email": "Email",
+        "userId": "ID do Usuário",
+        "plan": "Plano",
+        "agentsNumber": "Número de Agentes",
+        "creationDate": "Data de Criação"
+      }
     }
   },
   "countdown": {
@@ -699,7 +718,12 @@
   "analytics": "Error loading Analytics",
   "tutorial": "Error loading Tutorials",
   "financial": "Error loading Financial data",
-  "settings": "Error loading Settings"
+  "settings": "Error loading Settings",
+  "userNotFound": "Usuário não encontrado",
+  "userNoPlan": "Usuário sem plano.",
+  "userNotVerify": "Usuário não verificado. Verifique seu email.",
+  "userWrong": "Email ou senha incorretos",
+  "errorLogin": "Erro ao fazer login"
 }
 }
 

@@ -206,7 +206,7 @@ const FinanceiroPage = () => {
                     <div className="flex gap-2 pt-4">
                       <Button variant="outline" onClick={cancelSubscription}>{t("financial.currentPlan.cancelPlan")}</Button>
                       <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
-                        <ArrowUpRight className="mr-2 h-4 w-4" />
+                        <ArrowUpRight className="mr-1 h-4 w-4" />
                         {t("financial.currentPlan.makeUpgrade")}
                       </Button>
                     </div>
@@ -223,19 +223,10 @@ const FinanceiroPage = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {nextPayment ? (
-                      <>
-                        <div className="text-sm text-gray-500">cobrança pendente</div>
-                      </>
-                    ) : (
-                      <div className="text-center py-4">
-                        <Clock className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                        <div className="text-sm text-gray-500">Nenhuma cobrança pendente</div>
-                      </div>
-                    )}
-                    <Button variant="outline" size="sm" className="w-full">
-                      Alterar Método
-                    </Button>
+                    <div className="text-center py-4">
+                      <Clock className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                      <div className="text-sm text-gray-500">{t("financial.nextBilling.noPending")}</div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/api";
+import { useTranslation } from 'react-i18next';
 
 interface User {
   id: number;
@@ -49,6 +50,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  
 
   console.log("✅ AuthProvider inicializado");
 
@@ -296,23 +299,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return;
       }
 
-      let errorMessage = "Erro ao fazer login";
+      let errorMessage = t('errors.errorLogin');
 
       if (error.response?.status === 401) {
-        errorMessage = "Email ou senha incorretos";
+        errorMessage = t('errors.userWrong');
       } else if (error.response?.status === 403) {
-        errorMessage = "Usuário não verificado. Verifique seu email.";
+        errorMessage = t('errors.userNotVerify');
       } else if (error.response?.status === 402) {
-        errorMessage = "Usuário sem plano.";
+        errorMessage = t('errors.userNoPlan');
         navigate("/select-plan");
       } else if (error.response?.status === 404) {
-        errorMessage = "Usuário não encontrado";
+        errorMessage = t('errors.userNotFound');
       } else if (error.response?.data?.message) {
         errorMessage = error.response.data.message;
       }
 
       toast({
-        title: "Erro ao fazer login",
+        title: t('errors.errorLogin'),
         description: errorMessage,
         variant: "destructive",
       });
@@ -370,7 +373,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (error.response?.status === 400) {
         errorMessage = "Dados inválidos";
       } else if (error.response?.status === 404) {
-        errorMessage = "Usuário não encontrado";
+        errorMessage = t('errors.userNotFound');
       } else if (error.response?.data?.error) {
         errorMessage = error.response.data.error;
       } else if (error.response?.data?.message) {
@@ -405,7 +408,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (error.response?.status === 403) {
         errorMessage = "Usuário não verificado";
       } else if (error.response?.status === 404) {
-        errorMessage = "Usuário não encontrado";
+        errorMessage = t('errors.userNotFound');
       } else if (error.response?.data?.message) {
         errorMessage = error.response.data.message;
       }
@@ -441,7 +444,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (error.response?.status === 403) {
         errorMessage = "Código inválido";
       } else if (error.response?.status === 404) {
-        errorMessage = "Usuário não encontrado";
+        errorMessage = t('errors.userNotFound');
       } else if (error.response?.data?.message) {
         errorMessage = error.response.data.message;
       }

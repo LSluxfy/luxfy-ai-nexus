@@ -544,7 +544,26 @@
       "account": "Conta",
       "agents": "Agentes",
       "security": "Segurança"
+    },
+    "account": {
+      "personalInfo": {
+        "title": "Información Personal",
+        "description": "Actualiza tu información personal y de contacto",
+        "name": "Nombre",
+        "lastName": "Apellido",
+        "email": "Email",
+        "emailNote": "El email no puede ser alterado. Contacta soporte si es necesario.",
+        "editingNote": "La información personal no puede ser editada en esta versión de la aplicación."
+      },
+      "accountInfo": {
+      "title": "Informações da Conta",
+      "email": "Email",
+      "userId": "ID do Usuário",
+      "plan": "Plano",
+      "agentsNumber": "Número de Agentes",
+      "creationDate": "Data de Criação"
     }
+  }
   },
   "countdown": {
     "title": "⏰ Oferta Especial Termina Em:",
@@ -699,7 +718,12 @@
     "analytics": "Erro ao carregar Analytics",
     "tutorial": "Erro ao carregar Tutoriais",
     "financial": "Erro ao carregar Financeiro",
-    "settings": "Erro ao carregar Configurações"
+    "settings": "Erro ao carregar Configurações",
+    "userNotFound": "Usuário não encontrado",
+    "userNoPlan": "Usuário sem plano.",
+    "userNotVerify": "Usuário não verificado. Verifique seu email.",
+    "userWrong": "Email ou senha incorretos",
+    "errorLogin": "Erro ao fazer login"
   }
 }
 

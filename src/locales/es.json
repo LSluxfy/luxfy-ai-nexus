@@ -1,4 +1,3 @@
-
 {
   "nav": {
     "home": "Inicio",
@@ -23,7 +22,11 @@
     "cta": "Comenzar ahora",
     "login": "Comenzar ahora",
     "testimonial": "✨ Sin tarjeta de crédito • 7 días gratis",
-    "words": ["vendedor", "SDR", "agente"],
+    "words": [
+      "vendedor",
+      "SDR",
+      "agente"
+    ],
     "stats": {
       "companies": "Empresas activas",
       "conversion": "Tasa de conversión",
@@ -67,32 +70,56 @@
     "aiAgent": {
       "title": "Agente de IA Avanzado",
       "description": "Automatiza tu atención al cliente con IA entrenable que responde como tú",
-      "features": ["Entrenamiento personalizado", "Integración con WhatsApp", "Palabras clave personalizables"]
+      "features": [
+        "Entrenamiento personalizado",
+        "Integración con WhatsApp",
+        "Palabras clave personalizables"
+      ]
     },
     "crm": {
       "title": "CRM Visual Estilo Kanban",
       "description": "Gestiona tus leads con un CRM visual e intuitivo",
-      "features": ["Arrastrar y soltar entre etapas", "Notas por cliente", "Respuesta directa por CRM"]
+      "features": [
+        "Arrastrar y soltar entre etapas",
+        "Notas por cliente",
+        "Respuesta directa por CRM"
+      ]
     },
     "schedule": {
       "title": "Agenda Inteligente",
       "description": "Automatiza citas y envío de recordatorios",
-      "features": ["Integración con Google Calendar", "Recordatorios automáticos", "Disponibilidad personalizada"]
+      "features": [
+        "Integración con Google Calendar",
+        "Recordatorios automáticos",
+        "Disponibilidad personalizada"
+      ]
     },
     "analytics": {
       "title": "Métricas y Análisis",
       "description": "Monitorea el rendimiento con métricas detalladas",
-      "features": ["Dashboard interactivo", "Reportes exportables", "KPIs de conversión"]
+      "features": [
+        "Dashboard interactivo",
+        "Reportes exportables",
+        "KPIs de conversión"
+      ]
     },
     "team": {
       "title": "Gestión de Equipo",
       "description": "Gestiona tu equipo con control de acceso",
-      "features": ["Múltiples usuarios", "Permisos personalizables", "Historial de actividades"]
+      "features": [
+        "Múltiples usuarios",
+        "Permisos personalizables",
+        "Historial de actividades"
+      ]
     },
     "security": {
       "title": "Seguridad y Privacidad",
       "description": "Tus datos protegidos con encriptación",
-      "features": ["Protección de datos GDPR", "Copias de seguridad automáticas", "Autenticación segura"]
+      "features": [
+        "Protección de datos GDPR",
+        "Copias de seguridad automáticas",
+        "Autenticación segura"
+      ]
     }
   },
   "pricing": {
@@ -160,7 +187,7 @@
     "description": "No se encontró el agente. Seleccione un agente válido a continuación:",
     "noAgent": "No se encontraron agentes",
     "noAgentDescription": "Aún no has creado ningún agente. Ve a la página de Agentes para crear tu primer agente.",
-    "loading":"Cargando agentes..."
+    "loading": "Cargando agentes..."
   },
   "agents": {
     "title": "Agentes de IA",
@@ -219,11 +246,11 @@
   },
   "marketing": {
     "title": "Campañas de marketing",
-    "description": "Seleccione un agente para administrar sus campañas." 
+    "description": "Seleccione un agente para administrar sus campañas."
   },
   "calendar": {
     "agentNotFound": "No hay agentes disponibles",
-    "noAgentDescription": "Es necesario tener al menos un agente para acceder al calendario." 
+    "noAgentDescription": "Es necesario tener al menos un agente para acceder al calendario."
   },
   "chat": {
     "title": "Chat - WhatsApp Web",
@@ -295,7 +322,10 @@
     "badgeDiscount": "Ahorra hasta 30%",
     "title": "Precios transparentes",
     "subtitle": "Planes flexibles que escalan contigo. Mensual o anual.",
-    "toggle": { "monthly": "Mensual", "annual": "Anual (ahorra)" },
+    "toggle": {
+      "monthly": "Mensual",
+      "annual": "Anual (ahorra)"
+    },
     "perYear": "/año",
     "perMonth": "/mes",
     "savings": "Ahorra {{amount}} al año",
@@ -313,9 +343,18 @@
     },
     "bestSeller": "Más vendido",
     "plans": {
-      "start": { "name": "Start", "desc": "1 agente, automatizaciones esenciales" },
-      "pro": { "name": "Pro", "desc": "3 agentes, funciones avanzadas" },
-      "teams": { "name": "Teams", "desc": "6 agentes, colaboración de equipo" }
+      "start": {
+        "name": "Start",
+        "desc": "1 agente, automatizaciones esenciales"
+      },
+      "pro": {
+        "name": "Pro",
+        "desc": "3 agentes, funciones avanzadas"
+      },
+      "teams": {
+        "name": "Teams",
+        "desc": "6 agentes, colaboración de equipo"
+      }
     },
     "cta": "Comenzar ahora",
     "ctaAria": "Crea tu cuenta Luxfy"
@@ -328,30 +367,75 @@
     "title": "Lo que dicen nuestros clientes",
     "subtitle": "Resultados que hablan por sí solos.",
     "items": {
-      "0": { "text": "Luxfy mejoró nuestro tiempo de respuesta y las ventas.", "author": "Ana López", "role": "Gerente de E-commerce" },
-      "1": { "text": "El agente de IA resuelve la mayoría de las preguntas con precisión.", "author": "Carlos Gómez", "role": "Líder de Soporte" },
-      "2": { "text": "CRM sencillo y automatización de WhatsApp en un solo lugar.", "author": "María Ruiz", "role": "Operaciones" }
+      "0": {
+        "text": "Luxfy mejoró nuestro tiempo de respuesta y las ventas.",
+        "author": "Ana López",
+        "role": "Gerente de E-commerce"
+      },
+      "1": {
+        "text": "El agente de IA resuelve la mayoría de las preguntas con precisión.",
+        "author": "Carlos Gómez",
+        "role": "Líder de Soporte"
+      },
+      "2": {
+        "text": "CRM sencillo y automatización de WhatsApp en un solo lugar.",
+        "author": "María Ruiz",
+        "role": "Operaciones"
+      }
     }
   },
   "faq": {
     "title": "Preguntas frecuentes",
     "subtitle": "Todo lo que necesitas saber sobre Luxfy.",
-    "q1": { "q": "¿Qué es Luxfy?", "a": "Luxfy es una plataforma completa de automatización que combina inteligencia artificial, CRM visual y campañas de marketing. Nuestra solución permite automatizar la atención al cliente, gestionar leads de forma visual y ejecutar campañas inteligentes, todo en una única plataforma integrada." },
-    "q2": { "q": "¿Funciona con WhatsApp?", "a": "¡Sí! Luxfy ofrece integración completa con WhatsApp Business. Puedes conectar tu cuenta, automatizar respuestas, configurar flujos de conversación personalizados y gestionar todas las conversaciones directamente desde nuestra plataforma, manteniendo la experiencia natural para tus clientes." },
-    "q3": { "q": "¿Puedo entrenar la IA?", "a": "¡Absolutamente! Nuestra IA es completamente entrenable y personalizable. Puedes alimentarla con tus propios datos, crear flujos de conversación específicos de tu negocio, definir palabras clave personalizadas y ajustar las respuestas para que la IA responda exactamente como te gustaría." },
-    "q4": { "q": "¿Hay prueba gratis?", "a": "¡Sí! Ofrecemos un período de prueba gratuito para que puedas experimentar todas las funcionalidades de la plataforma. Durante la prueba, tendrás acceso completo a los recursos: creación de agentes de IA, CRM visual, campañas automatizadas e integración con WhatsApp. Después puedes mejorar para seguir usando." },
-    "q5": { "q": "¿Puedo cancelar cuando quiera?", "a": "¡Por supuesto! No hay contratos de permanencia. Puedes cancelar tu suscripción en cualquier momento o cambiar entre planes según tus necesidades. Ofrecemos total flexibilidad para que uses Luxfy a tu ritmo y según el crecimiento de tu negocio." }
+    "q1": {
+      "q": "¿Qué es Luxfy?",
+      "a": "Luxfy es una plataforma completa de automatización que combina inteligencia artificial, CRM visual y campañas de marketing. Nuestra solución permite automatizar la atención al cliente, gestionar leads de forma visual y ejecutar campañas inteligentes, todo en una única plataforma integrada."
+    },
+    "q2": {
+      "q": "¿Funciona con WhatsApp?",
+      "a": "¡Sí! Luxfy ofrece integración completa con WhatsApp Business. Puedes conectar tu cuenta, automatizar respuestas, configurar flujos de conversación personalizados y gestionar todas las conversaciones directamente desde nuestra plataforma, manteniendo la experiencia natural para tus clientes."
+    },
+    "q3": {
+      "q": "¿Puedo entrenar la IA?",
+      "a": "¡Absolutamente! Nuestra IA es completamente entrenable y personalizable. Puedes alimentarla con tus propios datos, crear flujos de conversación específicos de tu negocio, definir palabras clave personalizadas y ajustar las respuestas para que la IA responda exactamente como te gustaría."
+    },
+    "q4": {
+      "q": "¿Hay prueba gratis?",
+      "a": "¡Sí! Ofrecemos un período de prueba gratuito para que puedas experimentar todas las funcionalidades de la plataforma. Durante la prueba, tendrás acceso completo a los recursos: creación de agentes de IA, CRM visual, campañas automatizadas e integración con WhatsApp. Después puedes mejorar para seguir usando."
+    },
+    "q5": {
+      "q": "¿Puedo cancelar cuando quiera?",
+      "a": "¡Por supuesto! No hay contratos de permanencia. Puedes cancelar tu suscripción en cualquier momento o cambiar entre planes según tus necesidades. Ofrecemos total flexibilidad para que uses Luxfy a tu ritmo y según el crecimiento de tu negocio."
+    }
   },
   "examples": {
     "title": "Véelo en acción",
     "subtitle": "Mira cómo nuestra IA conversa naturalmente con tus clientes.",
     "conversation": {
-      "0": { "text": "¡Hola! Me gustaría saber sobre los planes de Luxfy", "isUser": "true" },
-      "1": { "text": "¡Hola! Claro, puedo ayudarte con eso. Tenemos tres planes principales: Start ($22/mes), Pro ($39/mes) y Teams ($79/mes). ¿Qué tipo de negocio tienes?", "isUser": "false" },
-      "2": { "text": "Tengo una tienda de ropa online con unos 200 pedidos por mes", "isUser": "true" },
-      "3": { "text": "¡Perfecto! Para tu volumen, recomiendo el plan Pro. Incluye hasta 5 agentes de IA, CRM completo y campañas automatizadas. ¿Te gustaría hacer una prueba gratuita?", "isUser": "false" },
-      "4": { "text": "Sí, ¿cómo empiezo?", "isUser": "true" },
-      "5": { "text": "¡Excelente! Te enviaré el enlace para crear tu cuenta gratuita. ¡En 2 minutos ya estarás probando nuestra IA! 🚀", "isUser": "false" }
+      "0": {
+        "text": "¡Hola! Me gustaría saber sobre los planes de Luxfy",
+        "isUser": "true"
+      },
+      "1": {
+        "text": "¡Hola! Claro, puedo ayudarte con eso. Tenemos tres planes principales: Start ($22/mes), Pro ($39/mes) y Teams ($79/mes). ¿Qué tipo de negocio tienes?",
+        "isUser": "false"
+      },
+      "2": {
+        "text": "Tengo una tienda de ropa online con unos 200 pedidos por mes",
+        "isUser": "true"
+      },
+      "3": {
+        "text": "¡Perfecto! Para tu volumen, recomiendo el plan Pro. Incluye hasta 5 agentes de IA, CRM completo y campañas automatizadas. ¿Te gustaría hacer una prueba gratuita?",
+        "isUser": "false"
+      },
+      "4": {
+        "text": "Sí, ¿cómo empiezo?",
+        "isUser": "true"
+      },
+      "5": {
+        "text": "¡Excelente! Te enviaré el enlace para crear tu cuenta gratuita. ¡En 2 minutos ya estarás probando nuestra IA! 🚀",
+        "isUser": "false"
+      }
     }
   },
   "whatsapp": {
@@ -492,7 +576,7 @@
     "description": "Gestiona tu plan, facturas y haz upgrades",
     "tabs": {
       "currentPlan": "Plan Actual",
-      "upgrade": "Hacer Upgrade", 
+      "upgrade": "Hacer Upgrade",
       "invoices": "Facturas"
     },
     "currentPlan": {
@@ -519,7 +603,7 @@
     },
     "plans": {
       "basic": "Básico",
-      "pro": "Pro", 
+      "pro": "Pro",
       "premium": "Premium",
       "mostPopular": "Más Popular",
       "currentPlan": "Plan Actual",
@@ -532,7 +616,7 @@
     "description": "Monitorea el rendimiento y obtén insights de tus agentes de IA",
     "tabs": {
       "overview": "Visión General",
-      "conversations": "Conversaciones", 
+      "conversations": "Conversaciones",
       "clients": "Clientes",
       "tags": "Etiquetas",
       "performance": "Rendimiento"
@@ -791,7 +875,11 @@
     "analytics": "Error al cargar Analytics",
     "tutorial": "Error al cargar los Tutoriales",
     "financial": "Error al cargar Finanzas",
-    "settings": "Error al cargar Configuraciones"
+    "settings": "Error al cargar Configuraciones",
+    "userNotFound": "Usuario no encontrado",
+    "userNoPlan": "Usuario sin plan.",
+    "userNotVerify": "Usuario no verificado. Revisa tu correo electrónico.",
+    "userWrong": "Correo o contraseña incorrectos",
+    "errorLogin": "Error al iniciar sesión"
+  }
 }
-}
-
