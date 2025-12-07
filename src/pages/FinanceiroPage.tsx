@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import DashboardHeader from "@/components/DashboardHeader";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent,  CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CreditCard, ArrowUpRight, Calendar, Clock, CheckCircle } from "lucide-react";
@@ -9,6 +8,17 @@ import { InvoiceList } from "@/components/financial/InvoiceList";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import api from "@/lib/api";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 
 async function cancelSubscription() {
   const token = localStorage.getItem("jwt-token");
@@ -129,7 +139,7 @@ const FinanceiroPage = () => {
         newPlan = 'teams'
         break;
       case 'Pro':
-        newPlan = 'teams'
+        newPlan = 'pro'
         break;
       default:
         newPlan = 'start'
@@ -204,7 +214,38 @@ const FinanceiroPage = () => {
                     </div>
 
                     <div className="flex gap-2 pt-4">
-                      <Button variant="outline" onClick={cancelSubscription}>{t("financial.currentPlan.cancelPlan")}</Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="outline">
+                            {t("financial.currentPlan.cancelPlan")}
+                          </Button>
+                        </AlertDialogTrigger>
+
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              {t("financial.currentPlan.cancelPlan")}
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Tem certeza que deseja cancelar sua assinatura?  
+                              Você perderá acesso ao plano quando o período atual expirar.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Voltar</AlertDialogCancel>
+
+                            <AlertDialogAction
+                              className="bg-red-600 hover:bg-red-700"
+                              onClick={async () => {
+                                await cancelSubscription();
+                              }}
+                            >
+                              Confirmar Cancelamento
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                       <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
                         <ArrowUpRight className="mr-1 h-4 w-4" />
                         {t("financial.currentPlan.makeUpgrade")}
@@ -242,12 +283,12 @@ const FinanceiroPage = () => {
                 >
                   {plan.current !== plan.popular && plan.popular && (
                     <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-yellow-900">
-                      Mais Popular
+                      {t("financial.plans.mostPopular")}
                     </Badge>
                   )}
                   {plan.current && (
                     <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-luxfy-purple">
-                      Plano Atual
+                      {t("financial.tabs.currentPlan")}
                     </Badge>
                   )}
                   <CardHeader className="text-center">
@@ -266,17 +307,39 @@ const FinanceiroPage = () => {
                         </li>
                       ))}
                     </ul>
-                   <Button 
-                      className={`w-full ${plan.current ? 'bg-gray-400' : 'bg-luxfy-purple hover:bg-luxfy-darkPurple'}`}
-                      disabled={plan.current}
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        const url = await updateCheckoutUrlStripe(namePlan(plan.name), false);
-                        window.location.href = url;
-                      }}
-                    >
-                      {plan.current ? 'Plano Atual' : 'Fazer Upgrade'}
-                    </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button 
+                          className={`w-full ${plan.current ? 'bg-gray-400' : 'bg-luxfy-purple hover:bg-luxfy-darkPurple'}`}
+                          disabled={plan.current}
+                        >
+                          {plan.current ? t("financial.currentPlan.title") : t("financial.currentPlan.makeUpgrade")}
+                        </Button>
+                      </AlertDialogTrigger>
+
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Confirmar Upgrade</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Tem certeza que deseja mudar para o plano <strong>{plan.name}</strong>?  
+                            Você será redirecionado para o Stripe para completar a atualização.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+
+                          <AlertDialogAction
+                            onClick={async () => {
+                              const url = await updateCheckoutUrlStripe(namePlan(plan.name), false);
+                              window.location.href = url;
+                            }}
+                          >
+                            Continuar
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </CardContent>
                 </Card>
               ))}
