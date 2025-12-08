@@ -181,20 +181,22 @@ const FinanceiroPage = () => {
   const [billing, setBilling] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function load() {
+   useEffect(() => {
+    async function loadInvoices() {
       try {
-        const result = await collectBilling();
-        setBilling(result); // salva no estado
-      } catch (error) {
-        console.error("Erro ao buscar faturas:", error);
+        const raw = await collectBilling();  // [[{...}]]
+        const invoices = raw.flat();         // [{...}] ← remove o array interno
+        setBilling(invoices);
+      } catch (err) {
+        console.error("Erro ao buscar faturas:", err);
       } finally {
         setLoading(false);
       }
     }
 
-    load();
+    loadInvoices();
   }, []);
+
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -299,14 +301,20 @@ const FinanceiroPage = () => {
                     <div className="text-center py-4">
                       <Clock className="h-8 w-8 text-gray-400 mx-auto mb-2" />
                       <div className="text-sm text-gray-500">
-                        {billing.length === 0 && <p>{t("financial.nextBilling.noPending")}</p>}
-
-                        {billing.map((invoice) => (
-                          <div key={invoice.id} className="p-4 border rounded mb-3">
-                            <p>ID: {invoice.id}</p>
-                            <p>Status: {invoice.status}</p>
-                            <p>Valor: R$ {(invoice.amount / 100).toFixed(2)}</p>
-                            <p>Data: {invoice.createdAt}</p>
+                        {billing.length === 0 && (<p>{t("financial.nextBilling.noPending")}</p>)}
+                        {billing.map((inv, index) => (
+                          <div
+                            key={index}
+                            className="p-4 border rounded-lg shadow-sm bg-gray-50"
+                          >
+                            <p><strong>Descrição:</strong> {inv.description}</p>
+                            <p><strong>Status:</strong> {inv.status}</p>
+                            <p>
+                              <strong>Valor:</strong> {inv.amount_formatted}{" "}
+                              {inv.currency.toUpperCase()}
+                            </p>
+                            <p><strong>Início:</strong> {inv.start_date}</p>
+                            <p><strong>Fim:</strong> {inv.end_date}</p>
                           </div>
                         ))}
                       </div>
