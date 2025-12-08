@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent,  CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -164,6 +164,38 @@ const FinanceiroPage = () => {
   
     return response.data.checkoutUrl;
   }
+
+  async function collectBilling() {
+  const token = localStorage.getItem("jwt-token");
+
+  const response = await api.get("v1/invoices/list", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data; // mais comum retornar só o data
+}
+
+
+  const [billing, setBilling] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const result = await collectBilling();
+        setBilling(result); // salva no estado
+      } catch (error) {
+        console.error("Erro ao buscar faturas:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    load();
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1 p-6 bg-gray-50">
@@ -266,7 +298,18 @@ const FinanceiroPage = () => {
                   <div className="space-y-4">
                     <div className="text-center py-4">
                       <Clock className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                      <div className="text-sm text-gray-500">{t("financial.nextBilling.noPending")}</div>
+                      <div className="text-sm text-gray-500">
+                        {billing.length === 0 && <p>{t("financial.nextBilling.noPending")}</p>}
+
+                        {billing.map((invoice) => (
+                          <div key={invoice.id} className="p-4 border rounded mb-3">
+                            <p>ID: {invoice.id}</p>
+                            <p>Status: {invoice.status}</p>
+                            <p>Valor: R$ {(invoice.amount / 100).toFixed(2)}</p>
+                            <p>Data: {invoice.createdAt}</p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </CardContent>
