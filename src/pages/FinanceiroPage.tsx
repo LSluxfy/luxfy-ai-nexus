@@ -206,14 +206,14 @@ const FinanceiroPage = () => {
         </div>
         
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid grid-cols-3 mb-8">
+          <TabsList className="grid grid-cols-2 mb-8">
             <TabsTrigger value="plan">{t("financial.tabs.currentPlan")}</TabsTrigger>
             <TabsTrigger value="upgrade">{t("financial.tabs.upgrade")}</TabsTrigger>
             {/* <TabsTrigger value="invoices">{t("financial.tabs.invoices")}</TabsTrigger> */}
           </TabsList>
 
           <TabsContent value="plan" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card className="md:col-span-2">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -318,7 +318,7 @@ const FinanceiroPage = () => {
           </TabsContent>
 
           <TabsContent value="upgrade" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {availablePlans.map((plan, index) => (
                 <Card
                   key={index}
