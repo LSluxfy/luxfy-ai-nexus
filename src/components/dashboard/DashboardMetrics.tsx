@@ -82,7 +82,7 @@ const DashboardMetrics = () => {
           
           <TabsContent value="monthly" className="space-y-4">
             <div className="h-[300px]">
-              <ChartContainer config={chartConfig}>
+              <ChartContainer config={chartConfig} className='h-full'>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={monthlyChartData}>
                     <CartesianGrid strokeDasharray="3 3" />
