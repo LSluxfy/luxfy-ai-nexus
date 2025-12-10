@@ -191,7 +191,7 @@ const FinanceiroPage = () => {
 
   const handleWhatsAppContact = () => {
     const phoneNumber = "+5511967136762";
-    const message = encodeURIComponent(t('whatsapp.message'));
+    const message = encodeURIComponent(t('whatsapp.cancelPlan'));
     const whatsappUrl = `https://wa.me/${phoneNumber.replace(/\D/g, '')}?text=${message}`;
     window.open(whatsappUrl, '_blank');
   };
