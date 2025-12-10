@@ -260,7 +260,7 @@ const FinanceiroPage = () => {
                               {t("financial.currentPlan.cancelPlan")}
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                              {t("financial.currentPlan.confirmCancelUpgrade")}
+                              {t("financial.plans.confirmCancelUpgrade")}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
 
@@ -369,7 +369,7 @@ const FinanceiroPage = () => {
                         <AlertDialogHeader>
                           <AlertDialogTitle>{t("financial.plans.confirmUpgrade")}</AlertDialogTitle>
                           <AlertDialogDescription>
-                            {t("financial.plans.firstConfirmUpgrade")} <strong>{plan.name}</strong>?  
+                            {t("financial.plans.firstConfirmUpgrade")} <strong>{plan.name}</strong>?<br/>
                             {t("financial.plans.lastConfirmUpgrade")}
                           </AlertDialogDescription>
                         </AlertDialogHeader>
