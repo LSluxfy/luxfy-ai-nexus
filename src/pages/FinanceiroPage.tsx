@@ -209,7 +209,7 @@ const FinanceiroPage = () => {
           <TabsList className="grid grid-cols-3 mb-8">
             <TabsTrigger value="plan">{t("financial.tabs.currentPlan")}</TabsTrigger>
             <TabsTrigger value="upgrade">{t("financial.tabs.upgrade")}</TabsTrigger>
-            <TabsTrigger value="invoices">{t("financial.tabs.invoices")}</TabsTrigger>
+            {/* <TabsTrigger value="invoices">{t("financial.tabs.invoices")}</TabsTrigger> */}
           </TabsList>
 
           <TabsContent value="plan" className="space-y-6">
@@ -388,9 +388,9 @@ const FinanceiroPage = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="invoices" className="space-y-6">
+          {/* <TabsContent value="invoices" className="space-y-6">
             <InvoiceList />
-          </TabsContent>
+          </TabsContent> */}
         </Tabs>
       </main>
     </div>
