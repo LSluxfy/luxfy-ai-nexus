@@ -354,7 +354,8 @@
   },
   "whatsapp": {
     "message": "Hello! I would like to know more about Luxfy",
-    "aria-label": "Contact us on WhatsApp"
+    "aria-label": "Contact us on WhatsApp",
+    "cancelPlan":"Hi! I would like to cancel my Luxfy plan."
   },
   "whatsappNotification": {
     "title": "🚀 Test our AI now!",
@@ -513,7 +514,9 @@
       "description": "Description:",
       "status": "Status:",
       "noPending": "No pending charges",
-      "changeMethod": "Change Method"
+      "changeMethod": "Change Method",
+      "startBilling": "Purchase date:",
+      "endBilling": "Next billing:"
     },
     "plans": {
       "basic": "Basic",
@@ -521,7 +524,13 @@
       "premium": "Premium",
       "mostPopular": "Most Popular",
       "currentPlan": "Current Plan",
-      "makeUpgrade": "Upgrade"
+      "makeUpgrade": "Upgrade",
+      "confirmCancel": "Contact Support",
+      "confirmCancelUpgrade": "We’re sorry to hear that you’re considering canceling your plan. If you wish to proceed, our support team on WhatsApp will assist you with the process.",
+      "confirmUpgrade": "Confirm Upgrade",
+      "firstConfirmUpgrade": "Are you sure you want to switch to the",
+      "lastConfirmUpgrade": "Stripe will charge and automatically update your plan.",
+      "cancelUpgrade": "Cancel"
     }
   },
   "analytics": {

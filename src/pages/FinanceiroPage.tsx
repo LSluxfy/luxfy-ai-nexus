@@ -22,18 +22,13 @@ import {
 
 async function cancelSubscription() {
   const token = localStorage.getItem("jwt-token");
-
   const response = await api.post(
     "v1/user/cancel-subscription",
     {},
     {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: {Authorization: `Bearer ${token}`},
     },
   );
-  console.log(response);
-
   return response;
 }
 
@@ -148,7 +143,6 @@ const FinanceiroPage = () => {
     return newPlan
   }
 
-  const nextPayment = false;
  async function updateCheckoutUrlStripe(plano, annual) {
     const token = localStorage.getItem("jwt-token");
   
@@ -174,28 +168,33 @@ const FinanceiroPage = () => {
     },
   });
 
-  return response.data; // mais comum retornar só o data
+  return response.data;
 }
 
 
   const [billing, setBilling] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("plan");
 
    useEffect(() => {
     async function loadInvoices() {
       try {
-        const raw = await collectBilling();  // [[{...}]]
-        const invoices = raw.flat();         // [{...}] ← remove o array interno
+        const raw = await collectBilling();
+        const invoices = raw.flat();
         setBilling(invoices);
       } catch (err) {
         console.error("Erro ao buscar faturas:", err);
-      } finally {
-        setLoading(false);
       }
     }
 
     loadInvoices();
   }, []);
+
+  const handleWhatsAppContact = () => {
+    const phoneNumber = "+5511967136762";
+    const message = encodeURIComponent(t('whatsapp.message'));
+    const whatsappUrl = `https://wa.me/${phoneNumber.replace(/\D/g, '')}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+  };
 
 
   return (
@@ -205,8 +204,8 @@ const FinanceiroPage = () => {
           <h2 className="text-2xl font-bold text-gray-800">{t("financial.subtitle")}</h2>
           <p className="text-gray-600">{t("financial.description")}</p>
         </div>
-
-        <Tabs defaultValue="plan" className="w-full">
+        
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid grid-cols-3 mb-8">
             <TabsTrigger value="plan">{t("financial.tabs.currentPlan")}</TabsTrigger>
             <TabsTrigger value="upgrade">{t("financial.tabs.upgrade")}</TabsTrigger>
@@ -261,29 +260,27 @@ const FinanceiroPage = () => {
                               {t("financial.currentPlan.cancelPlan")}
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                              Tem certeza que deseja cancelar sua assinatura?  
-                              Você perderá acesso ao plano quando o período atual expirar.
+                              {t("financial.currentPlan.confirmCancelUpgrade")}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
 
                           <AlertDialogFooter>
-                            <AlertDialogCancel>Voltar</AlertDialogCancel>
+                            <AlertDialogCancel>{t("financial.plans.cancelUpgrade")}</AlertDialogCancel>
 
                             <AlertDialogAction
                               className="bg-red-600 hover:bg-red-700"
-                              onClick={async () => {
-                                await cancelSubscription();
-                              }}
+                              onClick={handleWhatsAppContact}
                             >
-                              Confirmar Cancelamento
+                              {t("financial.currentPlan.confirmCancel")}
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>
-                      <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple">
-                        <ArrowUpRight className="mr-1 h-4 w-4" />
-                        {t("financial.currentPlan.makeUpgrade")}
-                      </Button>
+                      <Button className="bg-luxfy-purple hover:bg-luxfy-darkPurple"
+                          onClick={() => setActiveTab("upgrade")}>
+                          <ArrowUpRight className="mr-1 h-4 w-4" />
+                          {t("financial.currentPlan.makeUpgrade")}
+                        </Button>
                     </div>
                   </div>
                 </CardContent>
@@ -307,14 +304,14 @@ const FinanceiroPage = () => {
                             key={index}
                             className="p-4 border rounded-lg shadow-sm bg-gray-50"
                           >
-                            <p><strong>Descrição:</strong> {inv.description}</p>
-                            <p><strong>Status:</strong> {inv.status}</p>
+                            <p><strong>{t("financial.nextBilling.description")}</strong> {inv.description}</p>
+                            <p><strong>{t("financial.nextBilling.status")}</strong> {inv.status}</p>
                             <p>
-                              <strong>Valor:</strong> {inv.amount_formatted}{" "}
+                              <strong>{t("financial.nextBilling.amount")}</strong> {inv.amount_formatted}{" "}
                               {inv.currency.toUpperCase()}
                             </p>
-                            <p><strong>Início:</strong> {inv.start_date}</p>
-                            <p><strong>Fim:</strong> {inv.end_date}</p>
+                            <p><strong>{t("financial.nextBilling.startBilling")}</strong> {inv.start_date}</p>
+                            <p><strong>{t("financial.nextBilling.endBilling")}</strong> {inv.end_date}</p>
                           </div>
                         ))}
                       </div>
@@ -370,23 +367,22 @@ const FinanceiroPage = () => {
 
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Confirmar Upgrade</AlertDialogTitle>
+                          <AlertDialogTitle>{t("financial.plans.confirmUpgrade")}</AlertDialogTitle>
                           <AlertDialogDescription>
-                            Tem certeza que deseja mudar para o plano <strong>{plan.name}</strong>?  
-                            Você será redirecionado para o Stripe para completar a atualização.
+                            {t("financial.plans.firstConfirmUpgrade")} <strong>{plan.name}</strong>?  
+                            {t("financial.plans.lastConfirmUpgrade")}
                           </AlertDialogDescription>
                         </AlertDialogHeader>
 
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
-
+                          <AlertDialogCancel>{t("financial.plans.cancelUpgrade")}</AlertDialogCancel>
                           <AlertDialogAction
                             onClick={async () => {
                               const url = await updateCheckoutUrlStripe(namePlan(plan.name), false);
                               window.location.href = url;
                             }}
                           >
-                            Continuar
+                            {t("financial.plans.confirmUpgrade")}
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
