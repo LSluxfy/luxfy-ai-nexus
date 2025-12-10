@@ -266,12 +266,10 @@ const FinanceiroPage = () => {
 
                           <AlertDialogFooter>
                             <AlertDialogCancel>{t("financial.plans.cancelUpgrade")}</AlertDialogCancel>
-
                             <AlertDialogAction
                               className="bg-red-600 hover:bg-red-700"
-                              onClick={handleWhatsAppContact}
-                            >
-                              {t("financial.currentPlan.confirmCancel")}
+                              onClick={handleWhatsAppContact}>
+                              {t("financial.plans.confirmCancel")}
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
@@ -296,18 +294,15 @@ const FinanceiroPage = () => {
                 <CardContent>
                   <div className="space-y-4">
                     <div className="text-center py-4">
-                      <Clock className="h-8 w-8 text-gray-400 mx-auto mb-2" />
                       <div className="text-sm text-gray-500">
                         {billing.length === 0 && (<p>{t("financial.nextBilling.noPending")}</p>)}
                         {billing.map((inv, index) => (
-                          <div
-                            key={index}
-                            className="p-4 border rounded-lg shadow-sm bg-gray-50"
-                          >
+                          <div key={index}
+                            className="p-4 border rounded-lg shadow-sm bg-gray-50">
                             <p><strong>{t("financial.nextBilling.description")}</strong> {inv.description}</p>
                             <p><strong>{t("financial.nextBilling.status")}</strong> {inv.status}</p>
                             <p>
-                              <strong>{t("financial.nextBilling.amount")}</strong> {inv.amount_formatted}{" "}
+                              <strong>{t("financial.nextBilling.amount")}</strong> {inv.amount_formatted}
                               {inv.currency.toUpperCase()}
                             </p>
                             <p><strong>{t("financial.nextBilling.startBilling")}</strong> {inv.start_date}</p>
