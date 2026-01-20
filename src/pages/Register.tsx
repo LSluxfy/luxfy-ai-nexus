@@ -224,11 +224,11 @@ const Register = () => {
                       </FormControl>
                       <div className="leading-none mt-0 pt-0">
                         <FormLabel className="text-sm leading-none text-slate-700">
-                          {t("auth.register.agreeToTerms")} 
+                          {t("auth.register.agreeToTerms")}&nbsp;
                           <Link to="/terms" className="text-blue-800 hover:underline">
                             {t("auth.register.termsOfService")}
                           </Link>
-                           {t("auth.register.and")} 
+                          &nbsp;{t("auth.register.and")}&nbsp;
                           <Link to="/privacy" className="text-blue-800 hover:underline">
                             {t("auth.register.privacyPolicy")}
                           </Link>
@@ -251,7 +251,7 @@ const Register = () => {
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
             <p className="text-center text-sm text-slate-600 mt-4">
-              {t("auth.register.hasAccount")} 
+              {t("auth.register.hasAccount")}&nbsp;
               <Link to="/login" className="text-blue-800 hover:underline font-medium">
                 {t("auth.register.loginLink")}
               </Link>
