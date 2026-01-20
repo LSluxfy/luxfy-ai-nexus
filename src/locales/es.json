@@ -283,6 +283,34 @@
       "termsRequired": "Debes aceptar los términos y condiciones"
     }
   },
+  "migrateUser": {
+    "pageTitle": "Migrar Cuenta",
+    "pageSubtitle": "Migra tu cuenta existente al nuevo sistema",
+
+    "cardTitle": "Migración de Usuario",
+    "cardSubtitle": "Ingresa tus credenciales para migrar tu cuenta",
+
+    "emailLabel": "Correo electrónico",
+    "emailPlaceholder": "Ingresa tu correo",
+    "passwordLabel": "Contraseña",
+    "passwordPlaceholder": "Ingresa tu contraseña",
+
+    "submit": "Migrar Cuenta",
+    "loading": "Migrando...",
+    "backToLogin": "Volver al Inicio de Sesión",
+
+    "successTitle": "Éxito",
+    "successMessage": "Usuario migrado con éxito. Redirigiendo al inicio de sesión...",
+
+    "errorTitle": "Error",
+    "genericError": "Error desconocido",
+    "connectionError": "Error de conexión con el servidor. Verifica tu internet e inténtalo nuevamente",
+
+    "validation": {
+      "invalidEmail": "Correo inválido",
+      "passwordRequired": "La contraseña es obligatoria"
+    }
+  },
   "seo": {
     "landing": {
       "title": "Luxfy: IA, CRM y Automatización WhatsApp",

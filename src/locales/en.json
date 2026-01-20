@@ -256,6 +256,34 @@
       "termsRequired": "You must accept the terms and conditions"
     }
   },
+  "migrateUser": {
+    "pageTitle": "Migrate Account",
+    "pageSubtitle": "Migrate your existing account to the new system",
+
+    "cardTitle": "User Migration",
+    "cardSubtitle": "Enter your credentials to migrate your account",
+
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+
+    "submit": "Migrate Account",
+    "loading": "Migrating...",
+    "backToLogin": "Back to Login",
+
+    "successTitle": "Success",
+    "successMessage": "User successfully migrated! Redirecting to login...",
+
+    "errorTitle": "Error",
+    "genericError": "Unknown error",
+    "connectionError": "Connection error. Please check your internet and try again",
+
+    "validation": {
+      "invalidEmail": "Invalid email",
+      "passwordRequired": "Password is required"
+    }
+  },
   "seo": {
     "landing": {
       "title": "Luxfy AI CRM and WhatsApp Automation",

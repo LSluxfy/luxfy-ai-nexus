@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
 import LanguageSelector from '@/components/LanguageSelector';
+import { useTranslation } from "react-i18next";
 
 import {
   Form,
@@ -19,6 +20,7 @@ import {
 } from '@/components/ui/form';
 
 const MigrateUser = () => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const navigate = useNavigate();
   
@@ -95,7 +97,7 @@ const MigrateUser = () => {
       if (response.status === 402) {
         console.log(`✅ [MIGRATION SUCCESS] ${timestamp} - Usuário migrado com sucesso`);
         
-        const successMessage = responseData.message || "Usuário migrado com sucesso! Redirecionando para o login...";
+        const successMessage = responseData.message || t("migrateUser.successMessage");
         
         toast({
           title: "Sucesso",
@@ -121,10 +123,10 @@ const MigrateUser = () => {
         stack: error.stack
       });
       
-      let errorMessage = "Erro desconhecido";
+      let errorMessage = t("migrateUser.generalError");
       
       if (error.name === 'TypeError' && error.message.includes('fetch')) {
-        errorMessage = "Erro de conexão com o servidor. Verifique sua internet e tente novamente.";
+        errorMessage = t("migrateUser.connectionError");
       } else if (error.message) {
         errorMessage = error.message;
       }
@@ -164,9 +166,9 @@ const MigrateUser = () => {
             </div>
             <span className="text-3xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">Luxfy</span>
           </Link>
-          <h2 className="text-3xl font-bold text-slate-900">Migrar Conta</h2>
+          <h2 className="text-3xl font-bold text-slate-900">{t("migrateUser.pageTitle")}</h2>
           <p className="mt-2 text-slate-600">
-            Migre sua conta existente para o novo sistema
+            {t("migrateUser.pageSubtitle")}
           </p>
           <div className="mt-4 flex justify-center">
             <LanguageSelector />
@@ -175,9 +177,9 @@ const MigrateUser = () => {
         
         <Card className="border-slate-200 bg-white/80 backdrop-blur-sm shadow-lg shadow-blue-800/5">
           <CardHeader>
-            <CardTitle className="text-slate-900">Migração de Usuário</CardTitle>
+            <CardTitle className="text-slate-900">{t("migrateUser.cardTitle")}</CardTitle>
             <CardDescription className="text-slate-600">
-              Digite suas credenciais para migrar sua conta
+              {t("migrateUser.cardSubtitle")}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -188,10 +190,10 @@ const MigrateUser = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-700">Email</FormLabel>
+                      <FormLabel className="text-slate-700">{t("migrateUser.emailLabel")}</FormLabel>
                       <FormControl>
                         <Input 
-                          placeholder="Digite seu email" 
+                          placeholder={t("migrateUser.emailPlaceholder")} 
                           type="email" 
                           {...field} 
                           className="border-slate-300 focus:border-blue-800"
@@ -207,11 +209,11 @@ const MigrateUser = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-700">Senha</FormLabel>
+                      <FormLabel className="text-slate-700">{t("migrateUser.passwordLabel")}</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
-                          placeholder="Digite sua senha"
+                          placeholder={t("migrateUser.passwordPlaceholder")}
                           {...field}
                           className="border-slate-300 focus:border-blue-800"
                         />
@@ -227,7 +229,7 @@ const MigrateUser = () => {
                     className="w-full bg-gradient-to-r from-blue-800 to-blue-700 hover:from-blue-900 hover:to-blue-800"
                     disabled={isLoading}
                   >
-                    {isLoading ? "Migrando..." : "Migrar Conta"}
+                    {isLoading ? t("migrateUser.loading") : t("migrateUser.submit")}
                   </Button>
                   
                   <Button 
@@ -237,7 +239,7 @@ const MigrateUser = () => {
                     onClick={() => navigate('/login')}
                     disabled={isLoading}
                   >
-                    Voltar ao Login
+                    {t("migrateUser.backToLogin")}
                   </Button>
                 </div>
               </form>
