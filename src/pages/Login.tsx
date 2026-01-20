@@ -173,7 +173,7 @@ const Login = () => {
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
             <p className="text-center text-sm text-slate-600">
-              {t("auth.login.noAccount")}
+              {t("auth.login.noAccount")} 
               <Link to="/register" className="text-blue-800 hover:underline font-medium">
                 {t("auth.login.registerLink")}
               </Link>

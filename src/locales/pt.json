@@ -95,49 +95,6 @@
       "features": ["Proteção de dados LGPD", "Backups automáticos", "Autenticação segura"]
     }
   },
-  "pricing": {
-    "title": "Planos para cada estágio do seu negócio",
-    "subtitle": "Escolha o plano que melhor se adapta às suas necessidades e comece a automatizar hoje mesmo.",
-    "starter": {
-      "name": "Starter",
-      "price": "R$97/mês",
-      "description": "Para profissionais autônomos",
-      "button": "Começar Grátis"
-    },
-    "pro": {
-      "name": "Pro",
-      "price": "R$197/mês",
-      "description": "Para pequenas empresas",
-      "button": "Começar Grátis",
-      "popular": "MAIS POPULAR"
-    },
-    "premium": {
-      "name": "Premium",
-      "price": "R$497/mês",
-      "description": "Para empresas em crescimento",
-      "button": "Falar com Vendas"
-    }
-  },
-  "contact": {
-    "title": "Fale Conosco",
-    "subtitle": "Tem alguma dúvida? Entre em contato conosco e nossa equipe terá o prazer de ajudar.",
-    "phone": "Telefone",
-    "email": "Email",
-    "address": "Endereço",
-    "form": {
-      "title": "Envie-nos uma mensagem",
-      "subtitle": "Preencha o formulário abaixo e retornaremos em breve.",
-      "name": "Nome",
-      "namePlaceholder": "Seu nome",
-      "email": "Email",
-      "emailPlaceholder": "seu@email.com",
-      "subject": "Assunto",
-      "subjectPlaceholder": "Assunto da mensagem",
-      "message": "Mensagem",
-      "messagePlaceholder": "Sua mensagem...",
-      "send": "Enviar Mensagem"
-    }
-  },
   "footer": {
     "description": "Automação de atendimento com inteligência artificial, CRM visual e campanhas inteligentes para alavancar seus negócios.",
     "product": "Produto",
@@ -230,6 +187,20 @@
     "selectConversation": "Selecione uma conversa",
     "selectConversationDesc": "Escolha uma conversa da lista para começar a chatear"
   },
+  "forgotPassword": {
+    "title": "Esqueci a Senha",
+    "subtitle": "Digite seu email para receber o código de recuperação",
+    "cardTitle": "Recuperar Senha",
+    "cardSubtitle": "Enviaremos um código para seu email",
+    "emailLabel": "Email",
+    "emailPlaceholder": "seu@email.com",
+    "submit": "Enviar Código",
+    "backToLogin": "Lembrou da senha?",
+    "backToLoginLink": "Fazer Login",
+    "loading": "Enviando...",
+    "successTitle": "Email Enviado!",
+    "successMessage": "O link de redefinição de senha foi enviado para o seu e-mail"
+  },
   "auth": {
     "login": {
       "title": "Bem-vindo novamente",
@@ -310,10 +281,10 @@
       "support": "Suporte prioritário"
     },
     "bestSeller": "Mais vendido",
-    "plans": {
-      "start": { "name": "Start", "desc": "1 agente, automações essenciais" },
-      "pro": { "name": "Pro", "desc": "3 agentes, recursos avançados" },
-      "teams": { "name": "Teams", "desc": "6 agentes, colaboração em equipe" }
+     "plans": {
+      "start": { "name": "Start", "desc": "1 agente, automações essenciais", "agents": 1, "monthly": "R$117,30", "annual": "R$985,55",  "savingLabel": "Economize R$422,05 por ano" },
+      "pro": { "name": "Pro", "desc": "3 agentes, recursos avançados", "agents": 3, "monthly": "R$229,27", "annual": "R$1.964,49", "savingLabel": "Economize R$786,75 por ano" },
+      "teams": { "name": "Teams", "desc": "6 agentes, colaboração em equipe", "agents": 6, "monthly": "R$421,21", "annual": "R$3.609,18",  "savingLabel": "Economize R$1.445,34 por ano" }
     },
     "cta": "Começar agora",
     "ctaAria": "Criar sua conta Luxfy"

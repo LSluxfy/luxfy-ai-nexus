@@ -1,36 +1,10 @@
-import React, { useMemo, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Zap, X, Infinity } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "@/contexts/AuthContext";
 import { api } from "@/lib/api";
-
-interface PlanDef {
-  key: "start" | "pro" | "teams";
-  monthly: number;
-  annual: number;
-  agents: number;
-  highlight?: boolean;
-}
-
-const PLANS: PlanDef[] = [
-  { key: "start", monthly: 22, annual: 184, agents: 1,},
-  {
-    key: "pro",
-    monthly: 43,
-    annual: 361.2,
-    agents: 3,
-    highlight: true,
-  },
-  {
-    key: "teams",
-    monthly: 79,
-    annual: 663.6,
-    agents: 6,
-  },
-];
 
 async function checkoutUrlStripe(plano, annual) {
   const token = localStorage.getItem("jwt-token");
@@ -49,14 +23,8 @@ async function checkoutUrlStripe(plano, annual) {
 }
 
 export default function PricingV2() {
-  const { user } = useAuth();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [annual, setAnnual] = useState(false);
-
-  const currency = useMemo(() => {
-    // Keep dollar symbol as in brief
-    return "$";
-  }, [i18n.language]);
 
   const getFeatures = (planKey: string) => {
     const baseFeatures = [
@@ -107,48 +75,49 @@ export default function PricingV2() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {PLANS.map((plan) => {
-            const price = annual ? plan.annual : plan.monthly;
+          {Object.entries(
+            t("pricingV2.plans", { returnObjects: true })
+          ).map(([key, plan]) => {
+            const priceText = annual ? plan.annual : plan.monthly;
             const per = annual ? t("pricingV2.perYear") : t("pricingV2.perMonth");
-            const monthlyEquiv = annual ? plan.annual / 12 : plan.monthly;
-            const savings = Math.max(0, plan.monthly * 12 - plan.annual);
 
             return (
               <Card
-                key={plan.key}
-                className={`relative overflow-hidden ${plan.highlight ? "border-primary shadow-[0_10px_30px_-10px_hsl(var(--ring)/0.3)]" : ""}`}
+                key={key}
+                className={`relative overflow-hidden ${
+                  plan.highlight ? "border-primary shadow-[0_10px_30px_-10px_hsl(var(--ring)/0.3)]" : ""
+                }`}
               >
                 {plan.highlight && (
                   <Badge className="w-max absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white px-6 pb-2 pt-3 text-sm font-bold shadow-lg animate-pulse">
                     ⭐ {t("pricingV2.bestSeller")} ⭐
                   </Badge>
                 )}
+
                 <CardHeader>
-                  <CardTitle className="text-2xl">{t(`pricingV2.plans.${plan.key}.name`)}</CardTitle>
+                  <CardTitle className="text-2xl">{plan.name}</CardTitle>
+
                   <div className="mt-2">
-                    <span className="text-4xl font-bold">
-                      {currency}
-                      {price.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                    </span>
+                    <span className="text-4xl font-bold">{priceText}</span>
                     <span className="text-sm text-muted-foreground ml-1">{per}</span>
                   </div>
-                  {annual && (
-                    <p className="text-xs text-green-600 mt-1">
-                      {t("pricingV2.savings", { amount: `${currency}${savings.toFixed(2)}` })}
-                      <span className="ml-2 text-muted-foreground">
-                        ({t("pricingV2.equivalentPerMonth", { amount: `${currency}${monthlyEquiv.toFixed(2)}` })})
-                      </span>
-                    </p>
-                  )}
-                  <p className="text-muted-foreground text-sm mt-2">{t(`pricingV2.plans.${plan.key}.desc`)}</p>
+                  {annual && plan.savingLabel && (
+                      <p className="text-xs text-green-600 mt-1">
+                        {plan.savingLabel}
+                      </p>
+                    )}
+
+                  <p className="text-muted-foreground text-sm mt-2">{plan.desc}</p>
                 </CardHeader>
+
                 <CardContent>
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-primary" />
                       {plan.agents} {t("pricingV2.features.agents")}
                     </li>
-                    {plan.key === "start" ? (
+
+                    {key === "start" ? (
                       <li className="flex items-center gap-2">
                         <X className="h-4 w-4 text-orange-500" />
                         {t("pricingV2.features.aiTokensLimited")}
@@ -159,20 +128,21 @@ export default function PricingV2() {
                         {t("pricingV2.features.aiTokensUnlimited")}
                       </li>
                     )}
-                    {getFeatures(plan.key).map((f, i) => (
+
+                    {getFeatures(key).map((f, i) => (
                       <li key={i} className="flex items-center gap-2">
                         <Check className="h-4 w-4 text-primary" />
                         {f}
                       </li>
                     ))}
                   </ul>
+
                   <Button asChild className="w-full">
                     <a
                       href="#"
-                      target="_blank"
                       onClick={async (e) => {
                         e.preventDefault();
-                        const url = await checkoutUrlStripe(plan.key, annual);
+                        const url = await checkoutUrlStripe(key, annual);
                         window.location.href = url;
                       }}
                     >
