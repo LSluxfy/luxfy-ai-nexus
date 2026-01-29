@@ -17,9 +17,9 @@ const LandingFooter = () => {
       </div>
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <Link to="/" className="flex items-center gap-3 mb-6">
+        <div className="flex justify-center gap-8">
+          <div className='text-center'>
+            <Link to="/" className="flex items-center justify-center gap-3 mb-6">
               <div className="h-10 w-10 rounded-xl flex items-center justify-center">
                 <img src="/lovable-uploads/c0e6c735-5382-4c0e-81ee-5c39577c240d.png" alt="Luxfy Logo" className="w-8 h-8" />
               </div>
@@ -27,54 +27,16 @@ const LandingFooter = () => {
                 Luxfy
               </span>
             </Link>
-            <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+            <p className="text-slate-400 text-sm mb-6 leading-relaxed text-center max-w-md">
               {t('footer.description')}
             </p>
-            <div className="flex gap-4">
-              <a href="https://facebook.com" className="w-10 h-10 bg-slate-800 hover:bg-blue-800 rounded-lg flex items-center justify-center transition-colors" aria-label="Facebook">
-                <Facebook size={18} />
-              </a>
-              <a href="https://instagram.com" className="w-10 h-10 bg-slate-800 hover:bg-blue-800 rounded-lg flex items-center justify-center transition-colors" aria-label="Instagram">
+            <div className="flex gap-4 justify-center">
+              <a href="https://www.instagram.com/luxfy.es" target='_blank' className="w-10 h-10 bg-slate-800 hover:bg-blue-800 rounded-lg flex items-center justify-center transition-colors" aria-label="Instagram">
                 <Instagram size={18} />
-              </a>
-              <a href="https://twitter.com" className="w-10 h-10 bg-slate-800 hover:bg-blue-800 rounded-lg flex items-center justify-center transition-colors" aria-label="Twitter">
-                <Twitter size={18} />
-              </a>
-              <a href="https://linkedin.com" className="w-10 h-10 bg-slate-800 hover:bg-blue-800 rounded-lg flex items-center justify-center transition-colors" aria-label="LinkedIn">
-                <Linkedin size={18} />
               </a>
             </div>
           </div>
           
-          <div>
-            <h3 className="text-lg font-semibold mb-6 text-blue-400">{t('footer.product')}</h3>
-            <ul className="space-y-3">
-              <li><Link to="/#features" className="text-slate-400 hover:text-blue-400 transition-colors">{t('nav.features')}</Link></li>
-              <li><Link to="/#pricing" className="text-slate-400 hover:text-blue-400 transition-colors">{t('nav.pricing')}</Link></li>
-              <li><Link to="/" className="text-slate-400 hover:text-blue-400 transition-colors">Demo</Link></li>
-              <li><Link to="/" className="text-slate-400 hover:text-blue-400 transition-colors">Roadmap</Link></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-semibold mb-6 text-blue-400">{t('footer.company')}</h3>
-            <ul className="space-y-3">
-              <li><Link to="/" className="text-slate-400 hover:text-blue-400 transition-colors">Sobre nós</Link></li>
-              <li><Link to="/" className="text-slate-400 hover:text-blue-400 transition-colors">Blog</Link></li>
-              <li><Link to="/" className="text-slate-400 hover:text-blue-400 transition-colors">Carreiras</Link></li>
-              <li><Link to="/#contact" className="text-slate-400 hover:text-blue-400 transition-colors">{t('nav.contact')}</Link></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-semibold mb-6 text-blue-400">{t('footer.legal')}</h3>
-            <ul className="space-y-3">
-              <li><Link to="/" className="text-slate-400 hover:text-blue-400 transition-colors">Termos de Serviço</Link></li>
-              <li><Link to="/" className="text-slate-400 hover:text-blue-400 transition-colors">Política de Privacidade</Link></li>
-              <li><Link to="/" className="text-slate-400 hover:text-blue-400 transition-colors">Cookies</Link></li>
-              <li><Link to="/" className="text-slate-400 hover:text-blue-400 transition-colors">Compliance</Link></li>
-            </ul>
-          </div>
         </div>
         
         <div className="border-t border-slate-800 mt-12 pt-8 text-center">

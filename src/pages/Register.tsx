@@ -225,12 +225,8 @@ const Register = () => {
                       <div className="leading-none mt-0 pt-0">
                         <FormLabel className="text-sm leading-none text-slate-700">
                           {t("auth.register.agreeToTerms")}&nbsp;
-                          <Link to="/terms" className="text-blue-800 hover:underline">
-                            {t("auth.register.termsOfService")}
-                          </Link>
-                          &nbsp;{t("auth.register.and")}&nbsp;
-                          <Link to="/privacy" className="text-blue-800 hover:underline">
-                            {t("auth.register.privacyPolicy")}
+                          <Link to="/terms" target="_blank" className="text-blue-800 hover:underline">
+                            {t("auth.register.termsOfService")}.
                           </Link>
                         </FormLabel>
                         <FormMessage />

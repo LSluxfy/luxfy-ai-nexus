@@ -283,6 +283,11 @@
       "termsRequired": "Debes aceptar los términos y condiciones"
     }
   },
+  "terms": {
+    "title": "Términos de Servicio",
+    "lastUpdated": "Última actualización: 20 de junio de 2024",
+    "description": "De conformidad con las Leyes n.º 12.965/2014 y n.º 13.709/2018, que regulan el uso de Internet y el tratamiento de datos personales en Brasil, autorizo a Luxfy a enviar notificaciones por correo electrónico u otros medios de comunicación y declaro que conozco y acepto su Política de Privacidad."
+  },
   "migrateUser": {
     "pageTitle": "Migrar Cuenta",
     "pageSubtitle": "Migra tu cuenta existente al nuevo sistema",

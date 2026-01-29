@@ -256,6 +256,11 @@
       "termsRequired": "You must accept the terms and conditions"
     }
   },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated: June 20, 2024",
+    "description": "In accordance with Laws No. 12,965/2014 and No. 13,709/2018, which regulate the use of the Internet and the processing of personal data in Brazil, I authorize Luxfy to send notifications by email or other communication channels and I acknowledge and agree with its Privacy Policy."
+  },
   "migrateUser": {
     "pageTitle": "Migrate Account",
     "pageSubtitle": "Migrate your existing account to the new system",

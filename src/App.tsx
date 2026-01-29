@@ -12,6 +12,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import { PendingInvoice } from "./pages/PendingInvoice";
+import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import PublicTutorialsPage from "./pages/PublicTutorialsPage";
 import AccountInactive from "./pages/AccountInactive";
@@ -72,6 +73,7 @@ const App = () => (
                 <Route path="/account-inactive" element={<AccountInactive />} />
                 <Route path="/select-plan" element={<SelectPlan />} />
                 <Route path="/tutorials" element={<PublicTutorialsPage />} />
+                <Route path="/terms" element={<Terms />} />
                 
                 {/* Área do Dashboard - com contextos completos e lazy loading */}
                 <Route path="/dashboard" element={

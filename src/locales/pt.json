@@ -256,6 +256,11 @@
       "termsRequired": "Você deve aceitar os termos e condições"
     }
   },
+  "terms": {
+    "title": "Termos de Serviço",
+    "lastUpdated": "Última atualização: 20 de junho de 2024",
+    "description": "De acordo com as Leis nº 12.965/2014 e nº 13.709/2018, que regulam o uso da Internet e o tratamento de dados pessoais no Brasil, autorizo a Luxfy a enviar notificações por e-mail ou por outros meios de comunicação e declaro que estou ciente e de acordo com sua Política de Privacidade."
+  },
   "migrateUser": {
     "pageTitle": "Migrar Conta",
     "pageSubtitle": "Migre sua conta existente para o novo sistema",
