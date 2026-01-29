@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Zap, X, Infinity } from "lucide-react";
+import { Check, Zap, X, Infinity, AlertTriangle, Pin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { api } from "@/lib/api";
 
@@ -26,21 +26,24 @@ export default function PricingV2() {
   const { t } = useTranslation();
   const [annual, setAnnual] = useState(false);
 
-  const getFeatures = (planKey: string) => {
-    const baseFeatures = [
-      t("pricingV2.features.crm"),
-      t("pricingV2.features.ai"),
-      t("pricingV2.features.unlimited"),
-      t("pricingV2.features.calendar"),
-      t("pricingV2.features.campaigns"),
-    ];
+  const getStartFeatures = () => [
+    { text: t("pricingV2.features.crm"), included: true },
+    { text: t("pricingV2.features.ai"), included: true },
+    { text: t("pricingV2.features.aiTokensLimited"), included: false, isWarning: true },
+    { text: t("pricingV2.features.noPrioritySupport"), included: false },
+    { text: t("pricingV2.features.noFixedCosts"), included: false },
+    { text: t("pricingV2.features.idealForStart"), included: true, isNote: true },
+  ];
 
-    if (planKey === "start") {
-      return baseFeatures; // Start plan without support
-    }
-
-    return [...baseFeatures, t("pricingV2.features.support")];
-  };
+  const getProTeamsFeatures = () => [
+    t("pricingV2.features.crm"),
+    t("pricingV2.features.ai"),
+    t("pricingV2.features.aiTokensUnlimited"),
+    t("pricingV2.features.unlimited"),
+    t("pricingV2.features.calendar"),
+    t("pricingV2.features.campaigns"),
+    t("pricingV2.features.support"),
+  ];
 
   return (
     <section id="pricing" className="relative py-20 px-4">
@@ -118,23 +121,38 @@ export default function PricingV2() {
                     </li>
 
                     {key === "start" ? (
-                      <li className="flex items-center gap-2">
-                        <X className="h-4 w-4 text-orange-500" />
-                        {t("pricingV2.features.aiTokensLimited")}
-                      </li>
+                      <>
+                        {getStartFeatures().map((feature, i) => (
+                          <li key={i} className="flex items-center gap-2">
+                            {feature.isWarning ? (
+                              <AlertTriangle className="h-4 w-4 text-orange-500" />
+                            ) : feature.isNote ? (
+                              <Pin className="h-4 w-4 text-blue-500" />
+                            ) : feature.included ? (
+                              <Check className="h-4 w-4 text-primary" />
+                            ) : (
+                              <X className="h-4 w-4 text-red-500" />
+                            )}
+                            <span className={feature.included ? "" : feature.isWarning ? "text-orange-600" : "text-muted-foreground"}>
+                              {feature.text}
+                            </span>
+                          </li>
+                        ))}
+                      </>
                     ) : (
-                      <li className="flex items-center gap-2">
-                        <Infinity className="h-4 w-4 text-green-500" />
-                        {t("pricingV2.features.aiTokensUnlimited")}
-                      </li>
+                      <>
+                        {getProTeamsFeatures().map((f, i) => (
+                          <li key={i} className="flex items-center gap-2">
+                            {f === t("pricingV2.features.aiTokensUnlimited") ? (
+                              <Infinity className="h-4 w-4 text-green-500" />
+                            ) : (
+                              <Check className="h-4 w-4 text-primary" />
+                            )}
+                            {f}
+                          </li>
+                        ))}
+                      </>
                     )}
-
-                    {getFeatures(key).map((f, i) => (
-                      <li key={i} className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-primary" />
-                        {f}
-                      </li>
-                    ))}
                   </ul>
 
                   <Button asChild className="w-full">

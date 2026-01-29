@@ -9,7 +9,6 @@ export default function FAQ() {
     { q: t("faq.q2.q"), a: t("faq.q2.a") },
     { q: t("faq.q3.q"), a: t("faq.q3.a") },
     { q: t("faq.q4.q"), a: t("faq.q4.a") },
-    { q: t("faq.q5.q"), a: t("faq.q5.a") },
   ];
   return (
     <section id="faq" className="py-20 px-4 bg-gradient-to-br from-blue-50/50 to-slate-100/50">

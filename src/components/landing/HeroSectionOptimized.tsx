@@ -71,15 +71,7 @@ const HeroSectionOptimized = () => {
           <div className="space-y-8">
             <div className="space-y-6">
               <h1 className="hero-title">
-                {t('hero.title')}{' '}
-                <span className="relative inline-block">
-                  <span className="text-blue-400">
-                    {animationsReady ? displayText : staticWord}
-                    {animationsReady && <span className="blink-animation">|</span>}
-                  </span>
-                </span>
-                <br />
-                {t('hero.subtitle')}
+                {t('hero.title')}
               </h1>
               
               <p className="hero-subtitle">

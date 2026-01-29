@@ -1,8 +1,7 @@
-
 {
   "nav": {
     "home": "Home",
-    "features": "Features",
+    "features": "Benefits",
     "pricing": "Pricing",
     "contact": "Contact",
     "login": "Login",
@@ -17,9 +16,9 @@
     "settings": "Settings"
   },
   "hero": {
-    "title": "Clone your best",
-    "subtitle": "with AI",
-    "description": "Reduce operational costs and increase your sales. Our AI learns from your best salespeople and converts leads 24/7 on WhatsApp.",
+    "title": "Reduce operational costs and increase your sales with AI on WhatsApp.",
+    "subtitle": "",
+    "description": "Convert leads and offer 24/7 customer support, without depending on a team.",
     "cta": "Start now",
     "login": "Get started",
     "testimonial": "✨ No credit card • 7 days free",
@@ -264,26 +263,20 @@
   "migrateUser": {
     "pageTitle": "Migrate Account",
     "pageSubtitle": "Migrate your existing account to the new system",
-
     "cardTitle": "User Migration",
     "cardSubtitle": "Enter your credentials to migrate your account",
-
     "emailLabel": "Email",
     "emailPlaceholder": "Enter your email",
     "passwordLabel": "Password",
     "passwordPlaceholder": "Enter your password",
-
     "submit": "Migrate Account",
     "loading": "Migrating...",
     "backToLogin": "Back to Login",
-
     "successTitle": "Success",
     "successMessage": "User successfully migrated! Redirecting to login...",
-
     "errorTitle": "Error",
     "genericError": "Unknown error",
     "connectionError": "Connection error. Please check your internet and try again",
-
     "validation": {
       "invalidEmail": "Invalid email",
       "passwordRequired": "Password is required"
@@ -294,6 +287,47 @@
       "title": "Luxfy AI CRM and WhatsApp Automation",
       "description": "AI agent, visual CRM, and campaigns to scale your business. Start free."
     }
+  },
+  "comparison": {
+    "badge": "Comparison",
+    "title": "Human vs Artificial Intelligence",
+    "subtitle": "See why AI is the smart choice for your business",
+    "featureColumn": "Feature",
+    "humanColumn": "Human",
+    "aiColumn": "Luxfy AI",
+    "humanVsAi": {
+      "availability": {
+        "feature": "Availability",
+        "human": "8h per day",
+        "ai": "24/7"
+      },
+      "responseTime": {
+        "feature": "Response time",
+        "human": "Minutes/Hours",
+        "ai": "Instant"
+      },
+      "cost": {
+        "feature": "Monthly cost",
+        "human": "High (salary + benefits)",
+        "ai": "Fixed and predictable"
+      },
+      "scalability": {
+        "feature": "Scalability",
+        "human": "Limited",
+        "ai": "Unlimited"
+      },
+      "consistency": {
+        "feature": "Consistency",
+        "human": "Varies with mood",
+        "ai": "100% consistent"
+      },
+      "training": {
+        "feature": "Training",
+        "human": "Weeks/Months",
+        "ai": "Minutes"
+      }
+    },
+    "competitorPhrase": "Your competition doesn't sleep: they use AI 24/7. Whoever responds first, sells more."
   },
   "pricingV2": {
     "badgeDiscount": "Save up to 30%",
@@ -311,15 +345,20 @@
       "unlimited": "Unlimited conversations",
       "calendar": "Calendar integration",
       "campaigns": "Mass dispatch",
-      "support": "Priority support"
+      "support": "Priority support",
+      "aiTokensLimited": "Limited AI tokens",
+      "aiTokensUnlimited": "Unlimited AI tokens",
+      "noPrioritySupport": "No priority support",
+      "noFixedCosts": "No fixed cost guarantee",
+      "idealForStart": "Ideal for testing and low volume"
     },
     "bestSeller": "Best seller",
     "plans": {
-      "start": { "name": "Start", "desc": "1 agent, essential automations", "agents": 1, "monthly": "$22", "annual": "$184.00",  "savingLabel": "Save $80.00 yearly" },
+      "start": { "name": "Start", "desc": "To get started", "agents": 1, "monthly": "$22", "annual": "$184.00",  "savingLabel": "Save $80.00 yearly" },
       "pro": { "name": "Pro", "desc": "3 agents, advanced features", "agents": 3, "monthly": "$43", "annual": "$361.20", "savingLabel": "Save $154.80 yearly" },
       "teams": { "name": "Teams", "desc": "6 agents, collaboration tools", "agents": 6, "monthly": "$79", "annual": "$663.60",  "savingLabel": "Save $284.40 yearly" }
     },
-    "cta": "Start now",
+    "cta": "Talk to Agent Lux",
     "ctaAria": "Create your Luxfy account"
   },
   "stickyCta": {
@@ -341,8 +380,7 @@
     "q1": { "q": "What is Luxfy?", "a": "Luxfy is a complete automation platform that combines artificial intelligence, visual CRM, and marketing campaigns. Our solution allows you to automate customer service, manage leads visually, and execute smart campaigns, all in one integrated platform." },
     "q2": { "q": "Does it work with WhatsApp?", "a": "Yes! Luxfy offers complete integration with WhatsApp Business. You can connect your account, automate responses, set up personalized conversation flows, and manage all conversations directly through our platform while maintaining a natural experience for your customers." },
     "q3": { "q": "Can I train the AI?", "a": "Absolutely! Our AI is fully trainable and customizable. You can feed it with your own data, create conversation flows specific to your business, define custom keywords, and adjust responses so the AI responds exactly as you would like." },
-    "q4": { "q": "Is there a free trial?", "a": "Yes! We offer a free trial period so you can experience all platform features. During the trial, you'll have complete access to resources: creating AI agents, visual CRM, automated campaigns, and WhatsApp integration. Then you can upgrade to continue using." },
-    "q5": { "q": "Can I cancel anytime?", "a": "Of course! There are no permanence contracts. You can cancel your subscription at any time or switch between plans according to your needs. We offer total flexibility so you can use Luxfy at your pace and according to your business growth." }
+    "q4": { "q": "Can I cancel anytime?", "a": "Of course! There are no permanence contracts. You can cancel your subscription at any time or switch between plans according to your needs. We offer total flexibility so you can use Luxfy at your pace and according to your business growth." }
   },
   "examples": {
     "title": "See it in action",
@@ -419,26 +457,26 @@
     "categories": {
       "welcome": {
         "title": "Welcome",
-        "description": "Introduction to Luxfy platform and how to get started",
+        "description": "Introduction to the Luxfy platform and how to get started",
         "topics": [
           "Platform overview",
           "First access and setup",
           "Basic navigation",
-          "Tips to get started"
+          "Tips for getting started"
         ]
       },
       "agents": {
         "title": "Agents",
         "description": "How to create and configure your AI agents",
         "topics": [
-          "Agent creation",
+          "Creating agents",
           "Basic configurations",
           "Training and customization",
-          "Multiple agents management"
+          "Managing multiple agents"
         ]
       },
       "voice": {
-        "title": "Custom Voice",
+        "title": "Customizable Voice",
         "description": "Configure unique voices for your agents",
         "topics": [
           "Voice selection",
@@ -449,9 +487,9 @@
       },
       "crmChat": {
         "title": "CRM and Chat",
-        "description": "Manage leads and conversations in real time",
+        "description": "Manage leads and conversations in real-time",
         "topics": [
-          "CRM configuration",
+          "CRM setup",
           "Lead management",
           "Chat interface",
           "Conversation history"
@@ -490,17 +528,17 @@
     }
   },
   "financial": {
-    "title": "Financial",
+    "title": "Billing",
     "subtitle": "Financial Management",
-    "description": "Manage your plan, invoices and make upgrades",
+    "description": "Manage your plan, invoices and upgrades",
     "tabs": {
       "currentPlan": "Current Plan",
-      "upgrade": "Upgrade", 
+      "upgrade": "Upgrade",
       "invoices": "Invoices"
     },
     "currentPlan": {
       "title": "Current Plan",
-      "autoRenewal": "Auto renewal active",
+      "autoRenewal": "Auto-renewal active",
       "perMonth": "per month",
       "includedFeatures": "Included Features:",
       "financialSummary": "Financial Summary:",
@@ -522,221 +560,255 @@
       "startBilling": "Purchase date:",
       "endBilling": "Next billing:"
     },
-    "plans": {
-      "basic": "Basic",
-      "pro": "Pro", 
-      "premium": "Premium",
-      "mostPopular": "Most Popular",
-      "currentPlan": "Current Plan",
-      "makeUpgrade": "Upgrade",
-      "confirmCancel": "Contact Support",
-      "confirmCancelUpgrade": "We’re sorry to hear that you’re considering canceling your plan. If you wish to proceed, our support team on WhatsApp will assist you with the process.",
+    "upgrade": {
+      "title": "Upgrade",
+      "description": "Choose a higher plan to unlock more features",
+      "current": "Current",
+      "selectPlan": "Select Plan",
       "confirmUpgrade": "Confirm Upgrade",
-      "firstConfirmUpgrade": "Are you sure you want to switch to the",
-      "lastConfirmUpgrade": "Stripe will charge and automatically update your plan.",
-      "cancelUpgrade": "Cancel"
+      "upgradeNow": "Upgrade Now",
+      "contactSales": "Contact Sales"
+    },
+    "invoices": {
+      "title": "Invoices",
+      "description": "Payment and invoice history",
+      "noInvoices": "No invoices found",
+      "paid": "Paid",
+      "pending": "Pending",
+      "overdue": "Overdue",
+      "download": "Download"
+    },
+    "invoiceList": {
+      "subtitle": "Invoice and payment history",
+      "date": "Date",
+      "description": "Description",
+      "value": "Value",
+      "status": "Status",
+      "actions": "Actions",
+      "pending": "Pending",
+      "paid": "Paid",
+      "cancelled": "Cancelled",
+      "expired": "Expired",
+      "loading": "Loading...",
+      "noInvoices": "No invoices found.",
+      "payNow": "Pay Now",
+      "paidOn": "Paid on"
+    },
+    "noPlan": {
+      "title": "No Active Plan",
+      "description": "You don't have an active plan yet. Choose a plan to get started.",
+      "choosePlan": "Choose Plan"
     }
   },
-  "analytics": {
-    "title": "Analytics",
-    "subtitle": "AI Analytics and Metrics",
-    "description": "Monitor performance and get insights from your AI agents",
-    "tabs": {
-      "overview": "Overview",
-      "conversations": "Conversations", 
-      "clients": "Clients",
-      "tags": "Tags",
-      "performance": "Performance"
+  "pendingInvoice": {
+    "title": "Pending Invoice",
+    "description": "You have a pending invoice that needs to be paid to continue using the platform.",
+    "amount": "Amount",
+    "dueDate": "Due Date",
+    "payNow": "Pay Now",
+    "support": "Contact Support"
+  },
+  "realResults": {
+    "badge": "Proven Results",
+    "title": "Real Results from Our Clients",
+    "subtitle": "See the numbers that companies like yours have achieved using our AI platform.",
+    "metric1": { "value": "+300%", "label": "Sales Increase" },
+    "metric2": { "value": "24/7", "label": "Full Availability" },
+    "metric3": { "value": "-80%", "label": "Cost Reduction" },
+    "metric4": { "value": "< 3s", "label": "Response Time" }
+  },
+  "howItWorks": {
+    "badge": "Simple and Fast",
+    "title": "How It Works",
+    "subtitle": "In just 3 steps you'll have an AI agent selling on WhatsApp 24/7",
+    "step1": { "number": "01", "title": "Create your account", "description": "Sign up in less than 2 minutes and access our intuitive platform." },
+    "step2": { "number": "02", "title": "Train your agent", "description": "Configure your AI with your information, products and personalized tone of voice." },
+    "step3": { "number": "03", "title": "Connect and sell", "description": "Integrate with WhatsApp and start converting leads automatically 24/7." }
+  },
+  "beforeAfter": {
+    "badge": "Transformation",
+    "title": "Before vs After Luxfy",
+    "subtitle": "See how your operation can change completely",
+    "before": {
+      "title": "Before Luxfy",
+      "items": ["Overwhelmed team with support", "Lost leads outside business hours", "Slow and inconsistent responses", "High cost with sales team", "Difficulty scaling operation"]
+    },
+    "after": {
+      "title": "After Luxfy",
+      "items": ["100% automated support", "Leads converted 24/7", "Instant and personalized responses", "Fixed and predictable cost", "Unlimited scale without hiring"]
     }
   },
   "settings": {
     "title": "Settings",
-    "subtitle": "Account Settings",
-    "description": "Manage your personal information, agents and security settings",
+    "subtitle": "Manage your account and preferences",
     "tabs": {
       "account": "Account",
-      "agents": "Agents",
-      "security": "Security"
+      "security": "Security",
+      "agent": "Agent"
     },
     "account": {
-      "personalInfo": {
-        "title": "Información Personal",
-        "description": "Actualiza tu información personal y de contacto",
-        "name": "Nombre",
-        "lastName": "Apellido",
-        "email": "Email",
-        "emailNote": "El email no puede ser alterado. Contacta soporte si es necesario.",
-        "editingNote": "La información personal no puede ser editada en esta versión de la aplicación."
-      },
-      "accountInfo": {
-        "title": "Informações da Conta",
-        "email": "Email",
-        "userId": "ID do Usuário",
-        "plan": "Plano",
-        "agentsNumber": "Número de Agentes",
-        "creationDate": "Data de Criação"
-      }
+      "title": "Account Information",
+      "description": "Update your personal information",
+      "email": "Email",
+      "name": "Name",
+      "lastName": "Last Name",
+      "saveButton": "Save Changes",
+      "saving": "Saving...",
+      "successTitle": "Success!",
+      "successMessage": "Settings updated successfully"
+    },
+    "security": {
+      "title": "Security",
+      "description": "Manage your password and security",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "changePassword": "Change Password",
+      "changing": "Changing..."
     }
   },
-  "countdown": {
-    "title": "⏰ Special Offer Ends In:",
-    "subtitle": "Don't miss this unique opportunity!",
-    "hours": "HOURS",
-    "minutes": "MINUTES",
-    "seconds": "SECONDS"
-  },
-  "scarcity": {
-    "banner": "🚨 LAST SPOTS AVAILABLE - Only a few spots left for new customers"
-  },
-  "scarcityPopup": {
-    "title": "⚠️ Attention!",
-    "description": "Only a few spots are available in our PRO plan this month. Companies that implement AI first get competitive advantage.",
-    "spotsLeft": "Only 3 spots remaining",
-    "later": "Maybe later",
-    "secure": "Secure my spot"
-  },
-  "realResults": {
-    "title": "Real Results from Our Clients",
-    "subtitle": "More than promises, these are the results our clients are getting:",
-    "cases": {
-      "0": {
-        "description": "Increase in sales",
-        "company": "Real Estate Company"
-      },
-      "1": {
-        "description": "Monthly savings",
-        "company": "Fashion E-commerce"
-      },
-      "2": {
-        "description": "Reduction in response time",
-        "company": "Medical Clinic"
-      },
-      "3": {
-        "description": "More qualified leads",
-        "company": "Financial Consulting"
-      }
+  "agent": {
+    "title": "Agent Configuration",
+    "basicConfig": {
+      "title": "Basic Settings",
+      "description": "Configure the name and behavior of your agent"
     },
-    "stats": {
-      "clients": "Active Clients",
-      "messages": "Messages Processed",
-      "satisfaction": "Satisfaction",
-      "availability": "Availability"
+    "aiConfig": {
+      "title": "AI Settings",
+      "description": "Configure how the AI should respond"
+    },
+    "simulator": {
+      "title": "Simulator",
+      "description": "Test your agent in real-time"
+    },
+    "whatsapp": {
+      "title": "WhatsApp",
+      "description": "Configure your WhatsApp integration"
+    },
+    "tabs": {
+      "basic": "Basic",
+      "ai": "AI",
+      "simulator": "Simulator",
+      "whatsapp": "WhatsApp"
+    },
+    "training": {
+      "title": "AI Training",
+      "description": "Train your agent with custom content",
+      "noFiles": "No training files.",
+      "addFile": "Add File",
+      "uploading": "Uploading...",
+      "upload": "Upload",
+      "trainingTitle": "Training Title",
+      "trainingText": "Training Text",
+      "trainingPlaceholder": "Paste here the content to train your AI...",
+      "uploadDescription": "Upload text files, PDFs or documents to train your agent.",
+      "successMessage": "Training file added successfully!",
+      "errorMessage": "Error adding training file"
+    },
+    "whatsappConfig": {
+      "title": "WhatsApp Configuration",
+      "description": "Configure your WhatsApp Business integration",
+      "status": "Connection Status",
+      "connected": "Connected",
+      "disconnected": "Disconnected",
+      "connect": "Connect",
+      "disconnect": "Disconnect",
+      "qrCode": "Scan QR Code",
+      "qrCodeDescription": "Use your phone's WhatsApp to scan"
     }
   },
-  "liveNotifications": {
-    "actions": {
-      "registered": "registered on the platform",
-      "purchased": "purchased the PRO plan",
-      "demo": "scheduled a demonstration"
-    },
-    "ago": "ago"
+  "accountInactive": {
+    "title": "Inactive Account",
+    "description": "Your account is inactive. Please contact support to reactivate it.",
+    "support": "Contact Support",
+    "tryAgain": "Try Again",
+    "logout": "Logout"
   },
-  "howItWorks": {
-    "title": "How It Works in 3 Simple Steps",
-    "subtitle": "Implementing AI in your business has never been easier",
-    "steps": {
-      "0": {
-        "title": "Connect your WhatsApp",
-        "description": "In less than 2 minutes you connect your WhatsApp Business with our platform"
-      },
-      "1": {
-        "title": "Configure your AI Agent",
-        "description": "Personalize responses and behavior of the agent according to your business"
-      },
-      "2": {
-        "title": "Ready! Start Converting",
-        "description": "Your AI agent works 24/7 qualifying leads and closing sales automatically"
-      }
+  "selectPlan": {
+    "title": "Select Your Plan",
+    "description": "Choose the ideal plan for your business",
+    "cta": "Subscribe Now",
+    "processing": "Processing..."
+  },
+  "verifyEmail": {
+    "title": "Verify Your Email",
+    "description": "We sent a verification code to",
+    "codeLabel": "Verification Code",
+    "codePlaceholder": "Enter the code",
+    "verify": "Verify",
+    "verifying": "Verifying...",
+    "resend": "Resend code",
+    "resending": "Resending..."
+  },
+  "resetPassword": {
+    "title": "Reset Password",
+    "description": "Enter your new password below",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "submit": "Reset",
+    "submitting": "Resetting...",
+    "backToLogin": "Back to Login"
+  },
+  "agenda": {
+    "title": "Schedule",
+    "subtitle": "Manage your appointments",
+    "newAppointment": "New Appointment",
+    "noAppointments": "No appointments found",
+    "today": "Today",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "all": "All",
+    "appointment": {
+      "client": "Client",
+      "date": "Date",
+      "time": "Time",
+      "status": "Status",
+      "actions": "Actions",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "reschedule": "Reschedule",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "pending": "Pending",
+      "confirmed": "Confirmed"
     }
   },
-  "guarantee": {
-    "title": "Total 7-Day Guarantee",
-    "description": "We are so confident you'll love our AI agent that we offer a total refund guarantee.",
-    "promise": "If within 7 days you're not completely satisfied, we'll refund 100% of your money. No questions, no complications.",
-    "benefits": [
-      "Risk-free trial for 7 complete days",
-      "100% refund guaranteed",
-      "Priority support during trial",
-      "Free setup included"
-    ]
-  },
-  "comparison": {
-    "title": "Why Choose AI vs Traditional Methods?",
-    "subtitle": "See the difference artificial intelligence makes",
-    "traditional": "Traditional Methods",
-    "aiAgent": "AI Agent",
-    "features": [
-      "24/7 service without rest",
-      "Instant consistent responses",
-      "Unlimited simultaneous service",
-      "Automatic lead qualification",
-      "CRM integration",
-      "Predictive sales analysis",
-      "Scalability without extra costs",
-      "Positive ROI from the first month"
-    ],
-    "conclusion": "With AI you get all the benefits without human limitations"
-  },
-  "floatingCTA": {
-    "title": "🔥 Limited time special offer",
-    "button": "Secure my discount"
-  },
-  "beforeAfter": {
-    "title": "Before vs After Implementing AI",
-    "subtitle": "See the transformation AI can bring to your business",
-    "before": "BEFORE (Without AI)",
-    "after": "AFTER (With AI)",
-    "scenarios": {
-      "0": {
-        "before": "Customers wait hours for response, many give up before buying",
-        "after": "Instant 24/7 response, leads qualified automatically and constant conversions"
-      },
-      "1": {
-        "before": "Busy salesperson loses leads, limited hours, vacation = stopped sales",
-        "after": "AI never sleeps, never gets sick, never takes vacation. Sales 24/7/365"
-      },
-      "2": {
-        "before": "High costs with sales team, constant training, staff turnover",
-        "after": "A single AI agent replaces multiple salespeople, no turnover, always updated"
-      }
+  "analytics": {
+    "title": "Analytics",
+    "subtitle": "View detailed metrics and insights",
+    "period": {
+      "today": "Today",
+      "week": "This week",
+      "month": "This month",
+      "year": "This year"
+    },
+    "metrics": {
+      "totalConversations": "Total Conversations",
+      "avgResponseTime": "Avg Response Time",
+      "conversionRate": "Conversion Rate",
+      "satisfaction": "Satisfaction"
     }
   },
-  "roiCalculator": {
-    "title": "ROI Calculator - How Much Can You Save?",
-    "subtitle": "Discover how much money you can save implementing AI in your business",
-    "inputs": {
-      "title": "Your Current Data",
-      "employees": "Customer service employees",
-      "hourlyRate": "Hourly wage ($)",
-      "hoursPerDay": "Hours per day in service"
-    },
-    "results": {
-      "title": "Your Savings with AI",
-      "currentCost": "Current cost with employees:",
-      "monthlySavings": "Monthly savings with AI:",
-      "yearlySavings": "Annual savings with AI:",
-      "roi": "Return on Investment:"
-    },
-    "disclaimer": "* Calculations based on PRO plan ($197/month). Results may vary according to implementation."
+  "error": {
+    "generic": "Something went wrong",
+    "notFound": "Page not found",
+    "unauthorized": "Unauthorized access",
+    "serverError": "Server error"
   },
-  "errors": {
-  "layout": "Error loading Layout",
-  "dashboard": "Error loading Dashboard",
-  "agents": "Error loading Agents",
-  "agent": "Error loading Agent",
-  "crm": "Error loading CRM",
-  "chat": "Error loading Chat",
-  "marketing": "Error loading Campaigns",
-  "calendar": "Error loading Calendar",
-  "analytics": "Error loading Analytics",
-  "tutorial": "Error loading Tutorials",
-  "financial": "Error loading Financial data",
-  "settings": "Error loading Settings",
-  "userNotFound": "Usuário não encontrado",
-  "userNoPlan": "Usuário sem plano.",
-  "userNotVerify": "Usuário não verificado. Verifique seu email.",
-  "userWrong": "Email ou senha incorretos",
-  "errorLogin": "Erro ao fazer login"
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "loading": "Loading...",
+    "success": "Success!",
+    "error": "Error",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  }
 }
-}
-
