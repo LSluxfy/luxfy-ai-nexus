@@ -2,7 +2,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Star } from "lucide-react";
-import Autoplay from "embla-carousel-autoplay";
 
 const testimonialImages = [
   "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=face&auto=format",
@@ -22,11 +21,6 @@ export default function Testimonials() {
         
         <div className="max-w-4xl mx-auto">
           <Carousel
-            plugins={[
-              Autoplay({
-                delay: 4000
-              })
-            ]}
             opts={{
               align: "start",
               loop: true,
@@ -37,19 +31,16 @@ export default function Testimonials() {
               {items.map((i) => (
                 <CarouselItem key={i} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
                   <div className="bg-card border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow h-full">
-                    {/* Stars */}
                     <div className="flex gap-1 mb-4">
                       {[...Array(5)].map((_, index) => (
                         <Star key={index} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                       ))}
                     </div>
                     
-                    {/* Testimonial text */}
                     <p className="text-sm text-foreground mb-6 italic">
                       "{t(`testimonials.items.${i}.text`)}"
                     </p>
                     
-                    {/* Author with photo */}
                     <div className="flex items-center gap-3">
                       <img 
                         src={testimonialImages[i]} 

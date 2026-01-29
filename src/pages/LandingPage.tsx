@@ -23,14 +23,12 @@ import LazyHowItWorks from '@/components/landing/LazyHowItWorks';
 import LazyBeforeAfter from '@/components/landing/LazyBeforeAfter';
 
 import LiveNotifications from '@/components/landing/LiveNotifications';
-import Guarantee from '@/components/landing/Guarantee';
 
 // Lazy load componentes pesados
 const LazyPricingV2 = lazy(() => import('@/components/landing/PricingV2'));
 const LazyTestimonials = lazy(() => import('@/components/landing/Testimonials'));
 const LazyFAQ = lazy(() => import('@/components/landing/FAQ'));
 const LazyComparisonTable = lazy(() => import('@/components/landing/ComparisonTable'));
-const LazyROICalculator = lazy(() => import('@/components/landing/ROICalculator'));
 const OptimizedTikTokPixel = lazy(() => import('../components/OptimizedTikTokPixel'));
 
 const LandingPage = () => {
@@ -243,24 +241,18 @@ const LandingPage = () => {
       <LazyBeforeAfter />
       
       <Suspense fallback={<LoadingSpinner />}>
-        <LazyROICalculator />
-      </Suspense>
-      
-      <Suspense fallback={<LoadingSpinner />}>
         <LazyComparisonTable />
       </Suspense>
-      
-      <Guarantee />
+
+      <Suspense fallback={<LoadingSpinner />}>
+        <LazyTestimonials />
+      </Suspense>
 
       <div id="pricing">
         <Suspense fallback={<LoadingSpinner />}>
           <LazyPricingV2 />
         </Suspense>
       </div>
-
-      <Suspense fallback={<LoadingSpinner />}>
-        <LazyTestimonials />
-      </Suspense>
       
       <Suspense fallback={<LoadingSpinner />}>
         <LazyFAQ />

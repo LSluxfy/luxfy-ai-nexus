@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Inicio",
-    "features": "Características",
+    "features": "Beneficios",
     "pricing": "Precios",
     "contact": "Contacto",
     "login": "Iniciar Sesión",
@@ -16,9 +16,9 @@
     "settings": "Configuraciones"
   },
   "hero": {
-    "title": "Clona tu mejor",
-    "subtitle": "con IA",
-    "description": "Reduce costos operacionales y aumenta tus ventas. Nuestra IA aprende de tus mejores vendedores y convierte leads 24/7 en WhatsApp.",
+    "title": "Reduce costos operativos y aumenta tus ventas con IA en WhatsApp.",
+    "subtitle": "",
+    "description": "Convierte leads y ofrece soporte al cliente 24/7, sin depender de equipo.",
     "cta": "Comenzar ahora",
     "login": "Comenzar ahora",
     "testimonial": "✨ Sin tarjeta de crédito • 7 días gratis",
@@ -291,26 +291,20 @@
   "migrateUser": {
     "pageTitle": "Migrar Cuenta",
     "pageSubtitle": "Migra tu cuenta existente al nuevo sistema",
-
     "cardTitle": "Migración de Usuario",
     "cardSubtitle": "Ingresa tus credenciales para migrar tu cuenta",
-
     "emailLabel": "Correo electrónico",
     "emailPlaceholder": "Ingresa tu correo",
     "passwordLabel": "Contraseña",
     "passwordPlaceholder": "Ingresa tu contraseña",
-
     "submit": "Migrar Cuenta",
     "loading": "Migrando...",
     "backToLogin": "Volver al Inicio de Sesión",
-
     "successTitle": "Éxito",
     "successMessage": "Usuario migrado con éxito. Redirigiendo al inicio de sesión...",
-
     "errorTitle": "Error",
     "genericError": "Error desconocido",
     "connectionError": "Error de conexión con el servidor. Verifica tu internet e inténtalo nuevamente",
-
     "validation": {
       "invalidEmail": "Correo inválido",
       "passwordRequired": "La contraseña es obligatoria"
@@ -321,6 +315,47 @@
       "title": "Luxfy: IA, CRM y Automatización WhatsApp",
       "description": "Agente de IA, CRM visual y campañas para escalar tu negocio. Empieza gratis."
     }
+  },
+  "comparison": {
+    "badge": "Comparación",
+    "title": "Humano vs Inteligencia Artificial",
+    "subtitle": "Descubre por qué la IA es la elección inteligente para tu negocio",
+    "featureColumn": "Característica",
+    "humanColumn": "Humano",
+    "aiColumn": "IA Luxfy",
+    "humanVsAi": {
+      "availability": {
+        "feature": "Disponibilidad",
+        "human": "8h al día",
+        "ai": "24/7"
+      },
+      "responseTime": {
+        "feature": "Tiempo de respuesta",
+        "human": "Minutos/Horas",
+        "ai": "Instantáneo"
+      },
+      "cost": {
+        "feature": "Costo mensual",
+        "human": "Alto (salario + cargas)",
+        "ai": "Fijo y predecible"
+      },
+      "scalability": {
+        "feature": "Escalabilidad",
+        "human": "Limitada",
+        "ai": "Ilimitada"
+      },
+      "consistency": {
+        "feature": "Consistencia",
+        "human": "Varía con el humor",
+        "ai": "100% consistente"
+      },
+      "training": {
+        "feature": "Entrenamiento",
+        "human": "Semanas/Meses",
+        "ai": "Minutos"
+      }
+    },
+    "competitorPhrase": "Tu competencia no duerme: usa IA 24/7. Quien responde primero, vende más."
   },
   "pricingV2": {
     "badgeDiscount": "Ahorra hasta 30%",
@@ -343,15 +378,18 @@
       "campaigns": "Envío masivo",
       "support": "Soporte prioritario",
       "aiTokensLimited": "Tokens de IA limitados",
-      "aiTokensUnlimited": "Tokens de IA ilimitados"
+      "aiTokensUnlimited": "Tokens de IA ilimitados",
+      "noPrioritySupport": "Sin soporte prioritario",
+      "noFixedCosts": "Sin garantía de costos fijos",
+      "idealForStart": "Ideal para pruebas y bajo volumen"
     },
     "bestSeller": "Más vendido",
     "plans": {
-      "start": { "name": "Start", "desc": "1 agente, automatizaciones esenciales", "agents": 1, "monthly": "$22", "annual": "$184.00",  "savingLabel": "Save $80.00 yearly" },
-      "pro": { "name": "Pro", "desc": "3 agentes, funciones avanzadas", "agents": 3, "monthly": "$43", "annual": "$361.20", "savingLabel": "Save $154.80 yearly" },
-      "teams": { "name": "Teams", "desc": "6 agentes, colaboración de equipo", "agents": 6, "monthly": "$79", "annual": "$663.60",  "savingLabel": "Save $284.40 yearly" }
+      "start": { "name": "Start", "desc": "Para empezar", "agents": 1, "monthly": "$22", "annual": "$184.00",  "savingLabel": "Ahorra $80.00 al año" },
+      "pro": { "name": "Pro", "desc": "3 agentes, funciones avanzadas", "agents": 3, "monthly": "$43", "annual": "$361.20", "savingLabel": "Ahorra $154.80 al año" },
+      "teams": { "name": "Teams", "desc": "6 agentes, colaboración de equipo", "agents": 6, "monthly": "$79", "annual": "$663.60",  "savingLabel": "Ahorra $284.40 al año" }
     },
-    "cta": "Comenzar ahora",
+    "cta": "Habla con el Agente Lux",
     "ctaAria": "Crea tu cuenta Luxfy"
   },
   "stickyCta": {
@@ -395,10 +433,6 @@
       "a": "¡Absolutamente! Nuestra IA es completamente entrenable y personalizable. Puedes alimentarla con tus propios datos, crear flujos de conversación específicos de tu negocio, definir palabras clave personalizadas y ajustar las respuestas para que la IA responda exactamente como te gustaría."
     },
     "q4": {
-      "q": "¿Hay prueba gratis?",
-      "a": "¡Sí! Ofrecemos un período de prueba gratuito para que puedas experimentar todas las funcionalidades de la plataforma. Durante la prueba, tendrás acceso completo a los recursos: creación de agentes de IA, CRM visual, campañas automatizadas e integración con WhatsApp. Después puedes mejorar para seguir usando."
-    },
-    "q5": {
       "q": "¿Puedo cancelar cuando quiera?",
       "a": "¡Por supuesto! No hay contratos de permanencia. Puedes cancelar tu suscripción en cualquier momento o cambiar entre planes según tus necesidades. Ofrecemos total flexibilidad para que uses Luxfy a tu ritmo y según el crecimiento de tu negocio."
     }
@@ -599,291 +633,255 @@
       "startBilling": "Fecha de compra:",
       "endBilling": "Próxima cobranza:"
     },
-    "plans": {
-      "basic": "Básico",
-      "pro": "Pro",
-      "premium": "Premium",
-      "mostPopular": "Más Popular",
-      "currentPlan": "Plan Actual",
-      "makeUpgrade": "Hacer Upgrade",
-      "confirmCancel": "Hablar con el soporte",
-      "confirmCancelUpgrade": "Lamentamos que estés pensando en cancelar tu plan. Si deseas continuar, nuestro equipo de soporte en WhatsApp te ayudará con el proceso.",
+    "upgrade": {
+      "title": "Hacer Upgrade",
+      "description": "Elige un plan superior para desbloquear más recursos",
+      "current": "Actual",
+      "selectPlan": "Seleccionar Plan",
       "confirmUpgrade": "Confirmar Upgrade",
-      "firstConfirmUpgrade": "¿Estás seguro de que deseas cambiar al plan",
-      "lastConfirmUpgrade": "Stripe realizará el cobro y actualizará tu plan automáticamente.",
-      "cancelUpgrade": "Cancelar"
+      "upgradeNow": "Upgrade Ahora",
+      "contactSales": "Contactar Ventas"
+    },
+    "invoices": {
+      "title": "Facturas",
+      "description": "Historial de pagos y facturas",
+      "noInvoices": "No se encontraron facturas",
+      "paid": "Pagado",
+      "pending": "Pendiente",
+      "overdue": "Vencido",
+      "download": "Descargar"
+    },
+    "invoiceList": {
+      "subtitle": "Historial de facturas y pagos",
+      "date": "Fecha",
+      "description": "Descripción",
+      "value": "Valor",
+      "status": "Estado",
+      "actions": "Acciones",
+      "pending": "Pendiente",
+      "paid": "Pagado",
+      "cancelled": "Cancelada",
+      "expired": "Expirada",
+      "loading": "Cargando...",
+      "noInvoices": "No se encontraron facturas.",
+      "payNow": "Pagar Ahora",
+      "paidOn": "Pagado en"
+    },
+    "noPlan": {
+      "title": "Sin Plan Activo",
+      "description": "Aún no tienes un plan activo. Elige un plan para comenzar.",
+      "choosePlan": "Elegir Plan"
     }
   },
-  "analytics": {
-    "title": "Análisis",
-    "subtitle": "Análisis y Métricas de IA",
-    "description": "Monitorea el rendimiento y obtén insights de tus agentes de IA",
-    "tabs": {
-      "overview": "Visión General",
-      "conversations": "Conversaciones",
-      "clients": "Clientes",
-      "tags": "Etiquetas",
-      "performance": "Rendimiento"
+  "pendingInvoice": {
+    "title": "Factura Pendiente",
+    "description": "Tienes una factura pendiente que debe ser pagada para continuar usando la plataforma.",
+    "amount": "Valor",
+    "dueDate": "Vencimiento",
+    "payNow": "Pagar Ahora",
+    "support": "Hablar con Soporte"
+  },
+  "realResults": {
+    "badge": "Resultados Comprobados",
+    "title": "Resultados Reales de Nuestros Clientes",
+    "subtitle": "Mira los números que empresas como la tuya han alcanzado usando nuestra plataforma de IA.",
+    "metric1": { "value": "+300%", "label": "Aumento en Ventas" },
+    "metric2": { "value": "24/7", "label": "Disponibilidad Total" },
+    "metric3": { "value": "-80%", "label": "Reducción de Costos" },
+    "metric4": { "value": "< 3s", "label": "Tiempo de Respuesta" }
+  },
+  "howItWorks": {
+    "badge": "Simple y Rápido",
+    "title": "Cómo Funciona",
+    "subtitle": "En solo 3 pasos tendrás un agente de IA vendiendo en WhatsApp 24/7",
+    "step1": { "number": "01", "title": "Crea tu cuenta", "description": "Regístrate en menos de 2 minutos y accede a nuestra plataforma intuitiva." },
+    "step2": { "number": "02", "title": "Entrena tu agente", "description": "Configura tu IA con tu información, productos y tono de voz personalizado." },
+    "step3": { "number": "03", "title": "Conecta y vende", "description": "Integra con WhatsApp y comienza a convertir leads automáticamente 24/7." }
+  },
+  "beforeAfter": {
+    "badge": "Transformación",
+    "title": "Antes vs Después de Luxfy",
+    "subtitle": "Mira cómo tu operación puede cambiar completamente",
+    "before": {
+      "title": "Antes de Luxfy",
+      "items": ["Equipo sobrecargado con atenciones", "Leads perdidos fuera del horario comercial", "Respuestas lentas e inconsistentes", "Alto costo con equipo de ventas", "Dificultad para escalar operación"]
+    },
+    "after": {
+      "title": "Después de Luxfy",
+      "items": ["Atención 100% automatizada", "Leads convertidos 24/7", "Respuestas instantáneas y personalizadas", "Costo fijo y predecible", "Escala ilimitada sin contratar"]
     }
   },
   "settings": {
     "title": "Configuraciones",
-    "subtitle": "Configuraciones de la Cuenta",
-    "description": "Gestiona tu información personal, agentes y configuraciones de seguridad",
+    "subtitle": "Gestiona tu cuenta y preferencias",
     "tabs": {
       "account": "Cuenta",
-      "agents": "Agentes",
-      "security": "Seguridad"
+      "security": "Seguridad",
+      "agent": "Agente"
     },
     "account": {
-      "personalInfo": {
-        "title": "Información Personal",
-        "description": "Actualiza tu información personal y de contacto",
-        "name": "Nombre",
-        "lastName": "Apellido",
-        "email": "Email",
-        "emailNote": "El email no puede ser alterado. Contacta soporte si es necesario.",
-        "editingNote": "La información personal no puede ser editada en esta versión de la aplicación."
-      },
-      "accountInfo": {
-        "title": "Información de la Cuenta",
-        "email": "Email",
-        "userId": "ID del Usuario",
-        "plan": "Plan",
-        "agentsNumber": "Número de Agentes",
-        "creationDate": "Fecha de Creación"
-      },
-      "profileEditMessage": {
-        "title": "Información",
-        "description": "La edición de perfil no está disponible en esta versión."
-      }
+      "title": "Información de la Cuenta",
+      "description": "Actualiza tu información personal",
+      "email": "Email",
+      "name": "Nombre",
+      "lastName": "Apellido",
+      "saveButton": "Guardar Cambios",
+      "saving": "Guardando...",
+      "successTitle": "¡Éxito!",
+      "successMessage": "Configuraciones actualizadas con éxito"
     },
     "security": {
-      "changePassword": {
-        "title": "Cambiar Contraseña",
-        "description": "Mantén tu cuenta segura cambiando tu contraseña regularmente",
-        "currentPassword": "Contraseña Actual",
-        "currentPasswordPlaceholder": "Ingresa tu contraseña actual",
-        "newPassword": "Nueva Contraseña",
-        "newPasswordPlaceholder": "Ingresa tu nueva contraseña",
-        "confirmPassword": "Confirmar Nueva Contraseña",
-        "confirmPasswordPlaceholder": "Confirma tu nueva contraseña",
-        "changeButton": "Cambiar Contraseña",
-        "changingButton": "Cambiando...",
-        "passwordsDoNotMatch": "Las contraseñas no coinciden.",
-        "passwordTooShort": "La nueva contraseña debe tener al menos 6 caracteres.",
-        "passwordChanged": "Contraseña cambiada con éxito.",
-        "passwordChangeError": "Error al cambiar la contraseña"
-      },
-      "securitySettings": {
-        "title": "Configuraciones de Seguridad",
-        "description": "Gestiona tus configuraciones de seguridad y privacidad",
-        "twoFactor": "Autenticación de Dos Factores",
-        "twoFactorDesc": "Añade una capa extra de seguridad",
-        "activeSessions": "Sesiones Activas",
-        "activeSessionsDesc": "Visualiza y gestiona tus sesiones activas",
-        "activityLogs": "Registros de Actividad",
-        "activityLogsDesc": "Historial de actividades de tu cuenta",
-        "comingSoon": "Próximamente",
-        "viewSessions": "Ver Sesiones",
-        "viewLogs": "Ver Registros"
-      },
-      "dangerZone": {
-        "title": "Zona de Peligro",
-        "description": "Acciones irreversibles que afectan permanentemente tu cuenta",
-        "deleteAccount": "Eliminar Cuenta",
-        "deleteAccountDesc": "Esta acción es irreversible. Todos tus datos, agentes y configuraciones serán eliminados permanentemente.",
-        "deleteAccountButton": "Eliminar Cuenta",
-        "confirmTitle": "Confirmar Eliminación de Cuenta",
-        "confirmDescription": "Esta acción es irreversible. Todos tus datos, incluyendo agentes, conversaciones y configuraciones serán eliminados permanentemente. ¿Estás seguro de que deseas continuar?",
-        "cancel": "Cancelar",
-        "confirmDelete": "Sí, Eliminar Cuenta"
-      }
+      "title": "Seguridad",
+      "description": "Gestiona tu contraseña y seguridad",
+      "currentPassword": "Contraseña Actual",
+      "newPassword": "Nueva Contraseña",
+      "confirmPassword": "Confirmar Nueva Contraseña",
+      "changePassword": "Cambiar Contraseña",
+      "changing": "Cambiando..."
+    }
+  },
+  "agent": {
+    "title": "Configuración del Agente",
+    "basicConfig": {
+      "title": "Configuraciones Básicas",
+      "description": "Configura el nombre y comportamiento de tu agente"
     },
-    "agents": {
-      "title": "Gestionar Agentes",
-      "description": "Visualiza, configura y elimina tus agentes de IA",
-      "currentPlan": "Plan Actual",
-      "agentsUsed": "agentes utilizados",
-      "loadingPlan": "Cargando información del plan...",
-      "upgrade": "Hacer Upgrade",
-      "noAgents": "Ningún agente creado",
-      "noAgentsDesc": "Aún no has creado ningún agente de IA.",
-      "createFirst": "Crear Primer Agente",
-      "loading": "Cargando agentes...",
-      "noDescription": "Sin descripción",
-      "createdOn": "Creado el",
-      "configure": "Configurar",
-      "remove": "Eliminar",
-      "removing": "Eliminando...",
-      "confirmRemoval": "Confirmar Eliminación",
-      "confirmRemovalDesc": "¿Estás seguro de que deseas eliminar el agente \"{{name}}\"? Esta acción no se puede deshacer y todos los datos relacionados se perderán.",
+    "aiConfig": {
+      "title": "Configuraciones de IA",
+      "description": "Configura cómo la IA debe responder"
+    },
+    "simulator": {
+      "title": "Simulador",
+      "description": "Prueba tu agente en tiempo real"
+    },
+    "whatsapp": {
+      "title": "WhatsApp",
+      "description": "Configura tu integración con WhatsApp"
+    },
+    "tabs": {
+      "basic": "Básico",
+      "ai": "IA",
+      "simulator": "Simulador",
+      "whatsapp": "WhatsApp"
+    },
+    "training": {
+      "title": "Entrenamiento de IA",
+      "description": "Entrena tu agente con contenido personalizado",
+      "noFiles": "Ningún archivo de entrenamiento.",
+      "addFile": "Agregar Archivo",
+      "uploading": "Subiendo...",
+      "upload": "Subir",
+      "trainingTitle": "Título del Entrenamiento",
+      "trainingText": "Texto del Entrenamiento",
+      "trainingPlaceholder": "Pega aquí el contenido para entrenar tu IA...",
+      "uploadDescription": "Sube archivos de texto, PDF o documentos para entrenar tu agente.",
+      "successMessage": "¡Archivo de entrenamiento agregado con éxito!",
+      "errorMessage": "Error al agregar archivo de entrenamiento"
+    },
+    "whatsappConfig": {
+      "title": "Configuración de WhatsApp",
+      "description": "Configura tu integración con WhatsApp Business",
+      "status": "Estado de la Conexión",
+      "connected": "Conectado",
+      "disconnected": "Desconectado",
+      "connect": "Conectar",
+      "disconnect": "Desconectar",
+      "qrCode": "Escanea el Código QR",
+      "qrCodeDescription": "Usa el WhatsApp de tu celular para escanear"
+    }
+  },
+  "accountInactive": {
+    "title": "Cuenta Inactiva",
+    "description": "Tu cuenta está inactiva. Por favor contacta al soporte para reactivarla.",
+    "support": "Hablar con Soporte",
+    "tryAgain": "Intentar Nuevamente",
+    "logout": "Cerrar Sesión"
+  },
+  "selectPlan": {
+    "title": "Selecciona tu Plan",
+    "description": "Elige el plan ideal para tu negocio",
+    "cta": "Suscribirse Ahora",
+    "processing": "Procesando..."
+  },
+  "verifyEmail": {
+    "title": "Verifica tu Email",
+    "description": "Enviamos un código de verificación a",
+    "codeLabel": "Código de Verificación",
+    "codePlaceholder": "Ingresa el código",
+    "verify": "Verificar",
+    "verifying": "Verificando...",
+    "resend": "Reenviar código",
+    "resending": "Reenviando..."
+  },
+  "resetPassword": {
+    "title": "Restablecer Contraseña",
+    "description": "Ingresa tu nueva contraseña abajo",
+    "newPassword": "Nueva Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "submit": "Restablecer",
+    "submitting": "Restableciendo...",
+    "backToLogin": "Volver al Inicio de Sesión"
+  },
+  "agenda": {
+    "title": "Agenda",
+    "subtitle": "Gestiona tus citas",
+    "newAppointment": "Nueva Cita",
+    "noAppointments": "No se encontraron citas",
+    "today": "Hoy",
+    "upcoming": "Próximas",
+    "past": "Pasadas",
+    "all": "Todas",
+    "appointment": {
+      "client": "Cliente",
+      "date": "Fecha",
+      "time": "Hora",
+      "status": "Estado",
+      "actions": "Acciones",
       "cancel": "Cancelar",
-      "removeAgent": "Eliminar Agente",
-      "agentRemoved": "Agente eliminado",
-      "agentRemovedDesc": "El agente \"{{name}}\" fue eliminado con éxito.",
-      "removeError": "Error al eliminar agente",
-      "removeErrorDesc": "No se pudo eliminar el agente. Inténtalo de nuevo."
+      "confirm": "Confirmar",
+      "reschedule": "Reprogramar",
+      "completed": "Completada",
+      "cancelled": "Cancelada",
+      "pending": "Pendiente",
+      "confirmed": "Confirmada"
     }
   },
-  "countdown": {
-    "title": "⏰ Oferta Especial Termina En:",
-    "subtitle": "¡No pierdas esta oportunidad única!",
-    "hours": "HORAS",
-    "minutes": "MINUTOS",
-    "seconds": "SEGUNDOS"
-  },
-  "scarcity": {
-    "banner": "🚨 ÚLTIMAS PLAZAS DISPONIBLES - Solo quedan pocas vacantes para nuevos clientes"
-  },
-  "scarcityPopup": {
-    "title": "⚠️ ¡Atención!",
-    "description": "Solo quedan pocas plazas disponibles en nuestro plan PRO este mes. Las empresas que implementan IA primero obtienen ventaja competitiva.",
-    "spotsLeft": "Solo 3 plazas restantes",
-    "later": "Tal vez después",
-    "secure": "Asegurar mi plaza"
-  },
-  "realResults": {
-    "title": "Resultados Reales de Nuestros Clientes",
-    "subtitle": "Más que promesas, estos son los resultados que nuestros clientes están obteniendo:",
-    "cases": {
-      "0": {
-        "description": "Aumento en ventas",
-        "company": "Empresa de Bienes Raíces"
-      },
-      "1": {
-        "description": "Economía mensual",
-        "company": "E-commerce de Moda"
-      },
-      "2": {
-        "description": "Reducción en tiempo de respuesta",
-        "company": "Clínica Médica"
-      },
-      "3": {
-        "description": "Más leads calificados",
-        "company": "Consultora Financiera"
-      }
+  "analytics": {
+    "title": "Analytics",
+    "subtitle": "Visualiza métricas e insights detallados",
+    "period": {
+      "today": "Hoy",
+      "week": "Esta semana",
+      "month": "Este mes",
+      "year": "Este año"
     },
-    "stats": {
-      "clients": "Clientes Activos",
-      "messages": "Mensajes Procesados",
-      "satisfaction": "Satisfacción",
-      "availability": "Disponibilidad"
+    "metrics": {
+      "totalConversations": "Total de Conversaciones",
+      "avgResponseTime": "Tiempo Promedio de Respuesta",
+      "conversionRate": "Tasa de Conversión",
+      "satisfaction": "Satisfacción"
     }
   },
-  "liveNotifications": {
-    "actions": {
-      "registered": "se registró en la plataforma",
-      "purchased": "compró el plan PRO",
-      "demo": "agendó una demostración"
-    },
-    "ago": "hace"
+  "error": {
+    "generic": "Algo salió mal",
+    "notFound": "Página no encontrada",
+    "unauthorized": "Acceso no autorizado",
+    "serverError": "Error del servidor"
   },
-  "howItWorks": {
-    "title": "Cómo Funciona en 3 Pasos Simples",
-    "subtitle": "Implementar IA en tu negocio nunca fue tan fácil",
-    "steps": {
-      "0": {
-        "title": "Conecta tu WhatsApp",
-        "description": "En menos de 2 minutos conectas tu número de WhatsApp Business con nuestra plataforma"
-      },
-      "1": {
-        "title": "Configura tu Agente IA",
-        "description": "Personaliza las respuestas y comportamiento del agente según tu negocio"
-      },
-      "2": {
-        "title": "¡Listo! Empieza a Convertir",
-        "description": "Tu agente IA funciona 24/7 calificando leads y cerrando ventas automáticamente"
-      }
-    }
-  },
-  "guarantee": {
-    "title": "Garantía Total de 7 Días",
-    "description": "Estamos tan seguros de que amarás nuestro agente IA que ofrecemos garantía total de reembolso.",
-    "promise": "Si en 7 días no estás completamente satisfecho, devolvemos 100% de tu dinero. Sin preguntas, sin complicaciones.",
-    "benefits": [
-      "Prueba sin riesgo por 7 días completos",
-      "Reembolso del 100% garantizado",
-      "Soporte prioritario durante la prueba",
-      "Configuración gratuita incluida"
-    ]
-  },
-  "comparison": {
-    "title": "¿Por Qué Elegir IA vs Métodos Tradicionales?",
-    "subtitle": "Vea la diferencia que hace la inteligencia artificial",
-    "traditional": "Métodos Tradicionales",
-    "aiAgent": "Agente IA",
-    "features": [
-      "Atención 24/7 sin descanso",
-      "Respuestas instantáneas consistentes",
-      "Atención simultánea ilimitada",
-      "Calificación automática de leads",
-      "Integración con CRM",
-      "Análisis predictivo de ventas",
-      "Escalabilidad sin costos adicionales",
-      "ROI positivo desde el primer mes"
-    ],
-    "conclusion": "Con IA obtienes todos los beneficios sin las limitaciones humanas"
-  },
-  "floatingCTA": {
-    "title": "🔥 Oferta especial por tiempo limitado",
-    "button": "Garantizar mi descuento"
-  },
-  "beforeAfter": {
-    "title": "Antes vs Después de Implementar IA",
-    "subtitle": "Vea la transformación que la IA puede traer a su negocio",
-    "before": "ANTES (Sin IA)",
-    "after": "DESPUÉS (Con IA)",
-    "scenarios": {
-      "0": {
-        "before": "Clientes esperan horas para respuesta, muchos desisten antes de comprar",
-        "after": "Respuesta instantánea 24/7, leads calificados automáticamente y conversiones constantes"
-      },
-      "1": {
-        "before": "Vendedor ocupado pierde leads, horario limitado, vacaciones = ventas paradas",
-        "after": "IA nunca duerme, nunca se enferma, nunca toma vacaciones. Ventas 24/7/365"
-      },
-      "2": {
-        "before": "Costos altos con team de ventas, entrenamiento constante, rotación de personal",
-        "after": "Un solo agente IA reemplaza múltiples vendedores, sin rotación, siempre actualizado"
-      }
-    }
-  },
-  "roiCalculator": {
-    "title": "Calculadora de ROI - ¿Cuánto Puede Ahorrar?",
-    "subtitle": "Descubra cuánto dinero puede ahorrar implementando IA en su negocio",
-    "inputs": {
-      "title": "Sus Datos Actuales",
-      "employees": "Empleados en atención",
-      "hourlyRate": "Salario por hora (R$)",
-      "hoursPerDay": "Horas por día en atención"
-    },
-    "results": {
-      "title": "Su Ahorro con IA",
-      "currentCost": "Costo actual con empleados:",
-      "monthlySavings": "Ahorro mensual con IA:",
-      "yearlySavings": "Ahorro anual con IA:",
-      "roi": "Retorno de Inversión:"
-    },
-    "disclaimer": "* Cálculos basados en el plan PRO (R$ 197/mes). Resultados pueden variar según implementación."
-  },
-  "errors": {
-    "layout": "Error al cargar el Layout",
-    "dashboard": "Error al cargar el Dashboard",
-    "agents": "Error al cargar los Agentes",
-    "agent": "Error al cargar el Agente",
-    "crm": "Error al cargar el CRM",
-    "chat": "Error al cargar el Chat",
-    "marketing": "Error al cargar las Campañas",
-    "calendar": "Error al cargar la Agenda",
-    "analytics": "Error al cargar Analytics",
-    "tutorial": "Error al cargar los Tutoriales",
-    "financial": "Error al cargar Finanzas",
-    "settings": "Error al cargar Configuraciones",
-    "userNotFound": "Usuario no encontrado",
-    "userNoPlan": "Usuario sin plan.",
-    "userNotVerify": "Usuario no verificado. Revisa tu correo electrónico.",
-    "userWrong": "Correo o contraseña incorrectos",
-    "errorLogin": "Error al iniciar sesión"
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "add": "Agregar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "loading": "Cargando...",
+    "success": "¡Éxito!",
+    "error": "Error",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior"
   }
 }
