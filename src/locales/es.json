@@ -417,6 +417,44 @@
       }
     }
   },
+  "howItWorks": {
+    "title": "¿Cómo Funciona?",
+    "subtitle": "Comienza en minutos con 3 simples pasos",
+    "steps": [
+      {
+        "title": "Conecta tu WhatsApp",
+        "description": "Integra tu número de WhatsApp Business en minutos"
+      },
+      {
+        "title": "Configura tu Agente IA",
+        "description": "Personaliza las respuestas y entrena la IA con tus datos"
+      },
+      {
+        "title": "¡Automatiza y Vende!",
+        "description": "Tu IA responde 24/7 y convierte leads automáticamente"
+      }
+    ]
+  },
+  "beforeAfter": {
+    "title": "Antes vs Después",
+    "subtitle": "Vea la transformación de su negocio",
+    "before": "Antes",
+    "after": "Después",
+    "scenarios": [
+      {
+        "before": "Clientes esperando horas por una respuesta",
+        "after": "Respuestas instantáneas 24/7 con IA"
+      },
+      {
+        "before": "Leads perdidos por falta de seguimiento",
+        "after": "CRM visual con seguimiento automático"
+      },
+      {
+        "before": "Equipo sobrecargado con tareas repetitivas",
+        "after": "Automatización que libera tu equipo"
+      }
+    ]
+  },
   "faq": {
     "title": "Preguntas frecuentes",
     "subtitle": "Todo lo que necesitas saber sobre Luxfy.",

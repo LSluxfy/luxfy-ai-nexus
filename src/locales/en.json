@@ -374,6 +374,44 @@
       "2": { "text": "Easy CRM and WhatsApp automation in one place.", "author": "Emily Carter", "role": "Operations" }
     }
   },
+  "howItWorks": {
+    "title": "How It Works?",
+    "subtitle": "Get started in minutes with 3 simple steps",
+    "steps": [
+      {
+        "title": "Connect your WhatsApp",
+        "description": "Integrate your WhatsApp Business number in minutes"
+      },
+      {
+        "title": "Configure your AI Agent",
+        "description": "Customize responses and train AI with your data"
+      },
+      {
+        "title": "Automate and Sell!",
+        "description": "Your AI responds 24/7 and converts leads automatically"
+      }
+    ]
+  },
+  "beforeAfter": {
+    "title": "Before vs After",
+    "subtitle": "See the transformation of your business",
+    "before": "Before",
+    "after": "After",
+    "scenarios": [
+      {
+        "before": "Customers waiting hours for a response",
+        "after": "Instant 24/7 responses with AI"
+      },
+      {
+        "before": "Leads lost due to lack of follow-up",
+        "after": "Visual CRM with automatic follow-up"
+      },
+      {
+        "before": "Team overloaded with repetitive tasks",
+        "after": "Automation that frees your team"
+      }
+    ]
+  },
   "faq": {
     "title": "Frequently asked questions",
     "subtitle": "Everything you need to know about Luxfy.",

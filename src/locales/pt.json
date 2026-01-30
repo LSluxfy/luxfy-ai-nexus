@@ -374,6 +374,44 @@
       "2": { "text": "CRM simples e automação do WhatsApp no mesmo lugar.", "author": "Mariana Rocha", "role": "Operações" }
     }
   },
+  "howItWorks": {
+    "title": "Como Funciona?",
+    "subtitle": "Comece em minutos com 3 passos simples",
+    "steps": [
+      {
+        "title": "Conecte seu WhatsApp",
+        "description": "Integre seu número do WhatsApp Business em minutos"
+      },
+      {
+        "title": "Configure seu Agente IA",
+        "description": "Personalize as respostas e treine a IA com seus dados"
+      },
+      {
+        "title": "Automatize e Venda!",
+        "description": "Sua IA responde 24/7 e converte leads automaticamente"
+      }
+    ]
+  },
+  "beforeAfter": {
+    "title": "Antes vs Depois",
+    "subtitle": "Veja a transformação do seu negócio",
+    "before": "Antes",
+    "after": "Depois",
+    "scenarios": [
+      {
+        "before": "Clientes esperando horas por uma resposta",
+        "after": "Respostas instantâneas 24/7 com IA"
+      },
+      {
+        "before": "Leads perdidos por falta de acompanhamento",
+        "after": "CRM visual com acompanhamento automático"
+      },
+      {
+        "before": "Equipe sobrecarregada com tarefas repetitivas",
+        "after": "Automação que libera sua equipe"
+      }
+    ]
+  },
   "faq": {
     "title": "Perguntas frequentes",
     "subtitle": "Tudo o que você precisa saber sobre a Luxfy.",
