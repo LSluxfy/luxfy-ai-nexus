@@ -1,164 +1,92 @@
 
+# Plano: Adicionar Traduções Faltantes (howItWorks e beforeAfter)
 
-# Plan: Ajustes na Página de Vendas (Landing Page)
+## Problema Identificado
 
-## Resumo das Alterações
+Os componentes `HowItWorks.tsx` e `BeforeAfter.tsx` estão tentando acessar chaves de tradução que não existem nos arquivos de localização:
 
-Este plano cobre todas as modificações solicitadas para a página de vendas, incluindo remoção de seções, alterações de texto, reordenação de componentes e atualização de conteúdo.
+### Chaves Faltantes:
 
----
+**howItWorks:**
+- `howItWorks.title`
+- `howItWorks.subtitle`
+- `howItWorks.steps.0.title` / `howItWorks.steps.0.description`
+- `howItWorks.steps.1.title` / `howItWorks.steps.1.description`
+- `howItWorks.steps.2.title` / `howItWorks.steps.2.description`
 
-## 1. Remoção de Seções
-
-### 1.1 Remover Calculadora de ROI
-- **Arquivo**: `src/pages/LandingPage.tsx`
-- **Ação**: Remover o componente `LazyROICalculator` e seu import
-- **Impacto**: A seção de calculadora de ROI não será mais exibida
-
-### 1.2 Remover Garantia de 7 Dias  
-- **Arquivo**: `src/pages/LandingPage.tsx`
-- **Ação**: Remover o componente `Guarantee` e seu import
-- **Impacto**: A seção de garantia não será mais exibida
-
----
-
-## 2. Alterações no Cabeçalho (Navbar)
-
-### 2.1 Substituir "Características" por "Benefícios"
-- **Arquivos de tradução**:
-  - `src/locales/es.json`: Alterar `nav.features` de "Características" para "Beneficios"
-  - `src/locales/pt.json`: Alterar `nav.features` de "Recursos" para "Benefícios"
-  - `src/locales/en.json`: Alterar `nav.features` de "Features" para "Benefits"
+**beforeAfter:**
+- `beforeAfter.title`
+- `beforeAfter.subtitle`
+- `beforeAfter.before` / `beforeAfter.after`
+- `beforeAfter.scenarios.0.before` / `beforeAfter.scenarios.0.after`
+- `beforeAfter.scenarios.1.before` / `beforeAfter.scenarios.1.after`
+- `beforeAfter.scenarios.2.before` / `beforeAfter.scenarios.2.after`
 
 ---
 
-## 3. Alterações no FAQ
+## Solução
 
-### 3.1 Remover pergunta sobre "prova grátis"
-- **Arquivos de tradução**: `src/locales/pt.json`, `src/locales/es.json`, `src/locales/en.json`
-- **Ação**: Remover a entrada `faq.q4` (pergunta sobre teste grátis) e renumerar as perguntas
-- **Arquivo componente**: `src/components/landing/FAQ.tsx`
-- **Ação**: Ajustar o array de itens para ter 4 perguntas em vez de 5
+Adicionar as seções de tradução faltantes nos 3 arquivos de localização:
 
----
+### Arquivo 1: `src/locales/es.json`
 
-## 4. Substituir Seção de Comparação
+Adicionar as seções `howItWorks` e `beforeAfter` com conteúdo em espanhol.
 
-### 4.1 Mudar título e estrutura da tabela de comparação
-- **Arquivo**: `src/components/landing/ComparisonTable.tsx`
-- **Ação**: Redesenhar a tabela para formato "Humano vs Inteligência Artificial"
-- **Nova estrutura**:
-  - Título: "Humano vs Inteligência Artificial"
-  - Duas colunas comparando características humanas vs IA
-  - Adicionar frase destacada abaixo: "Tu competencia no duerme: usa IA 24/7. Quien responde primero, vende más."
+### Arquivo 2: `src/locales/pt.json`
 
-- **Arquivos de tradução**: Atualizar textos em todas as 3 línguas
+Adicionar as seções `howItWorks` e `beforeAfter` com conteúdo em português.
+
+### Arquivo 3: `src/locales/en.json`
+
+Adicionar as seções `howItWorks` e `beforeAfter` com conteúdo em inglês.
 
 ---
 
-## 5. Reordenar Seções - Depoimentos Antes dos Preços
+## Conteúdo das Traduções
 
-### 5.1 Mover Testimonials para antes do Pricing
-- **Arquivo**: `src/pages/LandingPage.tsx`
-- **Ação**: Reordenar os componentes para que `LazyTestimonials` apareça antes de `LazyPricingV2`
+### Seção "Como Funciona" (howItWorks)
 
-**Nova ordem das seções:**
-1. Hero
-2. Video
-3. Features
-4. RealResults
-5. HowItWorks
-6. BeforeAfter
-7. ComparisonTable (Humano vs IA)
-8. **Testimonials** (movido para cima)
-9. **Pricing**
-10. FAQ
-11. Footer
+| Chave | Espanhol | Português | Inglês |
+|-------|----------|-----------|--------|
+| title | ¿Cómo Funciona? | Como Funciona? | How It Works? |
+| subtitle | Comienza en minutos con 3 simples pasos | Comece em minutos com 3 passos simples | Get started in minutes with 3 simple steps |
+| steps.0.title | Conecta tu WhatsApp | Conecte seu WhatsApp | Connect your WhatsApp |
+| steps.0.description | Integra tu número de WhatsApp Business en minutos | Integre seu número do WhatsApp Business em minutos | Integrate your WhatsApp Business number in minutes |
+| steps.1.title | Configura tu Agente IA | Configure seu Agente IA | Configure your AI Agent |
+| steps.1.description | Personaliza las respuestas y entrena la IA con tus datos | Personalize as respostas e treine a IA com seus dados | Customize responses and train AI with your data |
+| steps.2.title | ¡Automatiza y Vende! | Automatize e Venda! | Automate and Sell! |
+| steps.2.description | Tu IA responde 24/7 y convierte leads automáticamente | Sua IA responde 24/7 e converte leads automaticamente | Your AI responds 24/7 and converts leads automatically |
 
----
+### Seção "Antes e Depois" (beforeAfter)
 
-## 6. Ajustar Benefícios dos Planos
-
-### 6.1 Atualizar plano START com novos benefícios
-- **Arquivo**: `src/components/landing/PricingV2.tsx`
-- **Ação**: Modificar a lógica de features para exibir os novos benefícios do plano Start
-
-**Novo conteúdo para o plano START:**
-```text
-START – Para empezar
-✅ 1 agente
-✅ IA entrenable  
-✅ CRM visual con Kanban
-⚠️ Tokens de IA limitados
-❌ Sin soporte prioritario
-❌ Sin garantía de costos fijos
-📌 Ideal para pruebas y bajo volumen
-```
-
-- **Arquivos de tradução**: Adicionar novas chaves para os textos específicos do plano Start
+| Chave | Espanhol | Português | Inglês |
+|-------|----------|-----------|--------|
+| title | Antes vs Después | Antes vs Depois | Before vs After |
+| subtitle | Vea la transformación de su negocio | Veja a transformação do seu negócio | See the transformation of your business |
+| before | Antes | Antes | Before |
+| after | Después | Depois | After |
+| scenarios.0.before | Clientes esperando horas por una respuesta | Clientes esperando horas por uma resposta | Customers waiting hours for a response |
+| scenarios.0.after | Respuestas instantáneas 24/7 con IA | Respostas instantâneas 24/7 com IA | Instant 24/7 responses with AI |
+| scenarios.1.before | Leads perdidos por falta de seguimiento | Leads perdidos por falta de acompanhamento | Leads lost due to lack of follow-up |
+| scenarios.1.after | CRM visual con seguimiento automático | CRM visual com acompanhamento automático | Visual CRM with automatic follow-up |
+| scenarios.2.before | Equipo sobrecargado con tareas repetitivas | Equipe sobrecarregada com tarefas repetitivas | Team overloaded with repetitive tasks |
+| scenarios.2.after | Automatización que libera tu equipo | Automação que libera sua equipe | Automation that frees your team |
 
 ---
 
-## 7. Alterar Texto do Botão CTA
+## Arquivos a Modificar
 
-### 7.1 Mudar "Começar agora" para "Habla con el Agente Lux"
-- **Arquivos de tradução**: 
-  - `src/locales/es.json`: `pricingV2.cta` = "Habla con el Agente Lux"
-  - `src/locales/pt.json`: `pricingV2.cta` = "Fale com o Agente Lux"
-  - `src/locales/en.json`: `pricingV2.cta` = "Talk to Agent Lux"
-
----
-
-## 8. Alterar Headline Principal
-
-### 8.1 Nova frase para o Hero
-- **Arquivos de tradução** (hero.title, hero.subtitle, hero.description):
-
-**Novo conteúdo:**
-```text
-Título: "Reduza custos operacionais e aumente suas vendas com IA no WhatsApp."
-Subtítulo: "Converta leads e ofereça suporte ao cliente 24/7, sem depender de equipe."
-```
-
-- **Arquivo**: `src/components/landing/HeroSectionOptimized.tsx`
-- **Ação**: Ajustar a estrutura do componente para o novo formato de headline
+| Arquivo | Ação |
+|---------|------|
+| `src/locales/es.json` | Adicionar seções `howItWorks` e `beforeAfter` |
+| `src/locales/pt.json` | Adicionar seções `howItWorks` e `beforeAfter` |
+| `src/locales/en.json` | Adicionar seções `howItWorks` e `beforeAfter` |
 
 ---
 
-## 9. Correção do Erro de Build (Testimonials)
+## Resultado Esperado
 
-### 9.1 Corrigir erro de tipo no embla-carousel-autoplay
-- **Arquivo**: `src/components/landing/Testimonials.tsx`
-- **Ação**: Corrigir a incompatibilidade de tipos do plugin Autoplay
-- **Solução**: Usar type assertion ou atualizar a forma de instanciar o plugin
-
----
-
-## Detalhes Técnicos
-
-### Arquivos a serem modificados:
-
-| Arquivo | Modificações |
-|---------|-------------|
-| `src/pages/LandingPage.tsx` | Remover ROI Calculator, Guarantee; Reordenar Testimonials |
-| `src/components/landing/FAQ.tsx` | Reduzir para 4 perguntas |
-| `src/components/landing/ComparisonTable.tsx` | Nova estrutura Humano vs IA |
-| `src/components/landing/PricingV2.tsx` | Novos benefícios do plano Start |
-| `src/components/landing/HeroSectionOptimized.tsx` | Nova headline |
-| `src/components/landing/Testimonials.tsx` | Fix do erro de tipo |
-| `src/locales/pt.json` | Todas as traduções PT |
-| `src/locales/es.json` | Todas as traduções ES |
-| `src/locales/en.json` | Todas as traduções EN |
-
-### Componentes/imports a remover:
-- `LazyROICalculator` (import e uso)
-- `Guarantee` (import e uso)
-
-### Novas chaves de tradução necessárias:
-- `comparison.humanVsAi` - Nova estrutura de comparação
-- `comparison.competitorPhrase` - "Tu competencia no duerme..."
-- `pricingV2.features.tokensLimited` - "Tokens de IA limitados"
-- `pricingV2.features.noPrioritySupport` - "Sin soporte prioritario"
-- `pricingV2.features.noFixedCosts` - "Sin garantía de costos fijos"
-- `pricingV2.features.idealFor` - "Ideal para pruebas y bajo volumen"
-
+Após a implementação:
+- A seção "Como Funciona" exibirá títulos e descrições traduzidos corretamente
+- A seção "Antes vs Depois" mostrará todos os cenários com traduções adequadas
+- Os avisos de tradução no console desaparecerão
