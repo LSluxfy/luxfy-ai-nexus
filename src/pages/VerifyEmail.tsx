@@ -8,12 +8,14 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const VerifyEmail = () => {
   const location = useLocation();
   const email = location.state?.email || "";
+  const { t } = useTranslation();
 
   const verifySchema = z.object({
     email: z.string().email("Email inválido"),
@@ -66,12 +68,12 @@ const VerifyEmail = () => {
 
       <div className="w-full max-w-md space-y-8 relative z-10">
         <div className="text-center">
-          <Link to="/" className="inline-flex items-center gap-3 mb-8">
-            <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-800 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/25">
+           <Link to="/" className="inline-flex items-center gap-3 mb-8">
+            <div className="h-12 w-12 rounded-xl overflow-hidden">
               <img
                 src="/lovable-uploads/c0e6c735-5382-4c0e-81ee-5c39577c240d.png"
                 alt="Luxfy Logo"
-                className="w-7 h-7"
+                className="w-full h-full object-cover"
               />
             </div>
             <span className="text-3xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
@@ -83,15 +85,15 @@ const VerifyEmail = () => {
               <Mail className="w-8 h-8 text-blue-800" />
             </div>
           </div>
-          <h2 className="text-3xl font-bold text-slate-900">Verificar Email</h2>
-          <p className="mt-2 text-slate-600">Enviamos um código de verificação para seu email</p>
+          <h2 className="text-3xl font-bold text-slate-900">{t("confirmAccount.title")}</h2>
+          <p className="mt-2 text-slate-600">{t("confirmAccount.description")}</p>
         </div>
 
         <Card className="border-slate-200 bg-white/80 backdrop-blur-sm shadow-lg shadow-blue-800/5">
           <CardHeader>
-            <CardTitle className="text-slate-900">Confirmar Conta</CardTitle>
+            <CardTitle className="text-slate-900">{t("confirmAccount.confirmTitle")}</CardTitle>
             <CardDescription className="text-slate-600">
-              Digite o código que enviamos para <br /> {email || "seu@email.com"}
+              {t("confirmAccount.instruction")} <br /> {email || "seu@email.com"}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -102,10 +104,10 @@ const VerifyEmail = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-700">Email</FormLabel>
+                      <FormLabel className="text-slate-700">{t("confirmAccount.emailLabel")}</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="seu@email.com"
+                          placeholder={t("confirmAccount.emailLabel")}
                           type="email"
                           {...field}
                           disabled
@@ -122,10 +124,10 @@ const VerifyEmail = () => {
                   name="verificationCode"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-700">Código de Verificação</FormLabel>
+                      <FormLabel className="text-slate-700">{t("confirmAccount.codeLabel")}</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Digite o código"
+                          placeholder={t("confirmAccount.codePlaceholder")}
                           {...field}
                           className="border-slate-300 focus:border-blue-800"
                         />
@@ -140,16 +142,16 @@ const VerifyEmail = () => {
                   className="w-full bg-gradient-to-r from-blue-800 to-blue-700 hover:from-blue-900 hover:to-blue-800"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Verificando..." : "Verificar Conta"}
+                  {isLoading ? t("confirmAccount.verifying") : t("confirmAccount.verifyButton")}
                 </Button>
               </form>
             </Form>
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
             <p className="text-center text-sm text-slate-600 mt-4">
-              Já verificou sua conta?
+              {t("confirmAccount.alreadyVerified")}&nbsp;
               <Link to="/login" className="text-blue-800 hover:underline font-medium">
-                Fazer Login
+                {t("confirmAccount.login")}
               </Link>
             </p>
           </CardFooter>

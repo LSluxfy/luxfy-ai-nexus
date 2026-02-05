@@ -310,6 +310,27 @@
       "passwordRequired": "La contraseña es obligatoria"
     }
   },
+  "restricted": {
+    "title": "Acceso Restringido",
+    "description": "Para acceder a todas las funcionalidades de la plataforma, debes elegir y activar un plan.",
+    "afterPayment": "Después del pago, tendrás acceso inmediato al panel de control.",
+    "welcome": "Bienvenido,",
+    "choosePlan": "Elige un plan para comenzar a usar la plataforma.",
+    "logout": "Cerrar sesión"
+  },
+  "confirmAccount": {
+    "title": "Verificar Correo",
+    "description": "Enviamos un código de verificación a tu correo electrónico.",
+    "confirmTitle": "Confirmar Cuenta",
+    "instruction": "Ingresa el código que enviamos a",
+    "emailLabel": "Correo electrónico",
+    "codeLabel": "Código de Verificación",
+    "codePlaceholder": "Ingresa el código",
+    "verifyButton": "Verificar Cuenta",
+    "alreadyVerified": "¿Ya verificaste tu cuenta?",
+    "login": "Iniciar sesión",
+    "verifying": "Verificando..."
+  },
   "seo": {
     "landing": {
       "title": "Luxfy: IA, CRM y Automatización WhatsApp",
@@ -416,44 +437,6 @@
         "role": "Operaciones"
       }
     }
-  },
-  "howItWorks": {
-    "title": "¿Cómo Funciona?",
-    "subtitle": "Comienza en minutos con 3 simples pasos",
-    "steps": [
-      {
-        "title": "Conecta tu WhatsApp",
-        "description": "Integra tu número de WhatsApp Business en minutos"
-      },
-      {
-        "title": "Configura tu Agente IA",
-        "description": "Personaliza las respuestas y entrena la IA con tus datos"
-      },
-      {
-        "title": "¡Automatiza y Vende!",
-        "description": "Tu IA responde 24/7 y convierte leads automáticamente"
-      }
-    ]
-  },
-  "beforeAfter": {
-    "title": "Antes vs Después",
-    "subtitle": "Vea la transformación de su negocio",
-    "before": "Antes",
-    "after": "Después",
-    "scenarios": [
-      {
-        "before": "Clientes esperando horas por una respuesta",
-        "after": "Respuestas instantáneas 24/7 con IA"
-      },
-      {
-        "before": "Leads perdidos por falta de seguimiento",
-        "after": "CRM visual con seguimiento automático"
-      },
-      {
-        "before": "Equipo sobrecargado con tareas repetitivas",
-        "after": "Automatización que libera tu equipo"
-      }
-    ]
   },
   "faq": {
     "title": "Preguntas frecuentes",
@@ -737,17 +720,24 @@
     "step3": { "number": "03", "title": "Conecta y vende", "description": "Integra con WhatsApp y comienza a convertir leads automáticamente 24/7." }
   },
   "beforeAfter": {
-    "badge": "Transformación",
-    "title": "Antes vs Después de Luxfy",
-    "subtitle": "Mira cómo tu operación puede cambiar completamente",
-    "before": {
-      "title": "Antes de Luxfy",
-      "items": ["Equipo sobrecargado con atenciones", "Leads perdidos fuera del horario comercial", "Respuestas lentas e inconsistentes", "Alto costo con equipo de ventas", "Dificultad para escalar operación"]
-    },
-    "after": {
-      "title": "Después de Luxfy",
-      "items": ["Atención 100% automatizada", "Leads convertidos 24/7", "Respuestas instantáneas y personalizadas", "Costo fijo y predecible", "Escala ilimitada sin contratar"]
-    }
+    "title": "Antes vs Después",
+    "subtitle": "Vea la transformación de su negocio",
+    "before": "Antes",
+    "after": "Después",
+    "scenarios": [
+      {
+        "before": "Clientes esperando horas por una respuesta",
+        "after": "Respuestas instantáneas 24/7 con IA"
+      },
+      {
+        "before": "Leads perdidos por falta de seguimiento",
+        "after": "CRM visual con seguimiento automático"
+      },
+      {
+        "before": "Equipo sobrecargado con tareas repetitivas",
+        "after": "Automatización que libera tu equipo"
+      }
+    ]
   },
   "settings": {
     "title": "Configuraciones",

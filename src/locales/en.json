@@ -282,6 +282,27 @@
       "passwordRequired": "Password is required"
     }
   },
+  "restricted": {
+    "title": "Restricted Access",
+    "description": "To access all platform features, you need to choose and activate a plan.",
+    "afterPayment": "After payment, you will have immediate access to the dashboard.",
+    "welcome": "Welcome,",
+    "choosePlan": "Choose a plan to start using the platform.",
+    "logout": "Log out"
+  },
+  "confirmAccount": {
+    "title": "Verify Email",
+    "description": "We sent a verification code to your email.",
+    "confirmTitle": "Confirm Account",
+    "instruction": "Enter the code we sent to",
+    "emailLabel": "Email",
+    "codeLabel": "Verification Code",
+    "codePlaceholder": "Enter the code",
+    "verifyButton": "Verify Account",
+    "alreadyVerified": "Already verified your account?",
+    "login": "Log In",
+    "verifying": "Checking..."
+  },
   "seo": {
     "landing": {
       "title": "Luxfy AI CRM and WhatsApp Automation",
@@ -373,44 +394,6 @@
       "1": { "text": "The AI agent handles most FAQs flawlessly.", "author": "Carlos Gomez", "role": "Support Lead" },
       "2": { "text": "Easy CRM and WhatsApp automation in one place.", "author": "Emily Carter", "role": "Operations" }
     }
-  },
-  "howItWorks": {
-    "title": "How It Works?",
-    "subtitle": "Get started in minutes with 3 simple steps",
-    "steps": [
-      {
-        "title": "Connect your WhatsApp",
-        "description": "Integrate your WhatsApp Business number in minutes"
-      },
-      {
-        "title": "Configure your AI Agent",
-        "description": "Customize responses and train AI with your data"
-      },
-      {
-        "title": "Automate and Sell!",
-        "description": "Your AI responds 24/7 and converts leads automatically"
-      }
-    ]
-  },
-  "beforeAfter": {
-    "title": "Before vs After",
-    "subtitle": "See the transformation of your business",
-    "before": "Before",
-    "after": "After",
-    "scenarios": [
-      {
-        "before": "Customers waiting hours for a response",
-        "after": "Instant 24/7 responses with AI"
-      },
-      {
-        "before": "Leads lost due to lack of follow-up",
-        "after": "Visual CRM with automatic follow-up"
-      },
-      {
-        "before": "Team overloaded with repetitive tasks",
-        "after": "Automation that frees your team"
-      }
-    ]
   },
   "faq": {
     "title": "Frequently asked questions",
@@ -664,17 +647,24 @@
     "step3": { "number": "03", "title": "Connect and sell", "description": "Integrate with WhatsApp and start converting leads automatically 24/7." }
   },
   "beforeAfter": {
-    "badge": "Transformation",
-    "title": "Before vs After Luxfy",
-    "subtitle": "See how your operation can change completely",
-    "before": {
-      "title": "Before Luxfy",
-      "items": ["Overwhelmed team with support", "Lost leads outside business hours", "Slow and inconsistent responses", "High cost with sales team", "Difficulty scaling operation"]
-    },
-    "after": {
-      "title": "After Luxfy",
-      "items": ["100% automated support", "Leads converted 24/7", "Instant and personalized responses", "Fixed and predictable cost", "Unlimited scale without hiring"]
-    }
+    "title": "Before vs After",
+    "subtitle": "See the transformation of your business",
+    "before": "Before",
+    "after": "After",
+    "scenarios": [
+      {
+        "before": "Customers waiting hours for a response",
+        "after": "Instant 24/7 responses with AI"
+      },
+      {
+        "before": "Leads lost due to lack of follow-up",
+        "after": "Visual CRM with automatic follow-up"
+      },
+      {
+        "before": "Team overloaded with repetitive tasks",
+        "after": "Automation that frees your team"
+      }
+    ]
   },
   "settings": {
     "title": "Settings",

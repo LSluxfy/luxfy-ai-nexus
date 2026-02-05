@@ -46,7 +46,7 @@ const BeforeAfter: React.FC = () => {
                           <Frown className="w-6 h-6 text-red-600" />
                         </div>
                         <h3 className="text-xl font-bold text-red-800">
-                          {t('beforeAfter.before')}
+                          {t(`beforeAfter.scenarios.${index}.before`)}
                         </h3>
                       </div>
                       <p className="text-red-700">{scenario.before}</p>
@@ -68,7 +68,7 @@ const BeforeAfter: React.FC = () => {
                           <Smile className="w-6 h-6 text-green-600" />
                         </div>
                         <h3 className="text-xl font-bold text-green-800">
-                          {t('beforeAfter.after')}
+                          {t(`beforeAfter.scenarios.${index}.after`)}
                         </h3>
                       </div>
                       <p className="text-green-700">{scenario.after}</p>

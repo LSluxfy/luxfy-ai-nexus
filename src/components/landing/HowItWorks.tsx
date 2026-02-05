@@ -10,24 +10,24 @@ const HowItWorks: React.FC = () => {
     {
       icon: MessageSquare,
       step: '01',
-      title: t('howItWorks.steps.0.title'),
-      description: t('howItWorks.steps.0.description'),
+      title: t('howItWorks.step1.title'),
+      description: t('howItWorks.step1.description'),
       color: 'text-blue-600',
       bgColor: 'bg-blue-100'
     },
     {
       icon: Settings,
       step: '02', 
-      title: t('howItWorks.steps.1.title'),
-      description: t('howItWorks.steps.1.description'),
+      title: t('howItWorks.step2.title'),
+      description: t('howItWorks.step2.description'),
       color: 'text-green-600',
       bgColor: 'bg-green-100'
     },
     {
       icon: Zap,
       step: '03',
-      title: t('howItWorks.steps.2.title'),
-      description: t('howItWorks.steps.2.description'),
+      title: t('howItWorks.step3.title'),
+      description: t('howItWorks.step3.description'),
       color: 'text-purple-600',
       bgColor: 'bg-purple-100'
     }
