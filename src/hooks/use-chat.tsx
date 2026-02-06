@@ -137,17 +137,23 @@ export const useChat = (options: UseChatOptions = {}) => {
     sendMessageMutation.mutate({ chatId, content, type, attachmentUrl });
   }, [sendMessageMutation]);
 
-  const toggleAI = useCallback((chatId: string) => {
-    const chat = chats.find(c => c.id === chatId);
-    if (!chat) return;
+  const setAIEnabled = useCallback(
+    (chatId: string, enabled: boolean) => {
+      const chat = chats.find(c => c.id === chatId);
+      if (!chat) return;
 
-    const settings: ChatSettingsRequest = {
-      tags: chat.user.tags,
-      activeIa: !chat.aiEnabled,
-    };
+      // evita chamada desnecessária
+      if (chat.aiEnabled === enabled) return;
 
-    updateSettingsMutation.mutate({ chatId, settings });
-  }, [chats, updateSettingsMutation]);
+      const settings: ChatSettingsRequest = {
+        tags: chat.user.tags,
+        activeIa: enabled,
+      };
+
+      updateSettingsMutation.mutate({ chatId, settings });
+    },
+    [chats, updateSettingsMutation]
+  );
 
   const addTag = useCallback((chatId: string, tag: string) => {
     const chat = chats.find(c => c.id === chatId);
@@ -189,7 +195,7 @@ export const useChat = (options: UseChatOptions = {}) => {
     // Actions
     setSelectedChatId,
     sendMessage,
-    toggleAI,
+    setAIEnabled,
     addTag,
     removeTag,
     refetch,

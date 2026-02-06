@@ -43,7 +43,7 @@ const ChatPage = () => {
     setSelectedChatId,
     messages,
     sendMessage,
-    toggleAI,
+    setAIEnabled,
     addTag,
     removeTag,
     isLoading,
@@ -156,10 +156,24 @@ const ChatPage = () => {
             
             <div className="flex-shrink-0">
               <ChatInput
-                onSendMessage={(content, type, attachmentUrl) => 
-                  sendMessage(selectedChatId!, content, type, attachmentUrl)
-                }
-                onToggleAI={() => toggleAI(selectedChatId!)}
+                 onSendMessage={async (content, type, attachmentUrl) => {
+                  const raw = content.trim();
+
+                  if (raw === "/stop") {
+                    await setAIEnabled(selectedChatId!, false); // novo: recebe boolean
+                    // opcional: enviar mensagem local/toast
+                    return;
+                  }
+
+                  if (raw === "/start") {
+                    await setAIEnabled(selectedChatId!, true);
+                    return;
+                  }
+
+                  // segue fluxo normal
+                  return sendMessage(selectedChatId!, content, type, attachmentUrl);
+                }}
+                onToggleAI={() => setAIEnabled(selectedChatId!, !selectedChat.aiEnabled)}
                 onAddTag={(tag) => addTag(selectedChatId!, tag)}
                 onRemoveTag={(tag) => removeTag(selectedChatId!, tag)}
                 aiEnabled={selectedChat.aiEnabled}
