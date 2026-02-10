@@ -692,6 +692,20 @@
       "title": "Sin Plan Activo",
       "description": "Aún no tienes un plan activo. Elige un plan para comenzar.",
       "choosePlan": "Elegir Plan"
+    },
+    "plans": {
+      "basic": "Básico",
+      "pro": "Pro",
+      "premium": "Premium",
+      "mostPopular": "Más Popular",
+      "currentPlan": "Plan Actual",
+      "makeUpgrade": "Hacer Upgrade",
+      "confirmCancel": "Hablar con el soporte",
+      "confirmCancelUpgrade": "Lamentamos que estés pensando en cancelar tu plan. Si deseas continuar, nuestro equipo de soporte en WhatsApp te ayudará con el proceso.",
+      "confirmUpgrade": "Confirmar Upgrade",
+      "firstConfirmUpgrade": "¿Estás seguro de que deseas cambiar al plan",
+      "lastConfirmUpgrade": "Stripe realizará el cobro y actualizará tu plan automáticamente.",
+      "cancelUpgrade": "Cancelar"
     }
   },
   "pendingInvoice": {

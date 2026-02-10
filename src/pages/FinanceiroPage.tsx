@@ -39,10 +39,10 @@ const FinanceiroPage = () => {
   const currentPlan = {
     name:
       user?.plan === "BASICO"
-        ? t("pricingV2.plans.start.name")
+        ? t("financial.plans.basic")
         : user?.plan === "PRO"
-          ? t("pricingV2.plans.pro.name")
-          : t("pricingV2.plans.teams.name"),
+          ? t("financial.plans.pro")
+          : t("financial.plans.premium"),
     price: user?.plan === "BASICO" ? "$ 22" : user?.plan === "PRO" ? "$ 43" : "$ 79",
     period: "mensal",
     features:
@@ -79,7 +79,7 @@ const FinanceiroPage = () => {
 
   const [availablePlans] = useState([
     {
-      name: t("pricingV2.plans.start.name"),
+      name: t("financial.plans.basic"),
       price: "$22",
       period: "/mês",
       current: user?.plan === "BASICO",
@@ -94,7 +94,7 @@ const FinanceiroPage = () => {
       ],
     },
     {
-      name: t("pricingV2.plans.pro.name"),
+      name: t("financial.plans.pro"),
       price: "$43",
       period: "/mês",
       current: user?.plan === "PRO",
@@ -110,7 +110,7 @@ const FinanceiroPage = () => {
       ],
     },
     {
-      name: t("pricingV2.plans.teams.name"),
+      name: t("financial.plans.premium"),
       price: "$79",
       period: "/mês",
       current: user?.plan === "PREMIUM",

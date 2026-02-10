@@ -619,6 +619,20 @@
       "title": "Sem Plano Ativo",
       "description": "Você ainda não possui um plano ativo. Escolha um plano para começar.",
       "choosePlan": "Escolher Plano"
+    },
+    "plans": {
+      "basic": "Básico",
+      "pro": "Pro", 
+      "premium": "Premium",
+      "mostPopular": "Mais Popular",
+      "currentPlan": "Plano Atual",
+      "makeUpgrade": "Fazer Upgrade",
+      "confirmCancel": "Falar com o suporte",
+      "confirmCancelUpgrade": "Lamentamos que esteja pensando em cancelar seu plano. Se desejar prosseguir, nossa equipe de suporte no WhatsApp irá ajudá-lo com o processo",
+      "confirmUpgrade": "Confirmar Upgrade",
+      "firstConfirmUpgrade": "Tem certeza que deseja mudar para o plano",
+      "lastConfirmUpgrade": "o Stripe ira cobrar e atualizar seu plano automaticamente.",
+      "cancelUpgrade": "Cancelar"
     }
   },
   "pendingInvoice": {
