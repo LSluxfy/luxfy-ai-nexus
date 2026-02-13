@@ -22,39 +22,6 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
     return new Date(bTime).getTime() - new Date(aTime).getTime();
   });
 
-
-  function isProbablyPhone(value: string) {
-    const v = (value || "").replace(/\D/g, "");
-    // 10~15 dígitos costuma ser telefone (BR +55 etc)
-    return v.length >= 10 && v.length <= 15;
-  }
-
-  function formatPhoneBR(raw: string) {
-    const digits = (raw || "").replace(/\D/g, "");
-    // fallback simples (não inventar demais)
-    if (digits.length === 13 && digits.startsWith("55")) {
-      const ddd = digits.slice(2, 4);
-      const n1 = digits.slice(4, 9);
-      const n2 = digits.slice(9);
-      return `+55 (${ddd}) ${n1}-${n2}`;
-    }
-    return raw;
-  }
-
-  function getDisplayName(chat: Chat) {
-    const name = (chat.user?.name || "").trim();
-    const phone = (chat.user?.phone || "").trim();
-
-    // se name está vazio ou parece telefone, cai pro phone formatado
-    if (!name || isProbablyPhone(name)) {
-      return phone ? formatPhoneBR(phone) : "Sem nome";
-    }
-
-    return name;
-  }
-
-  console.log("[ChatList] first chat:", sortedChats?.[0]);
-
   return (
     <div className="w-80 border-r bg-white flex flex-col h-full">
       <div className="p-4 border-b bg-gray-50 flex-shrink-0">
@@ -94,7 +61,7 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
                   <h3 className="font-medium text-gray-900 truncate">
-                    {getDisplayName(chat)}
+                    {chat.user.name}
                   </h3>
                   {chat.lastMessage && (
                     <span className="text-xs text-gray-500">
