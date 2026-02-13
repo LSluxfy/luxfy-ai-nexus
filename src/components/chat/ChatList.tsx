@@ -53,6 +53,8 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
     return name;
   }
 
+  console.log("[ChatList] first chat:", sortedChats?.[0]);
+
   return (
     <div className="w-80 border-r bg-white flex flex-col h-full">
       <div className="p-4 border-b bg-gray-50 flex-shrink-0">

@@ -62,6 +62,14 @@ const ChatPage = () => {
       setSelectedChatId(location.state.selectedUserId);
     }
   }, [location.state, setSelectedChatId]);
+  useEffect(() => {
+    console.log("[useChat] chats payload:", chats);
+  }, [chats]);
+
+  useEffect(() => {
+    console.log("[useChat] selectedChat:", selectedChat);
+    console.log("[useChat] messages:", messages);
+  }, [selectedChat, messages]);
 
   // Mostrar erro se não há agente selecionado
   if (!currentAgentId && user?.agents && user.agents.length > 0) {
