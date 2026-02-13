@@ -95,10 +95,15 @@ export class ChatService {
       this.convertApiMessageToMessage(apiMessage, apiChat.id.toString())
     );
 
+    const safeName =
+  (collectionData?.nome && String(collectionData.nome).trim()) ||
+  (apiChat.name && String(apiChat.name).trim()) ||
+  apiChat.number;
+
     // Create user from chat data
     const user: ChatUser = {
       id: apiChat.id.toString(),
-      name:  apiChat.name || collectionData.nome || apiChat.number,
+      name:  safeName,
       phone: apiChat.number,
       tags: apiChat.tags,
       lastSeen: new Date(apiChat.updateAt),
