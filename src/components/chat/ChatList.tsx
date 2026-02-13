@@ -19,6 +19,7 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
   const sortedChats = [...chats].sort((a, b) => {
     const aTime = a.lastMessage?.timestamp || a.updatedAt;
     const bTime = b.lastMessage?.timestamp || b.updatedAt;
+    console.log(sortedChats)
     return new Date(bTime).getTime() - new Date(aTime).getTime();
   });
 
