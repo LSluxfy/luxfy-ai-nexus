@@ -47,7 +47,7 @@ const ChatHeader = ({ user, aiEnabled }: ChatHeaderProps) => {
                   })}`
               }
             </p>
-            <p className="text-xs text-gray-400">{user.phone}</p>
+            <p className="text-xs text-gray-400">{user.phone.replace(/@.+$/, '')}</p>
           </div>
         </div>
       </div>
