@@ -86,11 +86,6 @@ export class ChatService {
     // Parse collection data
     let collectionData: ChatCollectionData = {};
 
-    console.log('[convertApiChatToChat]', {
-  apiName: apiChat.name,
-  number: apiChat.number,
-  collectionNome: collectionData?.nome,
-});
     try {
       collectionData = JSON.parse(apiChat.collectionData || '{}');
     } catch (error) {
@@ -102,10 +97,12 @@ export class ChatService {
       this.convertApiMessageToMessage(apiMessage, apiChat.id.toString())
     );
 
-    const safeName =
-  (collectionData?.nome && String(collectionData.nome).trim()) ||
-  (apiChat.name && String(apiChat.name).trim()) ||
-  apiChat.number;
+  const cleanNumber = String(apiChat.number || '').replace(/@.+$/, '');
+
+  const safeName =
+    (collectionData?.nome && String(collectionData.nome).trim()) ||
+    (apiChat.name && String(apiChat.name).trim()) ||
+    cleanNumber;
 
     // Create user from chat data
     const user: ChatUser = {
