@@ -36,7 +36,11 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
       </div>
       
       <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-        {sortedChats.map(chat => (
+        {sortedChats.map(chat => {
+          const displayName =
+            (chat.user.name && chat.user.name.trim()) ? chat.user.name.trim() : chat.user.phone;
+        
+        return (
           <div
             key={chat.id}
             onClick={() => onSelectChat(chat.id)}
@@ -61,7 +65,7 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
                   <h3 className="font-medium text-gray-900 truncate">
-                    {chat.user.name}
+                    {displayName}
                   </h3>
                   {chat.lastMessage && (
                     <span className="text-xs text-gray-500">
@@ -109,7 +113,7 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
               </div>
             </div>
           </div>
-        ))}
+        )})}
       </div>
     </div>
   );
