@@ -82,7 +82,6 @@ export class ChatService {
       console.error('Erro ao fazer parse das mensagens:', error);
       parsedMessages = [];
     }
-
     // Parse collection data
     let collectionData: ChatCollectionData = {};
     try {
