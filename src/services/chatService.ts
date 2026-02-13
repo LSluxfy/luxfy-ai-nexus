@@ -99,7 +99,7 @@ export class ChatService {
     // Create user from chat data
     const user: ChatUser = {
       id: apiChat.id.toString(),
-      name: collectionData.nome || apiChat.number,
+      name:  apiChat.name || collectionData.nome || apiChat.number,
       phone: apiChat.number,
       tags: apiChat.tags,
       lastSeen: new Date(apiChat.updateAt),
