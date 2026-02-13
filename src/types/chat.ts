@@ -41,7 +41,7 @@ export interface ApiChat {
   id: number;
   agentId: number;
   number: string;
-  name: string;
+  name: string | null;
   tags: string[];
   messages: string; // JSON string
   messagesCount: number;
