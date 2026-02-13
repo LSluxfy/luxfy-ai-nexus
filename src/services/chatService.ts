@@ -75,6 +75,7 @@ export class ChatService {
    */
   private static convertApiChatToChat(apiChat: ApiChat): Chat {
     // Parse messages from JSON string
+    
     let parsedMessages: ApiChatMessage[] = [];
     try {
       parsedMessages = JSON.parse(apiChat.messages || '[]');
@@ -84,6 +85,12 @@ export class ChatService {
     }
     // Parse collection data
     let collectionData: ChatCollectionData = {};
+
+    console.log('[convertApiChatToChat]', {
+  apiName: apiChat.name,
+  number: apiChat.number,
+  collectionNome: collectionData?.nome,
+});
     try {
       collectionData = JSON.parse(apiChat.collectionData || '{}');
     } catch (error) {
