@@ -75,7 +75,7 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
                 </div>
                 
                 <p className="text-sm text-gray-600 truncate mt-1">
-                  {chat.user.phone}
+                  {chat.user.phone.replace(/@.+$/, '')}
                 </p>
                 
                 {chat.lastMessage && (
