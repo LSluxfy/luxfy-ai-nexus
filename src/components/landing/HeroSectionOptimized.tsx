@@ -3,14 +3,12 @@ import { ArrowRight, Users, TrendingUp, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import UltraLightSkeleton from './UltraLightSkeleton';
-import LeadCaptureModal from './LeadCaptureModal';
 
 const HeroSectionOptimized = () => {
   const { t } = useTranslation();
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
-  const [leadModalOpen, setLeadModalOpen] = useState(false);
   const [animationsReady, setAnimationsReady] = useState(false);
   const [showRealComponent, setShowRealComponent] = useState(false);
   
@@ -86,7 +84,7 @@ const HeroSectionOptimized = () => {
             <div className="space-y-4">
               <button 
                 className="hero-cta"
-                onClick={() => setLeadModalOpen(true)}
+                onClick={() => window.open('https://wa.me/5511967136762', '_blank')}
               >
                 {t('hero.cta')}
                 <ArrowRight className="h-5 w-5" />
@@ -124,11 +122,6 @@ const HeroSectionOptimized = () => {
         </div>
       </div>
 
-      {/* Lead Capture Modal */}
-      <LeadCaptureModal 
-        open={leadModalOpen} 
-        onOpenChange={setLeadModalOpen} 
-      />
     </section>
   );
 };

@@ -65,15 +65,16 @@ const ComparisonTable: React.FC = () => {
             <Brain className="w-5 h-5 text-blue-800" />
             <span className="text-blue-800 font-medium">{t('comparison.badge')}</span>
           </div>
-          <h2 className="text-4xl font-bold text-slate-900 mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
             {t('comparison.title')}
           </h2>
-          <p className="text-xl text-slate-600">
+          <p className="text-lg md:text-xl text-slate-600">
             {t('comparison.subtitle')}
           </p>
         </div>
 
-        <Card className="overflow-hidden shadow-xl border-2 border-blue-100">
+        {/* Desktop Table */}
+        <Card className="hidden md:block overflow-hidden shadow-xl border-2 border-blue-100">
           <CardHeader className="bg-gradient-to-r from-slate-100 to-blue-50">
             <div className="grid grid-cols-3 gap-4">
               <div className="text-left font-semibold text-slate-700">
@@ -98,14 +99,8 @@ const ComparisonTable: React.FC = () => {
                   {item.feature}
                 </div>
                 <div className="text-center flex items-center justify-center">
-                  <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${
-                    item.humanBad ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'
-                  }`}>
-                    {item.humanBad ? (
-                      <X className="w-4 h-4" />
-                    ) : (
-                      <Check className="w-4 h-4" />
-                    )}
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-50 text-red-700">
+                    <X className="w-4 h-4" />
                     <span className="text-sm font-medium">{item.human}</span>
                   </div>
                 </div>
@@ -120,9 +115,32 @@ const ComparisonTable: React.FC = () => {
           </CardContent>
         </Card>
 
+        {/* Mobile Cards */}
+        <div className="md:hidden space-y-3">
+          {comparisons.map((item, index) => (
+            <Card key={index} className="border border-slate-200 shadow-sm">
+              <CardContent className="p-4">
+                <p className="font-semibold text-slate-900 text-sm mb-3">{item.feature}</p>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-50 text-red-700">
+                    <X className="w-4 h-4 flex-shrink-0" />
+                    <span className="text-xs font-medium">{t('comparison.humanColumn')}:</span>
+                    <span className="text-xs">{item.human}</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-green-50 text-green-700">
+                    <Check className="w-4 h-4 flex-shrink-0" />
+                    <span className="text-xs font-medium">{t('comparison.aiColumn')}:</span>
+                    <span className="text-xs">{item.ai}</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
         <div className="mt-10 text-center">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 shadow-lg">
-            <p className="text-white font-bold text-xl md:text-2xl leading-relaxed">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-6 md:p-8 shadow-lg">
+            <p className="text-white font-bold text-lg md:text-2xl leading-relaxed">
               {t('comparison.competitorPhrase')}
             </p>
           </div>
