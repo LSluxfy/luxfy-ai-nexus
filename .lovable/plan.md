@@ -1,32 +1,26 @@
 
+# Corrigir Seletor de Idiomas no Cabecalho
 
-# Alteracoes na Landing Page: Botao Video + Botoes Pricing
+## Problema Identificado
 
-## 1. Botao "Comenzar ahora" na secao do video -> redirecionar para precos
+O componente `LiveNotifications` (notificacoes que aparecem no canto superior direito) esta posicionado com `z-[9999]` e `fixed top-4 right-2`. Mesmo quando a notificacao esta invisivel (`opacity-0`), o elemento continua interceptando cliques porque `opacity-0` nao remove eventos de pointer. Isso bloqueia o dropdown do seletor de idiomas que tem apenas `z-50`.
 
-**Arquivo**: `src/pages/LandingPage.tsx` (linha 175)
-- Trocar `onClick={() => setLeadModalOpen(true)}` por `onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}`
-- Remover o state `leadModalOpen`, o import de `useState` (se nao usado em outro lugar), o componente `LeadCaptureModal` e seu import
+## Solucao
 
-## 2. Botoes da secao de precos -> "Comenzar ahora" redirecionando para /register
+### 1. Corrigir LiveNotifications para nao bloquear cliques quando invisivel
 
-**Arquivo**: `src/components/landing/PricingV2.tsx` (linhas 158-170)
-- Trocar o `onClick` que chama `checkoutUrlStripe` por um link simples para `/register`
-- Remover a funcao `checkoutUrlStripe` e o import de `api`
+**Arquivo**: `src/components/landing/LiveNotifications.tsx`
+- Adicionar `pointer-events-none` quando `isVisible` for `false`
+- Adicionar `pointer-events-auto` quando `isVisible` for `true`
 
-**Arquivos de traducao** (`es.json`, `pt.json`, `en.json`):
-- Alterar `pricingV2.cta`:
-  - ES: "Comenzar ahora"
-  - PT: "Comecar agora"
-  - EN: "Get started"
+### 2. Aumentar z-index do dropdown do LanguageSelector
 
-## Resumo das alteracoes
+**Arquivo**: `src/components/LanguageSelector.tsx`
+- Passar `className="z-[10000]"` ao `DropdownMenuContent` para garantir que fique acima de qualquer notificacao
+
+## Detalhes Tecnicos
 
 | Arquivo | Alteracao |
 |---------|----------|
-| `src/pages/LandingPage.tsx` | Botao do video faz scroll para `#pricing`; remover LeadCaptureModal |
-| `src/components/landing/PricingV2.tsx` | Botoes redirecionam para `/register`; remover logica Stripe |
-| `src/locales/es.json` | `pricingV2.cta` -> "Comenzar ahora" |
-| `src/locales/pt.json` | `pricingV2.cta` -> "Comecar agora" |
-| `src/locales/en.json` | `pricingV2.cta` -> "Get started" |
-
+| `src/components/landing/LiveNotifications.tsx` | Adicionar `pointer-events-none`/`pointer-events-auto` baseado em `isVisible` |
+| `src/components/LanguageSelector.tsx` | Adicionar `className="z-[10000]"` ao `DropdownMenuContent` |
