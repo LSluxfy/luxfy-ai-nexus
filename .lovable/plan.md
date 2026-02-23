@@ -1,48 +1,55 @@
 
 
-# Plano: Restaurar Headline com Efeito Typewriter + Nova Subheadline
+# Plano: 3 Alteracoes na Landing Page
 
-## Alteracoes
-
-### 1. Restaurar headline com efeito de digitacao
-
-O componente `HeroSectionOptimized.tsx` ja possui toda a logica do typewriter (variaveis `displayText`, `currentWordIndex`, etc.), mas atualmente o titulo usa apenas `t('hero.title')` sem incorporar o efeito.
+## 1. Botao "Comenzar ahora" -> "Habla con el Agente Lux" (redirecionar para WhatsApp)
 
 **Arquivo**: `src/components/landing/HeroSectionOptimized.tsx`
-- Alterar o `<h1>` para exibir: "Clone seu melhor **{displayText}** com IA" usando o efeito typewriter ja existente
-- O `displayText` alterna entre as palavras definidas em `hero.words` (vendedor, SDR, agente)
+- Alterar o `onClick` do botao CTA para abrir o WhatsApp (mesmo link usado no `WhatsAppButton.tsx`: `https://wa.me/5511967136762`) em vez de abrir o formulario `LeadCaptureModal`
+- Remover o state `leadModalOpen` e o componente `LeadCaptureModal` (ja que nao sera mais usado neste componente)
 
-### 2. Atualizar textos de traducao
+**Arquivos de traducao** (`es.json`, `pt.json`, `en.json`):
+- Alterar `hero.cta` de "Comenzar ahora" para "Habla con el Agente Lux" (e equivalentes nos outros idiomas)
 
-**Arquivo**: `src/locales/es.json`
-- `hero.title` -> "Clona tu mejor" (prefixo)
-- `hero.titleSuffix` -> "con IA" (sufixo)
-- `hero.description` -> "Reduce costos operativos y aumenta tus ventas con IA en WhatsApp. Convierte leads y ofrece soporte al cliente 24/7, sin depender de equipo."
+## 2. Remover secao "Resultados Reales de Nuestros Clientes"
 
-**Arquivo**: `src/locales/pt.json`
-- `hero.title` -> "Clone seu melhor"
-- `hero.titleSuffix` -> "com IA"
-- `hero.description` -> "Reduza custos operacionais e aumente suas vendas com IA no WhatsApp. Converta leads e ofereca suporte ao cliente 24/7, sem depender de equipe."
+**Arquivo**: `src/pages/LandingPage.tsx`
+- Remover a linha `<LazyRealResults />` (linha 239)
+- Remover o import de `LazyRealResults` (linha 21)
 
-**Arquivo**: `src/locales/en.json`
-- `hero.title` -> "Clone your best"
-- `hero.titleSuffix` -> "with AI"
-- `hero.description` -> "Reduce operational costs and increase your sales with AI on WhatsApp. Convert leads and offer 24/7 customer support, without depending on a team."
+## 3. Otimizar ComparisonTable para mobile
 
-### 3. Resultado esperado
+**Arquivo**: `src/components/landing/ComparisonTable.tsx`
 
-A headline ficara com o formato:
+Layout atual usa `grid-cols-3` fixo que fica apertado em mobile. Alteracoes:
+- Em mobile: trocar para layout de cards empilhados (cada feature vira um card com "Humano" e "IA" lado a lado dentro do card)
+- Em desktop: manter o layout de tabela atual com `grid-cols-3`
+- Ajustar tamanhos de fonte e padding para telas pequenas
+- O header da tabela tambem sera adaptado para mobile
 
-**"Clone seu melhor** vendedor | SDR | agente **com IA"**
+### Detalhes tecnicos do layout mobile
 
-Com a palavra do meio alternando com efeito de digitacao, e abaixo a nova subheadline com o texto completo sobre reducao de custos.
+Cada item de comparacao sera renderizado como um card individual em mobile:
 
-## Detalhes Tecnicos
+```text
++---------------------------+
+| Disponibilidade           |
++---------------------------+
+| Humano: Horario comercial |  (vermelho)
+| IA: 24/7 sem parar        |  (verde)
++---------------------------+
+```
+
+Em desktop (md+), mantem o grid de 3 colunas como esta hoje.
+
+## Arquivos a Modificar
 
 | Arquivo | Acao |
 |---------|------|
-| `src/components/landing/HeroSectionOptimized.tsx` | Alterar JSX do `h1` para incluir `displayText` com efeito typewriter |
-| `src/locales/es.json` | Atualizar `hero.title`, adicionar `hero.titleSuffix`, atualizar `hero.description` |
-| `src/locales/pt.json` | Atualizar `hero.title`, adicionar `hero.titleSuffix`, atualizar `hero.description` |
-| `src/locales/en.json` | Atualizar `hero.title`, adicionar `hero.titleSuffix`, atualizar `hero.description` |
+| `src/components/landing/HeroSectionOptimized.tsx` | Botao CTA abre WhatsApp |
+| `src/locales/es.json` | `hero.cta` -> "Habla con el Agente Lux" |
+| `src/locales/pt.json` | `hero.cta` -> "Fale com o Agente Lux" |
+| `src/locales/en.json` | `hero.cta` -> "Talk to Agent Lux" |
+| `src/pages/LandingPage.tsx` | Remover LazyRealResults |
+| `src/components/landing/ComparisonTable.tsx` | Layout responsivo mobile |
 
