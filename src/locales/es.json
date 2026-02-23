@@ -411,7 +411,7 @@
       "pro": { "name": "Pro", "desc": "3 agentes, funciones avanzadas", "agents": 3, "monthly": "$43", "annual": "$361.20", "savingLabel": "Ahorra $154.80 al año" },
       "teams": { "name": "Teams", "desc": "6 agentes, colaboración de equipo", "agents": 6, "monthly": "$79", "annual": "$663.60",  "savingLabel": "Ahorra $284.40 al año" }
     },
-    "cta": "Habla con el Agente Lux",
+    "cta": "Comenzar ahora",
     "ctaAria": "Crea tu cuenta Luxfy"
   },
   "stickyCta": {

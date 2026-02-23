@@ -4,26 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Zap, X, Infinity, AlertTriangle, Pin } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { api } from "@/lib/api";
-
-async function checkoutUrlStripe(plano, annual) {
-  const token = localStorage.getItem("jwt-token");
-
-  const response = await api.post(
-    "v1/user/create-checkout-session",
-    { planValue: plano, isAnnual: annual },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  return response.data.checkoutUrl;
-}
+import { useNavigate } from "react-router-dom";
 
 export default function PricingV2() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [annual, setAnnual] = useState(false);
 
   const getStartFeatures = () => [
@@ -155,18 +140,9 @@ export default function PricingV2() {
                     )}
                   </ul>
 
-                  <Button asChild className="w-full">
-                    <a
-                      href="#"
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        const url = await checkoutUrlStripe(key, annual);
-                        window.location.href = url;
-                      }}
-                    >
-                      <Zap className="h-4 w-4 mr-2" />
-                      {t("pricingV2.cta")}
-                    </a>
+                  <Button className="w-full" onClick={() => navigate("/register")}>
+                    <Zap className="h-4 w-4 mr-2" />
+                    {t("pricingV2.cta")}
                   </Button>
                 </CardContent>
               </Card>

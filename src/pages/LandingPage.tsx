@@ -2,7 +2,7 @@
 import React, { useEffect, Suspense, lazy, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Button } from "@/components/ui/button";
-import LeadCaptureModal from '@/components/landing/LeadCaptureModal';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Kanban, Calendar, BarChart, Users, Shield, Check, Brain, Cpu, Network } from 'lucide-react';
 import LandingNavbar from '@/components/LandingNavbar';
@@ -33,7 +33,7 @@ const OptimizedTikTokPixel = lazy(() => import('../components/OptimizedTikTokPix
 const LandingPage = () => {
   const { t } = useTranslation();
   const canonical = typeof window !== 'undefined' ? window.location.origin + window.location.pathname : '';
-  const [leadModalOpen, setLeadModalOpen] = useState(false);
+  
 
   const features = [
     {
@@ -172,17 +172,13 @@ const LandingPage = () => {
               size="lg" 
               variant="outline" 
               className="border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-white px-10 py-4 text-lg font-semibold bg-white/80 backdrop-blur-sm transition-all duration-300 hover:scale-105"
-              onClick={() => setLeadModalOpen(true)}
+              onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
             >
               <Network className="w-5 h-5 mr-2" />
               {t('hero.login')}
             </Button>
           </div>
 
-          <LeadCaptureModal 
-            open={leadModalOpen} 
-            onOpenChange={setLeadModalOpen} 
-          />
         </div>
       </section>
 
