@@ -26,7 +26,7 @@ const LanguageSelector = () => {
           <span className="sm:hidden">{currentLang?.flag}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="z-[10000]">
         {availableLanguages.map((language) => (
           <DropdownMenuItem
             key={language.code}
