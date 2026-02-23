@@ -396,20 +396,26 @@
       "crm": "CRM Visual con Kanban",
       "ai": "Agente de IA entrenable",
       "unlimited": "Conversaciones ilimitadas",
-      "calendar": "Integración con calendario",
+      "calendar": "Agenda",
       "campaigns": "Envío masivo",
       "support": "Soporte prioritario",
       "aiTokensLimited": "Tokens de IA limitados",
-      "aiTokensUnlimited": "Tokens de IA ilimitados",
+      "aiTokensUnlimited": "Tokens de IA ILIMITADOS",
       "noPrioritySupport": "Sin soporte prioritario",
       "noFixedCosts": "Sin garantía de costos fijos",
-      "idealForStart": "Ideal para pruebas y bajo volumen"
+      "idealForStart": "Ideal para pruebas y bajo volumen",
+      "understandsImages": "Comprende imágenes",
+      "understandsVoice": "Comprende notas de voz",
+      "officialWhatsApp": "WhatsApp API oficial",
+      "advancedManagement": "Gestión avanzada",
+      "initialOptimization": "Optimización inicial incluida",
+      "allFromPro": "Todo lo del Pro"
     },
     "bestSeller": "Más vendido",
     "plans": {
-      "start": { "name": "Start", "desc": "Para empezar", "agents": 1, "monthly": "$22", "annual": "$184.00",  "savingLabel": "Ahorra $80.00 al año" },
-      "pro": { "name": "Pro", "desc": "3 agentes, funciones avanzadas", "agents": 3, "monthly": "$43", "annual": "$361.20", "savingLabel": "Ahorra $154.80 al año" },
-      "teams": { "name": "Teams", "desc": "6 agentes, colaboración de equipo", "agents": 6, "monthly": "$79", "annual": "$663.60",  "savingLabel": "Ahorra $284.40 al año" }
+      "start": { "name": "Start", "desc": "Ideal para pruebas y bajo volumen", "agents": 1, "monthly": "$22", "annual": "$184.00",  "savingLabel": "Ahorra $80.00 al año" },
+      "pro": { "name": "Pro", "desc": "Para vender todos los días sin límites", "agents": 3, "monthly": "$43", "annual": "$361.20", "savingLabel": "Ahorra $154.80 al año", "highlight": true },
+      "teams": { "name": "Teams", "desc": "Para equipos en crecimiento", "agents": 6, "monthly": "$79", "annual": "$663.60",  "savingLabel": "Ahorra $284.40 al año" }
     },
     "cta": "Comenzar ahora",
     "ctaAria": "Crea tu cuenta Luxfy"
