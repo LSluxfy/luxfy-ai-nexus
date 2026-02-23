@@ -853,5 +853,13 @@
     "back": "Back",
     "next": "Next",
     "previous": "Previous"
+  },
+  "liveNotifications": {
+    "actions": {
+      "registered": "registered on the platform",
+      "purchased": "purchased a plan",
+      "demo": "requested a demo"
+    },
+    "ago": "ago"
   }
 }
