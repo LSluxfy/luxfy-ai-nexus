@@ -18,7 +18,6 @@ import PerformanceOptimizer from '@/components/PerformanceOptimizer';
 
 import LazyPandaVideoPlayer from '@/components/LazyPandaVideoPlayer';
 import OptimizedFacebookPixel from '@/components/OptimizedFacebookPixel';
-import LazyRealResults from '@/components/landing/LazyRealResults';
 import LazyHowItWorks from '@/components/landing/LazyHowItWorks';
 import LazyBeforeAfter from '@/components/landing/LazyBeforeAfter';
 
@@ -236,7 +235,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <LazyRealResults />
       <LazyHowItWorks />
       <LazyBeforeAfter />
       
