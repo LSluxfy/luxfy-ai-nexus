@@ -126,7 +126,7 @@ export default function PricingV2() {
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-primary shrink-0" />
-                      {plan.agents} {t("pricingV2.features.agents")}
+                      {plan.agents} {plan.agents > 1 ? t("pricingV2.features.agentsPlural") : t("pricingV2.features.agents")}
                     </li>
 
                     {features.map((feature, i) => (
