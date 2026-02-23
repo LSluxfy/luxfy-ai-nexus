@@ -380,7 +380,7 @@
       "pro": { "name": "Pro", "desc": "3 agentes, recursos avançados", "agents": 3, "monthly": "R$229,27", "annual": "R$1.964,49", "savingLabel": "Economize R$786,75 por ano" },
       "teams": { "name": "Teams", "desc": "6 agentes, colaboração em equipe", "agents": 6, "monthly": "R$421,21", "annual": "R$3.609,18",  "savingLabel": "Economize R$1.445,34 por ano" }
     },
-    "cta": "Fale com o Agente Lux",
+    "cta": "Começar agora",
     "ctaAria": "Criar sua conta Luxfy"
   },
   "stickyCta": {
