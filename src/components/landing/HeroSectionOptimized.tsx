@@ -71,7 +71,10 @@ const HeroSectionOptimized = () => {
           <div className="space-y-8">
             <div className="space-y-6">
               <h1 className="hero-title">
-                {t('hero.title')}
+                {t('hero.title')}{' '}
+                <span className="text-blue-400">{displayText}</span>
+                <span className="animate-pulse">|</span>{' '}
+                {t('hero.titleSuffix')}
               </h1>
               
               <p className="hero-subtitle">

@@ -16,9 +16,10 @@
     "settings": "Settings"
   },
   "hero": {
-    "title": "Reduce operational costs and increase your sales with AI on WhatsApp.",
+    "title": "Clone your best",
+    "titleSuffix": "with AI",
     "subtitle": "",
-    "description": "Convert leads and offer 24/7 customer support, without depending on a team.",
+    "description": "Reduce operational costs and increase your sales with AI on WhatsApp. Convert leads and offer 24/7 customer support, without depending on a team.",
     "cta": "Start now",
     "login": "Get started",
     "testimonial": "✨ No credit card • 7 days free",
