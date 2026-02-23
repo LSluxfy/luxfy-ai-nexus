@@ -1,26 +1,54 @@
 
-# Corrigir Seletor de Idiomas no Cabecalho
+# Corrigir Traducoes das LiveNotifications
 
-## Problema Identificado
+## Problema
 
-O componente `LiveNotifications` (notificacoes que aparecem no canto superior direito) esta posicionado com `z-[9999]` e `fixed top-4 right-2`. Mesmo quando a notificacao esta invisivel (`opacity-0`), o elemento continua interceptando cliques porque `opacity-0` nao remove eventos de pointer. Isso bloqueia o dropdown do seletor de idiomas que tem apenas `z-50`.
+O componente `LiveNotifications` usa chaves de traducao (`liveNotifications.actions.registered`, `liveNotifications.actions.purchased`, etc.) que nao existem nos arquivos de traducao (`es.json`, `pt.json`, `en.json`). Por isso, o i18next mostra a chave literal em vez do texto traduzido.
 
 ## Solucao
 
-### 1. Corrigir LiveNotifications para nao bloquear cliques quando invisivel
+Adicionar as chaves de traducao nos 3 arquivos de idioma:
 
-**Arquivo**: `src/components/landing/LiveNotifications.tsx`
-- Adicionar `pointer-events-none` quando `isVisible` for `false`
-- Adicionar `pointer-events-auto` quando `isVisible` for `true`
+### `src/locales/es.json`
+```json
+"liveNotifications": {
+  "actions": {
+    "registered": "se registró en la plataforma",
+    "purchased": "adquirió un plan",
+    "demo": "solicitó una demostración"
+  },
+  "ago": "atrás"
+}
+```
 
-### 2. Aumentar z-index do dropdown do LanguageSelector
+### `src/locales/pt.json`
+```json
+"liveNotifications": {
+  "actions": {
+    "registered": "se registrou na plataforma",
+    "purchased": "adquiriu um plano",
+    "demo": "solicitou uma demonstração"
+  },
+  "ago": "atrás"
+}
+```
 
-**Arquivo**: `src/components/LanguageSelector.tsx`
-- Passar `className="z-[10000]"` ao `DropdownMenuContent` para garantir que fique acima de qualquer notificacao
+### `src/locales/en.json`
+```json
+"liveNotifications": {
+  "actions": {
+    "registered": "registered on the platform",
+    "purchased": "purchased a plan",
+    "demo": "requested a demo"
+  },
+  "ago": "ago"
+}
+```
 
-## Detalhes Tecnicos
+## Arquivos a Modificar
 
 | Arquivo | Alteracao |
 |---------|----------|
-| `src/components/landing/LiveNotifications.tsx` | Adicionar `pointer-events-none`/`pointer-events-auto` baseado em `isVisible` |
-| `src/components/LanguageSelector.tsx` | Adicionar `className="z-[10000]"` ao `DropdownMenuContent` |
+| `src/locales/es.json` | Adicionar bloco `liveNotifications` |
+| `src/locales/pt.json` | Adicionar bloco `liveNotifications` |
+| `src/locales/en.json` | Adicionar bloco `liveNotifications` |
