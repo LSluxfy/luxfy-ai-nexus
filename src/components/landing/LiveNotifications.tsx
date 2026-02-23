@@ -31,7 +31,7 @@ const LiveNotifications: React.FC = () => {
 
   return (
     <div className={`fixed top-4 right-2 md:top-6 md:right-4 z-[9999] transform transition-all duration-700 ${
-      isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+      isVisible ? 'translate-x-0 opacity-100 pointer-events-auto' : 'translate-x-full opacity-0 pointer-events-none'
     }`}>
       <div className="bg-white border border-gray-200 rounded-lg shadow-xl p-3 md:p-4 max-w-xs md:max-w-sm backdrop-blur-sm">
         <div className="flex items-start gap-3">
