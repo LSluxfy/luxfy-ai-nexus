@@ -6,29 +6,48 @@ import { Check, Zap, X, Infinity, AlertTriangle, Pin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
+type FeatureItem = {
+  text: string;
+  icon: "check" | "infinity" | "warning" | "x" | "pin";
+};
+
 export default function PricingV2() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [annual, setAnnual] = useState(false);
 
-  const getStartFeatures = () => [
-    { text: t("pricingV2.features.crm"), included: true },
-    { text: t("pricingV2.features.ai"), included: true },
-    { text: t("pricingV2.features.aiTokensLimited"), included: false, isWarning: true },
-    { text: t("pricingV2.features.noPrioritySupport"), included: false },
-    { text: t("pricingV2.features.noFixedCosts"), included: false },
-    { text: t("pricingV2.features.idealForStart"), included: true, isNote: true },
-  ];
+  const planFeatures: Record<string, FeatureItem[]> = {
+    start: [
+      { text: t("pricingV2.features.ai"), icon: "check" },
+      { text: t("pricingV2.features.crm"), icon: "check" },
+      { text: t("pricingV2.features.aiTokensLimited"), icon: "warning" },
+      { text: t("pricingV2.features.noPrioritySupport"), icon: "x" },
+      { text: t("pricingV2.features.noFixedCosts"), icon: "x" },
+    ],
+    pro: [
+      { text: t("pricingV2.features.aiTokensUnlimited"), icon: "infinity" },
+      { text: t("pricingV2.features.crm"), icon: "check" },
+      { text: t("pricingV2.features.calendar"), icon: "check" },
+      { text: t("pricingV2.features.understandsImages"), icon: "check" },
+      { text: t("pricingV2.features.understandsVoice"), icon: "check" },
+      { text: t("pricingV2.features.support"), icon: "check" },
+    ],
+    teams: [
+      { text: t("pricingV2.features.allFromPro"), icon: "check" },
+      { text: t("pricingV2.features.aiTokensUnlimited"), icon: "infinity" },
+      { text: t("pricingV2.features.officialWhatsApp"), icon: "check" },
+      { text: t("pricingV2.features.advancedManagement"), icon: "check" },
+      { text: t("pricingV2.features.support"), icon: "check" },
+      { text: t("pricingV2.features.initialOptimization"), icon: "check" },
+    ],
+  };
 
-  const getProTeamsFeatures = () => [
-    t("pricingV2.features.crm"),
-    t("pricingV2.features.ai"),
-    t("pricingV2.features.aiTokensUnlimited"),
-    t("pricingV2.features.unlimited"),
-    t("pricingV2.features.calendar"),
-    t("pricingV2.features.campaigns"),
-    t("pricingV2.features.support"),
-  ];
+  const iconMap = {
+    check: <Check className="h-4 w-4 text-primary shrink-0" />,
+    infinity: <Infinity className="h-4 w-4 text-green-500 shrink-0" />,
+    warning: <AlertTriangle className="h-4 w-4 text-orange-500 shrink-0" />,
+    x: <X className="h-4 w-4 text-red-500 shrink-0" />,
+  };
 
   return (
     <section id="pricing" className="relative py-20 px-4">
@@ -62,21 +81,25 @@ export default function PricingV2() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto items-center">
           {Object.entries(
             t("pricingV2.plans", { returnObjects: true })
           ).map(([key, plan]) => {
             const priceText = annual ? plan.annual : plan.monthly;
             const per = annual ? t("pricingV2.perYear") : t("pricingV2.perMonth");
+            const isPro = key === "pro";
+            const features = planFeatures[key] || [];
 
             return (
               <Card
                 key={key}
-                className={`relative overflow-hidden ${
-                  plan.highlight ? "border-primary shadow-[0_10px_30px_-10px_hsl(var(--ring)/0.3)]" : ""
+                className={`relative overflow-hidden transition-transform ${
+                  isPro
+                    ? "border-primary ring-2 ring-primary shadow-[0_10px_40px_-10px_hsl(var(--ring)/0.4)] scale-105 md:scale-110 z-10"
+                    : ""
                 }`}
               >
-                {plan.highlight && (
+                {isPro && (
                   <Badge className="w-max absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white px-6 pb-2 pt-3 text-sm font-bold shadow-lg animate-pulse">
                     ⭐ {t("pricingV2.bestSeller")} ⭐
                   </Badge>
@@ -90,54 +113,38 @@ export default function PricingV2() {
                     <span className="text-sm text-muted-foreground ml-1">{per}</span>
                   </div>
                   {annual && plan.savingLabel && (
-                      <p className="text-xs text-green-600 mt-1">
-                        {plan.savingLabel}
-                      </p>
-                    )}
+                    <p className="text-xs text-green-600 mt-1">{plan.savingLabel}</p>
+                  )}
 
-                  <p className="text-muted-foreground text-sm mt-2">{plan.desc}</p>
+                  <div className="flex items-center gap-1.5 mt-2 text-sm text-muted-foreground">
+                    <Pin className="h-3.5 w-3.5 text-blue-500 shrink-0" />
+                    <span>{plan.desc}</span>
+                  </div>
                 </CardHeader>
 
                 <CardContent>
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center gap-2">
-                      <Check className="h-4 w-4 text-primary" />
+                      <Check className="h-4 w-4 text-primary shrink-0" />
                       {plan.agents} {t("pricingV2.features.agents")}
                     </li>
 
-                    {key === "start" ? (
-                      <>
-                        {getStartFeatures().map((feature, i) => (
-                          <li key={i} className="flex items-center gap-2">
-                            {feature.isWarning ? (
-                              <AlertTriangle className="h-4 w-4 text-orange-500" />
-                            ) : feature.isNote ? (
-                              <Pin className="h-4 w-4 text-blue-500" />
-                            ) : feature.included ? (
-                              <Check className="h-4 w-4 text-primary" />
-                            ) : (
-                              <X className="h-4 w-4 text-red-500" />
-                            )}
-                            <span className={feature.included ? "" : feature.isWarning ? "text-orange-600" : "text-muted-foreground"}>
-                              {feature.text}
-                            </span>
-                          </li>
-                        ))}
-                      </>
-                    ) : (
-                      <>
-                        {getProTeamsFeatures().map((f, i) => (
-                          <li key={i} className="flex items-center gap-2">
-                            {f === t("pricingV2.features.aiTokensUnlimited") ? (
-                              <Infinity className="h-4 w-4 text-green-500" />
-                            ) : (
-                              <Check className="h-4 w-4 text-primary" />
-                            )}
-                            {f}
-                          </li>
-                        ))}
-                      </>
-                    )}
+                    {features.map((feature, i) => (
+                      <li key={i} className="flex items-center gap-2">
+                        {iconMap[feature.icon]}
+                        <span
+                          className={
+                            feature.icon === "x"
+                              ? "text-muted-foreground"
+                              : feature.icon === "warning"
+                              ? "text-orange-600"
+                              : ""
+                          }
+                        >
+                          {feature.text}
+                        </span>
+                      </li>
+                    ))}
                   </ul>
 
                   <Button className="w-full" onClick={() => navigate("/register")}>

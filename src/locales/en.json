@@ -365,20 +365,26 @@
       "crm": "Visual CRM with Kanban",
       "ai": "Trainable AI agent",
       "unlimited": "Unlimited conversations",
-      "calendar": "Calendar integration",
+      "calendar": "Schedule",
       "campaigns": "Mass dispatch",
       "support": "Priority support",
       "aiTokensLimited": "Limited AI tokens",
       "aiTokensUnlimited": "Unlimited AI tokens",
       "noPrioritySupport": "No priority support",
       "noFixedCosts": "No fixed cost guarantee",
-      "idealForStart": "Ideal for testing and low volume"
+      "idealForStart": "Ideal for testing and low volume",
+      "understandsImages": "Understands images",
+      "understandsVoice": "Understands voice notes",
+      "officialWhatsApp": "Official WhatsApp API",
+      "advancedManagement": "Advanced management",
+      "initialOptimization": "Initial optimization included",
+      "allFromPro": "Everything from Pro"
     },
     "bestSeller": "Best seller",
     "plans": {
-      "start": { "name": "Start", "desc": "To get started", "agents": 1, "monthly": "$22", "annual": "$184.00",  "savingLabel": "Save $80.00 yearly" },
-      "pro": { "name": "Pro", "desc": "3 agents, advanced features", "agents": 3, "monthly": "$43", "annual": "$361.20", "savingLabel": "Save $154.80 yearly" },
-      "teams": { "name": "Teams", "desc": "6 agents, collaboration tools", "agents": 6, "monthly": "$79", "annual": "$663.60",  "savingLabel": "Save $284.40 yearly" }
+      "start": { "name": "Start", "desc": "Ideal for testing and low volume", "agents": 1, "monthly": "$22", "annual": "$184.00",  "savingLabel": "Save $80.00 yearly" },
+      "pro": { "name": "Pro", "desc": "To sell every day without limits", "agents": 3, "monthly": "$43", "annual": "$361.20", "savingLabel": "Save $154.80 yearly", "highlight": true },
+      "teams": { "name": "Teams", "desc": "For growing teams", "agents": 6, "monthly": "$79", "annual": "$663.60",  "savingLabel": "Save $284.40 yearly" }
     },
     "cta": "Get started",
     "ctaAria": "Create your Luxfy account"

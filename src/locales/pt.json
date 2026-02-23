@@ -365,20 +365,26 @@
       "crm": "CRM Visual com Kanban",
       "ai": "Agente de IA treinável",
       "unlimited": "Conversas ilimitadas",
-      "calendar": "Integração com agenda",
+      "calendar": "Agenda",
       "campaigns": "Disparo em massa",
       "support": "Suporte prioritário",
       "aiTokensLimited": "Tokens de IA limitados",
-      "aiTokensUnlimited": "Tokens de IA ilimitados",
+      "aiTokensUnlimited": "Tokens de IA ILIMITADOS",
       "noPrioritySupport": "Sem suporte prioritário",
       "noFixedCosts": "Sem garantia de custos fixos",
-      "idealForStart": "Ideal para testes e baixo volume"
+      "idealForStart": "Ideal para testes e baixo volume",
+      "understandsImages": "Compreende imagens",
+      "understandsVoice": "Compreende notas de voz",
+      "officialWhatsApp": "WhatsApp API oficial",
+      "advancedManagement": "Gestão avançada",
+      "initialOptimization": "Otimização inicial incluída",
+      "allFromPro": "Tudo do Pro"
     },
     "bestSeller": "Mais vendido",
-     "plans": {
-      "start": { "name": "Start", "desc": "Para começar", "agents": 1, "monthly": "R$117,30", "annual": "R$985,55",  "savingLabel": "Economize R$422,05 por ano" },
-      "pro": { "name": "Pro", "desc": "3 agentes, recursos avançados", "agents": 3, "monthly": "R$229,27", "annual": "R$1.964,49", "savingLabel": "Economize R$786,75 por ano" },
-      "teams": { "name": "Teams", "desc": "6 agentes, colaboração em equipe", "agents": 6, "monthly": "R$421,21", "annual": "R$3.609,18",  "savingLabel": "Economize R$1.445,34 por ano" }
+    "plans": {
+      "start": { "name": "Start", "desc": "Ideal para testes e baixo volume", "agents": 1, "monthly": "R$117,30", "annual": "R$985,55",  "savingLabel": "Economize R$422,05 por ano" },
+      "pro": { "name": "Pro", "desc": "Para vender todos os dias sem limites", "agents": 3, "monthly": "R$229,27", "annual": "R$1.964,49", "savingLabel": "Economize R$786,75 por ano", "highlight": true },
+      "teams": { "name": "Teams", "desc": "Para equipes em crescimento", "agents": 6, "monthly": "R$421,21", "annual": "R$3.609,18",  "savingLabel": "Economize R$1.445,34 por ano" }
     },
     "cta": "Começar agora",
     "ctaAria": "Criar sua conta Luxfy"
