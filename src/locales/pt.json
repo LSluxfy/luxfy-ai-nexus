@@ -362,6 +362,7 @@
     "equivalentPerMonth": "≈ {{amount}}/mês",
     "features": {
       "agents": "agente",
+      "agentsPlural": "agentes",
       "crm": "CRM Visual com Kanban",
       "ai": "Agente de IA treinável",
       "unlimited": "Conversas ilimitadas",
