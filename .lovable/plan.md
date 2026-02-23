@@ -1,92 +1,48 @@
 
-# Plano: Adicionar Traduções Faltantes (howItWorks e beforeAfter)
 
-## Problema Identificado
+# Plano: Restaurar Headline com Efeito Typewriter + Nova Subheadline
 
-Os componentes `HowItWorks.tsx` e `BeforeAfter.tsx` estão tentando acessar chaves de tradução que não existem nos arquivos de localização:
+## Alteracoes
 
-### Chaves Faltantes:
+### 1. Restaurar headline com efeito de digitacao
 
-**howItWorks:**
-- `howItWorks.title`
-- `howItWorks.subtitle`
-- `howItWorks.steps.0.title` / `howItWorks.steps.0.description`
-- `howItWorks.steps.1.title` / `howItWorks.steps.1.description`
-- `howItWorks.steps.2.title` / `howItWorks.steps.2.description`
+O componente `HeroSectionOptimized.tsx` ja possui toda a logica do typewriter (variaveis `displayText`, `currentWordIndex`, etc.), mas atualmente o titulo usa apenas `t('hero.title')` sem incorporar o efeito.
 
-**beforeAfter:**
-- `beforeAfter.title`
-- `beforeAfter.subtitle`
-- `beforeAfter.before` / `beforeAfter.after`
-- `beforeAfter.scenarios.0.before` / `beforeAfter.scenarios.0.after`
-- `beforeAfter.scenarios.1.before` / `beforeAfter.scenarios.1.after`
-- `beforeAfter.scenarios.2.before` / `beforeAfter.scenarios.2.after`
+**Arquivo**: `src/components/landing/HeroSectionOptimized.tsx`
+- Alterar o `<h1>` para exibir: "Clone seu melhor **{displayText}** com IA" usando o efeito typewriter ja existente
+- O `displayText` alterna entre as palavras definidas em `hero.words` (vendedor, SDR, agente)
 
----
+### 2. Atualizar textos de traducao
 
-## Solução
+**Arquivo**: `src/locales/es.json`
+- `hero.title` -> "Clona tu mejor" (prefixo)
+- `hero.titleSuffix` -> "con IA" (sufixo)
+- `hero.description` -> "Reduce costos operativos y aumenta tus ventas con IA en WhatsApp. Convierte leads y ofrece soporte al cliente 24/7, sin depender de equipo."
 
-Adicionar as seções de tradução faltantes nos 3 arquivos de localização:
+**Arquivo**: `src/locales/pt.json`
+- `hero.title` -> "Clone seu melhor"
+- `hero.titleSuffix` -> "com IA"
+- `hero.description` -> "Reduza custos operacionais e aumente suas vendas com IA no WhatsApp. Converta leads e ofereca suporte ao cliente 24/7, sem depender de equipe."
 
-### Arquivo 1: `src/locales/es.json`
+**Arquivo**: `src/locales/en.json`
+- `hero.title` -> "Clone your best"
+- `hero.titleSuffix` -> "with AI"
+- `hero.description` -> "Reduce operational costs and increase your sales with AI on WhatsApp. Convert leads and offer 24/7 customer support, without depending on a team."
 
-Adicionar as seções `howItWorks` e `beforeAfter` com conteúdo em espanhol.
+### 3. Resultado esperado
 
-### Arquivo 2: `src/locales/pt.json`
+A headline ficara com o formato:
 
-Adicionar as seções `howItWorks` e `beforeAfter` com conteúdo em português.
+**"Clone seu melhor** vendedor | SDR | agente **com IA"**
 
-### Arquivo 3: `src/locales/en.json`
+Com a palavra do meio alternando com efeito de digitacao, e abaixo a nova subheadline com o texto completo sobre reducao de custos.
 
-Adicionar as seções `howItWorks` e `beforeAfter` com conteúdo em inglês.
+## Detalhes Tecnicos
 
----
-
-## Conteúdo das Traduções
-
-### Seção "Como Funciona" (howItWorks)
-
-| Chave | Espanhol | Português | Inglês |
-|-------|----------|-----------|--------|
-| title | ¿Cómo Funciona? | Como Funciona? | How It Works? |
-| subtitle | Comienza en minutos con 3 simples pasos | Comece em minutos com 3 passos simples | Get started in minutes with 3 simple steps |
-| steps.0.title | Conecta tu WhatsApp | Conecte seu WhatsApp | Connect your WhatsApp |
-| steps.0.description | Integra tu número de WhatsApp Business en minutos | Integre seu número do WhatsApp Business em minutos | Integrate your WhatsApp Business number in minutes |
-| steps.1.title | Configura tu Agente IA | Configure seu Agente IA | Configure your AI Agent |
-| steps.1.description | Personaliza las respuestas y entrena la IA con tus datos | Personalize as respostas e treine a IA com seus dados | Customize responses and train AI with your data |
-| steps.2.title | ¡Automatiza y Vende! | Automatize e Venda! | Automate and Sell! |
-| steps.2.description | Tu IA responde 24/7 y convierte leads automáticamente | Sua IA responde 24/7 e converte leads automaticamente | Your AI responds 24/7 and converts leads automatically |
-
-### Seção "Antes e Depois" (beforeAfter)
-
-| Chave | Espanhol | Português | Inglês |
-|-------|----------|-----------|--------|
-| title | Antes vs Después | Antes vs Depois | Before vs After |
-| subtitle | Vea la transformación de su negocio | Veja a transformação do seu negócio | See the transformation of your business |
-| before | Antes | Antes | Before |
-| after | Después | Depois | After |
-| scenarios.0.before | Clientes esperando horas por una respuesta | Clientes esperando horas por uma resposta | Customers waiting hours for a response |
-| scenarios.0.after | Respuestas instantáneas 24/7 con IA | Respostas instantâneas 24/7 com IA | Instant 24/7 responses with AI |
-| scenarios.1.before | Leads perdidos por falta de seguimiento | Leads perdidos por falta de acompanhamento | Leads lost due to lack of follow-up |
-| scenarios.1.after | CRM visual con seguimiento automático | CRM visual com acompanhamento automático | Visual CRM with automatic follow-up |
-| scenarios.2.before | Equipo sobrecargado con tareas repetitivas | Equipe sobrecarregada com tarefas repetitivas | Team overloaded with repetitive tasks |
-| scenarios.2.after | Automatización que libera tu equipo | Automação que libera sua equipe | Automation that frees your team |
-
----
-
-## Arquivos a Modificar
-
-| Arquivo | Ação |
+| Arquivo | Acao |
 |---------|------|
-| `src/locales/es.json` | Adicionar seções `howItWorks` e `beforeAfter` |
-| `src/locales/pt.json` | Adicionar seções `howItWorks` e `beforeAfter` |
-| `src/locales/en.json` | Adicionar seções `howItWorks` e `beforeAfter` |
+| `src/components/landing/HeroSectionOptimized.tsx` | Alterar JSX do `h1` para incluir `displayText` com efeito typewriter |
+| `src/locales/es.json` | Atualizar `hero.title`, adicionar `hero.titleSuffix`, atualizar `hero.description` |
+| `src/locales/pt.json` | Atualizar `hero.title`, adicionar `hero.titleSuffix`, atualizar `hero.description` |
+| `src/locales/en.json` | Atualizar `hero.title`, adicionar `hero.titleSuffix`, atualizar `hero.description` |
 
----
-
-## Resultado Esperado
-
-Após a implementação:
-- A seção "Como Funciona" exibirá títulos e descrições traduzidos corretamente
-- A seção "Antes vs Depois" mostrará todos os cenários com traduções adequadas
-- Os avisos de tradução no console desaparecerão
