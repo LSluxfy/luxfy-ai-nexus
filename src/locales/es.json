@@ -926,5 +926,13 @@
     "back": "Volver",
     "next": "Siguiente",
     "previous": "Anterior"
+  },
+  "liveNotifications": {
+    "actions": {
+      "registered": "se registró en la plataforma",
+      "purchased": "adquirió un plan",
+      "demo": "solicitó una demostración"
+    },
+    "ago": "atrás"
   }
 }

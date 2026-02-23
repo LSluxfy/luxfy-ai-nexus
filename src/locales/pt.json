@@ -853,5 +853,13 @@
     "back": "Voltar",
     "next": "Próximo",
     "previous": "Anterior"
+  },
+  "liveNotifications": {
+    "actions": {
+      "registered": "se registrou na plataforma",
+      "purchased": "adquiriu um plano",
+      "demo": "solicitou uma demonstração"
+    },
+    "ago": "atrás"
   }
 }
