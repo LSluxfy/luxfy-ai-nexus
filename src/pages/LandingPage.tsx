@@ -8,6 +8,7 @@ import { Kanban, Calendar, BarChart, Users, Shield, Check, Brain, Cpu, Network }
 import LandingNavbar from '@/components/LandingNavbar';
 import LandingFooter from '@/components/LandingFooter';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 import HeroSection from '@/components/landing/HeroSection';
 import WhatsAppButton from '@/components/WhatsAppButton';
@@ -97,6 +98,23 @@ const LandingPage = () => {
       ]
     }
   ];
+
+    const location = useLocation();
+
+  useEffect(() => {
+    if (!location.hash) return;
+
+    const id = location.hash.replace("#", "");
+    const t = setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 50);
+
+    return () => clearTimeout(t);
+  }, [location.hash]);
+
 
   return (
     <div className="min-h-screen">

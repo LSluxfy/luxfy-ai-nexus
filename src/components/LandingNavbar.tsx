@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Menu, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -10,8 +10,32 @@ const LandingNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t } = useTranslation();
 
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+    const handleLogoClick = (e: React.MouseEvent) => {
+    // Se estiver na home, não precisa navegar: só sobe pro topo
+    if (location.pathname === '/') {
+      e.preventDefault(); // impede o Link de "recarregar" a mesma rota
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setIsMenuOpen(false);
+      return;
+    }
+
+    // Se estiver em outra rota, navega pra home
+    setIsMenuOpen(false);
+    navigate('/');
+  };
+
   const handleScrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
+    if (location.pathname !== '/') {
+      navigate(`/#${sectionId}`);
+      setIsMenuOpen(false);
+      return;
+    }
+
     if (element) {
       element.scrollIntoView({ 
         behavior: 'smooth',
@@ -33,18 +57,18 @@ const LandingNavbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-3">
+          <button onClick={handleLogoClick} className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-full overflow-hidden shadow-lg shadow-blue-500/25">
               <img src="/lovable-uploads/c0e6c735-5382-4c0e-81ee-5c39577c240d.png" alt="Luxfy Logo" className="w-full h-full object-cover" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
               Luxfy
             </span>
-          </Link>
+          </button>
           
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
-            <Link to="/" className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.home')}</Link>
+            <button onClick={handleLogoClick} className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.home')}</button>
             <button onClick={() => handleScrollToSection('features')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.features')}</button>
             <Link to="/tutorials" className="text-slate-600 hover:text-blue-800 font-medium transition-colors">Tutoriais</Link>
             <button onClick={() => handleScrollToSection('pricing')} className="text-slate-600 hover:text-blue-800 font-medium transition-colors">{t('nav.pricing')}</button>

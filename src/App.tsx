@@ -26,6 +26,7 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { FloatingVideoProvider } from "./contexts/FloatingVideoContext";
 import FloatingVideoPlayer from "./components/FloatingVideoPlayer";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ScrollToTop from "./components/ScrollToTop";
 import './i18n/config';
 
 // Lazy imports para otimização
@@ -52,6 +53,7 @@ const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <ScrollToTop />
         <ThemeProvider>
           <LanguageProvider>
             <AuthProvider>
