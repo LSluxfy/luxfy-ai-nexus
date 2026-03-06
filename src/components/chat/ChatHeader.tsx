@@ -4,7 +4,8 @@ import { ChatUser } from '@/types/chat';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { formatDistanceToNow } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { ptBR, enUS, es } from "date-fns/locale";
+import { useTranslation } from 'react-i18next';
 
 interface ChatHeaderProps {
   user: ChatUser;
@@ -13,6 +14,18 @@ interface ChatHeaderProps {
 }
 
 const ChatHeader = ({ user, aiEnabled }: ChatHeaderProps) => {
+  const { i18n } = useTranslation();
+
+  const dateLocaleMap = {
+    pt: ptBR,
+    "pt-BR": ptBR,
+    en: enUS,
+    "en-US": enUS,
+    es: es,
+    "es-ES": es,
+  };
+  
+  const currentLocale = dateLocaleMap[i18n.language] || enUS;
   return (
     <div className="border-b bg-white p-4">
       <div className="flex items-center justify-between">
@@ -43,7 +56,7 @@ const ChatHeader = ({ user, aiEnabled }: ChatHeaderProps) => {
                 ? 'Online' 
                 : `Visto por último ${formatDistanceToNow(user.lastSeen, { 
                     addSuffix: true, 
-                    locale: ptBR 
+                    locale: currentLocale 
                   })}`
               }
             </p>
