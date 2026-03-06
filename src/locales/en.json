@@ -190,7 +190,12 @@
   "chatList": {
     "title": "Conversations",
     "searchPlaceholder": "Search conversations...",
-     "lastSeen": "Last seen"
+    "lastSeen": "Last seen",
+    "typeMessage": "Type your message...",
+    "aiAutoReply": "AI will reply automatically",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "addTag": "Add tag..."
   },
    "forgotPassword": {
     "title": "Forgot Password",

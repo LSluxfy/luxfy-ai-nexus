@@ -63,7 +63,12 @@
   "chatList": {
     "title": "Conversas",
     "searchPlaceholder": "Buscar conversas...",
-    "lastSeen": "Visto por último"
+    "lastSeen": "Visto por último",
+     "typeMessage": "Digite sua mensagem...",
+    "aiAutoReply": "IA responderá automaticamente",
+    "enabled": "Ativada",
+    "disabled": "Desativada",
+    "addTag": "Adicionar tag..."
   },
   "features": {
     "headTitle": "Tecnologia Avançada",

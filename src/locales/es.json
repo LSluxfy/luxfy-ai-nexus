@@ -218,7 +218,12 @@
   "chatList": {
     "title": "Conversaciones",
     "searchPlaceholder": "Buscar conversaciones...",
-    "lastSeen": "Visto por última vez"
+    "lastSeen": "Visto por última vez",
+     "typeMessage": "Escribe tu mensaje...",
+    "aiAutoReply": "La IA responderá automáticamente",
+    "enabled": "Activada",
+    "disabled": "Desactivada",
+    "addTag": "Agregar etiqueta..."
   },
    "forgotPassword": {
     "title": "Olvidé mi Contraseña",

@@ -11,6 +11,7 @@ import { UploadService } from '@/services/uploadService';
 import { TagAutocomplete } from '@/components/ui/tag-autocomplete';
 import { useAgentTags } from '@/hooks/use-agent-tags';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface ChatInputProps {
   onSendMessage: (content: string, type?: 'text' | 'audio' | 'file' | 'image', attachmentUrl?: string) => void;
@@ -165,6 +166,8 @@ const ChatInput = ({
     }
   };
 
+  const { t } = useTranslation();
+
   return (
     <div className="border-t bg-card p-3 space-y-2 flex-shrink-0">
       {/* Tags do usuário */}
@@ -189,7 +192,7 @@ const ChatInput = ({
           onRemoveTag={onRemoveTag}
           suggestions={agentTags}
           isLoading={isLoadingTags}
-          placeholder="Adicionar tag..."
+          placeholder={t('chatList.addTag')}
           className="w-48"
         />
       </div>
@@ -203,11 +206,11 @@ const ChatInput = ({
           className="h-7 text-xs"
           disabled={disabled}
         >
-          IA {aiEnabled ? 'Ativada' : 'Desativada'}
+          IA {aiEnabled ? t('chatList.enabled') : t('chatList.disabled')}
         </Button>
         {aiEnabled && (
           <span className="text-xs text-green-600">
-            ✓ IA responderá automaticamente
+            ✓ {t('chatList.aiAutoReply')}
           </span>
         )}
       </div>
@@ -234,7 +237,7 @@ const ChatInput = ({
         
         <div className="flex-1 relative">
           <Textarea
-            placeholder={disabled ? "Carregando..." : "Digite sua mensagem..."}
+            placeholder={disabled ? "Carregando..." : t('chatList.typeMessage')}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
