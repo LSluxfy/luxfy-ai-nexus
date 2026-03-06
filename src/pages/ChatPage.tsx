@@ -130,12 +130,12 @@ const ChatPage = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <DashboardHeader title={t('chat.title')}>
+      <div className="bg-white border-b border-gray-200 h-16 px-6">
         <AgentSelector
           selectedAgentId={currentAgentId}
           onAgentChange={handleAgentChange}
         />
-      </DashboardHeader>
+      </div>
       
       <main className="flex-1 flex bg-background min-h-0">
         <ChatList
