@@ -14,7 +14,7 @@ interface ChatHeaderProps {
 }
 
 const ChatHeader = ({ user, aiEnabled }: ChatHeaderProps) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const dateLocaleMap = {
     pt: ptBR,
@@ -54,7 +54,7 @@ const ChatHeader = ({ user, aiEnabled }: ChatHeaderProps) => {
             <p className="text-sm text-gray-500">
               {user.isOnline 
                 ? 'Online' 
-                : `Visto por último ${formatDistanceToNow(user.lastSeen, { 
+                : `${t('chatList.lastSeen')} ${formatDistanceToNow(user.lastSeen, { 
                     addSuffix: true, 
                     locale: currentLocale 
                   })}`

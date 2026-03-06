@@ -189,7 +189,8 @@
   },
   "chatList": {
     "title": "Conversations",
-    "searchPlaceholder": "Search conversations..."
+    "searchPlaceholder": "Search conversations...",
+     "lastSeen": "Last seen"
   },
    "forgotPassword": {
     "title": "Forgot Password",

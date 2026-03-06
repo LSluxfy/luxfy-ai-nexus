@@ -62,7 +62,8 @@
   },
   "chatList": {
     "title": "Conversas",
-    "searchPlaceholder": "Buscar conversas..."
+    "searchPlaceholder": "Buscar conversas...",
+    "lastSeen": "Visto por último"
   },
   "features": {
     "headTitle": "Tecnologia Avançada",

@@ -217,7 +217,8 @@
   },
   "chatList": {
     "title": "Conversaciones",
-    "searchPlaceholder": "Buscar conversaciones..."
+    "searchPlaceholder": "Buscar conversaciones...",
+    "lastSeen": "Visto por última vez"
   },
    "forgotPassword": {
     "title": "Olvidé mi Contraseña",
