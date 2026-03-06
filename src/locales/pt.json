@@ -60,6 +60,10 @@
       "typing": "digitando..."
     }
   },
+  "chatList": {
+    "title": "Conversas",
+    "searchPlaceholder": "Buscar conversas..."
+  },
   "features": {
     "headTitle": "Tecnologia Avançada",
     "title": "Tudo o que você precisa em uma única plataforma",

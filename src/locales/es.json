@@ -215,6 +215,10 @@
     "selectConversation": "Selecciona una conversación",
     "selectConversationDesc": "Elige una conversación de la lista para comenzar a chatear"
   },
+  "chatList": {
+    "title": "Conversaciones",
+    "searchPlaceholder": "Buscar conversaciones..."
+  },
    "forgotPassword": {
     "title": "Olvidé mi Contraseña",
     "subtitle": "Ingresa tu correo para recibir el código de recuperación",

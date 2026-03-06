@@ -5,7 +5,9 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { ptBR, enUS, es } from "date-fns/locale";
+import { useTranslation } from 'react-i18next';
+
 
 interface ChatListProps {
   chats: Chat[];
@@ -15,6 +17,20 @@ interface ChatListProps {
 }
 
 const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
+  const { t, i18n } = useTranslation();
+
+
+  const dateLocaleMap = {
+    pt: ptBR,
+    "pt-BR": ptBR,
+    en: enUS,
+    "en-US": enUS,
+    es: es,
+    "es-ES": es,
+  };
+
+  const currentLocale = dateLocaleMap[i18n.language] || enUS;
+  
   // Ordenar chats por mensagem mais recente primeiro
   const sortedChats = [...chats].sort((a, b) => {
     const aTime = a.lastMessage?.timestamp || a.updatedAt;
@@ -25,11 +41,11 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
   return (
     <div className="w-80 border-r bg-white flex flex-col h-full">
       <div className="p-4 border-b bg-gray-50 flex-shrink-0">
-        <h2 className="text-lg font-semibold text-gray-800">Conversas</h2>
+        <h2 className="text-lg font-semibold text-gray-800">{t('chatList.title')}</h2>
         <div className="mt-2">
           <input
             type="text"
-            placeholder="Buscar conversas..."
+            placeholder={t('chatList.searchPlaceholder')}
             className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-luxfy-purple"
           />
         </div>
@@ -68,7 +84,7 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
                     <span className="text-xs text-gray-500">
                       {formatDistanceToNow(chat.lastMessage.timestamp, { 
                         addSuffix: true, 
-                        locale: ptBR 
+                        locale: currentLocale 
                       })}
                     </span>
                   )}

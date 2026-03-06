@@ -187,6 +187,10 @@
     "selectConversation": "Select a conversation",
     "selectConversationDesc": "Choose a conversation from the list to start chatting"
   },
+  "chatList": {
+    "title": "Conversations",
+    "searchPlaceholder": "Search conversations..."
+  },
    "forgotPassword": {
     "title": "Forgot Password",
     "subtitle": "Enter your email to receive the recovery code",
