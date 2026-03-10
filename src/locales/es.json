@@ -223,7 +223,8 @@
     "aiAutoReply": "La IA responderá automáticamente",
     "enabled": "Activada",
     "disabled": "Desactivada",
-    "addTag": "Agregar etiqueta..."
+    "addTag": "Agregar etiqueta...",
+     "noResults": "No se encontraron conversaciones."
   },
    "forgotPassword": {
     "title": "Olvidé mi Contraseña",

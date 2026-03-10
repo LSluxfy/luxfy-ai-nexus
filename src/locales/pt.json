@@ -68,7 +68,8 @@
     "aiAutoReply": "IA responderá automaticamente",
     "enabled": "Ativada",
     "disabled": "Desativada",
-    "addTag": "Adicionar tag..."
+    "addTag": "Adicionar tag...",
+    "noResults": "Nenhuma conversa encontrada."
   },
   "features": {
     "headTitle": "Tecnologia Avançada",

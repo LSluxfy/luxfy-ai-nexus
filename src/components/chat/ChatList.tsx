@@ -151,7 +151,7 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
         ))}
 
         {filteredAndSortedChats.length === 0 && (
-          <div className="p-6 text-sm text-gray-500">
+          <div className="p-6 text-sm">
             {t('chatList.noResults') ?? 'Nenhuma conversa encontrada.'}
           </div>
         )}

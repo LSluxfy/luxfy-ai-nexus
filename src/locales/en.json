@@ -195,7 +195,8 @@
     "aiAutoReply": "AI will reply automatically",
     "enabled": "Enabled",
     "disabled": "Disabled",
-    "addTag": "Add tag..."
+    "addTag": "Add tag...",
+    "noResults": "No conversations found."
   },
    "forgotPassword": {
     "title": "Forgot Password",
