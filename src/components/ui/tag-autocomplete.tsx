@@ -124,7 +124,7 @@ export const TagAutocomplete = ({
             {showSuggestions && filteredSuggestions.length > 0 && (
               <div 
                 ref={suggestionsRef}
-                className="absolute top-full left-0 right-0 z-50 mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-40 overflow-y-auto"
+                className="absolute top-full left-0 right-0 z-50 mt-1 border border-gray-200 rounded-md shadow-lg max-h-40 overflow-y-auto"
               >
                 {filteredSuggestions.map((suggestion, index) => (
                   <button
@@ -132,11 +132,11 @@ export const TagAutocomplete = ({
                     type="button"
                     onClick={() => handleSuggestionClick(suggestion)}
                     className={cn(
-                      "w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2",
-                      index === focusedIndex && "bg-gray-50"
+                      "w-full px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-800 flex items-center gap-2",
+                      index === focusedIndex && "bg-gray-50 dark:hover:bg-gray-800"
                     )}
                   >
-                    <Tag className="h-3 w-3 text-gray-400" />
+                    <Tag className="h-3 w-3" />
                     {suggestion}
                   </button>
                 ))}
