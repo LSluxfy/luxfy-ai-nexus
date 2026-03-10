@@ -132,7 +132,7 @@ export const TagAutocomplete = ({
                     type="button"
                     onClick={() => handleSuggestionClick(suggestion)}
                     className={cn(
-                      "w-full px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-800 flex items-center gap-2",
+                      "w-full px-3 py-2 text-left text-sm bg-white dark:bg-dark-600 hover:bg-gray-50 dark:hover:bg-gray-800 flex items-center gap-2",
                       index === focusedIndex && "bg-gray-50 dark:hover:bg-gray-800"
                     )}
                   >
