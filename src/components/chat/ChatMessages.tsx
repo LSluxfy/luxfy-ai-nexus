@@ -1,12 +1,14 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ChatMessage } from '@/types/chat';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatDistanceToNow } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import { FileText, Download, Play, Pause, Image as ImageIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { ptBR, enUS, es } from "date-fns/locale";
+import { useTranslation } from 'react-i18next';
+
 
 interface ChatMessagesProps {
   messages: ChatMessage[];
@@ -15,6 +17,19 @@ interface ChatMessagesProps {
 }
 
 const ChatMessages = ({ messages, userName, userAvatar }: ChatMessagesProps) => {
+  const { i18n } = useTranslation();
+  
+    const dateLocaleMap = {
+      pt: ptBR,
+      "pt-BR": ptBR,
+      en: enUS,
+      "en-US": enUS,
+      es: es,
+      "es-ES": es,
+    };
+  
+  const currentLocale = dateLocaleMap[i18n.language] || enUS;
+  
   const [playingAudio, setPlayingAudio] = React.useState<string | null>(null);
 
   const renderMessageContent = (message: ChatMessage) => {
@@ -164,7 +179,7 @@ const ChatMessages = ({ messages, userName, userAvatar }: ChatMessagesProps) => 
                 <span>
                   {formatDistanceToNow(message.timestamp, { 
                     addSuffix: true, 
-                    locale: ptBR 
+                    locale: currentLocale 
                   })}
                 </span>
                 {!message.isFromUser && (

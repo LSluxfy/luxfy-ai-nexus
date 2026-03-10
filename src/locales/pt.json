@@ -128,6 +128,7 @@
     "description": "Agente não encontrado. Selecione um agente válido abaixo:",
     "noAgent": "Nenhum agente encontrado",
     "noAgentDescription": "Você ainda não tem agentes criados. Vá para a página de Agentes para criar seu primeiro agente.",
+    "chosenAgent": "Escolha um agente acima para visualizar as conversas",
     "loading":"Carregando agentes..."
   },
   "agents": {

@@ -117,6 +117,7 @@
     "description": "Agent not found. Please select a valid agent below:",
     "noAgent": "No agents found",
     "noAgentDescription": "You don't have any agents created yet. Go to the Agents page to create your first agent.",
+    "chosenAgent": "Choose an agent above to view the conversations",
     "loading":"Loading agents..."
   },
   "agents": {

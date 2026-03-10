@@ -14,6 +14,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 
+
 const ChatPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
@@ -62,31 +63,20 @@ const ChatPage = () => {
       setSelectedChatId(location.state.selectedUserId);
     }
   }, [location.state, setSelectedChatId]);
-  useEffect(() => {
-    console.log("[useChat] chats payload:", chats);
-  }, [chats]);
-
-  useEffect(() => {
-    console.log("[useChat] selectedChat:", selectedChat);
-    console.log("[useChat] messages:", messages);
-  }, [selectedChat, messages]);
 
   // Mostrar erro se não há agente selecionado
   if (!currentAgentId && user?.agents && user.agents.length > 0) {
     return (
       <div className="flex flex-col min-h-screen">
         <div className="border-b border-gray-200 h-16 px-6">
-          <AgentSelector
-            selectedAgentId={currentAgentId}
-            onAgentChange={handleAgentChange}
-            />
+          <AgentSelector selectedAgentId={currentAgentId} onAgentChange={handleAgentChange} />
         </div>
         <main className="flex-1 flex items-center justify-center bg-gray-50 p-6">
           <div className="max-w-md w-full text-center">
             <MessageSquare size={64} className="mx-auto mb-4 text-gray-300" />
-            <h3 className="text-lg font-medium mb-2">Selecione um agente</h3>
+            <h3 className="text-lg font-medium mb-2">{t('SelectAgent.title')}</h3>
             <p className="text-gray-600">
-              Escolha um agente acima para visualizar as conversas
+              {t('SelectAgent.chosenAgent')}
             </p>
           </div>
         </main>
