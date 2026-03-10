@@ -27,7 +27,7 @@ const ChatHeader = ({ user, aiEnabled }: ChatHeaderProps) => {
   
   const currentLocale = dateLocaleMap[i18n.language] || enUS;
   return (
-    <div className="border-b bg-white p-4">
+    <div className="border-b p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="relative">
@@ -44,7 +44,7 @@ const ChatHeader = ({ user, aiEnabled }: ChatHeaderProps) => {
           
           <div className="flex-1">
             <div className="flex items-center gap-2">
-              <h3 className="font-medium text-gray-900">{user.name}</h3>
+              <h3 className="font-medium">{user.name}</h3>
               {aiEnabled && (
                 <Badge variant="outline" className="text-xs border-luxfy-purple text-luxfy-purple">
                   IA Ativa

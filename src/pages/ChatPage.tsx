@@ -75,7 +75,7 @@ const ChatPage = () => {
   if (!currentAgentId && user?.agents && user.agents.length > 0) {
     return (
       <div className="flex flex-col min-h-screen">
-        <div className="bg-white border-b border-gray-200 h-16 px-6">
+        <div className="border-b border-gray-200 h-16 px-6">
           <AgentSelector
             selectedAgentId={currentAgentId}
             onAgentChange={handleAgentChange}
@@ -130,7 +130,7 @@ const ChatPage = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="bg-white border-b border-gray-200 h-16 px-6">
+      <div className="border-b border-gray-200 h-16 px-6">
         <AgentSelector
           selectedAgentId={currentAgentId}
           onAgentChange={handleAgentChange}

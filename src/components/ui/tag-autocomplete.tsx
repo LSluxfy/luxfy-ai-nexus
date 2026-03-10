@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface TagAutocompleteProps {
   value: string;
@@ -32,6 +33,7 @@ export const TagAutocomplete = ({
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   // Filtrar sugestões baseado no valor atual
   const filteredSuggestions = suggestions.filter(
@@ -110,7 +112,7 @@ export const TagAutocomplete = ({
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               placeholder={placeholder}
-              className="pr-8"
+              className="min-w-[100px]"
             />
             {isLoading && (
               <div className="absolute right-2 top-1/2 -translate-y-1/2">
@@ -146,9 +148,9 @@ export const TagAutocomplete = ({
             type="button" 
             onClick={onAddTag} 
             variant="outline"
-            disabled={!value.trim()}
+            className={`${!value.trim() && "hide opacity-0" }`}
           >
-            Adicionar
+            {t('common.add')}
           </Button>
         </div>
         
@@ -156,7 +158,7 @@ export const TagAutocomplete = ({
         {isLoading && (
           <div className="mt-1 text-xs text-gray-500 flex items-center gap-1">
             <Loader2 className="h-3 w-3 animate-spin" />
-            Carregando sugestões...
+            {t('common.loading')}
           </div>
         )}
       </div>

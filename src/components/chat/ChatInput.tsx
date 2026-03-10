@@ -173,17 +173,6 @@ const ChatInput = ({
       {/* Tags do usuário */}
       <div className="flex items-center gap-2 flex-wrap">
         <Tag size={14} className="text-muted-foreground" />
-        {userTags.map(tag => (
-          <Badge 
-            key={tag} 
-            variant="secondary" 
-            className="bg-primary/10 text-primary cursor-pointer hover:bg-destructive/10 hover:text-destructive transition-colors text-xs"
-            onClick={() => !disabled && onRemoveTag(tag)}
-          >
-            {tag} ×
-          </Badge>
-        ))}
-        
         <TagAutocomplete
           value={newTag}
           onChange={setNewTag}
